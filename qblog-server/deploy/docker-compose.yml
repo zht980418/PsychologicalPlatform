@@ -1,0 +1,45 @@
+version: "3.7"
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    restart: always
+    ports:
+      - 8306:3306
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: QBwNk5GN5xfB
+      MYSQL_DATABASE: qblog
+      TZ: Asia/Shanghai
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
+    ports:
+      - 8379:6379
+    volumes:
+      - ./redis_conf:/etc/redis/redis.conf:rw
+      - ./redis_data:/data/redis_data:rw
+    command:
+      redis-server /etc/redis/redis.conf --appendonly yes
+    environment:
+      TZ: Asia/Shanghai
+  qblog-api:
+    image: qblog-api:v1.0.0
+    container_name: qblog-api
+    restart: always
+    ports:
+      - "3003:9000"
+    volumes:
+      - ./_qblog:/_qblog
+    environment:
+      TZ: Asia/Shanghai
+    links: 
+      - redis
+      - mysql

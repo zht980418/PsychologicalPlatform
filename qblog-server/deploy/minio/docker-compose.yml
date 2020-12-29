@@ -1,0 +1,15 @@
+version: "2"
+services:
+  minio-server:
+    image: minio/minio
+    container_name: minio-server
+    restart: always
+    ports:
+      - "8884:9000"
+    volumes:
+      - /minio/data:/data
+      - /minio/config:/root/.minio
+    environment:
+      MINIO_ACCESS_KEY: "AKIAIOSFODNN7EXAMPLE"
+      MINIO_SECRET_KEY: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+    command: server /data

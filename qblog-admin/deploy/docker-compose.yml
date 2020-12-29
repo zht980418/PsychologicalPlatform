@@ -1,0 +1,9 @@
+version: "3.7"
+services:
+  qblog-admin:
+    image: qblog-admin:v1.0.0
+    container_name: qblog-admin
+    restart: always
+    ports:
+      - "3001:80"
+
