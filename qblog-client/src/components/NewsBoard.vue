@@ -8,7 +8,7 @@
             <el-col :span="18" :offset="3" >
               <div v-for="item in news" :key="item.day">
                 <h4>{{item.year_month}}</h4>
-                <el-link>{{item.newsTitle}}</el-link>
+                <el-link :href="item.url">{{item.newsTitle}}</el-link>
               <br><el-divider></el-divider><br>
               </div>
             </el-col>
@@ -56,19 +56,22 @@ export default {
         day:"day1",
         year_month:"2020/12/21",
         newsTitle:"梁应敞教授入选IEEE Xplore封面作者",
-        newsAbstract:"newsAbstract"
+        newsAbstract: "newsAbstract",
+        url:"https://news.uestc.edu.cn/?n=UestcNews.Front.Document.ArticlePage&Id=78775"
       },
       {
         day:"day2",
         year_month:"2020/12/31",
         newsTitle:"直博深造、热心公益，她在成电遇见更好的自己！",
-        newsAbstract:"newsAbstract"
+        newsAbstract: "newsAbstract",
+        url:"https://news.uestc.edu.cn/?n=UestcNews.Front.Document.ArticlePage&Id=78822"
       },
       {
         day:"day3",
         year_month:"2021/1/10",
         newsTitle:"新尚集团董事长唐立新续捐2250万元",
-        newsAbstract:"newsAbstract"
+        newsAbstract: "newsAbstract",
+        url:"https://news.uestc.edu.cn/?n=UestcNews.Front.Document.ArticlePage&Id=78768"
       }
       ],
       newsPicture:[

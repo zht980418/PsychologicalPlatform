@@ -5,17 +5,17 @@
     <el-table-column
         prop="date"
         label="日期"
-        width="180">
+        width="150">
     </el-table-column>
     <el-table-column
         prop="title"
         label="活动名"
-        width="300">
+        width="210">
     </el-table-column>
     <el-table-column
         prop="author"
         label="发起人"
-        width="280">
+        width="210">
     </el-table-column>
   </el-table>
 </template>

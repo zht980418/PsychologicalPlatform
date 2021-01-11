@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav-menu></nav-menu>
+
     <router-view></router-view>
   </div>
 </template>
@@ -9,11 +9,11 @@
 export default {
   name: "App",
   data() {
-    return {};
+    return {
+      imgSrc:"https://images.pexels.com/photos/1261731/pexels-photo-1261731.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+    };
   },
-  components: {
-    NavMenu: () => import("@/components/NavMenu.vue")
-  }
+
 };
 </script>
 
