@@ -7,9 +7,11 @@
           <el-row :gutter="10" >
             <el-col :span="18" :offset="3" >
               <div v-for="item in news" :key="item.day">
-                <h4>{{item.year_month}}</h4>
-                <el-link>{{item.newsTitle}}</el-link>
-              <br><el-divider></el-divider><br>
+              <div class="newsdata text-center">{{ item.day }}<br><span style="font-size: 14px">{{ item.year_month }}</span></div>
+              <div class="newstitle">
+                <h4>{{ item.newsTitle }}</h4>
+                <p> {{ item.newsAbstract }}</p>
+              </div><br><el-divider></el-divider><br>
               </div>
             </el-col>
 
@@ -24,14 +26,7 @@
               <template>
                 <el-carousel indicator-position="outside">
                   <el-carousel-item v-for="item in newsPicture" :key="item.name">
-                    <div style="margin: 0 0 0 30px">
-                      <img :src="item.url" style="width: 450px; height: 300px" :alt="item.defaultText">
-                      <div class="desc-box">
-                        <el-card shadow="hover">
-                          <el-link ><h4>{{item.name}}</h4></el-link>
-                        </el-card>
-                      </div>
-                      </div>
+                    <div style="margin: 0 0 0 30px"><img :src="item.url" :alt="item.defaultText"></div>
                   </el-carousel-item>
                 </el-carousel>
               </template>
@@ -54,36 +49,36 @@ export default {
     news:[
       {
         day:"day1",
-        year_month:"2020/12/21",
-        newsTitle:"梁应敞教授入选IEEE Xplore封面作者",
+        year_month:"year_month",
+        newsTitle:"newsTitle",
         newsAbstract:"newsAbstract"
       },
       {
         day:"day2",
-        year_month:"2020/12/31",
-        newsTitle:"直博深造、热心公益，她在成电遇见更好的自己！",
+        year_month:"year_month",
+        newsTitle:"newsTitle",
         newsAbstract:"newsAbstract"
       },
       {
         day:"day3",
-        year_month:"2021/1/10",
-        newsTitle:"新尚集团董事长唐立新续捐2250万元",
+        year_month:"year_month",
+        newsTitle:"newsTitle",
         newsAbstract:"newsAbstract"
       }
       ],
       newsPicture:[
         {
-          name:"梁应敞教授入选IEEE Xplore封面作者",
-          url:"https://news.uestc.edu.cn/upload/image/e57430eb22f17674aff2de31b1b16fa2.png",
+          name:"name1",
+          url:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2035754118,1006010344&fm=26&gp=0.jpg",
           defaultText:"Error！"
         },
         {
-          name:"直博深造、热心公益，成电遇见更好的自己！",
-          url:"https://news.uestc.edu.cn/upload/image/e80e50b6528c1394c139ce36333fc36e.jpg"
+          name:"name2",
+          url:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2035754118,1006010344&fm=26&gp=0.jpg"
         },
         {
-          name:"新尚集团董事长唐立新续捐2250万元",
-          url:"https://news.uestc.edu.cn/upload/image/a7d46747096338d9447b933d39a3074b.jpg",
+          name:"name3",
+          url:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2035754118,1006010344&fm=26&gp=0.jpg",
           defaultText:"Error！"
         }
 
@@ -116,14 +111,4 @@ export default {
 .text-center {
   text-align: center;
 }
-.desc-box {
-        position: absolute;
-        bottom: 0;
-        left: 80%;
-        top: 200px;
-        width: 200px;
-        height: 20px;
-        margin-left: -400px;
-        text-align: center;
-    }
 </style>

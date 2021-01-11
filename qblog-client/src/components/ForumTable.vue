@@ -9,12 +9,12 @@
     </el-table-column>
     <el-table-column
         prop="title"
-        label="标题"
+        label="活动名"
         width="300">
     </el-table-column>
     <el-table-column
         prop="author"
-        label="昵称"
+        label="发起人"
         width="280">
     </el-table-column>
   </el-table>

@@ -1,5 +1,5 @@
 <template>
-  <el-carousel indicator-position="outside" height="650px">
+  <el-carousel indicator-position="outside" height="650px" :autoplay="false">
     <el-carousel-item v-for="(item,index) in itemlist" :key="index">
       <el-row :gutter="20">
         <el-col :span="6">
@@ -13,7 +13,110 @@
         </el-col>
         <el-col :span="18">
           <el-row type="flex" class="row-bg" justify="space-around"><i class="el-icon-date" style="font-size: 20px; color: #606266">预约日程表</i></el-row>
-          <el-calendar v-model="value" style="font-size: 10px; color: #606266"></el-calendar>
+          <el-calendar v-model="value" style="font-size: 10px; color: #606266">
+            <template
+            slot="dateCell"
+            slot-scope="{date, data}"
+            @click="test"
+          >
+            <p :class="data.isSelected ? 'is-selected' : ''">
+              {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : ''}}
+            </p>
+            <el-button @click="dialogTableVisible = true">预约信息</el-button>
+          </template>
+          </el-calendar>
+          <el-dialog
+          title="预约信息"
+          :visible.sync="dialogTableVisible"
+        >
+          <el-table :data="gridData">
+            <el-table-column
+              property="name"
+              label="起始时间"
+              width="200"
+            ></el-table-column>
+            <el-table-column
+              property="address"
+              label="终止时间"
+            ></el-table-column>
+          </el-table>
+          <el-button @click="dialogFormVisible = true">新增预约</el-button>
+        </el-dialog>
+
+        <!-- Form -->
+        <el-dialog
+          title="咨询预约"
+          :visible.sync="dialogFormVisible"
+        >
+          <el-form :model="form">
+            <el-form-item
+              label="时间选择"
+              :label-width="formLabelWidth"
+            >
+              <template>
+                <el-time-select
+                  placeholder="起始时间"
+                  v-model="form.startTime"
+                  :picker-options="{
+      start: '09:30',
+      step: '01:00',
+      end: '18:00'
+    }"
+                >
+                </el-time-select>
+              </template>
+            </el-form-item>
+            <el-form-item
+              label="咨询方式"
+              :label-width="formLabelWidth"
+            >
+              <el-select
+                v-model="form.type"
+                placeholder="请选择咨询方式"
+              >
+                <el-option
+                  label="线上"
+                  value="online"
+                ></el-option>
+                <el-option
+                  label="线下"
+                  value="offline"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item
+              label="咨询主题"
+              :label-width="formLabelWidth"
+              v-model="form.theme"
+            >
+              <el-input></el-input>
+            </el-form-item>
+            <el-form-item
+              label="姓名"
+              :label-width="formLabelWidth"
+              v-model="form.name"
+            >
+              <el-input></el-input>
+            </el-form-item>
+            <el-form-item
+              label="联系方式"
+              :label-width="formLabelWidth"
+              v-model="form.phone"
+            >
+              <el-input></el-input>
+            </el-form-item>
+          </el-form>
+          <div
+            slot="footer"
+            class="dialog-footer"
+          >
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button
+              type="primary"
+              @click="handleConfirm"
+            >确 定</el-button>
+          </div>
+        </el-dialog>
         </el-col>
       </el-row>
     </el-carousel-item>
@@ -31,11 +134,48 @@ export default {
           {name:"王五",phonenumber:"789",img:"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3649178992,1821853682&fm=26&gp=0.jpg"},
         ],
         value: new Date(),
+        gridData: [{
+        date: '2016-05-02',
+        name: '9:30',
+        address: '10:30'
+      }, {
+        date: '2016-05-04',
+        name: '10:30',
+        address: '11:30'
+      }, {
+        date: '2016-05-01',
+        name: '13:30',
+        address: '14:30'
+      }, {
+        date: '2016-05-03',
+        name: '14:30',
+        address: '15:30'
+      }],
+      dialogTableVisible: false,
+      dialogFormVisible: false,
+      form: {
+        startTime: '',
+        type: '',
+        theme: '',
+        name: '',
+        phone: ''
+      },
+      formLabelWidth: '120px',
       }
     },
     methods: {
       errorHandler() {
         return true
+    },
+    handleConfirm() {
+      this.dialogFormVisible = false
+      this.gridData.some((item, i) => {
+            if (item.name == this.form.startTime) {
+              this.gridData.splice(i, 1)
+              // 在 数组的 some 方法中，如果 return true，就会立即终止这个数组的后续循环
+              return true;
+            }
+          })
     }
     }
   }

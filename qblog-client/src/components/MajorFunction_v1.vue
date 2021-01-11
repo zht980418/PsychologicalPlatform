@@ -6,6 +6,15 @@
         <el-col class= "major-card" :xs="{span:24,offset:0}" :sm="{span:11,offset:2}" :md="{span:6,offset:1}">
 <!--          标题、标签、连接-->
           <div>
+            <el-row :gutter="10" >
+              <el-col :span="18" :offset="0">
+                <div class="card-title">
+                  <h3 class="t3"><span class="extra-large-text">心理健康中心</span></h3>
+                  <span style="font-size: 16px;color:#9e9e9e">Teenagers mental health</span><el-divider></el-divider>
+                  <el-link type="primary"> 专家咨询 <i class="el-icon-phone"></i></el-link>
+                </div>
+              </el-col>
+            </el-row>
 <!--            图片-->
             <el-row :gutter="10">
               <el-col :span="18" :offset="0">
@@ -18,7 +27,7 @@
                   </span>
                 </div>
               </el-col>
-            </el-row> 
+            </el-row>
           </div>
         </el-col>
 
@@ -60,8 +69,7 @@ export default {
   name: "MajorFunction",
   components: {
     ForumTable : () => import("@/components/ForumTable"),
-    // EduMaterial : () => import("@/components/EduMaterial"),
-    EduMaterial : () => import("@/components/TimeLine"),
+    EduMaterial : () => import("@/components/EduMaterial"),
     Counsel: () => import("@/components/Counsel"),
     OnlineExam: () => import("@/components/OnlineExam")
 

@@ -23,9 +23,12 @@
                           type="success"
                           :closable="false">
                 </el-alert>
+                <el-row :gutter="20">
+                    <el-col :span="21" :offset="2"><el-divider content-position="left"><h1><i class="el-icon-reading"></i>新闻导读</h1></el-divider></el-col>
+                </el-row>
                 <NewsBoard></NewsBoard>
                 <el-row :gutter="20">
-                    <el-col :span="21" :offset="2"><el-divider></el-divider></el-col>
+                    <el-col :span="21" :offset="2"><el-divider content-position="left"><h1><i class="el-icon-guide"></i>功能导航</h1></el-divider></el-col>
                 </el-row>
                 <MajorFunction></MajorFunction>
                 <!--        文章板块(未使用)-->
@@ -46,6 +49,23 @@
                 <blog-info></blog-info>
             </el-col>
         </el-row>
+        <el-row :gutter="0">
+      <el-col :span="24" :offset="0" >
+        <div  style = "width:100%;height:120px;border:4px;margin:50px 5px 5px 5px;background-color:#F5F5F5;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);">
+          <div style = "text-align: center">
+            <span style="font-size:20px;font-weight:800;color:#005778;margin:30px 0 0 25px; display:inline-block">
+                    &copy; UESTC-102
+                  </span>
+            <span style="font-size:20px;font-weight:1000;color:white; background-color:#008e97;margin:15px 0 0 15px;padding: 0 5px 0 5px;border-radius: 3px; display:inline-block">
+                    fakesite.com
+                  </span>
+            <span style=" font:14px bold;color:#343434; display: block;margin:10px;">
+              联系我们：61830677
+            </span>
+          </div>
+        </div>
+      </el-col>
+    </el-row>
     </div>
 </template>
 
