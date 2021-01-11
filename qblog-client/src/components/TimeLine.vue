@@ -19,7 +19,7 @@
           <el-carousel-item v-for="item in article" :key="item.name">
             <!-- <div style="margin: 0 0 0 30px"> -->
             <div>
-              <el-image :src="item.img" :fit="fit"></el-image>
+              <el-image :src="item.img"></el-image>
             </div>
           </el-carousel-item>
         </el-carousel>
@@ -37,20 +37,20 @@ export default {
       timelineData: [],
       article:[
         {
-          name:"新闻标题",
-          img:"https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg35.ddimg.cn%2F15%2F3%2F20025735-1_o.jpg&refer=http%3A%2F%2Fimg35.ddimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1612947936&t=a3816462fa1979d1263a0c4521cb745c",
+          name:"新闻标题1",
+              img:"http://5b0988e595225.cdn.sohucs.com/images/20180705/b8baa882618142ee950fe411db614fc0.jpeg",
         },
         {
-          name:"新闻标题",
-          img:"https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg37.ddimg.cn%2F39%2F10%2F22544517-1_o.jpg&refer=http%3A%2F%2Fimg37.ddimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1612947991&t=cf89972733d26f61ac0bf909c29d1c1b",
+          name:"新闻标题2",
+            img:"http://5b0988e595225.cdn.sohucs.com/images/20180705/682ed55765c0491ebc6de93649dd7edb.jpeg",
         },
         {
-          name:"新闻标题",
-          img:"https://gimg2.baidu.com/image_search/src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fq_70%2Cc_zoom%2Cw_640%2Fimages%2F20181211%2F509f90abd0a54385ac3223bae3d58465.jpeg&refer=http%3A%2F%2F5b0988e595225.cdn.sohucs.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1612948020&t=25886aad0cac2b13308c32ea9c4753d4",
+          name:"新闻标题3",
+            img:"http://5b0988e595225.cdn.sohucs.com/images/20180705/430df0f269784ea4bc434ef7d1e3b60f.jpeg",
         },
         {
-          name:"新闻标题",
-          img:"https://gimg2.baidu.com/image_search/src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20181211%2Fdcfd899b4ddb475d89df0ea253f4dbcd.jpeg&refer=http%3A%2F%2F5b0988e595225.cdn.sohucs.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1612948018&t=00224eeb685101b4dd3d68c0a68c36f1",
+          name:"新闻标题4",
+            img:"http://5b0988e595225.cdn.sohucs.com/images/20180705/bf7e8edfd8164391ab033c91c6f02c14.jpeg",
         },
       ],
     };

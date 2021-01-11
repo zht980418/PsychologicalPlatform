@@ -23,7 +23,7 @@ export default {
   name: "Counsel",
   data(){
     return{
-      img:'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg35.ddimg.cn%2F15%2F3%2F20025735-1_o.jpg&refer=http%3A%2F%2Fimg35.ddimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1612947936&t=a3816462fa1979d1263a0c4521cb745c'
+        img:'http://5b0988e595225.cdn.sohucs.com/images/20180705/a95508dc64cc4ecc9b6cfd6c9a8205df.jpeg'
     }
   }
 }

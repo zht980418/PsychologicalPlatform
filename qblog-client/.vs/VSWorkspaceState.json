@@ -3,8 +3,13 @@
     "",
     "\\src",
     "\\src\\components",
-    "\\src\\views"
+    "\\src\\http",
+    "\\src\\router",
+    "\\src\\store",
+    "\\src\\views",
+    "\\src\\views\\order",
+    "\\src\\views\\quiz"
   ],
-  "SelectedNode": "\\src\\components\\MajorFunction.vue",
+  "SelectedNode": "\\src\\components\\NewsBoard.vue",
   "PreviewInSolutionExplorer": false
 }
