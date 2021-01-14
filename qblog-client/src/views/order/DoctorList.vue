@@ -1,5 +1,5 @@
 <template>
-  <el-carousel indicator-position="outside" height="650px" :autoplay="false">
+  <el-carousel indicator-position="outside" height="100vh" :autoplay="false">
     <el-carousel-item v-for="(item,index) in itemlist" :key="index">
       <el-row :gutter="20">
         <el-col :span="6">
@@ -48,7 +48,11 @@
               <FullCalendar
                 class='demo-app-calendar'
                 :options='calendarOptions'
-                
+                :businessHours="{
+                  startTime: '07:00',
+                  endTime:'18:00',
+                  daysOfWeek: [ 1, 2, 3, 4, 5, 6, 0 ]
+                }"
               >
                 <template v-slot:eventContent='arg'>
                   <b>{{ arg.timeText }}</b>
@@ -89,6 +93,7 @@ export default {
           center: 'title',
           right: ''
         },
+        
         initialView: 'timeGridWeek',
         initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
         editable: true,
@@ -97,6 +102,10 @@ export default {
         dayMaxEvents: true,
         weekends: true,
         allDaySlot:false,
+        slotMinTime:"09:00:00",
+        slotMaxTime:"18:00:00",
+        slotDuration:"01:00:00",
+        expandRows:true,
         locale:'zh-cn',
         select: this.handleDateSelect,
         eventClick: this.handleEventClick,

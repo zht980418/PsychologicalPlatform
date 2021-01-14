@@ -1,5 +1,5 @@
 <template>
-  <el-container style="height: 500px; border: 1px solid #eee">
+  <el-container style="height: 100vh; border: 1px solid #eee">
   <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
   <el-menu  router>
     <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.name">
