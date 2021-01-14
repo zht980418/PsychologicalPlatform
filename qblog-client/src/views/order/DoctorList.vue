@@ -13,110 +13,50 @@
         </el-col>
         <el-col :span="18">
           <el-row type="flex" class="row-bg" justify="space-around"><i class="el-icon-date" style="font-size: 20px; color: #606266">预约日程表</i></el-row>
-          <el-calendar v-model="value" style="font-size: 10px; color: #606266">
-            <template
-            slot="dateCell"
-            slot-scope="{date, data}"
-            @click="test"
-          >
-            <p :class="data.isSelected ? 'is-selected' : ''">
-              {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : ''}}
-            </p>
-            <el-button @click="dialogTableVisible = true">预约信息</el-button>
-          </template>
-          </el-calendar>
-          <el-dialog
-          title="预约信息"
-          :visible.sync="dialogTableVisible"
-        >
-          <el-table :data="gridData">
-            <el-table-column
-              property="name"
-              label="起始时间"
-              width="200"
-            ></el-table-column>
-            <el-table-column
-              property="address"
-              label="终止时间"
-            ></el-table-column>
-          </el-table>
-          <el-button @click="dialogFormVisible = true">新增预约</el-button>
-        </el-dialog>
-
-        <!-- Form -->
-        <el-dialog
-          title="咨询预约"
-          :visible.sync="dialogFormVisible"
-        >
-          <el-form :model="form">
-            <el-form-item
-              label="时间选择"
-              :label-width="formLabelWidth"
-            >
-              <template>
-                <el-time-select
-                  placeholder="起始时间"
-                  v-model="form.startTime"
-                  :picker-options="{
-      start: '09:30',
-      step: '01:00',
-      end: '18:00'
-    }"
-                >
-                </el-time-select>
-              </template>
-            </el-form-item>
-            <el-form-item
-              label="咨询方式"
-              :label-width="formLabelWidth"
-            >
-              <el-select
-                v-model="form.type"
-                placeholder="请选择咨询方式"
+          <!-- 日程表 -->
+          <div class='demo-app'>
+            <div class='demo-app-sidebar'>
+              <div class='demo-app-sidebar-section'>
+                <h2>Instructions</h2>
+                <ul>
+                  <li>Select dates and you will be prompted to create a new event</li>
+                  <li>Drag, drop, and resize events</li>
+                  <li>Click an event to delete it</li>
+                </ul>
+              </div>
+              <div class='demo-app-sidebar-section'>
+                <label>
+                  <input
+                    type='checkbox'
+                    :checked='calendarOptions.weekends'
+                    @change='handleWeekendsToggle'
+                  />
+                  toggle weekends
+                </label>
+              </div>
+              <div class='demo-app-sidebar-section'>
+                <h2>All Events ({{ currentEvents.length }})</h2>
+                <ul>
+                  <li v-for='event in currentEvents' :key='event.id'>
+                    <b>{{ event.startStr }}</b>
+                    <i>{{ event.title }}</i>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class='demo-app-main'>
+              <FullCalendar
+                class='demo-app-calendar'
+                :options='calendarOptions'
+                
               >
-                <el-option
-                  label="线上"
-                  value="online"
-                ></el-option>
-                <el-option
-                  label="线下"
-                  value="offline"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item
-              label="咨询主题"
-              :label-width="formLabelWidth"
-              v-model="form.theme"
-            >
-              <el-input></el-input>
-            </el-form-item>
-            <el-form-item
-              label="姓名"
-              :label-width="formLabelWidth"
-              v-model="form.name"
-            >
-              <el-input></el-input>
-            </el-form-item>
-            <el-form-item
-              label="联系方式"
-              :label-width="formLabelWidth"
-              v-model="form.phone"
-            >
-              <el-input></el-input>
-            </el-form-item>
-          </el-form>
-          <div
-            slot="footer"
-            class="dialog-footer"
-          >
-            <el-button @click="dialogFormVisible = false">取 消</el-button>
-            <el-button
-              type="primary"
-              @click="handleConfirm"
-            >确 定</el-button>
+                <template v-slot:eventContent='arg'>
+                  <b>{{ arg.timeText }}</b>
+                  <i>{{ arg.event.title }}</i>
+                </template>
+              </FullCalendar>
+            </div>
           </div>
-        </el-dialog>
         </el-col>
       </el-row>
     </el-carousel-item>
@@ -125,63 +65,152 @@
 
 
 <script>
+import FullCalendar from '@fullcalendar/vue'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin from '@fullcalendar/interaction'
+import { INITIAL_EVENTS, createEventId } from './event-utils'
+import '@fullcalendar/core/locales/zh-cn'
+
 export default {
-    data() {
-      return {
-        itemlist: [
-          {name:"张三",phonenumber:"123",img:"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3649178992,1821853682&fm=26&gp=0.jpg"},
-          {name:"李四",phonenumber:"456",img:"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3649178992,1821853682&fm=26&gp=0.jpg"},
-          {name:"王五",phonenumber:"789",img:"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3649178992,1821853682&fm=26&gp=0.jpg"},
+  components: {
+    FullCalendar // make the <FullCalendar> tag available
+  },
+  data() {
+    return {
+        calendarOptions: {
+        plugins: [
+          dayGridPlugin,
+          timeGridPlugin,
+          interactionPlugin // needed for dateClick
         ],
-        value: new Date(),
-        gridData: [{
-        date: '2016-05-02',
-        name: '9:30',
-        address: '10:30'
-      }, {
-        date: '2016-05-04',
-        name: '10:30',
-        address: '11:30'
-      }, {
-        date: '2016-05-01',
-        name: '13:30',
-        address: '14:30'
-      }, {
-        date: '2016-05-03',
-        name: '14:30',
-        address: '15:30'
-      }],
-      dialogTableVisible: false,
-      dialogFormVisible: false,
-      form: {
-        startTime: '',
-        type: '',
-        theme: '',
-        name: '',
-        phone: ''
+        headerToolbar: {
+          left: '',
+          center: 'title',
+          right: ''
+        },
+        initialView: 'timeGridWeek',
+        initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+        editable: true,
+        selectable: true,
+        selectMirror: true,
+        dayMaxEvents: true,
+        weekends: true,
+        allDaySlot:false,
+        locale:'zh-cn',
+        select: this.handleDateSelect,
+        eventClick: this.handleEventClick,
+        eventsSet: this.handleEvents
+        /* you can update a remote database when these fire:
+        eventAdd:
+        eventChange:
+        eventRemove:
+        */
       },
-      formLabelWidth: '120px',
-      }
-    },
-    methods: {
-      errorHandler() {
-        return true
-    },
-    handleConfirm() {
-      this.dialogFormVisible = false
-      this.gridData.some((item, i) => {
-            if (item.name == this.form.startTime) {
-              this.gridData.splice(i, 1)
-              // 在 数组的 some 方法中，如果 return true，就会立即终止这个数组的后续循环
-              return true;
-            }
-          })
+      currentEvents: [],
+
+      itemlist: [
+        {name:"张三",phonenumber:"123",img:"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3649178992,1821853682&fm=26&gp=0.jpg"},
+        {name:"李四",phonenumber:"456",img:"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3649178992,1821853682&fm=26&gp=0.jpg"},
+        {name:"王五",phonenumber:"789",img:"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3649178992,1821853682&fm=26&gp=0.jpg"},
+      ],
     }
+  },
+  methods: {
+    handleWeekendsToggle() {
+    this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
+  },
+
+  handleDateSelect(selectInfo) {
+    let title = prompt('Please enter a new title for your event')
+    let calendarApi = selectInfo.view.calendar
+
+    calendarApi.unselect() // clear date selection
+
+    if (title) {
+      calendarApi.addEvent({
+        id: createEventId(),
+        title,
+        start: selectInfo.startStr,
+        end: selectInfo.endStr,
+        allDay: selectInfo.allDay
+      })
     }
+  },
+
+  handleEventClick(clickInfo) {
+    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
+      clickInfo.event.remove()
+    }
+  },
+
+  handleEvents(events) {
+    this.currentEvents = events
+  },
+    errorHandler() {
+      return true
+  },
+  handleConfirm() {
+    this.dialogFormVisible = false
+    this.gridData.some((item, i) => {
+          if (item.name == this.form.startTime) {
+            this.gridData.splice(i, 1)
+            // 在 数组的 some 方法中，如果 return true，就会立即终止这个数组的后续循环
+            return true;
+          }
+        })
+  }
+  }
   }
 </script>
 
-<style>
+<style lang='css'>
+h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+ul {
+  margin: 0;
+  padding: 0 0 0 1.5em;
+}
+
+li {
+  margin: 1.5em 0;
+  padding: 0;
+}
+
+b { /* used for event dates/times */
+  margin-right: 3px;
+}
+
+.demo-app {
+  display: flex;
+  min-height: 100%;
+  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+.demo-app-sidebar {
+  width: 300px;
+  line-height: 1.5;
+  background: #eaf9ff;
+  border-right: 1px solid #d3e2e8;
+}
+
+.demo-app-sidebar-section {
+  padding: 2em;
+}
+
+.demo-app-main {
+  flex-grow: 1;
+  padding: 3em;
+}
+
+.fc { /* the calendar root */
+  max-width: 1100px;
+  margin: 0 auto;
+}
   .el-carousel__item h3 {
     color: #475669;
     font-size: 14px;
