@@ -80,15 +80,9 @@ const routes = [
       title: "心理咨询预约",
     },
     children:[
-      {path:"doctorlist",
-       component: () => import("@/views/order/DoctorList.vue"),
-       children:[
-        {path:"doctor1", component: () => import("@/views/doctorlist/Doctor1.vue")},
-        {path:"doctor2", component: () => import("@/views/doctorlist/Doctor2.vue")},
-        {path:"doctor3", component: () => import("@/views/doctorlist/Doctor3.vue")},
-       ]
-      },
+      {path:"doctorlist", component: () => import("@/views/order/DoctorList.vue")},
       {path:"orderform", component: () => import("@/views/order/OrderForm.vue")},
+      {name:"ordertable", path:"ordertable", component: () => import("@/views/order/OrderTable.vue")},
     ]
   },
 ]
