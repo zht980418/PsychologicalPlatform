@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
   <div class="app-container">
     <el-alert
@@ -5,26 +6,34 @@
       :title="`${unreadNum}条新增留言`"
       type="warning"
       show-icon
-    >
-    </el-alert>
+    />
     <div class="message-box">
       <el-card
-        class="message-item"
         v-for="(message, index) in pageInfo.records"
         :key="index"
+        class="message-item"
       >
         <div class="message-info">
           <div class="content">
-            <span class="unread-flag" v-if="message.status === '未读'">*</span>
+            <span
+              v-if="message.status === '未读'"
+              class="unread-flag"
+            >*</span>
             <span class="nickname">{{ message.nickname }}：</span>
             {{ message.content }}
           </div>
           <div class="email">
-            <el-tag type="info" size="mini">{{ message.email }}</el-tag>
+            <el-tag
+              type="info"
+              size="mini"
+            >{{ message.email }}</el-tag>
           </div>
           <div class="create-time">{{ message.gmtCreate }}</div>
         </div>
-        <div class="reply" v-if="message.replyContent">
+        <div
+          v-if="message.replyContent"
+          class="reply"
+        >
           <div class="reply-content">
             <span class="admin-name">我的回复：</span>
             {{ message.replyContent }}
@@ -36,36 +45,45 @@
             type="text"
             size="mini"
             @click="handleDelMessage(message.id)"
-            >删除</el-button
-          >
-          <el-button type="text" size="mini" @click="openDialog(message)"
-            >回复</el-button
-          >
+          >删除</el-button>
+          <el-button
+            type="text"
+            size="mini"
+            @click="openDialog(message)"
+          >回复</el-button>
         </div>
       </el-card>
     </div>
-    <el-dialog title="留言回复" :visible.sync="dialogFormVisible">
+    <el-dialog
+      title="留言回复"
+      :visible.sync="dialogFormVisible"
+    >
       <el-input
+        v-model="replyInfo.content"
         type="textarea"
         :rows="5"
         placeholder="请输入要回复的内容内容"
-        v-model="replyInfo.content"
+      />
+      <div
+        slot="footer"
+        class="dialog-footer"
       >
-      </el-input>
-      <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleReply">确 定</el-button>
+        <el-button
+          type="primary"
+          @click="handleReply"
+        >确 定</el-button>
       </div>
     </el-dialog>
     <el-pagination
       background
       :hide-on-single-page="true"
-      @current-change="handleCurrentChange"
       :current-page="pageInfo.current"
       :page-size="pageInfo.size"
       layout="total, prev, pager, next, jumper"
       :total="pageInfo.total"
-    ></el-pagination>
+      @current-change="handleCurrentChange"
+    />
   </div>
 </template>
 
@@ -74,7 +92,7 @@ import {
   getMessageList,
   deleteMessageById,
   replyMessageById,
-} from "@/api/message";
+} from '@/api/message'
 
 export default {
   data() {
@@ -83,56 +101,56 @@ export default {
         size: 5,
         current: 1,
         total: 0,
-        records: [],
+        records: []
       },
       unreadNum: 0,
       dialogFormVisible: false,
       replyInfo: {
         id: null,
-        content: "",
+        content: '',
       },
-    };
+    }
   },
   created() {
-    this.fetchData(1, 5);
+    this.fetchData(1, 5)
   },
   methods: {
     fetchData(page, limit) {
       getMessageList({ page, limit }).then((res) => {
-        this.pageInfo = res.data;
+        this.pageInfo = res.data
         this.unreadNum = this.pageInfo.records.filter(
-          (ele) => ele.status === "未读"
-        ).length;
+          (ele) => ele.status === '未读'
+        ).length
         this.pageInfo.records.forEach((ele) => {
-          ele.status === "未读" &&
+          ele.status === '未读' &&
             replyMessageById(ele.id, {
               status: 1,
-            });
-        });
-      });
+            })
+        })
+      })
     },
     handleCurrentChange(page) {
-      this.fetchData(page, 5);
+      this.fetchData(page, 5)
     },
     openDialog(message) {
-      this.dialogFormVisible = true;
-      this.replyInfo.content = message.replyContent;
-      this.replyInfo.id = message.id;
+      this.dialogFormVisible = true
+      this.replyInfo.content = message.replyContent
+      this.replyInfo.id = message.id
     },
     handleDelMessage(id) {
-      this.$confirm("此操作将永久删除该留言, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
+      this.$confirm('此操作将永久删除该留言, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       }).then(() => {
         deleteMessageById(id).then((res) => {
           this.$notify.success({
-            title: "提示",
-            message: "留言删除成功",
-          });
-          this.fetchData(this.pageInfo.current, 5);
-        });
-      });
+            title: '提示',
+            message: '留言删除成功',
+          })
+          this.fetchData(this.pageInfo.current, 5)
+        })
+      })
     },
     handleReply() {
       replyMessageById(this.replyInfo.id, {
@@ -140,21 +158,21 @@ export default {
       }).then((res) => {
         if (res.code === 0) {
           this.$notify.success({
-            title: "提示",
-            message: "回复成功",
-          });
-          this.fetchData(this.pageInfo.current, 5);
+            title: '提示',
+            message: '回复成功',
+          })
+          this.fetchData(this.pageInfo.current, 5)
         } else {
           this.$notify.error({
-            title: "提示",
+            title: '提示',
             message: res.msg,
-          });
+          })
         }
-        this.dialogFormVisible = false;
-      });
+        this.dialogFormVisible = false
+      })
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -92,6 +92,21 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/order',
+    component: Layout,
+    redirect: '/order/list',
+    name: 'Order',
+    meta: { title: '我的日程', icon: 'el-icon-date' },
+    children: [
+      {
+        path: 'list',
+        name: 'List',
+        component: () => import('@/views/order/order'),
+        meta: { title: '我的日程', icon: 'el-icon-date' }
+      }
+    ]
+  },
+  {
     path: 'external-link',
     component: Layout,
     children: [
