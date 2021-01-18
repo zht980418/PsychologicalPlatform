@@ -27,7 +27,7 @@
   </el-row>
 </template>
 
-<style>
+<style lang="scss">
 .time {
   font-size: 13px;
   color: #999;
