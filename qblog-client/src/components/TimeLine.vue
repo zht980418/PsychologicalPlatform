@@ -13,9 +13,9 @@
         </el-timeline-item>
       </el-timeline>
     </el-col>
-    <el-col :span="12" :offset="2">
+    <el-col :span="10" :offset="0">
       <template>
-        <el-carousel height="400px" direction="vertical">
+        <el-carousel height="400px"  direction="vertical">
           <el-carousel-item v-for="item in article" :key="item.name">
             <!-- <div style="margin: 0 0 0 30px"> -->
             <div>

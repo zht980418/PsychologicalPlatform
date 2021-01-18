@@ -1,29 +1,12 @@
 <template>
   <div>
     <div class="card-border" >
-      <el-row :gutter="10" border="1">
-<!--        纵向展示面板-->
-        <el-col class= "major-card" :xs="{span:24,offset:0}" :sm="{span:11,offset:2}" :md="{span:6,offset:1}">
-<!--          标题、标签、连接-->
-          <div>
-<!--            图片-->
-            <el-row :gutter="10">
-              <el-col :span="18" :offset="0">
-                <div class="card-image">
-                  <span style="font-size:40px;font-weight:800;color:#005778;margin:23px 0 0 25px; display:inline-block">
-                    Psy
-                  </span>
-                  <span style="font-size:40px;font-weight:1000;color:white; background-color:#008e97;margin:15px 0 0 5px;padding: 0 5px 0 5px;border-radius: 3px; display:inline-block">
-                    Hub
-                  </span>
-                </div>
-              </el-col>
-            </el-row> 
-          </div>
+      <el-row>
+        <el-col  class= "major-card"  :span="6" :offset="0">
+          <div style="height:300px;width:200px;border:3px solid black;margin:80px 0 0 50px">这里放一张logo</div>
         </el-col>
-
 <!--        主要功能标签面板-->
-        <el-col class= "major-card"  :xs="{span:15,offset:0}" :sm="{span:10,offset:1}" :md="{span:15,offset:2}">
+        <el-col class= "major-card"  :span="16" :offset="2">
           <div>
             <el-row :gutter="10" type="flex" class="row-bg">
               <el-col :span="24" :offset="0">
@@ -63,7 +46,8 @@ export default {
     // EduMaterial : () => import("@/components/EduMaterial"),
     EduMaterial : () => import("@/components/TimeLine"),
     Counsel: () => import("@/components/Counsel"),
-    OnlineExam: () => import("@/components/OnlineExam")
+    OnlineExam: () => import("@/components/OnlineExam"),
+
 
   },
   data() {
@@ -84,15 +68,7 @@ export default {
 </script>
 
 <style>
-.card-image{
-  width:220px;
-  height:100px;
-  border: 10px solid #ff8200;
-  background-color: white;
-  background-size: 100% 100%;
-  margin: 40px 0  50px -10px;
-  border-radius: 5px;
-}
+
 .card-title{
   margin: 0 20px 0 0;
   display: inline-block;
