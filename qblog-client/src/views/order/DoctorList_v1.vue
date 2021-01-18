@@ -189,11 +189,11 @@ export default {
     line-height: 200px;
     margin: 0;
   }
-
+  
   .el-carousel__item:nth-child(2n) {
     background-color: EEF1F6;
   }
-
+  
   .el-carousel__item:nth-child(2n+1) {
     background-color:EEF1F6;
   }
