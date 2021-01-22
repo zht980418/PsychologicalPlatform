@@ -4,6 +4,11 @@
       <Header></Header>
       <el-divider></el-divider>
     </el-row>
+
+    <el-row>
+      <el-col :span="15" :offset="3"><NavMenu></NavMenu></el-col>
+    </el-row>
+
     <el-row><el-container style="height: 800px; border: 1px solid #eee">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
         <el-menu  router>
@@ -28,6 +33,7 @@
     components:{
       Footer: ()=>import("@/components/Footer"),
       Header:() => import("@/components/Header"),
+      NavMenu:() => import("@/components/NavMenu"),
     },
     data() {
       return {

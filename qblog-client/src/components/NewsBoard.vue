@@ -1,44 +1,45 @@
 <template>
-  <div class="card-border" >
-    <el-row :gutter="10" border="1">
+  <div class="card-border">
+    <el-row  :gutter="10" border="1">
+      <!--新闻图片走马灯-->
+      <el-col class= "major-card"  :xs="{span:18,offset:1}" :sm="{span:18,offset:3}" :md="{span:16,offset:0}" :lg="{span:13,offset:1}" :xl="{span:14,offset:0}">
+
+        <el-row >
+            <el-carousel style="width: 501px; height: 334px;margin:2% 0 0 7%" indicator-position="outside">
+              <el-carousel-item  style="width:100%;height:100%;" v-for="item in newsPicture" :key="item.name">
+                <div style="width:100%;height:100%;position:absolute" >
+
+                  <img :src="item.url" style="index:-1;position: absolute;width: 100%;height:100%" :alt="item.defaultText">
+
+                  <div style="index:1;position: absolute;margin:35% 0 0 60% ;width: 200px;height: 20px;text-align: center;" class="desc-box">
+                    <el-card shadow="hover">
+                      <el-link ><h4>{{item.name}}</h4></el-link>
+                    </el-card>
+                  </div>
+                </div>
+
+              </el-carousel-item>
+            </el-carousel>
+
+        </el-row>
+
+      </el-col>
+
 <!--      新闻列表-->
-      <el-col class= "major-card" :xs="{span:9,offset:0}" :sm="{span:11,offset:2}" :md="{span:9,offset:0}">
+      <el-col  class= "major-card"  :xs="{span:20,offset:2}" :sm="{span:22,offset:2}" :md="{span:8,offset:0}" :lg="{span:10,offset:0}" :xl="{span:9,offset:0}">
         <div>
           <el-row :gutter="10" >
-            <el-col :span="18" :offset="3" >
-              <div v-for="item in news" :key="item.day">
-                <h4>{{item.year_month}}</h4>
+            <el-col :span="15" :offset="3" >
+              <div style="margin:30px 0;border-bottom: 2px solid #9e9e9e" v-for="item in news" :key="item.day">
+                <span style="display:inline-block; text-align:center;background-color:#f1f1f1;padding:10px 1px;margin:0 15px 5px 5px">{{item.year_month}}</span>
                 <el-link :href="item.url">{{item.newsTitle}}</el-link>
-              <br><el-divider></el-divider><br>
               </div>
             </el-col>
 
           </el-row>
         </div>
       </el-col>
-<!--新闻图片走马灯-->
-      <el-col class= "major-card"  :xs="{span:15,offset:0}" :sm="{span:10,offset:1}" :md="{span:13,offset:1}">
-        <div>
-          <el-row :gutter="10" type="flex" class="row-bg">
-            <el-col :span="24" :offset="0">
-              <template>
-                <el-carousel indicator-position="outside">
-                  <el-carousel-item v-for="item in newsPicture" :key="item.name">
-                    <div style="margin: 0 0 0 30px">
-                      <img :src="item.url" style="width: 450px; height: 300px" :alt="item.defaultText">
-                      <div class="desc-box">
-                        <el-card shadow="hover">
-                          <el-link ><h4>{{item.name}}</h4></el-link>
-                        </el-card>
-                      </div>
-                      </div>
-                  </el-carousel-item>
-                </el-carousel>
-              </template>
-            </el-col>
-          </el-row>
-        </div>
-      </el-col>
+
     </el-row>
   </div>
 
@@ -54,21 +55,21 @@ export default {
     news:[
       {
         day:"day1",
-        year_month:"2020/12/21",
+        year_month:"2020 12-21",
         newsTitle:"梁应敞教授入选IEEE Xplore封面作者",
         newsAbstract: "newsAbstract",
         url:"https://news.uestc.edu.cn/?n=UestcNews.Front.Document.ArticlePage&Id=78775"
       },
       {
         day:"day2",
-        year_month:"2020/12/31",
+        year_month:"2020 12-31",
         newsTitle:"直博深造、热心公益，她在成电遇见更好的自己！",
         newsAbstract: "newsAbstract",
         url:"https://news.uestc.edu.cn/?n=UestcNews.Front.Document.ArticlePage&Id=78822"
       },
       {
         day:"day3",
-        year_month:"2021/1/10",
+        year_month:"2021 01-10",
         newsTitle:"新尚集团董事长唐立新续捐2250万元",
         newsAbstract: "newsAbstract",
         url:"https://news.uestc.edu.cn/?n=UestcNews.Front.Document.ArticlePage&Id=78768"
@@ -95,16 +96,13 @@ export default {
   }
 }
 </script>
-<style>
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 18px;
-  opacity: 0.75;
-  line-height: 300px;
+
+
+<style scoped>
+.el-carousel__item h4 {
+  font-size: 14px;
   margin: 0;
 }
-</style>
-<style scoped>
 
 .newsdata {
   float: left;
@@ -119,14 +117,4 @@ export default {
 .text-center {
   text-align: center;
 }
-.desc-box {
-        position: absolute;
-        bottom: 0;
-        left: 80%;
-        top: 200px;
-        width: 200px;
-        height: 20px;
-        margin-left: -400px;
-        text-align: center;
-    }
 </style>

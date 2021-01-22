@@ -1,9 +1,8 @@
 <template>
-  <div>
-    <div class="card-border" >
-      <el-row>
+
+    <el-row class="card-border" style="height: 500px;">
         <el-col  class= "major-card"  :span="6" :offset="0">
-          <div style="height:300px;width:200px;border:3px solid black;margin:80px 0 0 50px">这里放一张logo</div>
+          <div style="height:300px;width:70%;border:3px solid black;margin:80px 0 0 50px">这里放一张logo</div>
         </el-col>
 <!--        主要功能标签面板-->
         <el-col class= "major-card"  :span="16" :offset="2">
@@ -30,10 +29,7 @@
             </el-row>
           </div>
         </el-col>
-      </el-row>
-    </div>
-
-  </div>
+    </el-row>
 
 </template>
 
@@ -69,45 +65,19 @@ export default {
 
 <style>
 
-.card-title{
-  margin: 0 20px 0 0;
-  display: inline-block;
-  height: 40px;
-  line-height: 40px;
-  font-size: 20px;
-}
-
 .card-border{
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  width:85%;
-  padding:20px;
-  margin:10px 0 10px 10%;
+  width:100%;
+  padding:15px;
+  margin-top: 20px;
 
 }
 
  el-col {
   border-radius: 4px;
 }
-.bg-purple-dark {
-  background: #99a9bf;
-  height:180px;
-  margin: 20px;
-}
 
-.bg-purple {
-  background: #d3dce6;
-  height:60px;
-  margin: 20px;
-}
-.bg-purple-light {
-  background: #e5e9f2;
-  height:370px;
-  margin: 40px;
-}
-.grid-content {
-  border-radius: 4px;
-  min-height: 36px;
-}
+
 </style>
 
 <style scoped>

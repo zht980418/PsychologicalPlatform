@@ -1,6 +1,6 @@
 <template>
   <el-row :gutter="0">
-    <el-col :span="8" :offset="0">
+    <el-col :span="10" :offset="0">
       <el-timeline v-for="(timeline,index) in timelineData" :key="index">
         <h2 class="year">{{timeline.year}}</h2>
         <el-timeline-item
@@ -13,9 +13,9 @@
         </el-timeline-item>
       </el-timeline>
     </el-col>
-    <el-col :span="10" :offset="0">
+    <el-col :span="10" :offset="2">
       <template>
-        <el-carousel height="400px"  direction="vertical">
+        <el-carousel height="400px"   direction="vertical">
           <el-carousel-item v-for="item in article" :key="item.name">
             <!-- <div style="margin: 0 0 0 30px"> -->
             <div>

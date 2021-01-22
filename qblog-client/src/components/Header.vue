@@ -1,18 +1,24 @@
 <template>
-  <div style="height:120px;width:100%;">
-    <el-row>
-      <el-col :span="5" :offset="3"><img style="height:90px;vertical-align:middle; margin:10% 5%" :src="img_SCU"></el-col>
-      <el-col :span="6" :offset="0"><div style="font-size:24px;margin-top:18%">青少年心理健康研究中心</div></el-col>
-      <el-col :span="3" :offset="3">
+
+    <el-row style="height:180px;">
+      <el-col style="height:180px;" :xs="{span:10,offset:1}" :sm="{span:10,offset:1}" :md="{span:10,offset:2}" :lg="{span:10,offset:2}" :xl="{span:10,offset:2}">
+        <img style="height:65%;min-height:80px;margin-top:30px; vertical-align:middle;" :src="img_SCU">
+      </el-col>
+
+
+      <el-col :xs="{span:3,offset:9}" :sm="{span:3,offset:6}" :md="{span:3,offset:6}" :lg="{span:3,offset:6}" :xl="{span:3,offset:3}">
         <router-link to="/Login">
-        <div style="margin:25% 0 0 25%">
-          <i class="el-icon-s-custom" style="color:rgb(250,0,0);font-size:30px"></i>
-          <div style="display:inline-block;text-align:center;margin-left: 5px;line-height: 100px">登陆/注册</div>
-        </div>
+        <el-row style="margin:70px 0 0 120px">
+            <el-button  type="primary">
+              <i class="el-icon-s-custom" style="color:rgb(250,250,250);font-size:2vw"></i>
+              <span style="text-align:center;font-size: 1vw;">登陆/注册</span>
+            </el-button>
+
+        </el-row>
         </router-link>
       </el-col>
     </el-row>
-  </div>
+
 </template>
 
 <script>
