@@ -4,9 +4,11 @@ import store from "@/store/index"
 import router from "@/router/index"
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/display.css';
 import 'github-markdown-css/github-markdown.css';
-import 'highlight.js/styles/github.css'
-import 'default-passive-events'
+import 'highlight.js/styles/github.css';
+import 'default-passive-events';
+
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 

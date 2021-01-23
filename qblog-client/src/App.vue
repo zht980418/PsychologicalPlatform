@@ -1,8 +1,9 @@
 <template>
-  <div id="app">
-
+  <body style="min-width: 640px">
+  <div id="app" >
     <router-view></router-view>
   </div>
+  </body>
 </template>
 
 <script>

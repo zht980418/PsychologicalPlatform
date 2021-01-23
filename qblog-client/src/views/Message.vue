@@ -1,6 +1,11 @@
 <template>
   <el-row>
     <el-row><Header></header></el-row>
+
+    <el-row>
+      <el-col :span="15" :offset="3"><NavMenu></NavMenu></el-col>
+    </el-row>
+
     <el-row>
       <el-col :span="14" :offset="5">
         <el-card>
@@ -73,6 +78,7 @@ export default {
   components:{
     Footer: ()=>import("@/components/Footer"),
     Header:() => import("@/components/Header"),
+    NavMenu:() => import("@/components/NavMenu"),
   },
   data() {
     return {

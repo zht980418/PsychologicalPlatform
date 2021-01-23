@@ -17,20 +17,20 @@
 export default {
   name: "NavMenu"
 };
+
 </script>
 
 <style>
 
-
 .el-menu-item{
-  padding:5px 30px;
+  padding:0.2rem 1rem;
   font-size:18px;
 
 }
 
 
 .el-submenu__title{
-  padding:5px 10px;
+  padding:0.2rem 1rem;
   font-size: 18px;
 
 
