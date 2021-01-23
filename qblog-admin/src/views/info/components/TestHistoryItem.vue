@@ -24,7 +24,6 @@
 
 <script>
 export default {
-  name: 'CourseHistoryItem',
   functional: false,
   props: {
     icon: {
@@ -33,7 +32,7 @@ export default {
     },
     title: {
       type: String,
-      default: '课程名'
+      default: '测试名'
     },
     office: {
       type: String,

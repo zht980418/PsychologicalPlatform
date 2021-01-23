@@ -8,7 +8,7 @@
         placement="top"
       >
         <el-card>
-          <ExamHistoryItem
+          <ConsultHistoryItem
             :icon="item.icon"
             :title="item.exam_title"
             :office="item.office"
@@ -22,11 +22,11 @@
 </template>
 
 <script>
-import ExamHistoryItem from '../components/ExamHistoryItem'
+import ConsultHistoryItem from '../components/ConsultHistoryItem'
 // import { getExamHistory } from '@/api/exam'
 
 export default {
-  components: { ExamHistoryItem },
+  components: { ConsultHistoryItem },
   data() {
     return {
       historyList: [{}]

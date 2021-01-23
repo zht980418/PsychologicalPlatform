@@ -117,7 +117,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, createEventId } from './event-utils'
 import '@fullcalendar/core/locales/zh-cn'
-import { getConstraint } from '@/api/order'
+import { getConstraint, postOrder } from '@/api/order'
 
 export default {
   components: {
@@ -222,6 +222,8 @@ export default {
           end: selectInfo.endStr,
           allDay: selectInfo.allDay
         })
+        const params = { doctorname: this.doctorname, startStr: selectInfo.startStr }
+        postOrder(params)
       }
       this.form.type = ''
       this.form.theme = ''

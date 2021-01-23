@@ -8,7 +8,7 @@
         placement="top"
       >
         <el-card>
-          <CourseHistoryItem
+          <TestHistoryItem
             :icon="item.icon"
             :title="item.title"
             :office="item.office"
@@ -25,11 +25,11 @@
 </template>
 
 <script>
-import CourseHistoryItem from '../components/CourseHistoryItem'
+import TestHistoryItem from '../components/TestHistoryItem'
 // import { getCourseHistory } from '@/api/course'
 
 export default {
-  components: { CourseHistoryItem },
+  components: { TestHistoryItem },
   data() {
     return {
       historyList: [{}]
@@ -51,7 +51,7 @@ export default {
     // },
     handleClick() {
       console.log('点击课程卡片')
-      this.$router.push({ name: 'CoursePage' })
+      // this.$router.push({ name: 'CoursePage' })
     }
   }
 }

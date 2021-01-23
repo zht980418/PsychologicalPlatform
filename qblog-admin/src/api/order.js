@@ -7,3 +7,11 @@ export function getConstraint(params) {
     params
   })
 }
+
+export function postOrder(params) {
+  return request({
+    url: '/vue-admin-template/order/list',
+    method: 'post',
+    params
+  })
+}

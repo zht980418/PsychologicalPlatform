@@ -15,19 +15,19 @@
           <el-card>
             <el-tabs v-model="activeTab">
               <el-tab-pane
-                label="咨询记录"
+                label="心理自测记录"
                 name="CourseHistory"
               >
-                <CourseHistory />
+                <TestHistory />
               </el-tab-pane>
               <el-tab-pane
-                label="预约记录"
+                label="预约咨询记录"
                 name="ExamHistory"
               >
                 <ExamHistory />
               </el-tab-pane>
               <el-tab-pane
-                label="修改信息"
+                label="修改个人信息"
                 name="infoModify"
               >
                 <infoModify :user="user" />
@@ -42,14 +42,14 @@
 
 <script>
 import UserCard from './components/UserCard'
-import CourseHistory from './components/CourseHistory'
+import TestHistory from './components/TestHistory'
 import ExamHistory from './components/ExamHistory'
 import infoModify from './components/InfoModify'
 // import { getInfo } from '@/api/user'
 
 export default {
   name: 'Profile',
-  components: { UserCard, CourseHistory, ExamHistory, infoModify },
+  components: { UserCard, TestHistory, ExamHistory, infoModify },
   data() {
     return {
       user: {},
