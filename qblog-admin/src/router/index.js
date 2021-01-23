@@ -107,6 +107,20 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/info',
+    component: Layout,
+    redirect: '/info',
+    name: 'Info',
+    children: [
+      {
+        path: 'info',
+        name: 'info',
+        component: () => import('@/views/info/index'),
+        meta: { title: '个人中心', icon: 'el-icon-user' },
+      }
+    ]
+  },
+  {
     path: 'external-link',
     component: Layout,
     children: [

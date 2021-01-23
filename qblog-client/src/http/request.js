@@ -87,8 +87,12 @@ export default {
   },
   getConstraint() {
     return instance.get(urls.doctorname).then(res => res.data)
+  },
+
+  post() {
 
   },
+
   postMessages(message) {
     return instance.post(urls.messages, message).then(res => res.data);
   }

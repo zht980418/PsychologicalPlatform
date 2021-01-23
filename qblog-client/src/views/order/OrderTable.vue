@@ -209,6 +209,7 @@ export default {
           end: selectInfo.endStr,
           allDay: selectInfo.allDay
         })
+        
       }
       this.form.type = ''
       this.form.theme = ''
