@@ -146,6 +146,7 @@ export default {
           }
         ],
         selectable: true,
+        eventStartEditable: false,// 禁用拖拽
         selectMirror: true,
         dayMaxEvents: true,
         weekends: true,
@@ -177,7 +178,7 @@ export default {
     }
   },
   created() {
-    request.getConstraint().then((res) => {
+    request.getConstraint(this.doctorname).then((res) => {
       this.calendarOptions.selectConstraint = res //传入限制时间数组
     }).catch((err) => {
       console.log(err);
@@ -209,7 +210,18 @@ export default {
           end: selectInfo.endStr,
           allDay: selectInfo.allDay
         })
-        
+        console.log(selectInfo)
+        // 咨询类型、主题、姓名、联系方式、预约信息
+        const params = {
+          type: this.form.type,
+          theme: this.form.theme,
+          name: this.form.name,
+          phone: this.form.phone,
+          start: selectInfo.startStr,
+          end: selectInfo.endStr,
+          allDay: selectInfo.allDay,
+        }
+        request.postOrderAdd(params) // 发送预约信息
       }
       this.form.type = ''
       this.form.theme = ''
@@ -220,6 +232,7 @@ export default {
     handleEventClick(clickInfo) {
       if (confirm(`你确定要取消该预约吗？ '${clickInfo.event.title}'`)) {
         clickInfo.event.remove()
+        //TODO 删除预约
       }
     },
 

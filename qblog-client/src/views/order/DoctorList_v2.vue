@@ -1,18 +1,56 @@
 <template>
-  <el-carousel indicator-position="outside" height="100vh" :autoplay="false">
-    <el-carousel-item v-for="(item,index) in itemlist" :key="index">
+  <el-carousel
+    indicator-position="outside"
+    height="100vh"
+    :autoplay="false"
+  >
+    <el-carousel-item
+      v-for="(item,index) in itemlist"
+      :key="index"
+    >
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-row type="flex" class="row-bg" justify="space-between">
+          <el-row
+            type="flex"
+            class="row-bg"
+            justify="space-between"
+          >
             <div class="demo-type">
-              <el-avatar shape="square" :fit=item.img :size="180" :src= item.img @error="errorHandler"></el-avatar>
+              <el-avatar
+                shape="square"
+                :fit=item.img
+                :size="180"
+                :src=item.img
+                @error="errorHandler"
+              ></el-avatar>
             </div>
           </el-row>
-          <el-row type="flex" class="row-bg" justify="space-between"><i class="el-icon-user" style="font-size: 20px; color: #606266">{{item.name}}</i></el-row>
-          <el-row type="flex" class="row-bg" justify="space-between"><i class="el-icon-phone" style="font-size: 20px; color: #606266">{{item.phonenumber}}</i></el-row>
+          <el-row
+            type="flex"
+            class="row-bg"
+            justify="space-between"
+          ><i
+              class="el-icon-user"
+              style="font-size: 20px; color: #606266"
+            >{{item.name}}</i></el-row>
+          <el-row
+            type="flex"
+            class="row-bg"
+            justify="space-between"
+          ><i
+              class="el-icon-phone"
+              style="font-size: 20px; color: #606266"
+            >{{item.phonenumber}}</i></el-row>
         </el-col>
         <el-col :span="18">
-          <el-row type="flex" class="row-bg" justify="space-around"><i class="el-icon-date" style="font-size: 20px; color: #606266">预约日程表</i></el-row>
+          <el-row
+            type="flex"
+            class="row-bg"
+            justify="space-around"
+          ><i
+              class="el-icon-date"
+              style="font-size: 20px; color: #606266"
+            >预约日程表</i></el-row>
           <!-- 日程表 -->
           <div class='demo-app'>
             <div class='demo-app-sidebar'>
@@ -37,7 +75,10 @@
               <div class='demo-app-sidebar-section'>
                 <h2>All Events ({{ currentEvents.length }})</h2>
                 <ul>
-                  <li v-for='event in currentEvents' :key='event.id'>
+                  <li
+                    v-for='event in currentEvents'
+                    :key='event.id'
+                  >
                     <b>{{ event.startStr }}</b>
                     <i>{{ event.title }}</i>
                   </li>
@@ -82,7 +123,7 @@ export default {
   },
   data() {
     return {
-        calendarOptions: {
+      calendarOptions: {
         plugins: [
           dayGridPlugin,
           timeGridPlugin,
@@ -93,7 +134,7 @@ export default {
           center: 'title',
           right: ''
         },
-        
+
         initialView: 'timeGridWeek',
         initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
         editable: true,
@@ -101,12 +142,12 @@ export default {
         selectMirror: true,
         dayMaxEvents: true,
         weekends: true,
-        allDaySlot:false,
-        slotMinTime:"09:00:00",
-        slotMaxTime:"18:00:00",
-        slotDuration:"01:00:00",
-        expandRows:true,
-        locale:'zh-cn',
+        allDaySlot: false,
+        slotMinTime: "09:00:00",
+        slotMaxTime: "18:00:00",
+        slotDuration: "01:00:00",
+        expandRows: true,
+        locale: 'zh-cn',
         select: this.handleDateSelect,
         eventClick: this.handleEventClick,
         eventsSet: this.handleEvents
@@ -119,61 +160,61 @@ export default {
       currentEvents: [],
 
       itemlist: [
-        {name:"张三",phonenumber:"123",img:"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3649178992,1821853682&fm=26&gp=0.jpg"},
-        {name:"李四",phonenumber:"456",img:"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3649178992,1821853682&fm=26&gp=0.jpg"},
-        {name:"王五",phonenumber:"789",img:"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3649178992,1821853682&fm=26&gp=0.jpg"},
+        { name: "张三", phonenumber: "123", img: "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3649178992,1821853682&fm=26&gp=0.jpg" },
+        { name: "李四", phonenumber: "456", img: "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3649178992,1821853682&fm=26&gp=0.jpg" },
+        { name: "王五", phonenumber: "789", img: "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3649178992,1821853682&fm=26&gp=0.jpg" },
       ],
     }
   },
   methods: {
     handleWeekendsToggle() {
-    this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
-  },
+      this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
+    },
 
-  handleDateSelect(selectInfo) {
-    let title = prompt('Please enter a new title for your event')
-    let calendarApi = selectInfo.view.calendar
+    handleDateSelect(selectInfo) {
+      let title = prompt('Please enter a new title for your event')
+      let calendarApi = selectInfo.view.calendar
 
-    calendarApi.unselect() // clear date selection
+      calendarApi.unselect() // clear date selection
 
-    if (title) {
-      calendarApi.addEvent({
-        id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay
-      })
-    }
-  },
+      if (title) {
+        calendarApi.addEvent({
+          id: createEventId(),
+          title,
+          start: selectInfo.startStr,
+          end: selectInfo.endStr,
+          allDay: selectInfo.allDay
+        })
+      }
+    },
 
-  handleEventClick(clickInfo) {
-    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      clickInfo.event.remove()
-    }
-  },
+    handleEventClick(clickInfo) {
+      if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
+        clickInfo.event.remove()
+      }
+    },
 
-  handleEvents(events) {
-    this.currentEvents = events
-  },
+    handleEvents(events) {
+      this.currentEvents = events
+    },
     errorHandler() {
       return true
-  },
-  handleConfirm() {
-    this.dialogFormVisible = false
-    this.gridData.some((item, i) => {
-          if (item.name == this.form.startTime) {
-            this.gridData.splice(i, 1)
-            // 在 数组的 some 方法中，如果 return true，就会立即终止这个数组的后续循环
-            return true;
-          }
-        })
+    },
+    handleConfirm() {
+      this.dialogFormVisible = false
+      this.gridData.some((item, i) => {
+        if (item.name == this.form.startTime) {
+          this.gridData.splice(i, 1)
+          // 在 数组的 some 方法中，如果 return true，就会立即终止这个数组的后续循环
+          return true;
+        }
+      })
+    }
   }
-  }
-  }
+}
 </script>
 
-<style lang='css'>
+<style lang='scss'>
 h2 {
   margin: 0;
   font-size: 16px;
@@ -189,7 +230,8 @@ li {
   padding: 0;
 }
 
-b { /* used for event dates/times */
+b {
+  /* used for event dates/times */
   margin-right: 3px;
 }
 
@@ -216,36 +258,37 @@ b { /* used for event dates/times */
   padding: 3em;
 }
 
-.fc { /* the calendar root */
+.fc {
+  /* the calendar root */
   max-width: 1100px;
   margin: 0 auto;
 }
-  .el-carousel__item h3 {
-    color: #475669;
-    font-size: 14px;
-    opacity: 0.75;
-    line-height: 200px;
-    margin: 0;
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: EEF1F6;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: EEF1F6;
+}
+.el-row {
+  margin-bottom: 20px;
+  &:last-child {
+    margin-bottom: 0;
   }
-  
-  .el-carousel__item:nth-child(2n) {
-    background-color: EEF1F6;
-  }
-  
-  .el-carousel__item:nth-child(2n+1) {
-    background-color:EEF1F6;
-  }
-  .el-row {
-    margin-bottom: 20px;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-  .el-col {
-    border-radius: 4px;
-  }
-  .row-bg {
-    padding: 10px 0;
-    background-color: EEF1F6;
-  }
+}
+.el-col {
+  border-radius: 4px;
+}
+.row-bg {
+  padding: 10px 0;
+  background-color: EEF1F6;
+}
 </style>

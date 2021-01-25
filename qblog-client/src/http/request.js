@@ -85,12 +85,17 @@ export default {
       }
     }).then(res => res.data);
   },
-  getConstraint() {
-    return instance.get(urls.doctorname).then(res => res.data)
+  getConstraint(doctorname) {
+    return instance.get(urls.ordertable, { params: { doctorname: doctorname } }).then(res => res.data)
   },
 
-  post() {
+  postOrderAdd(params) {
+    return instance.get(urls.ordertable, { params: params }).then(res => res.data)
+  },
 
+  // TODO 删除预约
+  postOrderDelete(params) {
+    return instance.get(urls.ordertable, { params: params }).then(res => res.data)
   },
 
   postMessages(message) {

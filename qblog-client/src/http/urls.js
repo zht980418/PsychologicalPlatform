@@ -13,5 +13,6 @@ export default {
   quiz1:"/quizpaper/quiz1",
   order:"/order",
   doctorlist:"/order/doctorlist",
-  orderform:"/order/orderform"
+  orderform:"/order/orderform",
+  ordertable:"/order/ordertable",
 }
