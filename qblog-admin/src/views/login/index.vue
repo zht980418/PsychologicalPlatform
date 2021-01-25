@@ -1,5 +1,6 @@
 <template>
   <div class="login-container">
+    <div class="blur" />
     <el-form
       ref="loginForm"
       :model="loginForm"
@@ -202,6 +203,16 @@ $light_gray: #eee;
   width: 100%;
   background-color: $bg;
   overflow: hidden;
+
+   .blur {
+    // background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1603619028761&di=fbf77e68f9d4ee3884e9c6ca1d72907b&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F8%2F53ed7a4907e17.jpg");
+    background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1603620908596&di=77812b2da1ada6318fd2af28388a7ce0&imgtype=0&src=http%3A%2F%2F01.minipic.eastday.com%2F20180827%2F20180827192747_d3c1239df05a21e179f3e8740eac5d7e_8.jpg");
+    filter: blur(30px);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+  }
 
   .login-form {
     position: relative;

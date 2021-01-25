@@ -44,47 +44,376 @@
       </FullCalendar>
     </div>
     <el-dialog
+      title="知情同意书"
+      :visible.sync="dialogTextVisible"
+      center
+    >
+      <TextSample />
+      <div
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button @click="dialogTextVisible = false">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="(dialogFormVisible = true) & (dialogTextVisible = false)"
+        >确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog
       title="咨询预约"
       :visible.sync="dialogFormVisible"
+      :inline="true"
+      center
     >
-      <el-form>
-        <el-form-item
-          label="咨询方式"
-          :label-width="formLabelWidth"
+      <el-row>
+        <el-col>
+          <el-form>
+            <el-form-item
+              label="咨询方式"
+              :label-width="formLabelWidth"
+            >
+              <el-select
+                v-model="form.type"
+                placeholder="请选择咨询方式"
+              >
+                <el-option
+                  label="线上"
+                  value="online"
+                ></el-option>
+                <el-option
+                  label="线下"
+                  value="offline"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item
+              label="预约时间"
+              :label-width="formLabelWidth"
+            >
+              <el-date-picker
+                v-model="ordertime"
+                type="datetimerange"
+                range-separator="至"
+                start-placeholder="开始时间"
+                end-placeholder="结束时间"
+                editable="false"
+              >
+              </el-date-picker>
+            </el-form-item>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item
+                  label="姓名"
+                  :label-width="formLabelWidth"
+                >
+                  <el-input v-model="form.name"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item
+                  label="性别"
+                  :label-width="formLabelWidth"
+                >
+                  <el-input v-model="form.gender"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item
+                  label="出生年月"
+                  :label-width="formLabelWidth"
+                >
+                  <el-date-picker
+                    v-model="form.birth"
+                    type="date"
+                    placeholder="选择日期"
+                  >
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item
+                  label="职业"
+                  :label-width="formLabelWidth"
+                >
+                  <el-input v-model="form.occupation"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-form-item
+                label="联系方式"
+                :label-width="formLabelWidth"
+              >
+                <el-input v-model="form.phone"></el-input>
+              </el-form-item>
+            </el-row>
+            <el-row>
+              <el-form-item
+                label="家庭住址"
+                :label-width="formLabelWidth"
+              >
+                <el-input v-model="form.address"></el-input>
+              </el-form-item>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item
+                  label="紧急联系人"
+                  :label-width="formLabelWidth"
+                >
+                  <el-input v-model="form.emergency"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item
+                  label="紧急联系人电话"
+                  :label-width="formLabelWidth"
+                >
+                  <el-input v-model="form.emergencyphone"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-form-item
+              label="来询问题"
+              :label-width="formLabelWidth"
+            >
+              <el-row>
+                <el-col :span="21">
+                  <el-input
+                    v-model="form.question"
+                    type="textarea"
+                  />
+                </el-col>
+                <el-col
+                  :offset="1"
+                  :span="1"
+                >
+                  <i
+                    class="el-icon-warning-outline"
+                    @mouseover="alertQuestionVisible =true"
+                    @mouseleave="alertQuestionVisible =false"
+                  />
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="21">
+                  <el-alert
+                    title="你困惑或期望解决的问题是什么?"
+                    type="info"
+                    :closable=false
+                    v-show="alertQuestionVisible"
+                  >
+                  </el-alert>
+                </el-col>
+              </el-row>
+            </el-form-item>
+            <el-form-item
+              label="家庭情况"
+              :label-width="formLabelWidth"
+            >
+              <el-row>
+                <el-col :span="21">
+                  <el-input
+                    type="textarea"
+                    v-model="form.family"
+                  />
+                </el-col>
+                <el-col
+                  :offset="1"
+                  :span="1"
+                >
+                  <i
+                    class="el-icon-warning-outline"
+                    @mouseover="alertFamilyVisible =true"
+                    @mouseleave="alertFamilyVisible =false"
+                  />
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="21">
+                  <el-alert
+                    title="你过去是否有重大躯体疾病史、或重大成长事件影响到现在困惑的你?"
+                    type="info"
+                    :closable=false
+                    v-show="alertFamilyVisible"
+                  >
+                  </el-alert>
+                </el-col>
+              </el-row>
+            </el-form-item>
+            <el-form-item
+              label="咨询期望"
+              :label-width="formLabelWidth"
+            >
+              <el-row>
+                <el-col :span="21">
+                  <el-input
+                    type="textarea"
+                    v-model="form.expectation"
+                  />
+                </el-col>
+                <el-col
+                  :offset="1"
+                  :span="1"
+                >
+                  <i
+                    class="el-icon-warning-outline"
+                    @mouseover="alertExpectationVisible =true"
+                    @mouseleave="alertExpectationVisible =false"
+                  />
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="21">
+                  <el-alert
+                    title="你期待通过咨询达到什么样的目标?"
+                    type="info"
+                    :closable=false
+                    v-show="alertExpectationVisible"
+                  >
+                  </el-alert>
+                </el-col>
+              </el-row>
+            </el-form-item>
+            <el-form-item
+              label="咨询历史"
+              :label-width="formLabelWidth"
+            >
+              <el-row>
+                <el-col :span="21">
+                  <el-input
+                    type="textarea"
+                    v-model="form.history"
+                  />
+                </el-col>
+                <el-col
+                  :offset="1"
+                  :span="1"
+                >
+                  <i
+                    class="el-icon-warning-outline"
+                    @mouseover="alertHistoryVisible =true"
+                    @mouseleave="alertHistoryVisible =false"
+                  />
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="21">
+                  <el-alert
+                    title="以前有没有做过咨询，得到什么结果?"
+                    type="info"
+                    :closable=false
+                    v-show="alertHistoryVisible"
+                  >
+                  </el-alert>
+                </el-col>
+              </el-row>
+            </el-form-item>
+            <el-form-item
+              label="心理测试"
+              :label-width="formLabelWidth"
+            >
+              <el-row>
+                <el-col :span="21">
+                  <el-input
+                    type="textarea"
+                    v-model="form.test"
+                  />
+                </el-col>
+                <el-col
+                  :offset="1"
+                  :span="1"
+                >
+                  <i
+                    class="el-icon-warning-outline"
+                    @mouseover="alertTestVisible =true"
+                    @mouseleave="alertTestVisible =false"
+                  />
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="21">
+                  <el-alert
+                    title="以前有没有做过心理测试，得到什么结果?"
+                    type="info"
+                    :closable=false
+                    v-show="alertTestVisible"
+                  >
+                  </el-alert>
+                </el-col>
+              </el-row>
+            </el-form-item>
+            <el-col
+              :span="22"
+              :offset="2"
+            >
+              <el-form-item label="在过去一个月里，睡眠状况如何？">
+                <el-radio-group v-model="form.sleep">
+                  <el-radio label="很差"></el-radio>
+                  <el-radio label="不满意"></el-radio>
+                  <el-radio label="正常"></el-radio>
+                  <el-radio label="良好"></el-radio>
+                  <el-radio label="很好"></el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item label="在过去一个月里，人际关系如何？">
+                <el-radio-group v-model="form.sleep">
+                  <el-radio label="很差"></el-radio>
+                  <el-radio label="不满意"></el-radio>
+                  <el-radio label="正常"></el-radio>
+                  <el-radio label="良好"></el-radio>
+                  <el-radio label="很好"></el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item label="在过去一个月里，压力水平如何？">
+                <el-radio-group v-model="form.sleep">
+                  <el-radio label="很高"></el-radio>
+                  <el-radio label="高"></el-radio>
+                  <el-radio label="中等"></el-radio>
+                  <el-radio label="还好"></el-radio>
+                  <el-radio label="很好"></el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item label="在过去一个月里，心情如何？">
+                <el-radio-group v-model="form.sleep">
+                  <el-radio label="很低落"></el-radio>
+                  <el-radio label="低落"></el-radio>
+                  <el-radio label="一般"></el-radio>
+                  <el-radio label="心情不错"></el-radio>
+                  <el-radio label="心情特别好"></el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item label="是否有过自伤行为？">
+                <el-radio-group v-model="form.sleep">
+                  <el-radio label="无"></el-radio>
+                  <el-radio label="曾经有"></el-radio>
+                  <el-radio label="现在有"></el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item label="是否有过自杀的想法或行为？">
+                <el-radio-group v-model="form.sleep">
+                  <el-radio label="无"></el-radio>
+                  <el-radio label="曾经有"></el-radio>
+                  <el-radio label="现在有"></el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+          </el-form>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col
+          :span="18"
+          :offset="3"
         >
-          <el-select
-            v-model="form.type"
-            placeholder="请选择咨询方式"
-          >
-            <el-option
-              label="线上"
-              value="online"
-            ></el-option>
-            <el-option
-              label="线下"
-              value="offline"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item
-          label="咨询主题"
-          :label-width="formLabelWidth"
-        >
-          <el-input v-model="form.theme"></el-input>
-        </el-form-item>
-        <el-form-item
-          label="姓名"
-          :label-width="formLabelWidth"
-        >
-          <el-input v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item
-          label="联系方式"
-          :label-width="formLabelWidth"
-        >
-          <el-input v-model="form.phone"></el-input>
-        </el-form-item>
-      </el-form>
+          <p><b>我们郑重承诺：尊重来访者个人隐私，对咨询内容予以严格保密（但如涉及到来访者本人或他人的生命安全除外）。</b></p>
+          <br> <br>
+          <h3>本人已经详细阅读《心理咨询知情同意书》，对整个咨询流程已经了解，没有异议。</h3>
+        </el-col>
+      </el-row>
       <div
         slot="footer"
         class="dialog-footer"
@@ -96,6 +425,7 @@
         >确 定</el-button>
       </div>
     </el-dialog>
+
   </div>
 </template>
 
@@ -107,10 +437,12 @@ import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, createEventId } from './event-utils'
 import '@fullcalendar/core/locales/zh-cn'
 import request from "@/http/request"
+import TextSample from './textsample'
 
 export default {
   components: {
-    FullCalendar // make the <FullCalendar> tag available
+    FullCalendar, // make the <FullCalendar> tag available
+    TextSample,
   },
   data() {
     return {
@@ -167,12 +499,30 @@ export default {
       },
       currentEvents: [],
       selection: '',
+      dialogTextVisible: false,
       dialogFormVisible: false,
+      dialogForm2Visible: false,
+      alertQuestionVisible: false,
+      alertFamilyVisible: false,
+      alertExpectationVisible: false,
+      alertHistoryVisible: false,
+      alertTestVisible: false,
       form: {
         type: '',
-        theme: '',
+        ordertime: '',
         name: '',
-        phone: ''
+        gender: '',
+        birth: '',
+        occupation: '',
+        phone: '',
+        address: '',
+        emergency: '',
+        emergencyphone: '',
+        question: '',
+        family: '',
+        expectation: '',
+        history: '',
+        test: '',
       },
       formLabelWidth: '120px',
     }
@@ -194,7 +544,7 @@ export default {
     },
 
     handleDateSelect(selectInfo) {
-      this.dialogFormVisible = true // 展示信息填写form
+      this.dialogTextVisible = true // 展示信息填写form
       this.selection = selectInfo
     },
 
@@ -211,12 +561,23 @@ export default {
           allDay: selectInfo.allDay
         })
         console.log(selectInfo)
-        // 咨询类型、主题、姓名、联系方式、预约信息
+        //预约信息
         const params = {
           type: this.form.type,
-          theme: this.form.theme,
           name: this.form.name,
-          phone: this.form.phone,
+          ordertime: this.form.ordertime,
+          gender: this.form.gender,
+          birth: this.form.birth,
+          occupation: this.form.occupation,
+          phone: this.form.phone.phone,
+          address: this.form.address,
+          emergency: this.form.emergency,
+          emergencyphone: this.form.emergencyphone,
+          question: this.form.question,
+          family: this.form.family,
+          expectation: this.form.expectation,
+          history: this.form.history,
+          test: this.form.test,
           start: selectInfo.startStr,
           end: selectInfo.endStr,
           allDay: selectInfo.allDay,
