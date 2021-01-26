@@ -421,7 +421,7 @@
         <el-button @click="addEvent(form.theme,selection)">取 消</el-button>
         <el-button
           type="primary"
-          @click="addEvent(form.theme,selection)"
+          @click="addEvent(form.name,selection)"
         >确 定</el-button>
       </div>
     </el-dialog>
