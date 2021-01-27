@@ -104,7 +104,6 @@
  div{
    min_width:100%;
  }
-
 </style>
 <style scoped>
     .none-article {

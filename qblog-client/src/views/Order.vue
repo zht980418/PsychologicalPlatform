@@ -20,7 +20,8 @@
       <el-main>
         <router-view ></router-view>
       </el-main>
-    </el-container></el-row>
+    </el-container>
+    </el-row>
     <el-row>
       <Footer></Footer>
     </el-row>
