@@ -121,6 +121,20 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/record',
+    component: Layout,
+    redirect: '/record',
+    name: 'Record',
+    children: [
+      {
+        path: 'record',
+        name: 'record',
+        component: () => import('@/views/record/index'),
+        meta: { title: '咨询病历', icon: 'el-icon-notebook-1' },
+      }
+    ]
+  },
+  {
     path: 'external-link',
     component: Layout,
     children: [
