@@ -69,6 +69,19 @@
                 <el-input v-model="form.consultType"  ></el-input>
               </el-form-item>
             </el-row>
+            <el-row>
+              <el-form-item label="依据严重性程度，是否需要特别关注？" label-width="270px">
+                <el-radio-group v-model="form.specialAttention">
+                  <el-radio label="是"></el-radio>
+                  <el-radio label="否"></el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-row>
+            <el-row>
+              <el-form-item label="本次咨询作业和下次咨询计划:" label-width="260px">
+                <el-input type="textarea" :rows="5" v-model="form.followPlan"></el-input>
+              </el-form-item>
+            </el-row>
           </el-form-item>
         </el-row>
         <el-row>
@@ -147,6 +160,19 @@
                 <el-input v-model="form.consultType"  ></el-input>
               </el-form-item>
             </el-row>
+            <el-row>
+              <el-form-item label="依据严重性程度，是否需要特别关注？" label-width="270px">
+                <el-radio-group v-model="form.specialAttention">
+                  <el-radio label="是"></el-radio>
+                  <el-radio label="否"></el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-row>
+            <el-row>
+              <el-form-item label="本次咨询作业和下次咨询计划:" label-width="260px">
+                <el-input type="textarea" :rows="5" v-model="form.followPlan"></el-input>
+              </el-form-item>
+            </el-row>
           </el-form-item>
         </el-row>
         <el-row>
@@ -194,7 +220,9 @@ export default {
         delivery: false,
         nextExist: [],
         resource: '',
-        desc: ''
+        desc: '',
+        specialAttention:'',
+        followPlan:'',
       },
       formFlag: true,
     }
