@@ -8,6 +8,7 @@
             <h2>功能介绍</h2>
             <br>
             <ul>
+              <li>咨询师日程表</li>
               <li>点击时段即可添加预约信息</li>
               <li>再次点击预约即可删除</li>
             </ul>
@@ -107,6 +108,28 @@
         >确 定</el-button>
       </div>
     </el-dialog>
+    <el-dialog
+      :visible.sync="dialogEditVisible"
+      center
+    >
+      <p>您想要删除或者修改该预约吗？</p>
+      <div
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button @click="dialogEditVisible=false">取 消</el-button>
+        <el-button
+          type="success"
+          icon="el-icon-edit"
+          @click="handleEventEdit(form,selection)"
+        >修 改</el-button>
+        <el-button
+          type="danger"
+          icon="el-icon-delete"
+          @click="handleEventDelete(form,selection)"
+        >删 除</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -168,7 +191,7 @@ export default {
         locale: 'zh-cn',
         select: this.handleDateSelect,
         eventClick: this.handleEventClick,
-        eventsSet: this.handleEvents
+        eventsSet: this.handleEvents,
         /* you can update a remote database when these fire:
         eventAdd:
         eventChange:
@@ -176,8 +199,9 @@ export default {
         */
       },
       currentEvents: [],
-      selection: '',
+      selection: '', // 暂存selectInfo
       dialogFormVisible: false,
+      dialogEditVisible: false,
       form: {
         type: '',
         theme: '',
@@ -207,17 +231,14 @@ export default {
       this.selection = selectInfo
     },
 
-    addEvent(title, selectInfo) {
+    addEvent(form, selectInfo) {
       this.dialogFormVisible = false
-
       const calendarApi = selectInfo.view.calendar
-
       calendarApi.unselect() // clear date selection
-
-      if (title) {
+      if (form.name) {
         calendarApi.addEvent({
           id: createEventId(),
-          title,
+          name: form.name,
           start: selectInfo.startStr,
           end: selectInfo.endStr,
           allDay: selectInfo.allDay
@@ -232,9 +253,19 @@ export default {
     },
 
     handleEventClick(clickInfo) {
-      if (confirm(`你确定要取消该预约吗？ '${clickInfo.event.title}'`)) {
-        clickInfo.event.remove()
-      }
+      this.dialogEditVisible = true
+      this.selection = clickInfo
+    },
+
+    handleEventDelete(form, clickInfo) {
+      // TODO 删数据
+      clickInfo.event.remove()
+      this.dialogEditVisible = false
+    },
+
+    handleEventEdit(form, clickInfo) {
+      this.handleEventDelete(form, clickInfo) // 删除
+      this.dialogFormVisible = true
     },
 
     handleEvents(events) {
@@ -243,6 +274,10 @@ export default {
     errorHandler() {
       return true
     },
+
+    test() {
+      console.log('dbclick')
+    }
   }
 
 }
