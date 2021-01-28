@@ -134,16 +134,6 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://www.gitee.com/qianyucc/',
-        meta: { title: '码云', icon: 'link' }
-      }
-    ]
-  },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

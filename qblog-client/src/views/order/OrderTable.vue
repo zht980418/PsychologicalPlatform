@@ -92,7 +92,7 @@
               :label-width="formLabelWidth"
             >
               <el-date-picker
-                v-model="ordertime"
+                v-model="form.ordertime"
                 type="datetimerange"
                 range-separator="至"
                 start-placeholder="开始时间"
@@ -360,7 +360,7 @@
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="在过去一个月里，人际关系如何？">
-                <el-radio-group v-model="form.sleep">
+                <el-radio-group v-model="form.relationship">
                   <el-radio label="很差"></el-radio>
                   <el-radio label="不满意"></el-radio>
                   <el-radio label="正常"></el-radio>
@@ -369,7 +369,7 @@
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="在过去一个月里，压力水平如何？">
-                <el-radio-group v-model="form.sleep">
+                <el-radio-group v-model="form.stress">
                   <el-radio label="很高"></el-radio>
                   <el-radio label="高"></el-radio>
                   <el-radio label="中等"></el-radio>
@@ -378,7 +378,7 @@
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="在过去一个月里，心情如何？">
-                <el-radio-group v-model="form.sleep">
+                <el-radio-group v-model="form.mood">
                   <el-radio label="很低落"></el-radio>
                   <el-radio label="低落"></el-radio>
                   <el-radio label="一般"></el-radio>
@@ -387,14 +387,14 @@
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="是否有过自伤行为？">
-                <el-radio-group v-model="form.sleep">
+                <el-radio-group v-model="form.hurt">
                   <el-radio label="无"></el-radio>
                   <el-radio label="曾经有"></el-radio>
                   <el-radio label="现在有"></el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="是否有过自杀的想法或行为？">
-                <el-radio-group v-model="form.sleep">
+                <el-radio-group v-model="form.suicide">
                   <el-radio label="无"></el-radio>
                   <el-radio label="曾经有"></el-radio>
                   <el-radio label="现在有"></el-radio>
@@ -406,26 +406,52 @@
       </el-row>
       <el-row>
         <el-col
-          :span="18"
-          :offset="3"
+          :span="22"
+          :offset="1"
         >
-          <p><b>我们郑重承诺：尊重来访者个人隐私，对咨询内容予以严格保密（但如涉及到来访者本人或他人的生命安全除外）。</b></p>
-          <br> <br>
-          <h3>本人已经详细阅读《心理咨询知情同意书》，对整个咨询流程已经了解，没有异议。</h3>
+          <el-alert
+            type="error"
+            :closable="false"
+          >
+            <h3>点击确认按钮即表示本人已经详细阅读《心理咨询知情同意书》，对整个咨询流程已经了解，没有异议。</h3>
+          </el-alert>
+          <el-alert
+            type="warning"
+            :closable="false"
+          >
+            <h3><b>我们郑重承诺：尊重来访者个人隐私，对咨询内容予以严格保密（但如涉及到来访者本人或他人的生命安全除外）。</b></h3>
+          </el-alert>
         </el-col>
       </el-row>
       <div
+        v-if="!dialogEditVisible"
         slot="footer"
         class="dialog-footer"
       >
-        <el-button @click="addEvent(form.theme,selection)">取 消</el-button>
+        <el-button @click="dialogFormVisible=false">取 消</el-button>
         <el-button
           type="primary"
-          @click="addEvent(form.name,selection)"
+          @click="addEvent(form,selection)"
         >确 定</el-button>
       </div>
+      <div
+        v-if="dialogEditVisible"
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button @click="(dialogFormVisible=false)&(dialogEditVisible=false)">取 消</el-button>
+        <el-button
+          type="success"
+          icon="el-icon-edit"
+          @click="handleEventEdit(form,selection)"
+        >修 改</el-button>
+        <el-button
+          type="danger"
+          icon="el-icon-delete"
+          @click="handleEventDelete(form,selection)"
+        >删 除</el-button>
+      </div>
     </el-dialog>
-
   </div>
 </template>
 
@@ -462,23 +488,31 @@ export default {
         businessHours: [ // specify an array instead
           {
             daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
-            startTime: '08:00', // 8am
-            endTime: '18:00' // 6pm
-          }
+            startTime: '09:00',
+            endTime: '12:00'
+          },
+          {
+            daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
+            startTime: '14:00',
+            endTime: '18:00'
+          },
         ],
         initialView: 'timeGridWeek',
         initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
-        editable: true,
-        // 拖动并选择多个时段
+        editable: true,  // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead
           {
             daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
-            startTime: '8:00', // 8am
+            startTime: '09:00',
+            endTime: '12:00'
+          },
+          {
+            daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
+            startTime: '14:00', // 8am
             endTime: '18:00' // 6pm
           }
         ],
         selectable: true,
-        eventStartEditable: false,// 禁用拖拽
         selectMirror: true,
         dayMaxEvents: true,
         weekends: true,
@@ -499,9 +533,9 @@ export default {
       },
       currentEvents: [],
       selection: '',
-      dialogTextVisible: false,
-      dialogFormVisible: false,
-      dialogForm2Visible: false,
+      dialogTextVisible: false,// 知情同意书
+      dialogFormVisible: false,// 表格
+      dialogEditVisible: false,// 修改按钮
       alertQuestionVisible: false,
       alertFamilyVisible: false,
       alertExpectationVisible: false,
@@ -524,10 +558,29 @@ export default {
         history: '',
         test: '',
       },
+      defaultForm: {
+        type: '',
+        ordertime: '',
+        name: '',
+        gender: '',
+        birth: '',
+        occupation: '',
+        phone: '',
+        address: '',
+        emergency: '',
+        emergencyphone: '',
+        question: '',
+        family: '',
+        expectation: '',
+        history: '',
+        test: '',
+      },
       formLabelWidth: '120px',
     }
   },
   created() {
+    this.calendarOptions.businessHours = this.orderConstraint()
+    this.calendarOptions.selectConstraint = this.orderConstraint()
     request.getConstraint(this.doctorname).then((res) => {
       this.calendarOptions.selectConstraint = res //传入限制时间数组
     }).catch((err) => {
@@ -539,6 +592,32 @@ export default {
     })
   },
   methods: {
+    orderConstraint() {
+      const today = new Date()
+      let day = null
+      switch (today.getDay()) {
+        case 1: day = [2, 3, 4, 5]
+          break
+        case 2: day = [3, 4, 5]
+          break
+        case 3: day = [4, 5]
+          break
+        case 4: day = [5]
+          break
+        case 5: day = [0]
+      }
+      return [{
+        daysOfWeek: day,
+        startTime: '09:00',
+        endTime: '12:00'
+      },
+      {
+        daysOfWeek: day,
+        startTime: '14:00',
+        endTime: '18:00'
+      }]
+    },
+
     handleWeekendsToggle() {
       this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
     },
@@ -548,14 +627,14 @@ export default {
       this.selection = selectInfo
     },
 
-    addEvent(title, selectInfo) {
+    addEvent(form, selectInfo) {
       this.dialogFormVisible = false
       let calendarApi = selectInfo.view.calendar
       calendarApi.unselect() // clear date selection
-      if (title) {
+      if (form.name) {
         calendarApi.addEvent({
           id: createEventId(),
-          title,
+          title: form.name,
           start: selectInfo.startStr,
           end: selectInfo.endStr,
           allDay: selectInfo.allDay
@@ -563,6 +642,7 @@ export default {
         console.log(selectInfo)
         //预约信息
         const params = {
+          doctorname: this.doctorname,
           type: this.form.type,
           name: this.form.name,
           ordertime: this.form.ordertime,
@@ -584,16 +664,49 @@ export default {
         }
         request.postOrderAdd(params) // 发送预约信息
       }
-      this.form.type = ''
-      this.form.theme = ''
-      this.form.name = ''
-      this.form.phone = ''
+      // 清空表单
+      this.form = JSON.parse(JSON.stringify(this.defaultForm))
     },
 
     handleEventClick(clickInfo) {
-      if (confirm(`你确定要取消该预约吗？ '${clickInfo.event.title}'`)) {
-        clickInfo.event.remove()
-        //TODO 删除预约
+      // TODO 获取预约信息
+      // 打开预约信息表格
+      this.dialogEditVisible = true
+      this.dialogFormVisible = true
+      this.selection = clickInfo
+    },
+
+    handleEventDelete(form, clickInfo) {
+      // TODO 删数据
+      clickInfo.event.remove()
+      // 关表格
+      this.dialogEditVisible = false
+      this.dialogFormVisible = false
+    },
+
+    handleEventEdit(form, clickInfo) {
+      this.handleEventDelete(form, clickInfo) // 删除
+      this.handleModify(form, clickInfo)
+      // 关表格
+      this.dialogFormVisible = false
+      this.dialogEditVisible = false
+    },
+    // 重新添加预约信息
+    handleModify(form, selectInfo) {
+      const calendarApi = selectInfo.view.calendar
+      calendarApi.unselect() // clear date selection
+      if (form.name) {
+        calendarApi.addEvent({
+          id: createEventId(),
+          title: form.name,
+          start: selectInfo.event.startStr,
+          end: selectInfo.event.endStr,
+          allDay: selectInfo.event.allDay
+        })
+        // const params = { doctorname: this.doctorname, startStr: selectInfo.startStr }
+        // postOrder(params)
+        // 清空表单
+        this.form = JSON.parse(JSON.stringify(this.defaultForm))
       }
     },
 
@@ -658,21 +771,7 @@ b {
   max-width: 1100px;
   margin: 0 auto;
 }
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  line-height: 200px;
-  margin: 0;
-}
 
-.el-carousel__item:nth-child(2n) {
-  background-color: EEF1F6;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: EEF1F6;
-}
 .el-row {
   margin-bottom: 20px;
   &:last-child {
