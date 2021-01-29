@@ -140,6 +140,27 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/room',
+    component: Layout,
+    redirect: '/room/list',
+    name: 'Room',
+    children: [
+      {
+        path: 'list',
+        name: 'room',
+        component: () => import('@/views/room/index'),
+        meta: { title: '咨询室', icon: 'el-icon-s-home' },
+      },
+      {
+        path: 'test',
+        name: 'View',
+        component: () => import('@/views/room/view'),
+        meta: { title: '咨询室管理', icon: 'el-icon-s-home' },
+        hidden: true
+      }
+    ]
+  },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

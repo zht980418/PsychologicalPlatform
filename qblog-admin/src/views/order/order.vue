@@ -41,7 +41,7 @@
         </el-card>
       </el-col>
       <el-col :span="18">
-        <el-card class="order-box">
+        <el-card class="demo-app-sidebar">
           <div class="demo-app-main">
             <FullCalendar
               class="demo-app-calendar"
@@ -138,7 +138,6 @@ export default {
         */
       },
       currentEvents: [],
-      currentRoomEvents: [],
     }
   },
   created() {
