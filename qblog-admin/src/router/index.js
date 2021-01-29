@@ -94,15 +94,21 @@ export const constantRoutes = [
   {
     path: '/order',
     component: Layout,
-    redirect: '/order/list',
+    redirect: '/order/orderCalendar',
     name: 'Order',
-    meta: { title: '我的日程', icon: 'el-icon-date' },
     children: [
       {
-        path: 'list',
-        name: 'List',
+        path: 'orderCalendar',
+        name: 'OrderCalendar',
         component: () => import('@/views/order/order'),
         meta: { title: '我的日程', icon: 'el-icon-date' }
+      },
+      {
+        path: 'orderPage',
+        name: 'OrderPage',
+        component: () => import('@/views/order/orderPage'),
+        meta: { title: '预约详情', icon: 'el-icon-date' },
+        hidden: true
       }
     ]
   },

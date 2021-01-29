@@ -8,11 +8,11 @@ export const INITIAL_EVENTS = [
     title: '一个预约',
     start: todayStr + 'T10:00:00'
   },
-  {
-    id: createEventId(),
-    title: '过时预约',
-    start: todayStr + 'T14:00:00'
-  }
+  // {
+  //   id: createEventId(),
+  //   title: '过时预约',
+  //   start: todayStr + 'T14:00:00'
+  // }
 ]
 
 export function createEventId() {
