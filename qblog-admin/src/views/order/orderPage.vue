@@ -3,7 +3,10 @@
   <div class="app-container">
     <el-row>
       <el-col>
-        <el-form>
+        <el-form
+          ref="form"
+          :model="form"
+        >
           <el-form-item
             label="咨询方式"
             :label-width="formLabelWidth"
@@ -26,14 +29,41 @@
             label="预约时间"
             :label-width="formLabelWidth"
           >
-            <el-date-picker
-              v-model="form.ordertime"
-              type="datetimerange"
-              range-separator="至"
-              start-placeholder="开始时间"
-              end-placeholder="结束时间"
-              :editable="false"
-            />
+            <el-row>
+              <el-col :span="6">
+                <el-date-picker
+                  v-model="form.ordertime"
+                  type="datetime"
+                  value-format="timestamp"
+                  start-placeholder="开始时间"
+                  @change="test"
+                />
+              </el-col>
+              <el-col
+                :span="1"
+                :offset="2"
+              >
+                <i
+                  class="el-icon-warning-outline"
+                  @mouseover="alertConsultDuration =true"
+                  @mouseleave="alertConsultDuration =false"
+                />
+              </el-col>
+              <el-col
+                :span="8"
+                :offset="1"
+              >
+                <el-alert
+                  v-show="alertConsultDuration"
+                  title="预约时长：1小时"
+                  type="info"
+                  style="height:40px;"
+                  :closable="false"
+                  center
+                  show-icon
+                />
+              </el-col>
+            </el-row>
           </el-form-item>
           <el-row>
             <el-col :span="12">
@@ -138,6 +168,7 @@
                   title="你困惑或期望解决的问题是什么?"
                   type="info"
                   :closable="false"
+                  show-icon
                 />
               </el-col>
             </el-row>
@@ -171,6 +202,7 @@
                   title="你过去是否有重大躯体疾病史、或重大成长事件影响到现在困惑的你?"
                   type="info"
                   :closable="false"
+                  show-icon
                 />
               </el-col>
             </el-row>
@@ -204,6 +236,7 @@
                   title="你期待通过咨询达到什么样的目标?"
                   type="info"
                   :closable="false"
+                  show-icon
                 />
               </el-col>
             </el-row>
@@ -237,6 +270,7 @@
                   title="以前有没有做过咨询，得到什么结果?"
                   type="info"
                   :closable="false"
+                  show-icon
                 />
               </el-col>
             </el-row>
@@ -270,6 +304,7 @@
                   title="以前有没有做过心理测试，得到什么结果?"
                   type="info"
                   :closable="false"
+                  show-icon
                 />
               </el-col>
             </el-row>
@@ -328,10 +363,15 @@
                 <el-radio label="现在有" />
               </el-radio-group>
             </el-form-item>
-            <el-form-item label="咨询室">
+            <br>
+            <el-form-item
+              v-show="form.type==='offline'"
+              label="咨询室"
+            >
               <el-select
                 v-model="form.room"
                 placeholder="请选择咨询室"
+                clearable
                 @change="handleCalendarChange"
               >
                 <el-option
@@ -381,10 +421,7 @@
     </el-row>
     <br>
     <el-row>
-      <el-col
-        :span="8"
-        :offset="8"
-      >
+      <el-col :offset="8">
         <div v-if="initVisible">
           <el-button
             type="info"
@@ -429,9 +466,9 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, createEventId } from './event-utils'
-import '@fullcalendar/core/locales/zh-cn'
+import { INITIAL_EVENTS, createEventId, defaultConstraint } from '@/utils/event-utils'
 import { getConstraint, postOrder } from '@/api/order'
+import '@fullcalendar/core/locales/zh-cn'
 
 export default {
   components: {
@@ -507,6 +544,7 @@ export default {
       currentRoomEvents: [],
       selection: '', // 暂存selectInfo
       // 其他config
+      alertConsultDuration: false,
       alertQuestionVisible: false,
       alertFamilyVisible: false,
       alertExpectationVisible: false,
@@ -535,17 +573,17 @@ export default {
         hurt: '',
         suicide: '',
         room: '',
-
       },
     }
   },
   created() {
-    this.roomConfig.businessHours = this.orderConstraint()
-    this.roomConfig.selectConstraint = this.orderConstraint()
+    this.roomConfig.businessHours = defaultConstraint()
+    this.roomConfig.selectConstraint = defaultConstraint()
+    console.log(this.orderSelectInfo)
+    this.form.ordertime = this.orderSelectInfo.event.start
     getConstraint(this.doctorname).then((res) => {
       // TODO 获取预约信息
       // this.roomConfig.selectConstraint = res // 传入限制时间数组
-      // this.roomConfig.selectConstraint = this.orderConstraint()
     }).catch((err) => {
       console.log(err)
       this.$notify.error({
@@ -555,37 +593,12 @@ export default {
     })
   },
   methods: {
-    // 预约日程表
-    orderConstraint() {
-      const today = new Date()
-      let day = null
-      switch (today.getDay()) {
-        case 1: day = [2, 3, 4, 5]
-          break
-        case 2: day = [3, 4, 5]
-          break
-        case 3: day = [4, 5]
-          break
-        case 4: day = [5]
-          break
-        case 5: return [{
-          daysOfWeek: [5],
-          startTime: '22:00',
-          endTime: '23:00'
-        }]
-      }
-      return [{
-        daysOfWeek: day,
-        startTime: '09:00',
-        endTime: '12:00'
-      },
-      {
-        daysOfWeek: day,
-        startTime: '14:00',
-        endTime: '18:00'
-      }]
+    test() {
+      console.log(this.form.type)
+      console.log(Boolean(this.form.type))
     },
 
+    // 预约日程表
     handleWeekendsToggle() {
       this.roomConfig.weekends = !this.roomConfig.weekends // update a property
     },

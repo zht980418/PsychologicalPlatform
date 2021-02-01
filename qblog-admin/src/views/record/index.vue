@@ -216,11 +216,18 @@
             </el-col>
           </el-row>
           <el-form-item>
-            <el-button
-              type="primary"
-              @click="onSubmit"
-            >立即创建</el-button>
-            <el-button>取消</el-button>
+            <el-row>
+              <el-col
+                :offset="8"
+                :span="8"
+              >
+                <el-button
+                  type="primary"
+                  @click="onSubmit"
+                >立即创建</el-button>
+                <el-button>取消</el-button>
+              </el-col>
+            </el-row>
           </el-form-item>
         </el-col>
       </el-row>
@@ -298,7 +305,6 @@
               </el-col>
             </el-col>
           </el-row>
-
           <el-row>
             <el-form-item
               label="咨询要点记录(A):"
@@ -403,13 +409,19 @@
             </el-col>
           </el-row>
           <el-form-item>
-            <el-button
-              type="primary"
-              @click="onSubmit"
-            >立即创建</el-button>
-            <el-button>取消</el-button>
+            <el-row>
+              <el-col
+                :offset="8"
+                :span="8"
+              >
+                <el-button
+                  type="primary"
+                  @click="onSubmit"
+                >立即创建</el-button>
+                <el-button>取消</el-button>
+              </el-col>
+            </el-row>
           </el-form-item>
-
         </el-col>
       </el-row>
     </el-form>

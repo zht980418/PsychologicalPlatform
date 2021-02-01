@@ -64,9 +64,9 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS } from './event-utils'
-import '@fullcalendar/core/locales/zh-cn'
+import { INITIAL_EVENTS, defaultConstraint } from '@/utils/event-utils'
 import { getConstraint } from '@/api/order'
+import '@fullcalendar/core/locales/zh-cn'
 
 export default {
   components: {
@@ -143,11 +143,10 @@ export default {
   created() {
     // TODO 获取日程
     // TODO 获取时间限制
-    this.calendarOptions.businessHours = this.orderConstraint()
-    this.calendarOptions.selectConstraint = this.orderConstraint()
+    this.calendarOptions.businessHours = defaultConstraint()
+    this.calendarOptions.selectConstraint = defaultConstraint()
     getConstraint(this.doctorname).then((res) => {
       // this.calendarOptions.selectConstraint = res // 传入限制时间数组
-      // this.calendarOptions.selectConstraint = this.orderConstraint()
     }).catch((err) => {
       console.log(err)
       this.$notify.error({
@@ -157,57 +156,12 @@ export default {
     })
   },
   methods: {
-
-    // 日程限制
-    orderConstraint() {
-      const today = new Date()
-      let day = null
-      switch (today.getDay()) {
-        case 1: day = [2, 3, 4, 5]
-          break
-        case 2: day = [3, 4, 5]
-          break
-        case 3: day = [4, 5]
-          break
-        case 4: day = [5]
-          break
-        case 5: return [{
-          daysOfWeek: [5],
-          startTime: '22:00',
-          endTime: '23:00'
-        }]
-      }
-      return [{
-        daysOfWeek: day,
-        startTime: '09:00',
-        endTime: '12:00'
-      },
-      {
-        daysOfWeek: day,
-        startTime: '14:00',
-        endTime: '18:00'
-      }]
-    },
-
     handleWeekendsToggle() {
       this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
     },
     handleDateSelect(selectInfo) {
       this.$router.push({ name: 'OrderPage', params: { editType: this.Init, selectInfo: selectInfo } })
     },
-
-    // 添加新的预约
-    // addEvent(selectInfo) {
-    //   const calendarApi = selectInfo.view.calendar
-    //   calendarApi.unselect() // clear date selection
-    //   if (form.name) {
-    //     calendarApi.addEvent({
-    //       id: createEventId(),
-    //       title: form.name,
-    //       start: selectInfo.startStr
-    //     })
-    //   }
-    // },
 
     // 点击已有预约
     handleEventClick(clickInfo) {

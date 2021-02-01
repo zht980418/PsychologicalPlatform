@@ -1,28 +1,94 @@
 <template>
-  <el-row>
-    <el-col
-      :span="20"
-      :offset="2"
-    >
-      <h1 style="text-align:center;">咨询室使用情况</h1>
-      <FullCalendar
-        class="demo-app-calendar"
-        :options="roomConfig"
+  <div class="app-main-container">
+    <el-row>
+      <el-col
+        :span="7"
+        :offset="9"
       >
-        <template v-slot:eventContent="arg">
-          <b>{{ arg.timeText }}</b>
-          <i>{{ arg.event.title }}</i>
-        </template>
-      </FullCalendar>
-    </el-col>
-  </el-row>
+        <h1
+          @mouseover="alertVisible=true"
+          @mouseleave="alertVisible=false"
+        >{{ room.name }}使用情况</h1>
+      </el-col>
+      <el-col :span="5">
+        <el-alert
+          v-show="alertVisible&(!roomConfig.selectable)"
+          type="warning"
+          title="管理"
+          description="查看时间表时无法编辑"
+          show-icon
+          :closable="false"
+        />
+        <el-alert
+          v-show="alertVisible&(roomConfig.selectable)"
+          type="warning"
+          title="管理"
+          description="点击时间表可直接添加/修改预约"
+          show-icon
+          :closable="false"
+        />
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col
+        :span="13"
+        :offset="5"
+      >
+        <el-form
+          :model="room"
+          :inline="true"
+          :disabled="!roomConfig.selectable"
+        >
+          <el-form-item
+            label="咨询室名："
+            :label-width="formLabelWidth"
+          >
+            <el-input v-model="room.name" />
+          </el-form-item>
+          <el-form-item
+            label="咨询室地址："
+            :label-width="formLabelWidth"
+          >
+            <el-input v-model="room.address" />
+          </el-form-item>
+        </el-form>
+      </el-col>
+      <el-col :span="4">
+        <el-button
+          v-if="roomConfig.selectable"
+          type="success"
+          icon="el-icon-check"
+          plain
+          @click="handleInfoUpdate"
+        >确认修改</el-button>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col
+        :span="20"
+        :offset="2"
+      >
+        <el-card>
+          <FullCalendar
+            class="demo-app-calendar"
+            :options="roomConfig"
+          >
+            <template v-slot:eventContent="arg">
+              <b>{{ arg.timeText }}</b>
+              <i>{{ arg.event.title }}</i>
+            </template>
+          </FullCalendar>
+        </el-card>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 <script>
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-// import { INITIAL_EVENTS, createEventId } from './event-utils'
+import { INITIAL_EVENTS, createEventId, defaultConstraint } from '@/utils/event-utils'
 import '@fullcalendar/core/locales/zh-cn'
 // import { getConstraint, postOrder } from '@/api/order'
 
@@ -32,6 +98,13 @@ export default {
   },
   data() {
     return {
+      alertVisible: false,
+      formLabelWidth: '120px',
+      room: {
+        id: 'newId',
+        name: 'newRoom',
+        address: 'newAddress',
+      },
       roomConfig: {
         plugins: [
           dayGridPlugin,
@@ -56,7 +129,7 @@ export default {
           },
         ],
         initialView: 'timeGridWeek',
-        // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+        initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
         editable: true, // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead
           {
@@ -93,44 +166,24 @@ export default {
     }
   },
   created() {
+    // 获取room信息
+    this.room.id = this.$route.params.id
+    this.room.name = this.$route.params.name
+    this.room.address = this.$route.params.address
     // 获取查看/编辑状态
     this.roomConfig.selectable = Boolean(this.$route.params.op)
     // 获取限制信息
-    this.roomConfig.businessHours = this.orderConstraint()
-    this.roomConfig.selectConstraint = this.orderConstraint()
-    // TODO  获取数据
+    this.roomConfig.businessHours = defaultConstraint()
+    this.roomConfig.selectConstraint = defaultConstraint()
+    // TODO  获取日程表数据
   },
   methods: {
-    orderConstraint() {
-      const today = new Date()
-      let day = null
-      switch (today.getDay()) {
-        case 1: day = [2, 3, 4, 5]
-          break
-        case 2: day = [3, 4, 5]
-          break
-        case 3: day = [4, 5]
-          break
-        case 4: day = [5]
-          break
-        case 5: return [{
-          daysOfWeek: [5],
-          startTime: '22:00',
-          endTime: '23:00'
-        }]
-      }
-      return [{
-        daysOfWeek: day,
-        startTime: '09:00',
-        endTime: '12:00'
-      },
-      {
-        daysOfWeek: day,
-        startTime: '14:00',
-        endTime: '18:00'
-      }]
+    // 基本信息
+    handleInfoUpdate() {
+      // TODO 修改基本信息
     },
 
+    // 预约
     handleWeekendsToggle() {
       this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
     },
@@ -140,7 +193,7 @@ export default {
       calendarApi.unselect() // clear date selection
       if (selectInfo.startStr) {
         calendarApi.addEvent({
-          //   id: createEventId(),
+          id: createEventId(),
           title: 'this.form.name',
           start: selectInfo.startStr,
           end: selectInfo.endStr,
@@ -149,8 +202,9 @@ export default {
       }
     },
 
+    // 点击已有预约
     handleEventClick(clickInfo) {
-
+      // TODO 跳转到添加修改预约？
     },
 
     handleEvents(events) {
@@ -164,6 +218,3 @@ export default {
 
 }
 </script>
-
-<style>
-</style>

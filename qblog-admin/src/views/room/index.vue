@@ -6,6 +6,7 @@
           type="primary"
           icon="el-icon-plus"
           plain
+          @click="handleAdd"
         >添加咨询室</el-button>
       </el-col>
     </el-row>
@@ -36,24 +37,26 @@
             min-width="180"
             align="center"
           >
-            <el-button
-              type="primary"
-              icon="el-icon-reading"
-              plain
-              @click="handleView"
-            >查看</el-button>
-            <el-button
-              type="success"
-              icon="el-icon-edit"
-              plain
-              @click="handleEdit"
-            >管理</el-button>
-            <el-button
-              type="danger"
-              icon="el-icon-delete"
-              plain
-              @click="handleDelete"
-            >删除</el-button>
+            <template slot-scope="scope">
+              <el-button
+                type="primary"
+                icon="el-icon-reading"
+                plain
+                @click="handleView(scope.$index, scope.row)"
+              >查看</el-button>
+              <el-button
+                type="success"
+                icon="el-icon-edit"
+                plain
+                @click="handleEdit(scope.$index, scope.row)"
+              >管理</el-button>
+              <el-button
+                type="danger"
+                icon="el-icon-delete"
+                plain
+                @click="handleDelete(scope.$index, scope.row)"
+              >删除</el-button>
+            </template>
           </el-table-column>
         </el-table>
       </el-col>
@@ -67,27 +70,31 @@ export default {
     return {
       view: false,
       edit: true,
-      roomList: [{ name: 'room1', address: '二教103' }, { name: 'room2', address: '二教104' }]
+      roomList: [{ id: '0', name: '咨询室1', address: '二教103' }, { id: '1', name: '咨询室2', address: '二教104' }]
     }
   },
   created() {
     // TODO 获取咨询室信息
   },
   methods: {
-    handleView() {
-      this.$router.push({ name: 'View', params: { op: this.view } })
+    // 查看
+    handleView(index, row) {
+      this.$router.push({ name: 'View', params: { op: this.view, id: row.id, name: row.name, address: row.address } })
     },
-    handleEdit() {
-      this.$router.push({ name: 'View', params: { op: this.edit } })
+    handleAdd() {
+      this.roomList.push({ id: this.roomList.length, name: 'newRoom', address: 'newAddress' })
+      // TODO 存储
     },
-    handleDelete() {
+    // 编辑
+    handleEdit(index, row) {
+      this.$router.push({ name: 'View', params: { op: this.edit, id: row.id, name: row.name, address: row.address } })
+    },
+    handleDelete(index, row) {
       if (confirm(`你确定要删除该咨询室吗？`)) {
+        this.roomList.splice(index, index + 1)
         // TODO 删除咨询室
       }
     }
   }
 }
 </script>
-
-<style>
-</style>

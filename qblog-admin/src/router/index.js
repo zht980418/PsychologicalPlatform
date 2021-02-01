@@ -96,6 +96,7 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/order/orderCalendar',
     name: 'Order',
+    meta: { title: '日程管理', icon: 'el-icon-date' },
     children: [
       {
         path: 'orderCalendar',
@@ -109,6 +110,12 @@ export const constantRoutes = [
         component: () => import('@/views/order/orderPage'),
         meta: { title: '预约详情', icon: 'el-icon-date' },
         hidden: true
+      },
+      {
+        path: 'apply',
+        name: 'Apply',
+        component: () => import('@/views/order/apply'),
+        meta: { title: '排班申请', icon: 'el-icon-s-order' }
       }
     ]
   },
@@ -150,15 +157,29 @@ export const constantRoutes = [
         path: 'list',
         name: 'room',
         component: () => import('@/views/room/index'),
-        meta: { title: '咨询室', icon: 'el-icon-s-home' },
+        meta: { title: '咨询室管理', icon: 'el-icon-s-home' },
       },
       {
-        path: 'test',
+        path: 'view',
         name: 'View',
         component: () => import('@/views/room/view'),
         meta: { title: '咨询室管理', icon: 'el-icon-s-home' },
         hidden: true
       }
+    ]
+  },
+  {
+    path: '/scheduling',
+    component: Layout,
+    name: 'Scheduling',
+    redirect: '/scheduling/list',
+    children: [
+      {
+        path: '/list',
+        name: 'room',
+        component: () => import('@/views/scheduling/index'),
+        meta: { title: '排班管理', icon: 'el-icon-set-up' },
+      },
     ]
   },
 
