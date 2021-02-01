@@ -541,8 +541,6 @@ export default {
         */
       },
       currentEvents: [],
-      currentRoomEvents: [],
-      selection: '', // 暂存selectInfo
       // 其他config
       alertConsultDuration: false,
       alertQuestionVisible: false,
@@ -593,10 +591,6 @@ export default {
     })
   },
   methods: {
-    test() {
-      console.log(this.form.type)
-      console.log(Boolean(this.form.type))
-    },
 
     // 预约日程表
     handleWeekendsToggle() {
@@ -651,7 +645,6 @@ export default {
   // 删除预约
   handleDeleteOrder() {
     // TODO 删除
-    // 根据ID 删
     this.$router.back(-1)
   },
 

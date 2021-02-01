@@ -17,6 +17,33 @@ export const INITIAL_EVENTS = [
   // }
 ]
 
+export const INITIAL_SCHEDULE = [
+  {
+    id: createEventId(),
+    title: '李医生',
+    start: todayStr + 'T09:00:00',
+    end: todayStr + 'T13:00:00'
+  },
+  {
+    id: createEventId(),
+    title: '刘医生',
+    start: todayStr + 'T09:00:00',
+    end: todayStr + 'T13:00:00'
+  },
+  {
+    id: createEventId(),
+    title: '胡医生',
+    start: todayStr + 'T09:00:00',
+    end: todayStr + 'T13:00:00'
+  },
+  {
+    id: createEventId(),
+    title: '胡医生',
+    start: todayStr + 'T13:00:00',
+    end: todayStr + 'T18:00:00'
+  },
+]
+
 // 生成日程id
 export function createEventId() {
   const today = new Date()
