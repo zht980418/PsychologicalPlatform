@@ -1,5 +1,6 @@
 <template>
   <div class="login-container">
+    <div class="blur" />
     <el-form
       ref="loginForm"
       :model="loginForm"
@@ -9,7 +10,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">竹林客栈后台管理系统</h3>
+        <h3 class="title">四川大学心理健康教育教育平台后台管理系统</h3>
       </div>
 
       <el-form-item prop="username">
@@ -42,7 +43,10 @@
           auto-complete="on"
           @keyup.enter.native="handleLogin"
         />
-        <span class="show-pwd" @click="showPwd">
+        <span
+          class="show-pwd"
+          @click="showPwd"
+        >
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
@@ -58,88 +62,88 @@
 </template>
 
 <script>
-import { validUsername } from "@/utils/validate";
+// import { validUsername } from '@/utils/validate'
 
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!value) {
-        callback(new Error("用户名不能为空"));
+        callback(new Error('用户名不能为空'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 5) {
-        callback(new Error("密码不能小于5个字符"));
+        callback(new Error('密码不能小于5个字符'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       loginForm: {
-        username: "",
-        password: "",
+        username: '',
+        password: '',
       },
       loginRules: {
         username: [
-          { required: true, trigger: "blur", validator: validateUsername },
+          { required: true, trigger: 'blur', validator: validateUsername },
         ],
         password: [
-          { required: true, trigger: "blur", validator: validatePassword },
+          { required: true, trigger: 'blur', validator: validatePassword },
         ],
       },
       loading: false,
-      passwordType: "password",
+      passwordType: 'password',
       redirect: undefined,
-    };
+    }
   },
   watch: {
     $route: {
-      handler: function (route) {
-        this.redirect = route.query && route.query.redirect;
+      handler: function(route) {
+        this.redirect = route.query && route.query.redirect
       },
       immediate: true,
     },
   },
   methods: {
     showPwd() {
-      if (this.passwordType === "password") {
-        this.passwordType = "";
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
       } else {
-        this.passwordType = "password";
+        this.passwordType = 'password'
       }
       this.$nextTick(() => {
-        this.$refs.password.focus();
-      });
+        this.$refs.password.focus()
+      })
     },
     handleLogin() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           // 显示 loading
-          this.loading = true;
+          this.loading = true
           this.$store
             // 执行 vuex 中的登录方法
-            .dispatch("user/login", this.loginForm)
+            .dispatch('user/login', this.loginForm)
             .then(() => {
               // this.redirect 为本来要跳转的页面，如果有值的话登录之后直接跳转到本来要跳转的页面，否则跳转到首页
-              this.$router.push({ path: this.redirect || "/" });
+              this.$router.push({ path: this.redirect || '/' })
               // 关闭 loading
-              this.loading = false;
+              this.loading = false
             })
             .catch(() => {
               // 关闭 loading
-              this.loading = false;
-            });
+              this.loading = false
+            })
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
   },
-};
+}
 </script>
 
 <style lang="scss">
@@ -199,6 +203,16 @@ $light_gray: #eee;
   width: 100%;
   background-color: $bg;
   overflow: hidden;
+
+   .blur {
+    // background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1603619028761&di=fbf77e68f9d4ee3884e9c6ca1d72907b&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F8%2F53ed7a4907e17.jpg");
+    background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1603620908596&di=77812b2da1ada6318fd2af28388a7ce0&imgtype=0&src=http%3A%2F%2F01.minipic.eastday.com%2F20180827%2F20180827192747_d3c1239df05a21e179f3e8740eac5d7e_8.jpg");
+    filter: blur(30px);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+  }
 
   .login-form {
     position: relative;

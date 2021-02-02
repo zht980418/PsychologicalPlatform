@@ -5,10 +5,10 @@
 <!--      标题+logo-->
    <Header></Header>
 
-      <el-row >
+      <el-row>
         <el-col :span="24" :offset="0">
           <el-row>
-            <el-col :span="15" :offset="4">
+            <el-col :xs="{span:16,offset:4}" :sm="{span:16,offset:4}" :md="{span:18,offset:4}" :lg="{span:18,offset:5}" :xl="{span:18,offset:5}">
               <NavMenu></NavMenu>
             </el-col>
           </el-row>
@@ -19,19 +19,15 @@
           </el-row>
 
           <el-row>
-            <el-col :span="18" :offset="2">
+            <el-col :xs="{span:24,offset:0}" :sm="{span:21,offset:1}" :md="{span:22,offset:1}" :lg="{span:20,offset:2}" :xl="{span:18,offset:2}">
               <news-board></news-board>
             </el-col>
           </el-row>
-
-          <el-row>
-            <el-col :span="24" :offset="0">
+          <el-divider></el-divider>
               <ButtonBoard></ButtonBoard>
-            </el-col>
-          </el-row>
-
+          <el-divider></el-divider>
           <el-row>
-            <el-col :span="18" :offset="2">
+            <el-col :xs="{span:24,offset:0}" :sm="{span:21,offset:1}" :md="{span:22,offset:1}" :lg="{span:20,offset:2}" :xl="{span:18,offset:2}">
               <MajorFunction></MajorFunction>
             </el-col>
           </el-row>
@@ -48,7 +44,7 @@
 <script>
     import request from "@/http/request";
     import { mapState } from "vuex";
-
+    import 'element-ui/lib/theme-chalk/display.css';
     export default {
         name: "Home",
 
@@ -104,9 +100,12 @@
         },
     };
 </script>
-
+<style>
+ div{
+   min_width:100%;
+ }
+</style>
 <style scoped>
-
     .none-article {
         margin-top: 20px;
     }

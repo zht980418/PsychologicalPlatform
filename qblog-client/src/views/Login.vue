@@ -3,6 +3,11 @@
     <el-row>
       <Header></Header>
     </el-row>
+
+    <el-row>
+      <el-col :span="15" :offset="2"><NavMenu></NavMenu></el-col>
+    </el-row>
+
     <el-divider></el-divider>
     <el-row style="height:300px;margin: 100px 0">
       <el-image style="index:-1;width:100%; position: absolute;" :src="img_BG" fit="contain"></el-image>
@@ -82,6 +87,7 @@ export default {
   components:{
     Footer: ()=>import("@/components/Footer"),
     Header:() => import("@/components/Header"),
+    NavMenu:() => import("@/components/NavMenu"),
   },
   data() {
     return {

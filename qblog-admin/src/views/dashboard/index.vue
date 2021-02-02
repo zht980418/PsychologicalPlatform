@@ -1,64 +1,86 @@
 <template>
   <div class="dashboard">
-    <el-row class="header" :gutter="20">
+    <el-row
+      class="header"
+      :gutter="20"
+    >
       <el-col :span="6">
         <el-card>
           <div class="item">
-            <svg-icon class="icon" icon-class="documentation" />
-            <div class="text">文章数: {{blogInfo.articleCount}}</div>
+            <svg-icon
+              class="icon"
+              icon-class="documentation"
+            />
+            <div class="text">文章数: {{ blogInfo.articleCount }}</div>
           </div>
         </el-card>
       </el-col>
       <el-col :span="6">
         <el-card>
           <div class="item">
-            <svg-icon class="icon" icon-class="eye-open" />
-            <div class="text">浏览量：{{blogInfo.totalViews}}</div>
+            <svg-icon
+              class="icon"
+              icon-class="eye-open"
+            />
+            <div class="text">浏览量：{{ blogInfo.totalViews }}</div>
           </div>
         </el-card>
       </el-col>
       <el-col :span="6">
         <el-card>
           <div class="item">
-            <svg-icon class="icon" icon-class="documentation" />
-            <div class="text">文章数: {{blogInfo.articleCount}}</div>
+            <svg-icon
+              class="icon"
+              icon-class="documentation"
+            />
+            <div class="text">文章数: {{ blogInfo.articleCount }}</div>
           </div>
         </el-card>
       </el-col>
       <el-col :span="6">
         <el-card>
           <div class="item">
-            <svg-icon class="icon" icon-class="eye-open" />
-            <div class="text">浏览量：{{blogInfo.totalViews}}</div>
+            <svg-icon
+              class="icon"
+              icon-class="eye-open"
+            />
+            <div class="text">浏览量：{{ blogInfo.totalViews }}</div>
           </div>
         </el-card>
       </el-col>
     </el-row>
     <el-row class="chart-container">
-      <el-col :span="22" :offset="1">
-        <v-chart class="chart" :options="chartOptions" theme="macarons" />
+      <el-col
+        :span="22"
+        :offset="1"
+      >
+        <v-chart
+          class="chart"
+          :options="chartOptions"
+          theme="macarons"
+        />
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { getBlogInfo, getArticlesChartData } from "@/api/setting";
-import ECharts from "vue-echarts";
-import "echarts/lib/chart/line";
-import "echarts/lib/component/polar";
-import "echarts/lib/component/tooltip";
-import "echarts/lib/component/toolbox";
-import "echarts/lib/component/markPoint";
-import "echarts/lib/component/markLine";
-import "echarts/lib/component/title";
-import "echarts/lib/component/legend";
-import "echarts/lib/component/dataZoom";
+import { mapGetters } from 'vuex'
+import { getBlogInfo, getArticlesChartData } from '@/api/setting'
+import ECharts from 'vue-echarts'
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/polar'
+import 'echarts/lib/component/tooltip'
+import 'echarts/lib/component/toolbox'
+import 'echarts/lib/component/markPoint'
+import 'echarts/lib/component/markLine'
+import 'echarts/lib/component/title'
+import 'echarts/lib/component/legend'
+import 'echarts/lib/component/dataZoom'
 
-let chartOptionsData = {
+const chartOptionsData = {
   title: {
-    text: "发布文章数统计",
+    text: '发布文章数统计',
   },
   toolbox: {
     show: true,
@@ -76,15 +98,15 @@ let chartOptionsData = {
         show: true,
       },
       magicType: {
-        type: ["line", "bar"],
+        type: ['line', 'bar'],
       },
     },
   },
   tooltip: {
-    trigger: "axis",
+    trigger: 'axis',
   },
   legend: {
-    data: ["文章数"],
+    data: ['文章数'],
   },
   xAxis: {
     data: [],
@@ -92,65 +114,65 @@ let chartOptionsData = {
   yAxis: {},
   dataZoom: [
     {
-      type: "slider",
+      type: 'slider',
       start: 0,
       end: 50,
     },
   ],
   series: [
     {
-      name: "文章数",
-      type: "line",
+      name: '文章数',
+      type: 'line',
       data: [],
       label: {
         normal: {
           show: true,
-          position: "top",
+          position: 'top',
         },
       },
       markPoint: {
         data: [
-          { type: "max", name: "最大值" },
-          { type: "min", name: "最小值" },
+          { type: 'max', name: '最大值' },
+          { type: 'min', name: '最小值' },
         ],
       },
       markLine: {
-        data: [{ type: "average", name: "平均值" }],
+        data: [{ type: 'average', name: '平均值' }],
       },
     },
   ],
   animationDuration: 2000,
-};
+}
 
 export default {
-  name: "Dashboard",
-  computed: {
-    ...mapGetters(["name"]),
+  name: 'Dashboard',
+  components: {
+    'v-chart': ECharts,
   },
   data() {
     return {
       blogInfo: {},
       chartOptions: {},
-    };
+    }
   },
-  components: {
-    "v-chart": ECharts,
+  computed: {
+    ...mapGetters(['name']),
   },
-  methods: {},
   created() {
     getBlogInfo().then((res) => {
-      this.blogInfo = res.data;
-    });
+      this.blogInfo = res.data
+    })
     getArticlesChartData().then((res) => {
-      res = res.data;
-      chartOptionsData.xAxis.data = res.xaxisData;
-      chartOptionsData.series[0].data = res.yaxisData;
-      let len = res.xaxisData.length;
-      chartOptionsData.dataZoom[0].end = len < 10 ? 100 : 1000 / len;
-      this.chartOptions = chartOptionsData;
-    });
+      res = res.data
+      chartOptionsData.xAxis.data = res.xaxisData
+      chartOptionsData.series[0].data = res.yaxisData
+      const len = res.xaxisData.length
+      chartOptionsData.dataZoom[0].end = len < 10 ? 100 : 1000 / len
+      this.chartOptions = chartOptionsData
+    })
   },
-};
+  methods: {},
+}
 </script>
 
 <style lang="scss" scoped>

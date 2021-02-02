@@ -73,11 +73,11 @@ const routes = [
     meta: {
       title: "心理测量问卷",
     },
-    children:[
-      {path:"quiz1", component: () => import("@/views/quiz/Quiz1.vue")},
-      {path:"quiz2", component: () => import("@/views/quiz/Quiz2.vue")},
-      {path:"quiz3", component: () => import("@/views/quiz/Quiz3.vue")},
-      {path:"quiz4", component: () => import("@/views/quiz/Quiz4.vue")},
+    children: [
+      { path: "quiz1", component: () => import("@/views/quiz/Quiz1.vue") },
+      { path: "quiz2", component: () => import("@/views/quiz/Quiz2.vue") },
+      { path: "quiz3", component: () => import("@/views/quiz/Quiz3.vue") },
+      { path: "quiz4", component: () => import("@/views/quiz/Quiz4.vue") },
     ]
   },
   {
@@ -87,12 +87,20 @@ const routes = [
     meta: {
       title: "心理咨询预约",
     },
-    children:[
-      {path:"doctorlist", component: () => import("@/views/order/DoctorList.vue")},
-      {path:"orderform", component: () => import("@/views/order/OrderForm.vue")},
-      {name:"ordertable", path:"ordertable", component: () => import("@/views/order/OrderTable.vue")},
+    children: [
+      { path: "doctorlist", component: () => import("@/views/order/DoctorList.vue") },
+      { path: "orderform", component: () => import("@/views/order/OrderForm.vue") },
+      { name: "ordertable", path: "ordertable", component: () => import("@/views/order/OrderTable.vue") },
     ]
   },
+  {
+    path: "/info",
+    name: "Info",
+    component: () => import("@/views/info/index.vue"),
+    meta: {
+      title: "个人中心"
+    }
+  }
 ]
 
 const router = new VueRouter({

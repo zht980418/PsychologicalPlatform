@@ -16,9 +16,9 @@
           <tr>{{item.timelist}}</tr>
           <div class="bottom clearfix">
             <el-button
-              type="text"
-              class="button"
+              type="primary"
               @click="goToPage(index)"
+              style="float:right;"
             >点击预约</el-button>
           </div>
         </div>
@@ -36,11 +36,6 @@
 .bottom {
   margin-top: 13px;
   line-height: 12px;
-}
-
-.button {
-  padding: 0;
-  float: right;
 }
 
 .image {

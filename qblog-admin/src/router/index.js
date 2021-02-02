@@ -94,26 +94,92 @@ export const constantRoutes = [
   {
     path: '/order',
     component: Layout,
-    redirect: '/order/list',
+    redirect: '/order/orderCalendar',
     name: 'Order',
-    meta: { title: '我的日程', icon: 'el-icon-date' },
+    meta: { title: '日程管理', icon: 'el-icon-date' },
     children: [
       {
-        path: 'list',
-        name: 'List',
+        path: 'orderCalendar',
+        name: 'OrderCalendar',
         component: () => import('@/views/order/order'),
         meta: { title: '我的日程', icon: 'el-icon-date' }
+      },
+      {
+        path: 'orderPage',
+        name: 'OrderPage',
+        component: () => import('@/views/order/orderPage'),
+        meta: { title: '预约详情', icon: 'el-icon-date' },
+        hidden: true
+      },
+      {
+        path: 'apply',
+        name: 'Apply',
+        component: () => import('@/views/order/apply'),
+        meta: { title: '排班申请', icon: 'el-icon-s-order' }
       }
     ]
   },
   {
-    path: 'external-link',
+    path: '/info',
     component: Layout,
+    redirect: '/info',
+    name: 'Info',
     children: [
       {
-        path: 'https://www.gitee.com/qianyucc/',
-        meta: { title: '码云', icon: 'link' }
+        path: 'info',
+        name: 'info',
+        component: () => import('@/views/info/index'),
+        meta: { title: '个人中心', icon: 'el-icon-user' },
       }
+    ]
+  },
+  {
+    path: '/record',
+    component: Layout,
+    redirect: '/record',
+    name: 'Record',
+    children: [
+      {
+        path: 'record',
+        name: 'record',
+        component: () => import('@/views/record/index'),
+        meta: { title: '咨询病历', icon: 'el-icon-notebook-1' },
+      }
+    ]
+  },
+  {
+    path: '/room',
+    component: Layout,
+    redirect: '/room/list',
+    name: 'Room',
+    children: [
+      {
+        path: 'list',
+        name: 'room',
+        component: () => import('@/views/room/index'),
+        meta: { title: '咨询室管理', icon: 'el-icon-s-home' },
+      },
+      {
+        path: 'view',
+        name: 'View',
+        component: () => import('@/views/room/view'),
+        meta: { title: '咨询室管理', icon: 'el-icon-s-home' },
+        hidden: true
+      }
+    ]
+  },
+  {
+    path: '/scheduling',
+    component: Layout,
+    name: 'Scheduling',
+    redirect: '/scheduling/list',
+    children: [
+      {
+        path: '/list',
+        name: 'room',
+        component: () => import('@/views/scheduling/index'),
+        meta: { title: '排班管理', icon: 'el-icon-set-up' },
+      },
     ]
   },
 

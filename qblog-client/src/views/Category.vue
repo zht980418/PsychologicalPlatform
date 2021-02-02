@@ -4,6 +4,11 @@
       <Header></Header>
       <el-divider></el-divider>
     </el-row>
+
+    <el-row>
+      <el-col :span="15" :offset="3"><NavMenu></NavMenu></el-col>
+    </el-row>
+
     <el-row :gutter="0" style="height: 800px">
       <el-col :span="14" :offset="5">
         <router-link
@@ -49,7 +54,8 @@ export default {
   components: {
     ArticleItem: () => import("@/components/ArticleItem.vue"),
     Footer: ()=>import("@/components/Footer"),
-    Header:() => import("@/components/Header")
+    Header:() => import("@/components/Header"),
+    NavMenu:() => import("@/components/NavMenu"),
   },
   methods: {
     getArticlesInCategoryView(page, limit) {
