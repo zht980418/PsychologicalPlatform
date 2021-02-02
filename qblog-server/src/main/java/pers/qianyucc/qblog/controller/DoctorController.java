@@ -26,6 +26,12 @@ public class DoctorController {
     @ApiImplicitParam(name = "name", value = "医生姓名", required = true, dataType = "String", paramType = "path")
     public Results<List<DoctorVO>> getDoctordate(@PathVariable String name){
         List<DoctorVO> doctortime = doctorService.findByName(name);
+        System.out.println("#############doctorlist"+doctortime);
         return Results.ok(doctortime);
     }
+//    public List<DoctorVO> getDoctordate(@PathVariable String name){
+//        List<DoctorVO> doctortime = doctorService.findByName(name);
+//        System.out.println("#############doctorlist"+doctortime);
+//        return doctortime;
+//    }
 }

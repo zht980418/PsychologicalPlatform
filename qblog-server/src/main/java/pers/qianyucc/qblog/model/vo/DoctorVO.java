@@ -15,12 +15,17 @@ public class DoctorVO {
     private Integer id;
     private String name;
     private String time;
+    private String daysOfWeek;
+    private String startTime;
+    private String endTime;
     private List<Timelist> items;
 
     @Data
     @Builder
     public static class Timelist {
-        private String time;
+        private String daysOfWeek;
+        private String startTime;
+        private String endTime;
 
     }
 

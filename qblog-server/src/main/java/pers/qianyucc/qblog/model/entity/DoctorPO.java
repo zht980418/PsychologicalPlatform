@@ -14,4 +14,7 @@ public class DoctorPO implements Serializable {
     private Integer id;
     private String time;
     private String name;
+    private String daysOfWeek;
+    private String startTime;
+    private String endTime;
 }

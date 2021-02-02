@@ -32,13 +32,12 @@ public class DoctorService {
         QueryWrapper<DoctorPO> wrapper = new QueryWrapper<>();
 //        查询语句
         wrapper.eq("name",name)
-                .select("time");
+                .select("daysOfWeek","startTime","endTime");
         List<Map<String, Object>> maps = doctorMapper.selectMaps(wrapper);
-        System.out.println("#############doctorlist"+maps);
+//        System.out.println("#############doctorlist"+maps);
         for(int i =0; i<maps.size(); i++){
-            res.add(maps.get(i).get("time"));
+            res.add(maps.get(i));
         }
-        System.out.println("#############doctorlist"+res);
         return res;
     }
 }
