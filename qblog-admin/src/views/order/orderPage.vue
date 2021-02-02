@@ -1,4 +1,4 @@
-修改预约具体信息，对用户数据做操作，日程表信息返回上一个页面
+
 <template>
   <div class="app-container">
     <el-row>
@@ -476,12 +476,11 @@ export default {
   },
   data() {
     return {
-      doctorname: this.$route.params.doctorname,
+      doctorId: this.$route.params.doctorId,
       initVisible: this.$route.params.editType,
       orderSelectInfo: this.$route.params.selectInfo,
       calendarVisible: false,
       formLabelWidth: '120px',
-
       // 日历参数
       roomConfig: {
         plugins: [
@@ -522,7 +521,7 @@ export default {
           }
         ],
         selectable: true,
-        selectMirror: true,
+        selectMirror: false,
         dayMaxEvents: true,
         weekends: true,
         allDaySlot: false,
@@ -576,10 +575,11 @@ export default {
   },
   created() {
     this.roomConfig.businessHours = defaultConstraint()
+    //  限制信息
     this.roomConfig.selectConstraint = defaultConstraint()
     console.log(this.orderSelectInfo)
     this.form.ordertime = this.orderSelectInfo.event.start
-    getConstraint(this.doctorname).then((res) => {
+    getConstraint(this.doctorId).then((res) => {
       // TODO 获取预约信息
       // this.roomConfig.selectConstraint = res // 传入限制时间数组
     }).catch((err) => {
@@ -659,7 +659,7 @@ export default {
 
   getForm() {
     const params = {
-      doctorname: this.doctorname,
+      doctorId: this.doctorId,
       type: this.form.type,
       name: this.form.name,
       ordertime: this.form.ordertime,

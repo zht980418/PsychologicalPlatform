@@ -65,7 +65,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, defaultConstraint } from '@/utils/event-utils'
-import { getConstraint } from '@/api/order'
+import { getConstraint, getOrder } from '@/api/order'
 import '@fullcalendar/core/locales/zh-cn'
 
 export default {
@@ -76,7 +76,7 @@ export default {
     return {
       Init: true,
       Update: false,
-      doctorname: this.$route.params.doctorname,
+      doctorId: this.$route.params.doctorId,
       timelist: this.$route.params.timelist,
       formLabelWidth: '120px',
       // 日历参数
@@ -119,7 +119,7 @@ export default {
           }
         ],
         selectable: true,
-        selectMirror: true,
+        selectMirror: false,
         dayMaxEvents: true,
         weekends: true,
         allDaySlot: false,
@@ -141,17 +141,26 @@ export default {
     }
   },
   created() {
-    // TODO 获取日程
-    // TODO 获取时间限制
-    this.calendarOptions.businessHours = defaultConstraint()
-    this.calendarOptions.selectConstraint = defaultConstraint()
-    getConstraint(this.doctorname).then((res) => {
-      // this.calendarOptions.selectConstraint = res // 传入限制时间数组
+    // 获取日程
+    getOrder(this.doctorId).then((res) => {
+      this.initialEvents = res
     }).catch((err) => {
       console.log(err)
       this.$notify.error({
         title: '提示',
         message: '网络忙，预约日程表获取失败',
+      })
+    })
+    // 获取时间限制
+    this.calendarOptions.businessHours = defaultConstraint()
+    this.calendarOptions.selectConstraint = defaultConstraint()
+    getConstraint(this.doctorId).then((res) => {
+      this.calendarOptions.selectConstraint = res // 传入限制时间数组
+    }).catch((err) => {
+      console.log(err)
+      this.$notify.error({
+        title: '提示',
+        message: '网络忙，日程表限制信息获取失败',
       })
     })
   },
@@ -160,12 +169,12 @@ export default {
       this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
     },
     handleDateSelect(selectInfo) {
-      this.$router.push({ name: 'OrderPage', params: { editType: this.Init, selectInfo: selectInfo } })
+      this.$router.push({ name: 'OrderPage', params: { doctorId: this.doctorId, editType: this.Init, selectInfo: selectInfo } })
     },
 
     // 点击已有预约
     handleEventClick(clickInfo) {
-      this.$router.push({ name: 'OrderPage', params: { editType: this.Update, selectInfo: clickInfo } })
+      this.$router.push({ name: 'OrderPage', params: { doctorId: this.doctorId, editType: this.Update, selectInfo: clickInfo } })
     },
 
     handleEvents(events) {
