@@ -177,7 +177,7 @@ export default {
     }
   },
   created() {
-    request.getConstraint().then((res) => {
+    request.getConstraint(this.doctorname).then((res) => {
       this.calendarOptions.selectConstraint = res //传入限制时间数组
     }).catch((err) => {
       console.log(err);

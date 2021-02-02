@@ -85,8 +85,9 @@ export default {
       }
     }).then(res => res.data);
   },
-  getConstraint() {
-    return instance.get(urls.doctorname).then(res => res.data)
+  getConstraint(name) {
+    console.log(urls.doctordate+'/'+name)
+    return instance.get(urls.doctordate+'/'+name).then(res => res.data)
 
   },
   postMessages(message) {
