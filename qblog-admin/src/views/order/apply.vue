@@ -21,6 +21,10 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_SCHEDULE, createEventId } from '@/utils/event-utils'
+import {
+  getSchedule, addApplication, deleteApplication
+
+} from '@/api/schedule'
 import '@fullcalendar/core/locales/zh-cn'
 
 export default {
@@ -29,8 +33,8 @@ export default {
   },
   data() {
     return {
-      // doctorname: this.$route.params.doctorname,
-      doctorname: '李医生',
+      // doctorId: this.$route.params.doctorId,
+      doctorId: '李医生',
       roomConfig: {
         plugins: [
           dayGridPlugin,
@@ -83,6 +87,17 @@ export default {
     }
   },
   created() {
+    // 获取排班表
+    getSchedule().then((res) => {
+      this.roomConfig.initialEvents = res
+      console.log('获取成功')
+    }).catch((err) => {
+      console.log(err)
+      this.$notify.error({
+        title: '提示',
+        message: '网络忙，排班表获取失败',
+      })
+    })
   },
   methods: {
     handleWeekendsToggle() {
@@ -93,39 +108,83 @@ export default {
     handleDateSelect(selectInfo) {
       if (confirm('你确定要申请该时段排班吗？')) {
         const calendarApi = selectInfo.view.calendar
-        console.log('点击')
         calendarApi.unselect() // clear date selection
+        const appId = createEventId()
         calendarApi.addEvent({
-          id: createEventId(),
-          title: this.doctorname,
+          id: appId,
+          title: this.doctorId,
           start: selectInfo.startStr,
           end: selectInfo.endStr,
-          allDay: selectInfo.allDay
         })
-        // TODO 存储
+        // 存储
+        const params = { appId: appId, doctorId: this.doctorId, start: selectInfo.startStr, end: selectInfo.endStr, daysOfWeek: selectInfo.start.getDay() }
+        addApplication(params).then((res) => {
+          if (res === true) {
+            this.$notify.success({
+              title: '提示',
+              message: '排班申请成功',
+            })
+          }
+        }).catch((err) => {
+          console.log(err)
+          this.$notify.error({
+            title: '提示',
+            message: '网络忙，排班申请失败',
+          })
+        })
       }
     },
     // 点击已有预约
     handleEventClick(clickInfo) {
-      if (clickInfo.event.title === this.doctorname) {
+      if (clickInfo.event.title === this.doctorId) {
         if (confirm(`你确定要取消该排班申请吗？ '${clickInfo.event.title}'`)) {
-          clickInfo.event.remove()
-          this.form.room = ''
-          // TODO 删除预约
+          deleteApplication().then((res) => {
+            clickInfo.event.remove()
+            this.$notify.success({
+              title: '提示',
+              message: '排班删除成功',
+            })
+          }).catch((err) => {
+            console.log(err)
+            this.$notify.error({
+              title: '提示',
+              message: '网络忙，排班删除失败',
+            })
+          })
         }
       } else {
         if (confirm('你确定要申请该时段排班吗？')) {
           const calendarApi = clickInfo.view.calendar
-          console.log('点击')
           calendarApi.unselect() // clear date selection
+          const appId = createEventId()
           calendarApi.addEvent({
-            id: createEventId(),
-            title: this.doctorname,
+            id: appId,
+            title: this.doctorId,
+            start: clickInfo.event.startStr,
+            end: clickInfo.event.endStr
+          })
+          // 存储
+          const params = {
+            appId: appId,
+            doctorId: this.doctorId,
             start: clickInfo.event.startStr,
             end: clickInfo.event.endStr,
-            allDay: clickInfo.event.allDay
+            daysOfWeek: clickInfo.event.start.getDay()
+          }
+          addApplication(params).then((res) => {
+            if (res === true) {
+              this.$notify.success({
+                title: '提示',
+                message: '排班申请成功',
+              })
+            }
+          }).catch((err) => {
+            console.log(err)
+            this.$notify.error({
+              title: '提示',
+              message: '网络忙，排班申请失败',
+            })
           })
-          // TODO 存储
         }
       }
     },

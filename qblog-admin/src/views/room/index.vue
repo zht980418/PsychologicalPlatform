@@ -42,13 +42,13 @@
                 type="primary"
                 icon="el-icon-reading"
                 plain
-                @click="handleView(scope.$index, scope.row)"
+                @click="handleView(scope.row)"
               >查看</el-button>
               <el-button
                 type="success"
                 icon="el-icon-edit"
                 plain
-                @click="handleEdit(scope.$index, scope.row)"
+                @click="handleEdit(scope.row)"
               >管理</el-button>
               <el-button
                 type="danger"
@@ -65,6 +65,8 @@
 </template>
 
 <script>
+import { getRoomInfo, addRoomInfo, deleteRoomInfo } from '@/api/room'
+
 export default {
   data() {
     return {
@@ -74,25 +76,63 @@ export default {
     }
   },
   created() {
-    // TODO 获取咨询室信息
+    // 获取咨询室list
+    getRoomInfo().then((res) => {
+      this.room = res // 传入咨询室列表
+    }).catch((err) => {
+      console.log(err)
+      this.$notify.error({
+        title: '提示',
+        message: '网络忙，咨询室信息获取失败',
+      })
+    })
   },
   methods: {
     // 查看
-    handleView(index, row) {
+    handleView(row) {
       this.$router.push({ name: 'View', params: { op: this.view, id: row.id, name: row.name, address: row.address } })
     },
     handleAdd() {
-      this.roomList.push({ id: this.roomList.length, name: 'newRoom', address: 'newAddress' })
-      // TODO 存储
+      const params = { id: this.roomList.length, name: 'newRoom', address: 'newAddress' }
+      this.roomList.push(params)
+      addRoomInfo(params).then((res) => {
+        if (res === true) {
+          this.$notify.success({
+            title: '提示',
+            message: '咨询室添加成功',
+          })
+        }
+      }).catch((err) => {
+        console.log(err)
+        this.$notify.error({
+          title: '提示',
+          message: '网络忙，咨询室添加失败',
+        })
+      })
     },
-    // 编辑
-    handleEdit(index, row) {
+    // 编辑咨询室信息
+    handleEdit(row) {
       this.$router.push({ name: 'View', params: { op: this.edit, id: row.id, name: row.name, address: row.address } })
     },
+
+    // 删除咨询室信息
     handleDelete(index, row) {
       if (confirm(`你确定要删除该咨询室吗？`)) {
         this.roomList.splice(index, index + 1)
-        // TODO 删除咨询室
+        deleteRoomInfo(row.id).then((res) => {
+          if (res === true) {
+            this.$notify.success({
+              title: '提示',
+              message: '咨询室删除成功',
+            })
+          }
+        }).catch((err) => {
+          console.log(err)
+          this.$notify.error({
+            title: '提示',
+            message: '网络忙，咨询室删除失败',
+          })
+        })
       }
     }
   }

@@ -36,7 +36,6 @@
                   type="datetime"
                   value-format="timestamp"
                   start-placeholder="开始时间"
-                  @change="test"
                 />
               </el-col>
               <el-col
@@ -466,8 +465,9 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, createEventId, defaultConstraint } from '@/utils/event-utils'
-import { getConstraint, postOrder } from '@/api/order'
+import { INITIAL_EVENTS, defaultConstraint } from '@/utils/event-utils'
+import { getOrder, postOrder, deleteOrder } from '@/api/order'
+import { getRoomConstraint, getRoomCalendar } from '@/api/room'
 import '@fullcalendar/core/locales/zh-cn'
 
 export default {
@@ -520,7 +520,7 @@ export default {
             endTime: '18:00' // 6pm
           }
         ],
-        selectable: true,
+        selectable: false,
         selectMirror: false,
         dayMaxEvents: true,
         weekends: true,
@@ -548,83 +548,73 @@ export default {
       alertHistoryVisible: false,
       alertTestVisible: false,
       form: {
-        type: '',
-        ordertime: '',
-        name: '',
-        gender: '',
-        birth: '',
-        occupation: '',
-        phone: '',
-        address: '',
-        emergency: '',
-        emergencyphone: '',
-        question: '',
-        family: '',
-        expectation: '',
-        history: '',
-        test: '',
-        sleep: '',
-        relationship: '',
-        stress: '',
-        mood: '',
-        hurt: '',
-        suicide: '',
-        room: '',
+        orderId: this.$route.params.orderId, // 预约编号
+        uid: '', // 来访者id
+        type: '', // 线上/线下预约
+        ordertime: this.$route.params.selectInfo.event.start, // 预约时间
+        name: '', // 来访者姓名
+        gender: '', // 性别
+        birth: '', // 生日
+        occupation: '', // 职业
+        phone: '', // 电话
+        address: '', // 地址
+        emergency: '', // 紧急联系人
+        emergencyphone: '', // 紧急联系电话
+        question: '', // 来询问题
+        family: '', // 家庭情况
+        expectation: '', // 咨询期望
+        history: '', // 咨询历史
+        test: '', // 心理测试
+        sleep: '', // 睡眠状况
+        relationship: '', // 人际关系
+        stress: '', // 压力
+        mood: '', // 心情
+        hurt: '', // 自伤
+        suicide: '', // 自杀
+        room: '', // 咨询室
       },
     }
   },
   created() {
-    this.roomConfig.businessHours = defaultConstraint()
-    //  限制信息
-    this.roomConfig.selectConstraint = defaultConstraint()
-    console.log(this.orderSelectInfo)
-    this.form.ordertime = this.orderSelectInfo.event.start
-    getConstraint(this.doctorId).then((res) => {
-      // TODO 获取预约信息
-      // this.roomConfig.selectConstraint = res // 传入限制时间数组
+    // 获取预约form
+    getOrder(this.form.orderId).then((res) => {
+      this.form = res
     }).catch((err) => {
       console.log(err)
       this.$notify.error({
         title: '提示',
-        message: '网络忙，预约日程表获取失败',
+        message: '网络忙，预约信息获取失败',
       })
     })
   },
   methods: {
-
-    // 预约日程表
     handleWeekendsToggle() {
       this.roomConfig.weekends = !this.roomConfig.weekends // update a property
     },
-    // 咨询室
+    // 选择咨询室
     handleCalendarChange() {
-      // TODO 获取room数据
-      console.log(this.form.room)
+      this.roomConfig.businessHours = defaultConstraint()
+      this.roomConfig.selectConstraint = defaultConstraint()
+      getRoomConstraint(this.form.room).then((res) => {
+        this.roomConfig.selectConstraint = res // 传入限制时间数组
+        getRoomCalendar(this.form.room).then((res) => {
+          this.roomConfig.initialEvents = res // 传入咨询室日程
+        }).catch((err) => {
+          console.log(err)
+          this.$notify.error({
+            title: '提示',
+            message: '网络忙，咨询室日程获取失败',
+          })
+        })
+      }).catch((err) => {
+        console.log(err)
+        this.$notify.error({
+          title: '提示',
+          message: '网络忙，咨询室限制信息获取失败',
+        })
+      })
     },
 
-    // 新增预约
-    handleDateSelect(selectInfo) {
-      const calendarApi = selectInfo.view.calendar
-      calendarApi.unselect() // clear date selection
-      if (this.form.name) {
-        calendarApi.addEvent({
-          id: createEventId(),
-          title: this.form.name,
-          start: selectInfo.startStr,
-          end: selectInfo.endStr,
-          allDay: selectInfo.allDay
-        })
-        postOrder()
-      }
-    },
-    // 点击已有预约
-    handleEventClick(clickInfo) {
-      if (confirm(`你确定要取消该预约吗？ '${clickInfo.event.title}'`)) {
-        clickInfo.event.remove()
-        this.form.room = ''
-        // TODO 删除预约
-      }
-    },
     handleEvents(events) {
       this.currentEvents = events
     },
@@ -635,52 +625,92 @@ export default {
     // 预约信息处理
     // 添加预约
     handleAddOrder() {
-      // TODO 存储
-      postOrder(this.getForm())
-      // 传参，日程+1
-      this.$router.back(-1)
+      postOrder(this.getForm()).then((res) => {
+        console.log('添加成功')
+        this.$notify.success({
+          title: '提示',
+          message: '预约添加成功',
+        })
+        this.$router.back(-1)
+      }).catch((err) => {
+        console.log(err)
+        this.$notify.error({
+          title: '提示',
+          message: '网络忙，预约添加失败',
+        })
+      })
+    },
+    // 删除预约
+    handleDeleteOrder() {
+      deleteOrder(this.form.orderId).then((res) => {
+        console.log('删除成功')
+        this.$notify.success({
+          title: '提示',
+          message: '预约删除成功',
+        })
+        this.$router.back(-1)
+      }).catch((err) => {
+        console.log(err)
+        this.$notify.error({
+          title: '提示',
+          message: '网络忙，预约删除失败',
+        })
+      })
+    },
+
+    // 修改预约
+    handleUpdateOrder() {
+      deleteOrder(this.form.orderId).then((res) => {
+        console.log('删除成功')
+        postOrder(this.getForm()).then((res) => {
+          console.log('修改成功')
+          this.$notify.success({
+            title: '提示',
+            message: '预约修改成功',
+          })
+          this.$router.back(-1)
+        }).catch((err) => {
+          console.log(err)
+          this.$notify.error({
+            title: '提示',
+            message: '网络忙，预约修改失败',
+          })
+        })
+      }).catch((err) => {
+        console.log(err)
+        this.$notify.error({
+          title: '提示',
+          message: '网络忙，预约删除失败',
+        })
+      })
+    },
+
+    getForm() {
+      const params = {
+        doctorId: this.doctorId,
+        orderId: this.form.orderId,
+        uid: this.form.uid,
+        type: this.form.type,
+        name: this.form.name,
+        ordertime: this.form.ordertime,
+        gender: this.form.gender,
+        birth: this.form.birth,
+        occupation: this.form.occupation,
+        phone: this.form.phone.phone,
+        address: this.form.address,
+        emergency: this.form.emergency,
+        emergencyphone: this.form.emergencyphone,
+        question: this.form.question,
+        family: this.form.family,
+        expectation: this.form.expectation,
+        history: this.form.history,
+        test: this.form.test,
+        room: this.form.room,
+        start: this.orderSelectInfo.startStr,
+        end: this.orderSelectInfo.endStr
+      }
+      return params
     }
   },
-
-  // 删除预约
-  handleDeleteOrder() {
-    // TODO 删除
-    this.$router.back(-1)
-  },
-
-  // 修改预约
-  handleUpdateOrder() {
-    // 删除
-    // 根据ID 删
-    // 添加
-    postOrder(this.getForm())
-    this.$router.back(-1)
-  },
-
-  getForm() {
-    const params = {
-      doctorId: this.doctorId,
-      type: this.form.type,
-      name: this.form.name,
-      ordertime: this.form.ordertime,
-      gender: this.form.gender,
-      birth: this.form.birth,
-      occupation: this.form.occupation,
-      phone: this.form.phone.phone,
-      address: this.form.address,
-      emergency: this.form.emergency,
-      emergencyphone: this.form.emergencyphone,
-      question: this.form.question,
-      family: this.form.family,
-      expectation: this.form.expectation,
-      history: this.form.history,
-      test: this.form.test,
-      room: this.form.room,
-      start: this.orderSelectInfo.startStr,
-      end: this.orderSelectInfo.endStr,
-      allDay: this.orderSelectInfo.allDay
-    }
-    return params
-  }
 }
 </script>

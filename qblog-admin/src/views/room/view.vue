@@ -89,8 +89,8 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, createEventId, defaultConstraint } from '@/utils/event-utils'
+import { getRoomConstraint, getRoomCalendar, EditRoomInfo } from '@/api/room'
 import '@fullcalendar/core/locales/zh-cn'
-// import { getConstraint, postOrder } from '@/api/order'
 
 export default {
   components: {
@@ -98,6 +98,8 @@ export default {
   },
   data() {
     return {
+      Init: true,
+      Update: false,
       alertVisible: false,
       formLabelWidth: '120px',
       room: {
@@ -175,12 +177,44 @@ export default {
     // 获取限制信息
     this.roomConfig.businessHours = defaultConstraint()
     this.roomConfig.selectConstraint = defaultConstraint()
-    // TODO  获取日程表数据
+    // 获取日程表数据
+    getRoomConstraint(this.form.room).then((res) => {
+      this.roomConfig.selectConstraint = res // 传入限制时间数组
+      getRoomCalendar(this.form.room).then((res) => {
+        this.roomConfig.initialEvents = res // 传入咨询室日程
+      }).catch((err) => {
+        console.log(err)
+        this.$notify.error({
+          title: '提示',
+          message: '网络忙，咨询室日程获取失败',
+        })
+      })
+    }).catch((err) => {
+      console.log(err)
+      this.$notify.error({
+        title: '提示',
+        message: '网络忙，咨询室限制信息获取失败',
+      })
+    })
   },
   methods: {
     // 基本信息
     handleInfoUpdate() {
-      // TODO 修改基本信息
+      // 修改基本信息
+      EditRoomInfo(this.room).then((res) => {
+        if (res === true) {
+          this.$notify.success({
+            title: '提示',
+            message: '咨询室信息修改成功',
+          })
+        }
+      }).catch((err) => {
+        console.log(err)
+        this.$notify.error({
+          title: '提示',
+          message: '网络忙，咨询室信息修改失败',
+        })
+      })
     },
 
     // 预约
@@ -189,22 +223,25 @@ export default {
     },
 
     handleDateSelect(selectInfo) {
-      const calendarApi = selectInfo.view.calendar
-      calendarApi.unselect() // clear date selection
-      if (selectInfo.startStr) {
-        calendarApi.addEvent({
-          id: createEventId(),
-          title: 'this.form.name',
-          start: selectInfo.startStr,
-          end: selectInfo.endStr,
-          allDay: selectInfo.allDay
-        })
-      }
+      // const calendarApi = selectInfo.view.calendar
+      // calendarApi.unselect() // clear date selection
+      // if (selectInfo.startStr) {
+      //   calendarApi.addEvent({
+      //     id: createEventId(),
+      //     title: 'this.form.name',
+      //     start: selectInfo.startStr,
+      //     end: selectInfo.endStr,
+      //     allDay: selectInfo.allDay
+      //   })
+      // }
+      // TODO doctorId有问题
+      this.$router.push({ name: 'OrderPage', params: { doctorId: this.doctorId, editType: this.Init, selectInfo: selectInfo, orderId: createEventId() } })
     },
 
     // 点击已有预约
     handleEventClick(clickInfo) {
-      // TODO 跳转到添加修改预约？
+      // TODO doctorId有问题
+      this.$router.push({ name: 'OrderPage', params: { doctorId: this.doctorId, editType: this.Update, selectInfo: clickInfo, orderId: clickInfo.event.id } })
     },
 
     handleEvents(events) {

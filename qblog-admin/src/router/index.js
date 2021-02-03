@@ -169,15 +169,15 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/scheduling',
+    path: '/schedule',
     component: Layout,
-    name: 'Scheduling',
-    redirect: '/scheduling/list',
+    name: 'Schedule',
+    redirect: '/schedule/list',
     children: [
       {
         path: '/list',
         name: 'room',
-        component: () => import('@/views/scheduling/index'),
+        component: () => import('@/views/schedule/index'),
         meta: { title: '排班管理', icon: 'el-icon-set-up' },
       },
     ]

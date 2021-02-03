@@ -64,8 +64,8 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, defaultConstraint } from '@/utils/event-utils'
-import { getConstraint, getOrder } from '@/api/order'
+import { INITIAL_EVENTS, defaultConstraint, createEventId } from '@/utils/event-utils'
+import { getDoctorConstraint, getDoctorCalendar } from '@/api/order'
 import '@fullcalendar/core/locales/zh-cn'
 
 export default {
@@ -141,21 +141,21 @@ export default {
     }
   },
   created() {
-    // 获取日程
-    getOrder(this.doctorId).then((res) => {
-      this.initialEvents = res
-    }).catch((err) => {
-      console.log(err)
-      this.$notify.error({
-        title: '提示',
-        message: '网络忙，预约日程表获取失败',
-      })
-    })
     // 获取时间限制
     this.calendarOptions.businessHours = defaultConstraint()
     this.calendarOptions.selectConstraint = defaultConstraint()
-    getConstraint(this.doctorId).then((res) => {
+    getDoctorConstraint(this.doctorId).then((res) => {
       this.calendarOptions.selectConstraint = res // 传入限制时间数组
+      // 获取日程
+      getDoctorCalendar(this.doctorId).then((res) => {
+        this.initialEvents = res // 传入预约信息
+      }).catch((err) => {
+        console.log(err)
+        this.$notify.error({
+          title: '提示',
+          message: '网络忙，预约日程表获取失败',
+        })
+      })
     }).catch((err) => {
       console.log(err)
       this.$notify.error({
@@ -168,13 +168,16 @@ export default {
     handleWeekendsToggle() {
       this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
     },
+
+    // 新建预约
     handleDateSelect(selectInfo) {
-      this.$router.push({ name: 'OrderPage', params: { doctorId: this.doctorId, editType: this.Init, selectInfo: selectInfo } })
+      this.$router.push({ name: 'OrderPage', params: { doctorId: this.doctorId, editType: this.Init, selectInfo: selectInfo, orderId: createEventId() } })
     },
 
     // 点击已有预约
     handleEventClick(clickInfo) {
-      this.$router.push({ name: 'OrderPage', params: { doctorId: this.doctorId, editType: this.Update, selectInfo: clickInfo } })
+      // console.log(clickInfo)
+      this.$router.push({ name: 'OrderPage', params: { doctorId: this.doctorId, editType: this.Update, selectInfo: clickInfo, orderId: clickInfo.event.id } })
     },
 
     handleEvents(events) {
