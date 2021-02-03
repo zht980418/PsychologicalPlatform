@@ -21,6 +21,15 @@ export function getDoctorCalendar(params) {
     }
   })
 }
+// 预约信息，
+// [
+//  {
+//   id: ,
+//   title: ,
+//   start: ,
+//   end:'
+//  },
+// ]
 
 // 获取单个预约信息
 export function getOrder(params) {
@@ -32,6 +41,7 @@ export function getOrder(params) {
     }
   })
 }
+// 返回from表格内容，和下面一样的
 
 // 存储预约信息
 export function postOrder(params) {
@@ -63,6 +73,8 @@ export function postOrder(params) {
     }
   })
 }
+// 把这些信息存在form中，
+// 根据type类型判断线上线下，线下的话还要存储一下room信息，就是把这个预约也添加到咨询室的日程表中
 
 // 删除预约信息
 export function deleteOrder(params) {
@@ -74,3 +86,4 @@ export function deleteOrder(params) {
     }
   })
 }
+// 删预约

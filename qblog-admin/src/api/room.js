@@ -8,6 +8,7 @@ export function getRoomInfo() {
         method: 'get',
     })
 }
+// 咨询室信息【id name address】
 
 // 添加咨询室
 export function addRoomInfo(params) {
@@ -67,3 +68,4 @@ export function getRoomCalendar(params) {
         }
     })
 }
+// 以event的形式返回吧

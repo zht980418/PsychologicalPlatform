@@ -8,6 +8,8 @@ export function getSchedule() {
         method: 'post',
     })
 }
+//以event形式返回吧
+
 // 新增排班
 export function addApplication(params) {
     return request({
