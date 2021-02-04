@@ -40,4 +40,14 @@ public class DoctorService {
         }
         return res;
     }
+    public List selectAll(){
+        ArrayList res = new ArrayList<>();
+        QueryWrapper<DoctorPO> wrapper = new QueryWrapper<>();
+        wrapper.select("name","daysOfWeek","startTime","endTime");
+        List<Map<String, Object>> maps = doctorMapper.selectMaps(wrapper);
+        for(int i =0; i<maps.size(); i++){
+            res.add(maps.get(i));
+        }
+        return res;
+    }
 }
