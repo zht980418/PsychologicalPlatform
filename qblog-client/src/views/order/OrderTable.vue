@@ -19,18 +19,6 @@
           展示周末
         </label>
       </div>
-      <div class='demo-app-sidebar-section'>
-        <h2>所有预约 ({{ currentEvents.length }})</h2>
-        <ul>
-          <li
-            v-for='event in currentEvents'
-            :key='event.id'
-          >
-            <b>{{ event.startStr }}</b>
-            <i>{{ event.title }}</i>
-          </li>
-        </ul>
-      </div>
     </div>
     <div class='demo-app-main'>
       <FullCalendar
