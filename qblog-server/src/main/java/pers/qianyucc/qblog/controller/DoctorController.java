@@ -21,17 +21,22 @@ public class DoctorController {
     @Autowired
     private DoctorService doctorService;
 
-    @ApiOperation("获取工作时间")
+    @ApiOperation("前台根据姓名查询工作时间")
     @GetMapping("/order/doctordate/{name}")
     @ApiImplicitParam(name = "name", value = "医生姓名", required = true, dataType = "String", paramType = "path")
     public Results<List<DoctorVO>> getDoctordate(@PathVariable String name){
         List<DoctorVO> doctortime = doctorService.findByName(name);
-        System.out.println("#############doctorlist"+doctortime);
+//        System.out.println("#############doctorlist"+doctortime);
         return Results.ok(doctortime);
     }
-//    public List<DoctorVO> getDoctordate(@PathVariable String name){
-//        List<DoctorVO> doctortime = doctorService.findByName(name);
-//        System.out.println("#############doctorlist"+doctortime);
-//        return doctortime;
-//    }
+
+    @ApiOperation("查询所有医生工作时间")
+    @GetMapping("/vue-admin-template/order/order")
+    @ApiImplicitParam(name = "time", value = "医生工作时间", required = true, dataType = "String", paramType = "path")
+    public Results<List<DoctorVO>> getWorktime(){
+        List<DoctorVO> worktime = doctorService.selectAll();
+        System.out.println("#############worktime"+worktime);
+        return Results.ok(worktime);
+    }
+
 }
