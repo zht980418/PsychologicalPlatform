@@ -65,7 +65,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, defaultConstraint, createEventId } from '@/utils/event-utils'
-import { getDoctorConstraint, getDoctorCalendar } from '@/api/order'
+import { getDoctorConstraintById, getDoctorCalendarById } from '@/api/order'
 import '@fullcalendar/core/locales/zh-cn'
 
 export default {
@@ -144,10 +144,10 @@ export default {
     // 获取时间限制
     this.calendarOptions.businessHours = defaultConstraint()
     this.calendarOptions.selectConstraint = defaultConstraint()
-    getDoctorConstraint(this.doctorId).then((res) => {
+    getDoctorConstraintById(this.doctorId).then((res) => {
       this.calendarOptions.selectConstraint = res // 传入限制时间数组
       // 获取日程
-      getDoctorCalendar(this.doctorId).then((res) => {
+      getDoctorCalendarById(this.doctorId).then((res) => {
         this.initialEvents = res // 传入预约信息
       }).catch((err) => {
         console.log(err)

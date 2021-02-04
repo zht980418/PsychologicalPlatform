@@ -21,10 +21,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_SCHEDULE, createEventId } from '@/utils/event-utils'
-import {
-  getSchedule, addApplication, deleteApplication
-
-} from '@/api/schedule'
+import { getSchedule, postApplication, deleteApplicationById } from '@/api/schedule'
 import '@fullcalendar/core/locales/zh-cn'
 
 export default {
@@ -118,7 +115,7 @@ export default {
         })
         // 存储
         const params = { appId: appId, doctorId: this.doctorId, start: selectInfo.startStr, end: selectInfo.endStr, daysOfWeek: selectInfo.start.getDay() }
-        addApplication(params).then((res) => {
+        postApplication(params).then((res) => {
           if (res === true) {
             this.$notify.success({
               title: '提示',
@@ -138,7 +135,7 @@ export default {
     handleEventClick(clickInfo) {
       if (clickInfo.event.title === this.doctorId) {
         if (confirm(`你确定要取消该排班申请吗？ '${clickInfo.event.title}'`)) {
-          deleteApplication().then((res) => {
+          deleteApplicationById(clickInfo.event.id).then((res) => {
             clickInfo.event.remove()
             this.$notify.success({
               title: '提示',
@@ -171,7 +168,7 @@ export default {
             end: clickInfo.event.endStr,
             daysOfWeek: clickInfo.event.start.getDay()
           }
-          addApplication(params).then((res) => {
+          postApplication(params).then((res) => {
             if (res === true) {
               this.$notify.success({
                 title: '提示',

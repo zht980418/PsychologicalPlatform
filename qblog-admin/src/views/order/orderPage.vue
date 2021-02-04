@@ -466,8 +466,8 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, defaultConstraint } from '@/utils/event-utils'
-import { getOrder, postOrder, deleteOrder } from '@/api/order'
-import { getRoomConstraint, getRoomCalendar } from '@/api/room'
+import { getOrderById, postOrder, deleteOrderById, updateOrderById } from '@/api/order'
+import { getRoomConstraintById, getRoomCalendarById } from '@/api/room'
 import '@fullcalendar/core/locales/zh-cn'
 
 export default {
@@ -571,13 +571,13 @@ export default {
         mood: '', // 心情
         hurt: '', // 自伤
         suicide: '', // 自杀
-        room: '', // 咨询室
+        roomId: '', // 咨询室
       },
     }
   },
   created() {
     // 获取预约form
-    getOrder(this.form.orderId).then((res) => {
+    getOrderById(this.form.orderId).then((res) => {
       this.form = res
     }).catch((err) => {
       console.log(err)
@@ -595,9 +595,9 @@ export default {
     handleCalendarChange() {
       this.roomConfig.businessHours = defaultConstraint()
       this.roomConfig.selectConstraint = defaultConstraint()
-      getRoomConstraint(this.form.room).then((res) => {
+      getRoomConstraintById(this.form.roomId).then((res) => {
         this.roomConfig.selectConstraint = res // 传入限制时间数组
-        getRoomCalendar(this.form.room).then((res) => {
+        getRoomCalendarById(this.form.roomId).then((res) => {
           this.roomConfig.initialEvents = res // 传入咨询室日程
         }).catch((err) => {
           console.log(err)
@@ -642,7 +642,7 @@ export default {
     },
     // 删除预约
     handleDeleteOrder() {
-      deleteOrder(this.form.orderId).then((res) => {
+      deleteOrderById(this.form.orderId).then((res) => {
         console.log('删除成功')
         this.$notify.success({
           title: '提示',
@@ -660,27 +660,18 @@ export default {
 
     // 修改预约
     handleUpdateOrder() {
-      deleteOrder(this.form.orderId).then((res) => {
-        console.log('删除成功')
-        postOrder(this.getForm()).then((res) => {
-          console.log('修改成功')
-          this.$notify.success({
-            title: '提示',
-            message: '预约修改成功',
-          })
-          this.$router.back(-1)
-        }).catch((err) => {
-          console.log(err)
-          this.$notify.error({
-            title: '提示',
-            message: '网络忙，预约修改失败',
-          })
+      updateOrderById(this.form.orderId, this.getForm()).then((res) => {
+        console.log('修改成功')
+        this.$notify.success({
+          title: '提示',
+          message: '预约信息修改成功',
         })
+        this.$router.back(-1)
       }).catch((err) => {
         console.log(err)
         this.$notify.error({
           title: '提示',
-          message: '网络忙，预约删除失败',
+          message: '网络忙，预约信息修改失败',
         })
       })
     },
@@ -705,7 +696,7 @@ export default {
         expectation: this.form.expectation,
         history: this.form.history,
         test: this.form.test,
-        room: this.form.room,
+        roomId: this.form.roomId,
         start: this.orderSelectInfo.startStr,
         end: this.orderSelectInfo.endStr
       }

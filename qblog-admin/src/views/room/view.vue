@@ -89,7 +89,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, createEventId, defaultConstraint } from '@/utils/event-utils'
-import { getRoomConstraint, getRoomCalendar, EditRoomInfo } from '@/api/room'
+import { getRoomConstraintById, getRoomCalendarById, updateRoomInfoById } from '@/api/room'
 import '@fullcalendar/core/locales/zh-cn'
 
 export default {
@@ -103,7 +103,7 @@ export default {
       alertVisible: false,
       formLabelWidth: '120px',
       room: {
-        id: 'newId',
+        roomId: 'newId',
         name: 'newRoom',
         address: 'newAddress',
       },
@@ -169,7 +169,7 @@ export default {
   },
   created() {
     // 获取room信息
-    this.room.id = this.$route.params.id
+    this.room.roomId = this.$route.params.id
     this.room.name = this.$route.params.name
     this.room.address = this.$route.params.address
     // 获取查看/编辑状态
@@ -178,9 +178,9 @@ export default {
     this.roomConfig.businessHours = defaultConstraint()
     this.roomConfig.selectConstraint = defaultConstraint()
     // 获取日程表数据
-    getRoomConstraint(this.form.room).then((res) => {
+    getRoomConstraintById(this.form.room).then((res) => {
       this.roomConfig.selectConstraint = res // 传入限制时间数组
-      getRoomCalendar(this.form.room).then((res) => {
+      getRoomCalendarById(this.form.room).then((res) => {
         this.roomConfig.initialEvents = res // 传入咨询室日程
       }).catch((err) => {
         console.log(err)
@@ -201,7 +201,7 @@ export default {
     // 基本信息
     handleInfoUpdate() {
       // 修改基本信息
-      EditRoomInfo(this.room).then((res) => {
+      updateRoomInfoById(this.room.id, this.room).then((res) => {
         if (res === true) {
           this.$notify.success({
             title: '提示',
