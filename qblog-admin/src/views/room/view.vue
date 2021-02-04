@@ -169,7 +169,7 @@ export default {
   },
   created() {
     // 获取room信息
-    this.room.roomId = this.$route.params.id
+    this.room.roomId = this.$route.params.roomId
     this.room.name = this.$route.params.name
     this.room.address = this.$route.params.address
     // 获取查看/编辑状态
@@ -201,7 +201,7 @@ export default {
     // 基本信息
     handleInfoUpdate() {
       // 修改基本信息
-      updateRoomInfoById(this.room.id, this.room).then((res) => {
+      updateRoomInfoById(this.room.roomId, this.room).then((res) => {
         if (res === true) {
           this.$notify.success({
             title: '提示',

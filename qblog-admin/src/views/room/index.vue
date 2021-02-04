@@ -72,7 +72,7 @@ export default {
     return {
       view: false,
       edit: true,
-      roomList: [{ id: '0', name: '咨询室1', address: '二教103' }, { id: '1', name: '咨询室2', address: '二教104' }]
+      roomList: [{ roomId: '0', name: '咨询室1', address: '二教103' }, { roomId: '1', name: '咨询室2', address: '二教104' }]
     }
   },
   created() {
@@ -90,10 +90,10 @@ export default {
   methods: {
     // 查看
     handleView(row) {
-      this.$router.push({ name: 'View', params: { op: this.view, id: row.id, name: row.name, address: row.address } })
+      this.$router.push({ name: 'View', params: { op: this.view, roomId: row.roomId, name: row.name, address: row.address } })
     },
     handleAdd() {
-      const params = { id: this.roomList.length, name: 'newRoom', address: 'newAddress' }
+      const params = { roomId: this.roomList.length, name: 'newRoom', address: 'newAddress' }
       this.roomList.push(params)
       postRoomInfo(params).then((res) => {
         if (res === true) {
@@ -112,14 +112,14 @@ export default {
     },
     // 编辑咨询室信息
     handleEdit(row) {
-      this.$router.push({ name: 'View', params: { op: this.edit, id: row.id, name: row.name, address: row.address } })
+      this.$router.push({ name: 'View', params: { op: this.edit, roomId: row.roomId, name: row.name, address: row.address } })
     },
 
     // 删除咨询室信息
     handleDelete(index, row) {
       if (confirm(`你确定要删除该咨询室吗？`)) {
         this.roomList.splice(index, index + 1)
-        deleteRoomInfoById(row.id).then((res) => {
+        deleteRoomInfoById(row.roomId).then((res) => {
           if (res === true) {
             this.$notify.success({
               title: '提示',

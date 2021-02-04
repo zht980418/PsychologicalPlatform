@@ -1,4 +1,3 @@
-
 // let eventGuid = 0
 const todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
 
@@ -32,4 +31,36 @@ export function createEventId() {
   ms = ms < 10 ? ('00' + ms) : (ms < 100 ? ('0' + ms) : ms)
   const id = y + m + d + h + mi + s + ms + ''
   return String(id)
+}
+
+// 生成默认选择限制
+export function defaultConstraint() {
+  const today = new Date()
+  let day = null
+  switch (today.getDay()) {
+    case 1: day = [2, 3, 4, 5]
+      break
+    case 2: day = [3, 4, 5]
+      break
+    case 3: day = [4, 5]
+      break
+    case 4: day = [5]
+      break
+    case 5: return [{
+      daysOfWeek: [5],
+      startTime: '22:00',
+      endTime: '23:00'
+    }]
+    default: day = [1, 2, 3, 4, 5]
+  }
+  return [{
+    daysOfWeek: day,
+    startTime: '09:00',
+    endTime: '12:00'
+  },
+  {
+    daysOfWeek: day,
+    startTime: '14:00',
+    endTime: '18:00'
+  }]
 }

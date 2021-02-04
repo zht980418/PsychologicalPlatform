@@ -8,11 +8,11 @@ export default {
   category: "/category",
   info: "/info",
   timeline: "/timeline",
-  messages:"/messages",
-  quiz:"/quiz",
-  quiz1:"/quizpaper/quiz1",
-  order:"/order",
-  doctorlist:"/order/doctorlist",
-  orderform:"/order/orderform",
-  doctordate:"/order/doctordate"
+  messages: "/messages",
+  quiz: "/quiz",
+  quiz1: "/quizpaper/quiz1",
+  order: "/order",
+  doctorlist: "/order/doctorlist",
+  doctorCalendar: "order/orderCaledar",
+  doctordate: "/order/doctordate",
 }

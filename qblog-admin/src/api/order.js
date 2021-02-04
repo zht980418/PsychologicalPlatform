@@ -47,7 +47,7 @@ export function postOrder(params) {
     method: 'post',
     data: {
       doctorId: params.doctorId,
-      OrderId: params.OrderId,
+      orderId: params.orderId,
       uid: params.uid,
       type: params.type,
       name: params.name,
@@ -93,7 +93,7 @@ export function updateOrderById(orderId, params) {
     method: 'put',
     data: {
       doctorId: params.doctorId,
-      OrderId: params.OrderId,
+      orderId: params.orderId,
       uid: params.uid,
       type: params.type,
       name: params.name,

@@ -3,7 +3,7 @@
     <el-col
       :span="6"
       v-for="(item, index) in doctorlist"
-      :key="item.name"
+      :key="item.doctorId"
       :offset="index > 0 ? 2 : 0"
     >
       <el-card :body-style="{ padding: '0px' }">
@@ -12,7 +12,7 @@
           :src="item.img"
         ></el-image>
         <div style="padding: 14px;">
-          <span>{{item.name}}</span>
+          <span>{{item.doctorId}}</span>
           <tr>{{item.timelist}}</tr>
           <div class="bottom clearfix">
             <el-button
@@ -61,17 +61,17 @@ export default {
       currentDate: new Date(),
       doctorlist: [
         {
-          name: "张三",
+          doctorId: "张三",
           timelist: ["09:00:00", "14:00:00", "16:00:00"],
           img: "https://img1.dxycdn.com/2020/0206/245/3395151617954823081-22.jpg!wh200"
         },
         {
-          name: "李四",
+          doctorId: "李四",
           timelist: ["09:00:00", "14:00:00", "16:00:00"],
           img: "https://img1.dxycdn.com/2020/0206/245/3395151617954823081-22.jpg!wh200"
         },
         {
-          name: "王五",
+          doctorId: "王五",
           timelist: ["09:00:00", "14:00:00", "16:00:00"],
           img: "https://img1.dxycdn.com/2020/0206/245/3395151617954823081-22.jpg!wh200"
         },
@@ -80,13 +80,13 @@ export default {
   },
   methods: {
     goToPage(index) {
-      console.log(this.doctorlist[index].name)
+      console.log(this.doctorlist[index].doctorId)
       this.$router.push(
         {
           name: "ordertable",
           params:
           {
-            doctorname: this.doctorlist[index].name,
+            doctorId: this.doctorlist[index].doctorId,
             timelist: this.doctorlist[index].timelist,
           }
         })

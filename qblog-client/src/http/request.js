@@ -85,12 +85,56 @@ export default {
       }
     }).then(res => res.data);
   },
-  getConstraint(name) {
-    console.log(urls.doctordate+'/'+name)
-    return instance.get(urls.doctordate+'/'+name).then(res => res.data)
-
-  },
   postMessages(message) {
     return instance.post(urls.messages, message).then(res => res.data);
+  },
+
+  /**
+   * 获取医生预约限制条件
+   * @param {doctorId:number} doctorId 医生id
+   */
+  async getConstraintById(doctorId) {
+    return instance.get(urls.doctordate + '/' + doctorId).then(res => res.data)
+  },
+
+  /**
+   * 获取医生预约日程表
+   * @param {doctorId:number} doctorId 医生id
+   */
+  async getCalendarById(doctorId) {
+    return instance.get(urls.doctorCalendar + '/' + doctorId).then(res => res.data)
+  },
+
+  /**
+   * 添加预约
+   * @param {*} form 预约信息
+   */
+  postOrder(form) {
+    console.log(form)
+    return instance.post(urls.doctorCalendar, form).then(res => res.data)
+  },
+
+  /**
+   * 获取预约信息【form】
+   * @param {orderId:number} orderId 预约id
+   */
+  getOrderById(orderId) {
+    return instance.get(urls.order + '/' + orderId).then(res => res.data)
+  },
+
+  /**
+   * 删除预约信息【form】
+   * @param {orderId:number} orderId 预约id
+   */
+  deleteOrderById(orderId) {
+    return instance.delete(urls.order + '/' + orderId).then(res => res.data)
+  },
+
+  /**
+   * 修改预约信息
+   * @param {orderId:number} orderId 预约id
+   */
+  updateOrderById(orderId) {
+    return instance.put(urls.order + '/' + orderId).then(res => res.data)
   }
 }

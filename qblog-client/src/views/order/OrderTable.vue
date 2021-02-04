@@ -460,10 +460,11 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, createEventId } from './event-utils'
-import '@fullcalendar/core/locales/zh-cn'
+import { INITIAL_EVENTS, createEventId, defaultConstraint } from '@/utils/event-utils'
 import request from "@/http/request"
 import TextSample from './textsample'
+import '@fullcalendar/core/locales/zh-cn'
+
 export default {
   components: {
     FullCalendar, // make the <FullCalendar> tag available
@@ -471,7 +472,7 @@ export default {
   },
   data() {
     return {
-      doctorname: this.$route.params.doctorname,
+      doctorId: this.$route.params.doctorId,
       timelist: this.$route.params.timelist,
       calendarOptions: {
         plugins: [
@@ -541,6 +542,8 @@ export default {
       alertHistoryVisible: false,
       alertTestVisible: false,
       form: {
+        orderId: '',
+        uid: '',
         type: '',
         ordertime: '',
         name: '',
@@ -556,8 +559,17 @@ export default {
         expectation: '',
         history: '',
         test: '',
+        sleep: '', // 睡眠状况
+        relationship: '', // 人际关系
+        stress: '', // 压力
+        mood: '', // 心情
+        hurt: '', // 自伤
+        suicide: '', // 自杀
+        roomId: '', // 咨询室
       },
       defaultForm: {
+        orderId: '',
+        uid: '',
         type: '',
         ordertime: '',
         name: '',
@@ -573,52 +585,42 @@ export default {
         expectation: '',
         history: '',
         test: '',
+        sleep: '', // 睡眠状况
+        relationship: '', // 人际关系
+        stress: '', // 压力
+        mood: '', // 心情
+        hurt: '', // 自伤
+        suicide: '', // 自杀
+        roomId: '', // 咨询室
       },
       formLabelWidth: '120px',
     }
   },
   created() {
-    this.calendarOptions.businessHours = this.orderConstraint()
-    this.calendarOptions.selectConstraint = this.orderConstraint()
-    request.getConstraint(this.doctorname).then((res) => {
+    this.calendarOptions.businessHours = defaultConstraint()
+    this.calendarOptions.selectConstraint = defaultConstraint()
+    request.getConstraintById(this.doctorId).then((res) => {
       this.calendarOptions.selectConstraint = res.data //传入限制时间数组
       this.calendarOptions.businessHours = res.data //传入显示工作时间数组
-      console.log("123")
-      console.log(res.data)
+      request.getCalendarById(this.doctorId).then((res) => {
+        this.calendarOptions.initialEvents = res.data //传入预约
+      }).catch((err) => {
+        console.log(err)
+        this.$notify.error({
+          title: "提示",
+          message: "网络忙，预约日程表信息获取失败",
+        })
+      })
     }).catch((err) => {
-      console.log(err);
+      console.log(err)
       this.$notify.error({
         title: "提示",
-        message: "网络忙，预约日程表获取失败",
+        message: "网络忙，预约日程表限制信息获取失败",
       })
     })
   },
   methods: {
-    orderConstraint() {
-      const today = new Date()
-      let day = null
-      switch (today.getDay()) {
-        case 1: day = [2, 3, 4, 5]
-          break
-        case 2: day = [3, 4, 5]
-          break
-        case 3: day = [4, 5]
-          break
-        case 4: day = [5]
-          break
-        case 5: day = [0]
-      }
-      return [{
-        daysOfWeek: day,
-        startTime: '09:00',
-        endTime: '12:00'
-      },
-      {
-        daysOfWeek: day,
-        startTime: '14:00',
-        endTime: '18:00'
-      }]
-    },
+
     handleWeekendsToggle() {
       this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
     },
@@ -626,91 +628,142 @@ export default {
       this.dialogTextVisible = true // 展示信息填写form
       this.selection = selectInfo
     },
+
     addEvent(form, selectInfo) {
       this.dialogFormVisible = false
       let calendarApi = selectInfo.view.calendar
       calendarApi.unselect() // clear date selection
       if (form.name) {
-        calendarApi.addEvent({
-          id: createEventId(),
-          title: form.name,
-          start: selectInfo.startStr,
-          end: selectInfo.endStr,
-          allDay: selectInfo.allDay
+        // 发送预约信息
+        request.postOrder(this.getForm()).then((res) => {
+          console.log(res.data)
+          // 日程表预约+1
+          calendarApi.addEvent({
+            id: createEventId(),
+            title: form.name,
+            start: selectInfo.startStr,
+            end: selectInfo.endStr
+          })
+          this.$notify.success({
+            title: "提示",
+            message: "网络忙，预约成功",
+          })
+        }).catch((err) => {
+          console.log(err)
+          this.$notify.error({
+            title: "提示",
+            message: "网络忙，预约失败",
+          })
         })
-        console.log(selectInfo)
-        //预约信息
-        const params = {
-          doctorname: this.doctorname,
-          type: this.form.type,
-          name: this.form.name,
-          ordertime: this.form.ordertime,
-          gender: this.form.gender,
-          birth: this.form.birth,
-          occupation: this.form.occupation,
-          phone: this.form.phone.phone,
-          address: this.form.address,
-          emergency: this.form.emergency,
-          emergencyphone: this.form.emergencyphone,
-          question: this.form.question,
-          family: this.form.family,
-          expectation: this.form.expectation,
-          history: this.form.history,
-          test: this.form.test,
-          start: selectInfo.startStr,
-          end: selectInfo.endStr,
-          allDay: selectInfo.allDay,
-        }
-        request.postOrderAdd(params) // 发送预约信息
+        // 清空表单
+        this.form = JSON.parse(JSON.stringify(this.defaultForm))
       }
-      // 清空表单
-      this.form = JSON.parse(JSON.stringify(this.defaultForm))
     },
+
     handleEventClick(clickInfo) {
-      // TODO 获取预约信息
-      // 打开预约信息表格
-      this.dialogEditVisible = true
-      this.dialogFormVisible = true
-      this.selection = clickInfo
+      request.getOrderById(clickInfo.event.id).then((res) => {
+        this.form = res.data // 传入表单信息 
+        // 打开预约信息表格
+        this.dialogEditVisible = true
+        this.dialogFormVisible = true
+        this.selection = clickInfo
+      }).catch((err) => {
+        console.log(err)
+        this.$notify.error({
+          title: "提示",
+          message: "网络忙，预约信息加载失败",
+        })
+      })
     },
-    handleEventDelete(form, clickInfo) {
-      // TODO 删数据
-      clickInfo.event.remove()
-      // 关表格
-      this.dialogEditVisible = false
-      this.dialogFormVisible = false
+    handleEventDelete(clickInfo) {
+      // 删数据
+      request.deleteOrderById(this.form.orderId).then((res) => {
+        console.log(res)
+        clickInfo.event.remove()
+        // 关表格
+        this.dialogEditVisible = false
+        this.dialogFormVisible = false
+        this.$notify.success({
+          title: "提示",
+          message: "预约信息删除成功",
+        })
+      }).catch((err) => {
+        console.log(err)
+        this.$notify.error({
+          title: "提示",
+          message: "网络忙，删除预约信息失败",
+        })
+      })
     },
+    // 修改预约信息
     handleEventEdit(form, clickInfo) {
-      this.handleEventDelete(form, clickInfo) // 删除
-      this.handleModify(form, clickInfo)
-      // 关表格
-      this.dialogFormVisible = false
-      this.dialogEditVisible = false
+      request.updateOrderById(form.orderId).then((res) => {
+        console.log(res)
+        if (res.code === 0) {
+          this.handleEventDelete(form, clickInfo) // 删除
+          this.handleModify(form, clickInfo) // 添加
+          // 关表格
+          this.dialogFormVisible = false
+          this.dialogEditVisible = false
+        }
+      }).catch((err) => {
+        console.log(err)
+        this.$notify.error({
+          title: "提示",
+          message: "网络忙，预约信息修改失败",
+        })
+      })
     },
+
     // 重新添加预约信息
     handleModify(form, selectInfo) {
       const calendarApi = selectInfo.view.calendar
       calendarApi.unselect() // clear date selection
       if (form.name) {
         calendarApi.addEvent({
-          id: createEventId(),
+          id: selectInfo.event.id,
           title: form.name,
           start: selectInfo.event.startStr,
-          end: selectInfo.event.endStr,
-          allDay: selectInfo.event.allDay
+          end: selectInfo.event.endStr
         })
-        // const params = { doctorname: this.doctorname, startStr: selectInfo.startStr }
-        // postOrder(params)
-        // 清空表单
         this.form = JSON.parse(JSON.stringify(this.defaultForm))
       }
     },
+
     handleEvents(events) {
       this.currentEvents = events
     },
+
     errorHandler() {
       return true
     },
+
+    getForm() {
+      const params = {
+        doctorId: this.doctorId,
+        orderId: this.form.orderId,
+        uid: this.form.uid,
+        type: this.form.type,
+        name: this.form.name,
+        ordertime: this.form.ordertime,
+        gender: this.form.gender,
+        birth: this.form.birth,
+        occupation: this.form.occupation,
+        phone: this.form.phone.phone,
+        address: this.form.address,
+        emergency: this.form.emergency,
+        emergencyphone: this.form.emergencyphone,
+        question: this.form.question,
+        family: this.form.family,
+        expectation: this.form.expectation,
+        history: this.form.history,
+        test: this.form.test,
+        roomId: this.form.roomId,
+        start: this.selection.startStr,
+        end: this.selection.endStr
+      }
+      return params
+    }
   }
 }
 </script>
