@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { getRoomInfo, addRoomInfo, deleteRoomInfo } from '@/api/room'
+import { getRoomList, postRoomInfo, deleteRoomInfoById } from '@/api/room'
 
 export default {
   data() {
@@ -77,7 +77,7 @@ export default {
   },
   created() {
     // 获取咨询室list
-    getRoomInfo().then((res) => {
+    getRoomList().then((res) => {
       this.room = res // 传入咨询室列表
     }).catch((err) => {
       console.log(err)
@@ -95,7 +95,7 @@ export default {
     handleAdd() {
       const params = { id: this.roomList.length, name: 'newRoom', address: 'newAddress' }
       this.roomList.push(params)
-      addRoomInfo(params).then((res) => {
+      postRoomInfo(params).then((res) => {
         if (res === true) {
           this.$notify.success({
             title: '提示',
@@ -119,7 +119,7 @@ export default {
     handleDelete(index, row) {
       if (confirm(`你确定要删除该咨询室吗？`)) {
         this.roomList.splice(index, index + 1)
-        deleteRoomInfo(row.id).then((res) => {
+        deleteRoomInfoById(row.id).then((res) => {
           if (res === true) {
             this.$notify.success({
               title: '提示',

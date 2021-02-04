@@ -1,71 +1,78 @@
 /* eslint-disable */
+import urls from '@/api/urls'
 import request from '@/utils/request'
 
-// 获取咨询室列表
-export function getRoomInfo() {
+/**
+ * 获取咨询室列表,咨询室信息【id name address】
+ */
+export function getRoomList() {
     return request({
-        url: '/vue-admin-template/room/list',
+        url: urls.Room,
         method: 'get',
     })
 }
-// 咨询室信息【id name address】
 
-// 添加咨询室
-export function addRoomInfo(params) {
+/**
+ * 添加咨询室
+ * @param {roomid:number,name:String,address:String} params 咨询室信息
+ */
+export function postRoomInfo(params) {
     return request({
-        url: '/vue-admin-template/room/list',
+        url: urls.Room,
         method: 'post',
         data: {
-            id: params.id,
+            roomid: params.id,
             name: params.name,
             address: params.address
         }
     })
 }
 
-// 删除咨询室
-export function deleteRoomInfo(params) {
+/**
+ * 删除咨询室
+ * @param {roomId:number} roomId 咨询室id
+ */
+export function deleteRoomInfoById(roomId) {
     return request({
-        url: '/vue-admin-template/room/list',
-        method: 'get',
-        data: {
-            id: params,
-        }
+        url: urls.Room + '/' + roomId,
+        method: 'delete',
     })
 }
 
-// 编辑咨询室信息
-export function EditRoomInfo(params) {
+/**
+ * 编辑咨询室信息
+ * @param {roomId:number}
+ * @param {roomId:number,name:String,address:String} params 咨询室信息
+ */
+export function updateRoomInfoById(roomId, params) {
     return request({
-        url: '/vue-admin-template/room/view',
-        method: 'get',
+        url: urls.Room + '/' + roomId,
+        method: 'put',
         data: {
-            id: params.id,
             name: params.name,
             address: params.address
         }
     })
 }
 
-// 获取咨询室日程限制信息
-export function getRoomConstraint(params) {
+/**
+ * 获取咨询室日程限制信息
+ * @param {roomId:number} roomId 咨询室id
+ */
+export function getRoomConstraintById(roomId) {
     return request({
-        url: '/vue-admin-template/order/orderPage',
-        method: 'post',
-        data: {
-            room: params
-        }
+        url: urls.RoomConstraint + '/' + roomId,
+        method: 'get',
     })
 }
 
-// 获取咨询室日程
-export function getRoomCalendar(params) {
+/**
+ * 获取咨询室日程,以event的形式返回
+ * @param {roomId:number} roomId 咨询室id
+ */
+export function getRoomCalendarById(roomId) {
     return request({
-        url: '/vue-admin-template/order/orderPage',
-        method: 'post',
-        data: {
-            room: params
-        }
+        url: urls.RoomCalendar + '/' + roomId,
+        method: 'get',
     })
 }
-// 以event的形式返回吧
