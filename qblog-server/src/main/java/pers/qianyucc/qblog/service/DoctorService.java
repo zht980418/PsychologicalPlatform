@@ -24,17 +24,12 @@ public class DoctorService {
     private DoctorMapper doctorMapper;
     @Transactional(rollbackFor = Exception.class)
     public List findByName(String name) {
-//        Map<String, Object> columnMap = new HashMap<String, Object>();
-//        columnMap.put("name",name);
-//        List<DoctorPO> doctorPOList = doctorMapper.selectByMap(wrapper);
-//        System.out.println("#############doctorlist"+doctorPOList);
+
         ArrayList res = new ArrayList<>();
         QueryWrapper<DoctorPO> wrapper = new QueryWrapper<>();
-//        查询语句
         wrapper.eq("name",name)
                 .select("daysOfWeek","startTime","endTime");
         List<Map<String, Object>> maps = doctorMapper.selectMaps(wrapper);
-//        System.out.println("#############doctorlist"+maps);
         for(int i =0; i<maps.size(); i++){
             res.add(maps.get(i));
         }
@@ -44,6 +39,18 @@ public class DoctorService {
         ArrayList res = new ArrayList<>();
         QueryWrapper<DoctorPO> wrapper = new QueryWrapper<>();
         wrapper.select("name","daysOfWeek","startTime","endTime");
+        List<Map<String, Object>> maps = doctorMapper.selectMaps(wrapper);
+        for(int i =0; i<maps.size(); i++){
+            res.add(maps.get(i));
+        }
+        return res;
+    }
+    public List findByDoctorId(String doctorId) {
+
+        ArrayList res = new ArrayList<>();
+        QueryWrapper<DoctorPO> wrapper = new QueryWrapper<>();
+        wrapper.eq("doctorId",doctorId)
+                .select("daysOfWeek","startTime","endTime");
         List<Map<String, Object>> maps = doctorMapper.selectMaps(wrapper);
         for(int i =0; i<maps.size(); i++){
             res.add(maps.get(i));
