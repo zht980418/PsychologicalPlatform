@@ -460,7 +460,7 @@
             @click="handleAddOrder"
           >确 定</el-button>
         </div>
-        <div v-if="!initVisible">
+        <div v-else>
           <el-button
             type="info"
             icon="el-icon-close"
