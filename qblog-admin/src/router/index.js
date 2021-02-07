@@ -148,6 +148,36 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/userManage',
+    component: Layout,
+    redirect: '/userManage/userManage',
+    name: 'userManage',
+    meta: { title: '用户管理', icon: 'el-icon-user' },
+    children: [
+      {
+        path: 'userManage',
+        name: 'userManage',
+        component: () => import('@/views/userManage/index'),
+        meta: { title: '用户查询', icon: 'el-icon-user' },
+      }
+        ,
+      {
+        path:'modifyUser',
+        name:'modifyUser',
+        component: () => import('@/views/userManage/modifyUser'),
+        meta: { title: '用户编辑', icon: 'el-icon-user' },
+        hidden: true,
+      },
+      {
+        path:'addUser',
+        name:'addUser',
+        component: () => import('@/views/userManage/addUser'),
+        meta: { title: '添加用户', icon: 'el-icon-user' },
+      },
+
+    ]
+  },
+  {
     path: '/room',
     component: Layout,
     redirect: '/room/list',
