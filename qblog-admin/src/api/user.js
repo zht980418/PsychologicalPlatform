@@ -15,6 +15,29 @@ export function getInfo(token) {
   })
 }
 
+// export function getUserById(id){
+//   return request({
+//     url: '/',
+//     method: 'post'
+//     id
+//   })
+// }
+
+// export function getUsers(){
+//   return request({
+//     url: '/',
+//     method: 'get'
+//   })
+// }
+
+export function addUser(data){
+  return request({
+    url: '/',
+    method: 'post',
+    data
+  })
+}
+
 export function logout() {
   return request({
     url: '/auth/logout',
