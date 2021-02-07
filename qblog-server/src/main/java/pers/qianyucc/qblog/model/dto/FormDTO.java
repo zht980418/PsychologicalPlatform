@@ -77,6 +77,24 @@ public class FormDTO {
     @ApiModelProperty(notes = "test", example = "测试")
     private String test;
 
+    @ApiModelProperty(notes = "sleep", example = "睡觉")
+    private String sleep;
+
+    @ApiModelProperty(notes = "relationship", example = "休息")
+    private String relationship;
+
+    @ApiModelProperty(notes = "stress", example = "压力")
+    private String stress;
+
+    @ApiModelProperty(notes = "mood", example = "脾气")
+    private String mood;
+
+    @ApiModelProperty(notes = "hurt", example = "伤害")
+    private String hurt;
+
+    @ApiModelProperty(notes = "suicide", example = "自杀")
+    private String suicide;
+
     @ApiModelProperty(notes = "roomid", example = "1号")
     private String roomid;
 
