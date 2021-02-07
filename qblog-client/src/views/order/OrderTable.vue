@@ -746,6 +746,12 @@ export default {
         expectation: this.form.expectation,
         history: this.form.history,
         test: this.form.test,
+        sleep: this.form.sleep,
+        relationship: this.form.relationship,
+        stress: this.form.stress,
+        mood: this.form.mood,
+        hurt: this.form.hurt,
+        suicide: this.form.suicide,
         roomId: this.form.roomId,
         start: this.selection.startStr,
         end: this.selection.endStr

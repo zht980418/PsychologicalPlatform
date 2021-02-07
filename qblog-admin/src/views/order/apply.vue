@@ -60,9 +60,15 @@ export default {
             endTime: '18:00'
           },
         ],
+        dayMaxEventRows: true, // for all non-TimeGrid views
+        views: {
+          timeGrid: {
+            dayMaxEventRows: 3 // adjust to 6 only for timeGridWeek/timeGridDay
+          }
+        },
         selectable: true,
         selectMirror: false,
-        dayMaxEvents: true,
+        // dayMaxEvents: true,
         weekends: true,
         allDaySlot: false,
         slotMinTime: '09:00:00',
@@ -104,22 +110,22 @@ export default {
     // 新增预约
     handleDateSelect(selectInfo) {
       if (confirm('你确定要申请该时段排班吗？')) {
-        const calendarApi = selectInfo.view.calendar
-        calendarApi.unselect() // clear date selection
-        const appId = createEventId()
-        calendarApi.addEvent({
-          id: appId,
-          title: this.doctorId,
-          start: selectInfo.startStr,
-          end: selectInfo.endStr,
-        })
         // 存储
+        const appId = createEventId()
         const params = { appId: appId, doctorId: this.doctorId, start: selectInfo.startStr, end: selectInfo.endStr, daysOfWeek: selectInfo.start.getDay() }
         postApplication(params).then((res) => {
-          if (res === true) {
+          if (res.data === 0) {
             this.$notify.success({
               title: '提示',
               message: '排班申请成功',
+            })
+            const calendarApi = selectInfo.view.calendar
+            calendarApi.unselect() // clear date selection
+            calendarApi.addEvent({
+              id: appId,
+              title: this.doctorId,
+              start: selectInfo.startStr,
+              end: selectInfo.endStr,
             })
           }
         }).catch((err) => {

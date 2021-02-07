@@ -3,7 +3,7 @@ const todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of t
 
 export const INITIAL_EVENTS = [
   {
-    id: createEventId(),
+    id: 202102071320,
     title: '一个预约',
     start: todayStr + 'T10:00:00'
   },

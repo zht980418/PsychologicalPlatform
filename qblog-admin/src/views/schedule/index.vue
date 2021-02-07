@@ -82,13 +82,10 @@ export default {
   methods: {
     // 新增排班
     handleDateSelect(selectInfo) {
-
     },
     // 点击已有预约
     handleEventClick(clickInfo) {
-
     },
-
     handleEvents(events) {
       this.currentEvents = events
     },
