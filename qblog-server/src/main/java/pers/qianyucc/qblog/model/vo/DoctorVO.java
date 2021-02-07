@@ -15,6 +15,7 @@ public class DoctorVO {
     private Integer id;
     private String name;
     private String time;
+    private String doctorId;
     private String daysOfWeek;
     private String startTime;
     private String endTime;

@@ -31,10 +31,10 @@ public class DoctorController {
     }
 
     @ApiOperation("查询所有医生工作时间")
-    @GetMapping("/vue-admin-template/order/order")
-    @ApiImplicitParam(name = "time", value = "医生工作时间", required = true, dataType = "String", paramType = "path")
-    public Results<List<DoctorVO>> getWorktime(){
-        List<DoctorVO> worktime = doctorService.selectAll();
+    @GetMapping("/doctorCon/{doctorId}")
+    @ApiImplicitParam(name = "doctorId", value = "医生ID", required = true, dataType = "String", paramType = "path")
+    public Results<List<DoctorVO>> getWorktime(@PathVariable String doctorId){
+        List<DoctorVO> worktime = doctorService.findByDoctorId(doctorId);
         System.out.println("#############worktime"+worktime);
         return Results.ok(worktime);
     }
