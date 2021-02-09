@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="blur" />
-    <el-form
+    <el-form v-if="toggleLoginRegister"
       ref="loginForm"
       :model="loginForm"
       :rules="loginRules"
@@ -13,7 +13,7 @@
         <h3 class="title">四川大学心理健康教育教育平台后台管理系统</h3>
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item   prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
@@ -28,7 +28,7 @@
         />
       </el-form-item>
 
-      <el-form-item prop="password">
+      <el-form-item   prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
@@ -57,6 +57,90 @@
         style="width:100%;margin-bottom:30px;"
         @click.native.prevent="handleLogin"
       >登录</el-button>
+
+      <el-link  type="primary"  @click="handleToggle">没有账号?现在注册</el-link>
+
+    </el-form>
+
+    <el-form v-if="!toggleLoginRegister"
+      ref="registerForm"
+      :model="registerForm"
+      :rules="registerRules"
+      class="login-form"
+      label-position="left"
+    >
+      <div class="title-container">
+        <h3 class="title">四川大学心理健康教育教育平台后台管理系统</h3>
+      </div>
+
+      <el-form-item   prop="username">
+        <span class="svg-container">
+          <svg-icon icon-class="user" />
+        </span>
+        <el-input
+          ref="username"
+          v-model="registerForm.username"
+          placeholder="用户名"
+          name="username"
+          type="text"
+          tabindex="1"
+          auto-complete="on"
+        />
+      </el-form-item>
+
+      <el-form-item   prop="password">
+        <span class="svg-container">
+          <svg-icon icon-class="password" />
+        </span>
+        <el-input
+          :key="passwordType"
+          ref="password"
+          v-model="registerForm.password"
+          :type="passwordType"
+          placeholder="密码"
+          name="password"
+          tabindex="2"
+          auto-complete="on"
+        />
+        <span
+          class="show-pwd"
+          @click="showPwd"
+        >
+          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+        </span>
+      </el-form-item>
+
+      <el-form-item  prop="passwordRepeat">
+        <span class="svg-container">
+          <svg-icon icon-class="password" />
+        </span>
+        <el-input
+          :key="passwordType"
+          ref="passwordR"
+          v-model="registerForm.passwordRepeat"
+          :type="passwordType"
+          placeholder="重复密码"
+          name="password"
+          tabindex="2"
+          auto-complete="on"
+          @keyup.enter.native="handleRegister"
+        />
+        <span
+          class="show-pwd"
+          @click="showPwd"
+        >
+          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+        </span>
+      </el-form-item>
+
+      <el-button
+        :loading="loading"
+        type="primary"
+        style="width:100%;margin-bottom:30px;"
+        @click.native.prevent="handleRegister"
+      >注册</el-button>
+
+      <el-link type="primary" @click="handleToggle">已有账号?现在登录</el-link>
     </el-form>
   </div>
 </template>
@@ -81,10 +165,23 @@ export default {
         callback()
       }
     }
+    const validatePasswordRepeat = (rule, value, callback) => {
+      if (value !== this.registerForm.passwordR) {
+        callback(new Error('两次密码必须相同'))
+      } else {
+        callback()
+      }
+    }
     return {
+      toggleLoginRegister : true,
       loginForm: {
         username: '',
         password: '',
+      },
+      registerForm: {
+        username: '',
+        password: '',
+        passwordRepeat:'',
       },
       loginRules: {
         username: [
@@ -92,6 +189,17 @@ export default {
         ],
         password: [
           { required: true, trigger: 'blur', validator: validatePassword },
+        ],
+      },
+      registerRules: {
+        username: [
+          { required: true, trigger: 'blur', validator: validateUsername },
+        ],
+        password: [
+          { required: true, trigger: 'blur', validator: validatePassword },
+        ],
+        passwordRepeat: [
+          { required: true, trigger: 'blur', validator: validatePasswordRepeat },
         ],
       },
       loading: false,
@@ -118,6 +226,18 @@ export default {
         this.$refs.password.focus()
       })
     },
+    handleToggle(){
+      this.toggleLoginRegister =!this.toggleLoginRegister;
+      // console.log(this.$refs.loginForm);
+      // console.log(this.$refs.registerForm);
+      // if(this.$refs.loginForm){
+      //   this.$refs.loginForm.clearValidate();
+      // };
+      // if(this.$refs.registerForm){
+      //   this.$refs.registerForm.clearValidate();
+      // }
+    },
+
     handleLogin() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
@@ -136,6 +256,32 @@ export default {
               // 关闭 loading
               this.loading = false
             })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    handleRegister() {
+      this.$refs.registerForm.validate((valid) => {
+        if (valid) {
+          // 显示 loading
+          this.loading = true
+          console.log('注册正常')
+          this.loading = false
+          // this.$store
+          //   // 执行 vuex 中的登录方法
+          //   .dispatch('user/login', this.loginForm)
+          //   .then(() => {
+          //     // this.redirect 为本来要跳转的页面，如果有值的话登录之后直接跳转到本来要跳转的页面，否则跳转到首页
+          //     this.$router.push({ path: this.redirect || '/' })
+          //     // 关闭 loading
+          //     this.loading = false
+          //   })
+          //   .catch(() => {
+          //     // 关闭 loading
+          //     this.loading = false
+          //   })
         } else {
           console.log('error submit!!')
           return false
