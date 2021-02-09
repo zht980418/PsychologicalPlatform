@@ -46,8 +46,8 @@ export function postOrder(params) {
     url: urls.Form,
     method: 'post',
     data: {
-      doctorId: params.doctorId,
-      orderId: params.orderId,
+      doctorid: params.doctorId,
+      orderid: params.orderId,
       uid: params.uid,
       type: params.type,
       name: params.name,
@@ -55,7 +55,7 @@ export function postOrder(params) {
       gender: params.gender,
       birth: params.birth,
       occupation: params.occupation,
-      phone: params.phone.phone,
+      phone: params.phone,
       address: params.address,
       emergency: params.emergency,
       emergencyphone: params.emergencyphone,
@@ -64,7 +64,13 @@ export function postOrder(params) {
       expectation: params.expectation,
       history: params.history,
       test: params.test,
-      roomId: params.roomId,
+      sleep: params.sleep,
+      relationship: params.relationship,
+      stress: params.stress,
+      mood: params.mood,
+      hurt: params.hurt,
+      suicide: params.suicide,
+      roomid: params.roomId,
       start: params.start,
       end: params.end
     }
@@ -92,8 +98,8 @@ export function updateOrderById(orderId, params) {
     url: urls.Form + '/' + orderId,
     method: 'put',
     data: {
-      doctorId: params.doctorId,
-      orderId: params.orderId,
+      doctorid: params.doctorId,
+      orderid: params.orderId,
       uid: params.uid,
       type: params.type,
       name: params.name,
@@ -110,7 +116,7 @@ export function updateOrderById(orderId, params) {
       expectation: params.expectation,
       history: params.history,
       test: params.test,
-      roomId: params.roomId,
+      roomid: params.roomId,
       start: params.start,
       end: params.end
     }

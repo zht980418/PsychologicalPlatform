@@ -11,19 +11,45 @@
             label="咨询方式"
             :label-width="formLabelWidth"
           >
-            <el-select
-              v-model="form.type"
-              placeholder="请选择咨询方式"
+            <el-col :span="7">
+              <el-select
+                v-model="form.type"
+                placeholder="请选择咨询方式"
+              >
+                <el-option
+                  label="线上"
+                  value="online"
+                />
+                <el-option
+                  label="线下"
+                  value="offline"
+                />
+              </el-select>
+            </el-col>
+            <el-col
+              :span="1"
+              :offset="1"
             >
-              <el-option
-                label="线上"
-                value="online"
+              <i
+                class="el-icon-warning-outline"
+                @mouseover="alertConsultDuration =true"
+                @mouseleave="alertConsultDuration =false"
               />
-              <el-option
-                label="线下"
-                value="offline"
+            </el-col>
+            <el-col
+              :span="9"
+              :offset="1"
+            >
+              <el-alert
+                v-show="alertConsultDuration"
+                title="选择线下咨询可在最后预约咨询室"
+                type="info"
+                style="height:40px;"
+                :closable="false"
+                center
+                show-icon
               />
-            </el-select>
+            </el-col>
           </el-form-item>
           <el-form-item
             label="预约时间"
@@ -34,7 +60,6 @@
                 <el-date-picker
                   v-model="form.ordertime"
                   type="datetime"
-                  value-format="timestamp"
                   start-placeholder="开始时间"
                 />
               </el-col>
@@ -44,16 +69,16 @@
               >
                 <i
                   class="el-icon-warning-outline"
-                  @mouseover="alertConsultDuration =true"
-                  @mouseleave="alertConsultDuration =false"
+                  @mouseover="alertTypeDuration =true"
+                  @mouseleave="alertTypeDuration =false"
                 />
               </el-col>
               <el-col
-                :span="8"
+                :span="9"
                 :offset="1"
               >
                 <el-alert
-                  v-show="alertConsultDuration"
+                  v-show="alertTypeDuration"
                   title="预约时长：1小时"
                   type="info"
                   style="height:40px;"
@@ -368,18 +393,18 @@
               label="咨询室"
             >
               <el-select
-                v-model="form.room"
+                v-model="form.roomId"
                 placeholder="请选择咨询室"
                 clearable
                 @change="handleCalendarChange"
               >
                 <el-option
                   label="咨询室1"
-                  value="咨询室1"
+                  value="room1"
                 />
                 <el-option
                   label="咨询室2"
-                  value="咨询室2"
+                  value="room2"
                 />
               </el-select>
             </el-form-item>
@@ -387,12 +412,12 @@
         </el-form>
       </el-col>
     </el-row>
-    <el-row v-if="!(form.room=='')">
+    <el-row v-if="(form.roomId!=='')&(form.type==='offline')">
       <el-col
         :span="20"
         :offset="2"
       >
-        <h1 style="text-align:center;">{{ form.room }}使用情况</h1>
+        <h1 style="text-align:center;">咨询室使用情况</h1>
         <FullCalendar
           class="demo-app-calendar"
           :options="roomConfig"
@@ -435,7 +460,7 @@
             @click="handleAddOrder"
           >确 定</el-button>
         </div>
-        <div v-if="!initVisible">
+        <div v-else>
           <el-button
             type="info"
             icon="el-icon-close"
@@ -476,7 +501,6 @@ export default {
   },
   data() {
     return {
-      doctorId: this.$route.params.doctorId,
       initVisible: this.$route.params.editType,
       orderSelectInfo: this.$route.params.selectInfo,
       calendarVisible: false,
@@ -541,6 +565,7 @@ export default {
       },
       currentEvents: [],
       // 其他config
+      alertTypeDuration: false,
       alertConsultDuration: false,
       alertQuestionVisible: false,
       alertFamilyVisible: false,
@@ -548,10 +573,11 @@ export default {
       alertHistoryVisible: false,
       alertTestVisible: false,
       form: {
+        doctorId: this.$route.params.doctorId,
         orderId: this.$route.params.orderId, // 预约编号
         uid: '', // 来访者id
         type: '', // 线上/线下预约
-        ordertime: this.$route.params.selectInfo.event.start, // 预约时间
+        ordertime: this.$route.params.selectInfo.start, // 预约时间
         name: '', // 来访者姓名
         gender: '', // 性别
         birth: '', // 生日
@@ -576,16 +602,25 @@ export default {
     }
   },
   created() {
-    // 获取预约form
-    getOrderById(this.form.orderId).then((res) => {
-      this.form = res
-    }).catch((err) => {
-      console.log(err)
-      this.$notify.error({
-        title: '提示',
-        message: '网络忙，预约信息获取失败',
+    if (Boolean(this.initVisible) === false) {
+      // 获取预约form
+      getOrderById(this.form.orderId).then((res) => {
+        if (res.code === 0) {
+          this.form = res.data[0]
+        } else {
+          this.$notify.error({
+            title: '提示',
+            message: '预约信息获取失败',
+          })
+        }
+      }).catch((err) => {
+        console.log(err)
+        this.$notify.error({
+          title: '提示',
+          message: '网络忙，预约信息获取失败',
+        })
       })
-    })
+    }
   },
   methods: {
     handleWeekendsToggle() {
@@ -599,6 +634,7 @@ export default {
         this.roomConfig.selectConstraint = res // 传入限制时间数组
         getRoomCalendarById(this.form.roomId).then((res) => {
           this.roomConfig.initialEvents = res // 传入咨询室日程
+          this.roomConfig
         }).catch((err) => {
           console.log(err)
           this.$notify.error({
@@ -625,6 +661,7 @@ export default {
     // 预约信息处理
     // 添加预约
     handleAddOrder() {
+      console.log(this.getForm())
       postOrder(this.getForm()).then((res) => {
         console.log('添加成功')
         this.$notify.success({
@@ -678,7 +715,7 @@ export default {
 
     getForm() {
       const params = {
-        doctorId: this.doctorId,
+        doctorId: this.form.doctorId,
         orderId: this.form.orderId,
         uid: this.form.uid,
         type: this.form.type,
@@ -687,7 +724,7 @@ export default {
         gender: this.form.gender,
         birth: this.form.birth,
         occupation: this.form.occupation,
-        phone: this.form.phone.phone,
+        phone: this.form.phone,
         address: this.form.address,
         emergency: this.form.emergency,
         emergencyphone: this.form.emergencyphone,
@@ -696,6 +733,12 @@ export default {
         expectation: this.form.expectation,
         history: this.form.history,
         test: this.form.test,
+        sleep: this.form.sleep,
+        relationship: this.form.relationship,
+        stress: this.form.stress,
+        mood: this.form.mood,
+        hurt: this.form.hurt,
+        suicide: this.form.suicide,
         roomId: this.form.roomId,
         start: this.orderSelectInfo.startStr,
         end: this.orderSelectInfo.endStr

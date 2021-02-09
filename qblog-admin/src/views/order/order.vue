@@ -64,7 +64,7 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, defaultConstraint, createEventId } from '@/utils/event-utils'
+import { INITIAL_EVENTS, defaultConstraint, createEventId, transEvent } from '@/utils/event-utils'
 import { getDoctorConstraintById, getDoctorCalendarById } from '@/api/order'
 import '@fullcalendar/core/locales/zh-cn'
 
@@ -76,7 +76,8 @@ export default {
     return {
       Init: true,
       Update: false,
-      doctorId: this.$route.params.doctorId,
+      // doctorId: this.$route.params.doctorId,
+      doctorId: 'lisi123',
       timelist: this.$route.params.timelist,
       formLabelWidth: '120px',
       // 日历参数
@@ -131,11 +132,13 @@ export default {
         select: this.handleDateSelect,
         eventClick: this.handleEventClick,
         eventsSet: this.handleEvents,
+        events: '',
         /* you can update a remote database when these fire:
         eventAdd:
         eventChange:
         eventRemove:
         */
+        eventMouseover: this.test,
       },
       currentEvents: [],
     }
@@ -145,10 +148,21 @@ export default {
     this.calendarOptions.businessHours = defaultConstraint()
     this.calendarOptions.selectConstraint = defaultConstraint()
     getDoctorConstraintById(this.doctorId).then((res) => {
-      this.calendarOptions.selectConstraint = res // 传入限制时间数组
+      if (res.code === 0) {
+        this.calendarOptions.selectConstraint = res.data // 传入限制时间数组
+      }
       // 获取日程
       getDoctorCalendarById(this.doctorId).then((res) => {
-        this.initialEvents = res // 传入预约信息
+        if (res.code === 0) {
+          console.log(res.data)
+          console.log(transEvent(res.data[0]))
+          this.calendarOptions.events = transEvent(res.data[0])// 传入预约信息
+        } else {
+          this.$notify.error({
+            title: '提示',
+            message: '预约日程表获取失败',
+          })
+        }
       }).catch((err) => {
         console.log(err)
         this.$notify.error({
@@ -165,6 +179,17 @@ export default {
     })
   },
   methods: {
+    test() {
+      this.alert('title', '<h2>Title</h2>')
+      // .attr("data-container", "body")
+      // .attr("data-toggle", "popover")
+      // .attr("data-content", "<h4>Popover 中的一些内容 —— options 方法</h4>")
+      // .attr("data-html", "true")
+      // .attr("data-trigger", "hover")
+      // .attr("data-placement", "bottom")
+      // $("[data-toggle='popover']").popover()
+    },
+
     handleWeekendsToggle() {
       this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
     },
