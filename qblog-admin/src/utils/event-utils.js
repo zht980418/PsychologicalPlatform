@@ -97,5 +97,10 @@ export function defaultConstraint() {
 }
 
 export function transEvent(event) {
-  return [{ id: Number(event.orderid), title: event.name, start: event.start, end: event.end }]
+  let list = []
+  for (let i = 0; i < event.length; i++) {
+    list.push({ id: Number(event[i].orderid), title: event[i].name, start: event[i].start, end: event[i].end })
+  }
+  console.log(list)
+  return list
 }

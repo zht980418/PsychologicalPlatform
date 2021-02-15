@@ -42,6 +42,7 @@ export function getOrderById(orderId) {
  */
 
 export function postOrder(params) {
+  console.log(params)
   return request({
     url: urls.Form,
     method: 'post',
