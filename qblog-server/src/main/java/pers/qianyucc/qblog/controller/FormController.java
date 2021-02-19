@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pers.qianyucc.qblog.model.comm.Results;
 import pers.qianyucc.qblog.model.dto.FormDTO;
-import pers.qianyucc.qblog.model.dto.MessageDTO;
-import pers.qianyucc.qblog.model.vo.DoctorVO;
+import pers.qianyucc.qblog.model.dto.RoomDTO;
 import pers.qianyucc.qblog.model.vo.FormVO;
 import pers.qianyucc.qblog.service.FormService;
+import pers.qianyucc.qblog.service.RoomService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -21,6 +21,9 @@ import java.util.List;
 public class FormController {
     @Autowired
     private FormService formService;
+    @Autowired
+    private RoomService roomService;
+
 
     @ApiOperation("根据doctorId获取咨询表格")
     @GetMapping("/doctorOrder/{doctorid}")
@@ -44,6 +47,7 @@ public class FormController {
     public Results<String> postForm(@ApiParam(name = "表单信息", value = "传入json格式", required = true)
                                        @RequestBody @Valid FormDTO formDTO) {
         formService.insForm(formDTO);
+        formService.insRoom(formDTO);
         return Results.ok("表单新增成功", null);
     }
 }
