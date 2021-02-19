@@ -77,7 +77,7 @@ export default {
       Init: true,
       Update: false,
       // doctorId: this.$route.params.doctorId,
-      doctorId: 'lisi123',
+      doctorId: 'zhangsan123',
       timelist: this.$route.params.timelist,
       formLabelWidth: '120px',
       // 日历参数
@@ -138,7 +138,6 @@ export default {
         eventChange:
         eventRemove:
         */
-        eventMouseover: this.test,
       },
       currentEvents: [],
     }
@@ -150,13 +149,14 @@ export default {
     getDoctorConstraintById(this.doctorId).then((res) => {
       if (res.code === 0) {
         this.calendarOptions.selectConstraint = res.data // 传入限制时间数组
+        // TODO 有一个问题，就是获取的必须是当前周的事件，现在获取的还是所有事件
+        // this.calendarOptions.businessHours = res.data
       }
       // 获取日程
       getDoctorCalendarById(this.doctorId).then((res) => {
         if (res.code === 0) {
           console.log(res.data)
-          console.log(transEvent(res.data[0]))
-          this.calendarOptions.events = transEvent(res.data[0])// 传入预约信息
+          this.calendarOptions.events = transEvent(res.data)// 传入预约信息
         } else {
           this.$notify.error({
             title: '提示',
@@ -179,17 +179,6 @@ export default {
     })
   },
   methods: {
-    test() {
-      this.alert('title', '<h2>Title</h2>')
-      // .attr("data-container", "body")
-      // .attr("data-toggle", "popover")
-      // .attr("data-content", "<h4>Popover 中的一些内容 —— options 方法</h4>")
-      // .attr("data-html", "true")
-      // .attr("data-trigger", "hover")
-      // .attr("data-placement", "bottom")
-      // $("[data-toggle='popover']").popover()
-    },
-
     handleWeekendsToggle() {
       this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
     },
@@ -201,7 +190,7 @@ export default {
 
     // 点击已有预约
     handleEventClick(clickInfo) {
-      // console.log(clickInfo)
+      console.log(clickInfo)
       this.$router.push({ name: 'OrderPage', params: { doctorId: this.doctorId, editType: this.Update, selectInfo: clickInfo, orderId: clickInfo.event.id } })
     },
 
