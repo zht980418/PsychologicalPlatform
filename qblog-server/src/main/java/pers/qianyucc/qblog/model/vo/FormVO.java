@@ -25,7 +25,14 @@ public class FormVO {
     private String expectation;
     private String history;
     private String test;
+    private String sleep;
+    private String relationship;
+    private String stress;
+    private String mood;
+    private String hurt;
+    private String suicide;
     private String roomid;
     private String start;
     private String end;
+
 }

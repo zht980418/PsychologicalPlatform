@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 
 @Data
 @ApiModel(value = "表格类", description = "前端传来的表格信息")
-public class FormDTO {
+public class RoomDTO {
     @NotEmpty(message = "doctorid不能为空")
     @ApiModelProperty(notes = "doctorid", example = "zhangsan123")
     private String doctorid;
@@ -105,27 +105,15 @@ public class FormDTO {
     @ApiModelProperty(notes = "end", example = "10:00:00")
     private String end;
 
-    public FormPO toFormPO() {
-        return new FormDTO.Converter().convertToPO(this);
+    public RoomPO toRoomPO() {
+        return new RoomDTO.Converter().convertToPO(this);
     }
 
-    public RoomPO toRoomPO() { return new FormDTO.Converter_room().convertToPO(this);
-    }
-
-    private static class Converter implements IConverter<FormDTO, FormPO> {
+    private static class Converter implements IConverter<RoomDTO, RoomPO> {
         @Override
-        public FormPO convertToPO(FormDTO formDTO) {
-            FormPO po = new FormPO();
-            BeanUtil.copyProperties(formDTO, po);
-            return po;
-        }
-    }
-
-    private static class Converter_room implements IConverter<FormDTO, RoomPO> {
-        @Override
-        public RoomPO convertToPO(FormDTO roomDTO) {
+        public RoomPO convertToPO(RoomDTO formDTO) {
             RoomPO po = new RoomPO();
-            BeanUtil.copyProperties(roomDTO, po);
+            BeanUtil.copyProperties(formDTO, po);
             return po;
         }
     }

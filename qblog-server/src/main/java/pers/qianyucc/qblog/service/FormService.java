@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pers.qianyucc.qblog.dao.FormMapper;
+import pers.qianyucc.qblog.dao.RoomMapper;
 import pers.qianyucc.qblog.model.dto.FormDTO;
-import pers.qianyucc.qblog.model.dto.MessageDTO;
 import pers.qianyucc.qblog.model.entity.FormPO;
-import pers.qianyucc.qblog.model.entity.MessagePO;
+import pers.qianyucc.qblog.model.entity.RoomPO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +22,15 @@ import java.util.Map;
 public class FormService {
     @Autowired
     private FormMapper formMapper;
+    @Autowired
+    private RoomMapper roomMapper;
     @Transactional(rollbackFor = Exception.class)
     public List findByDoctorId(String doctorid) {
 
         ArrayList res = new ArrayList<>();
         QueryWrapper<FormPO> wrapper = new QueryWrapper<>();
-        wrapper.eq("doctorid",doctorid);
+        wrapper.eq("doctorid",doctorid)
+        .select("orderid","name","start","end");
         List<Map<String, Object>> maps = formMapper.selectMaps(wrapper);
         for(int i =0; i<maps.size(); i++){
             res.add(maps.get(i));
@@ -49,6 +52,9 @@ public class FormService {
         FormPO formPO = formDTO.toFormPO();
         formMapper.insert(formPO);
     }
-
+    public void insRoom(FormDTO formDTO) {
+        RoomPO roomPO = formDTO.toRoomPO();
+        roomMapper.insert(roomPO);
+    }
 
 }
