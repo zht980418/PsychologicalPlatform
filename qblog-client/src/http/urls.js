@@ -12,7 +12,8 @@ export default {
   quiz: "/quiz",
   quiz1: "/quizpaper/quiz1",
   order: "/order",
+  orderCheck: '/order/check',
   doctorlist: "/order/doctorlist",
-  doctorCalendar: "order/orderCaledar",
+  doctorCalendar: "/doctorOrder",
   doctordate: "/order/doctordate",
 }

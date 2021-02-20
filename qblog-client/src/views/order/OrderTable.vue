@@ -79,15 +79,34 @@
               label="预约时间"
               :label-width="formLabelWidth"
             >
-              <el-date-picker
-                v-model="form.ordertime"
-                type="datetimerange"
-                range-separator="至"
-                start-placeholder="开始时间"
-                end-placeholder="结束时间"
-                editable="false"
-              >
-              </el-date-picker>
+              <el-row>
+                <el-col :span="5">
+                  <el-date-picker
+                    v-model="form.ordertime"
+                    type="datetime"
+                    start-placeholder="开始时间"
+                    :readonly="true"
+                  />
+                </el-col>
+                <el-col :span="3">
+                  <i
+                    class="el-icon-warning-outline"
+                    @mouseover="alertTypeDuration = true"
+                    @mouseleave="alertTypeDuration = false"
+                  />
+                </el-col>
+                <el-col :span="3">
+                  <el-alert
+                    v-show="alertTypeDuration"
+                    title="预约时长：1小时"
+                    type="info"
+                    style="height:40px;"
+                    :closable="false"
+                    center
+                    show-icon
+                  />
+                </el-col>
+              </el-row>
             </el-form-item>
             <el-row>
               <el-col :span="12">
@@ -448,7 +467,7 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, createEventId, defaultConstraint } from '@/utils/event-utils'
+import { INITIAL_EVENTS, createEventId, defaultConstraint, transEvent } from '@/utils/event-utils'
 import request from "@/http/request"
 import TextSample from './textsample'
 import '@fullcalendar/core/locales/zh-cn'
@@ -460,6 +479,8 @@ export default {
   },
   data() {
     return {
+      // TODO 全局变量
+      uid: 'uid123',
       doctorId: this.$route.params.doctorId,
       timelist: this.$route.params.timelist,
       calendarOptions: {
@@ -487,6 +508,7 @@ export default {
         ],
         initialView: 'timeGridWeek',
         initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+        events: '',
         editable: true,  // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead
           {
@@ -524,6 +546,7 @@ export default {
       dialogTextVisible: false,// 知情同意书
       dialogFormVisible: false,// 表格
       dialogEditVisible: false,// 修改按钮
+      alertTypeDuration: false,
       alertQuestionVisible: false,
       alertFamilyVisible: false,
       alertExpectationVisible: false,
@@ -584,21 +607,34 @@ export default {
       formLabelWidth: '120px',
     }
   },
+  watch: {
+    selection(newVal) {
+      this.form.ordertime = newVal.start
+    }
+  },
   created() {
     this.calendarOptions.businessHours = defaultConstraint()
     this.calendarOptions.selectConstraint = defaultConstraint()
-    request.getConstraintById(this.doctorId).then((res) => {
-      this.calendarOptions.selectConstraint = res.data //传入限制时间数组
-      this.calendarOptions.businessHours = res.data //传入显示工作时间数组
-      request.getCalendarById(this.doctorId).then((res) => {
-        this.calendarOptions.initialEvents = res.data //传入预约
-      }).catch((err) => {
-        console.log(err)
+    // TODO 获取限制信息使用doctorId
+    request.getConstraintById('张三').then((res) => {
+      if (res.code === 0) {
+        this.calendarOptions.selectConstraint = res.data //传入限制时间数组
+        this.calendarOptions.businessHours = res.data //传入显示工作时间数组
+        request.getCalendarById(this.doctorId).then((res) => {
+          this.calendarOptions.events = transEvent(res.data) //传入预约
+        }).catch((err) => {
+          console.log(err)
+          this.$notify.error({
+            title: "提示",
+            message: "网络忙，预约日程表信息获取失败",
+          })
+        })
+      } else {
         this.$notify.error({
           title: "提示",
-          message: "网络忙，预约日程表信息获取失败",
+          message: "预约日程表限制信息获出错",
         })
-      })
+      }
     }).catch((err) => {
       console.log(err)
       this.$notify.error({
@@ -649,19 +685,38 @@ export default {
     },
 
     handleEventClick(clickInfo) {
-      request.getOrderById(clickInfo.event.id).then((res) => {
-        this.form = res.data // 传入表单信息 
-        // 打开预约信息表格
-        this.dialogEditVisible = true
-        this.dialogFormVisible = true
-        this.selection = clickInfo
+      // check是不是自己的预约信息
+      request.checkOrderById(clickInfo.event.id, this.uid).then((res) => {
+        if (res.code === 0) {
+          if (res.data === true) {
+            request.getOrderById(clickInfo.event.id).then((res) => {
+              this.form = res.data // 传入表单信息 
+              // 打开预约信息表格
+              this.dialogEditVisible = true
+              this.dialogFormVisible = true
+              this.selection = clickInfo
+            }).catch((err) => {
+              console.log(err)
+              this.$notify.error({
+                title: "提示",
+                message: "网络忙，预约信息加载失败",
+              })
+            })
+          } else {
+            this.$notify.error({
+              title: "提示",
+              message: "他人预约，无法查看具体信息！",
+            })
+          }
+        }
       }).catch((err) => {
         console.log(err)
         this.$notify.error({
           title: "提示",
-          message: "网络忙，预约信息加载失败",
+          message: "网络忙，信息查询失败",
         })
       })
+
     },
     handleEventDelete(clickInfo) {
       // 删数据

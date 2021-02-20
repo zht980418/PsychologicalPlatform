@@ -9,6 +9,7 @@ export default {
     DoctorCalendar: '/doctorOrder',
     // 预约记录
     Form: '/orderForm',
+    FormCheck: '/check/orderForm',
     // 排班
     Schedule: '/schedule'
 }

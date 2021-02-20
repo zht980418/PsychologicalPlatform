@@ -5,12 +5,14 @@ export const INITIAL_EVENTS = [
   {
     id: 202102071320,
     title: '一个预约',
-    start: todayStr + 'T10:00:00'
+    start: todayStr + 'T10:00:00',
+    color: 'red'
   },
   {
     id: createEventId(),
     title: '过时预约',
-    start: todayStr + 'T14:00:00'
+    start: todayStr + 'T14:00:00',
+    color: 'red'
   }
 ]
 
@@ -64,3 +66,13 @@ export function defaultConstraint() {
     endTime: '18:00'
   }]
 }
+
+export function transEvent(event) {
+  let list = []
+  for (let i = 0; i < event.length; i++) {
+    list.push({ id: Number(event[i].orderid), title: event[i].name, start: event[i].start, end: event[i].end })
+  }
+  console.log(list)
+  return list
+}
+

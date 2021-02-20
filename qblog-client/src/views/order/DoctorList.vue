@@ -12,7 +12,7 @@
           :src="item.img"
         ></el-image>
         <div style="padding: 14px;">
-          <span>{{item.doctorId}}</span>
+          <span>{{item.doctorName}}</span>
           <tr>{{item.timelist}}</tr>
           <div class="bottom clearfix">
             <el-button
@@ -61,17 +61,20 @@ export default {
       currentDate: new Date(),
       doctorlist: [
         {
-          doctorId: "张三",
+          doctorId: "zhangsan123",
+          doctorName: '张三',
           timelist: ["09:00:00", "14:00:00", "16:00:00"],
           img: "https://img1.dxycdn.com/2020/0206/245/3395151617954823081-22.jpg!wh200"
         },
         {
-          doctorId: "李四",
+          doctorId: "lisi123",
+          doctorName: '李四',
           timelist: ["09:00:00", "14:00:00", "16:00:00"],
           img: "https://img1.dxycdn.com/2020/0206/245/3395151617954823081-22.jpg!wh200"
         },
         {
-          doctorId: "王五",
+          doctorId: "wangwu123",
+          doctorName: '王五',
           timelist: ["09:00:00", "14:00:00", "16:00:00"],
           img: "https://img1.dxycdn.com/2020/0206/245/3395151617954823081-22.jpg!wh200"
         },

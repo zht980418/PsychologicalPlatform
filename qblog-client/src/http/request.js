@@ -101,8 +101,17 @@ export default {
    * 获取医生预约日程表
    * @param {doctorId:number} doctorId 医生id
    */
-  async getCalendarById(doctorId) {
+  getCalendarById(doctorId) {
     return instance.get(urls.doctorCalendar + '/' + doctorId).then(res => res.data)
+  },
+
+  /**
+ * check 用户id与预约对应用户id是否相符
+ * @param {orderId:number} orderId 预约id
+ * @param {uid:number} params
+ */
+  checkOrderById(orderId, params) {
+    return instance.get(urls.orderCheck + '/' + orderId, params).then(res => res.data)
   },
 
   /**
