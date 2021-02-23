@@ -11,7 +11,7 @@ export default {
   messages: "/messages",
   quiz: "/quiz",
   quiz1: "/quizpaper/quiz1",
-  order: "/order",
+  order: '/orderForm',
   orderCheck: '/order/check',
   doctorlist: "/order/doctorlist",
   doctorCalendar: "/doctorOrder",

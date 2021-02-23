@@ -3,7 +3,7 @@ import urls from '@/api/urls'
 import request from '@/utils/request'
 
 /**
- * 获取咨询室列表,咨询室信息【id name address】
+ * 获取咨询室列表,咨询室信息【roomid name address】
  */
 export function getRoomList() {
     return request({
@@ -14,14 +14,14 @@ export function getRoomList() {
 
 /**
  * 添加咨询室
- * @param {roomid:number,name:String,address:String} params 咨询室信息
+ * @param {roomId:number,name:String,address:String} params 咨询室信息
  */
 export function postRoomInfo(params) {
     return request({
         url: urls.Room,
         method: 'post',
         data: {
-            roomid: params.id,
+            roomid: params.roomId,
             name: params.name,
             address: params.address
         }
@@ -74,5 +74,54 @@ export function getRoomCalendarById(roomId) {
     return request({
         url: urls.RoomCalendar + '/' + roomId,
         method: 'get',
+    })
+}
+
+/**
+ * 添加咨询室预约信息
+ * @param {roomId:number} roomId 咨询室id
+ * @param {orderId:number,start:Date,end:Date} params 预约信息
+ */
+export function postRoomOrder(roomId, params) {
+    return request({
+        url: urls.RoomCalendar + '/' + roomId,
+        method: 'post',
+        data: {
+            orderid: params.orderId,
+            start: params.start,
+            end: params.end
+        }
+    })
+}
+
+/**
+ * 修改咨询室预约信息
+ * @param {roomId:number} roomId 咨询室id
+ * @param {orderId:number,start:Date,end:Date} params 预约信息
+ */
+export function updateRoomOrderById(roomId, params) {
+    return request({
+        url: urls.RoomCalendar + '/' + roomId,
+        method: 'put',
+        data: {
+            orderid: params.orderId,
+            start: params.start,
+            end: params.end
+        }
+    })
+}
+
+/**
+ * 删除咨询室预约信息
+ * @param {roomId:number} roomId 咨询室id
+ * @param {orderId:number} orderId 预约id
+ */
+export function deleteRoomOrderById(roomId, orderId) {
+    return request({
+        url: urls.RoomCalendar + '/' + roomId,
+        method: 'delete',
+        params: {
+            orderid: orderId
+        }
     })
 }

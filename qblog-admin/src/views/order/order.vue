@@ -76,7 +76,7 @@ export default {
     return {
       Init: true,
       Update: false,
-      // doctorId: this.$route.params.doctorId,
+      // TODO doctorId: this.$route.params.doctorId,
       doctorId: 'zhangsan123',
       timelist: this.$route.params.timelist,
       formLabelWidth: '120px',
@@ -155,8 +155,7 @@ export default {
       // 获取日程
       getDoctorCalendarById(this.doctorId).then((res) => {
         if (res.code === 0) {
-          console.log(res.data)
-          this.calendarOptions.events = transEvent(res.data)// 传入预约信息
+          this.calendarOptions.events = transEvent(res.data) // 传入预约信息
         } else {
           this.$notify.error({
             title: '提示',
