@@ -537,7 +537,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, defaultConstraint } from '@/utils/event-utils'
 import { transForm } from '@/utils/form-utils'
 import { getOrderById, postOrder, deleteOrderById, updateOrderById } from '@/api/order'
-import { getRoomConstraintById, getRoomCalendarById } from '@/api/room'
+import { getRoomConstraintById, getRoomCalendarById, postRoomOrder, updateRoomOrderById, deleteRoomOrderById } from '@/api/room'
 import '@fullcalendar/core/locales/zh-cn'
 
 export default {
@@ -751,12 +751,30 @@ export default {
           console.log('submit')
           postOrder(this.getForm()).then((res) => {
             if (res.code === 0) {
-              console.log('添加成功')
-              this.$notify.success({
-                title: '提示',
-                message: '预约添加成功',
-              })
-              this.$router.back(-1)
+              if (this.form.type === 'offline') {
+                const params = { orderId: this.form.orderId, start: this.form.start, end: this.form.end }
+                postRoomOrder(this.form.roomId, params).then((res) => {
+                  if (res.code === 0) {
+                    console.log('添加成功')
+                    this.$notify.success({
+                      title: '提示',
+                      message: '预约添加成功',
+                    })
+                    this.$router.back(-1)
+                  } else {
+                    this.$notify.error({
+                      title: '提示',
+                      message: '预约添加失败',
+                    })
+                  }
+                }).catch((err) => {
+                  console.log(err)
+                  this.$notify.error({
+                    title: '提示',
+                    message: '网络忙，预约添加失败',
+                  })
+                })
+              }
             }
           }).catch((err) => {
             console.log(err)
@@ -775,12 +793,28 @@ export default {
     // 删除预约
     handleDeleteOrder() {
       deleteOrderById(this.form.orderId).then((res) => {
-        console.log('删除成功')
-        this.$notify.success({
-          title: '提示',
-          message: '预约删除成功',
-        })
-        this.$router.back(-1)
+        if (res.code === 0) {
+          deleteRoomOrderById(this.form.roomId, this.form.orderId).then((res) => {
+            if (res.code === 0) {
+              console.log('删除成功')
+              this.$notify.success({
+                title: '提示',
+                message: '预约删除成功',
+              })
+              this.$router.back(-1)
+            } else {
+              this.$notify.error({
+                title: '提示',
+                message: res.code + '预约删除失败',
+              })
+            }
+          })
+        } else {
+          this.$notify.error({
+            title: '提示',
+            message: res.code + '预约删除失败',
+          })
+        }
       }).catch((err) => {
         console.log(err)
         this.$notify.error({
@@ -793,12 +827,30 @@ export default {
     // 修改预约
     handleUpdateOrder() {
       updateOrderById(this.form.orderId, this.getForm()).then((res) => {
-        console.log('修改成功')
-        this.$notify.success({
-          title: '提示',
-          message: '预约信息修改成功',
-        })
-        this.$router.back(-1)
+        if (res.code === 0) {
+          const params = { orderId: this.form.orderId, start: this.form.start, end: this.form.end }
+          updateRoomOrderById(this.form.roomId, params).then((res) => {
+            if (res.code === 0) {
+              console.log('修改成功')
+              this.$notify.success({
+                title: '提示',
+                message: '预约信息修改成功',
+              })
+              this.$router.back(-1)
+            } else {
+              this.$notify.error({
+                title: '提示',
+                message: '网络忙，预约信息修改失败',
+              })
+            }
+          }).catch((err) => {
+            console.log(err)
+            this.$notify.error({
+              title: '提示',
+              message: '网络忙，预约信息修改失败',
+            })
+          })
+        }
       }).catch((err) => {
         console.log(err)
         this.$notify.error({
