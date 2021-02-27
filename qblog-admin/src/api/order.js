@@ -36,8 +36,7 @@ export function getOrderById(orderId) {
 
 /**
  * 存储预信息
- * 信息存在form中，
- * 根据type类型判断线上线下，线下的话还要存储一下room信息，就是把这个预约也添加到咨询室的日程表中
+ * 信息存在form中
  * @param {*} params form表
  */
 
