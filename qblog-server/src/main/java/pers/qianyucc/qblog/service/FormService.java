@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pers.qianyucc.qblog.dao.FormMapper;
-import pers.qianyucc.qblog.dao.RoomMapper;
+import pers.qianyucc.qblog.exception.BlogException;
 import pers.qianyucc.qblog.model.dto.FormDTO;
 import pers.qianyucc.qblog.model.entity.FormPO;
 import pers.qianyucc.qblog.model.entity.RoomPO;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static pers.qianyucc.qblog.model.enums.ErrorInfoEnum.INVALID_ID;
 
 @Slf4j
 @Service
@@ -22,8 +22,6 @@ import java.util.Map;
 public class FormService {
     @Autowired
     private FormMapper formMapper;
-    @Autowired
-    private RoomMapper roomMapper;
     @Transactional(rollbackFor = Exception.class)
     public List findByDoctorId(String doctorid) {
 
@@ -52,9 +50,20 @@ public class FormService {
         FormPO formPO = formDTO.toFormPO();
         formMapper.insert(formPO);
     }
-    public void insRoom(FormDTO formDTO) {
-        RoomPO roomPO = formDTO.toRoomPO();
-        roomMapper.insert(roomPO);
+    public void deleteForm(String orderid){
+        Map<String,Object> map =new HashMap<>();
+        map.put("orderid",orderid);
+        formMapper.deleteByMap(map);
     }
+    public void updateForm(FormDTO formDTO, String orderid){
+        FormPO dbform = formMapper.selectById(orderid);
+        if (Objects.isNull(dbform)) {
+            throw new BlogException(INVALID_ID);
+        }
+        FormPO formPO = formDTO.toFormPO();
+//        formPO.setOrderid(orderid);
+        formMapper.updateById(formPO);
+    }
+
 
 }
