@@ -35,90 +35,49 @@ export function getOrderById(orderId) {
 }
 
 /**
- * 存储预信息
- * 信息存在form中
- * @param {*} params form表
+ * 确认预约
+ * 信息存在form中，status置为true
+ * @param {type:String,roomId:number} parmas form表
  */
 
-export function postOrder(params) {
+export function confirmOrderById(orderId, params) {
   console.log(params)
   return request({
-    url: urls.Form,
-    method: 'post',
+    url: urls.OrderConfirm + '/' + orderId,
+    method: 'put',
     data: {
-      doctorid: params.doctorId,
-      orderid: params.orderId,
-      uid: params.uid,
       type: params.type,
-      name: params.name,
-      ordertime: params.ordertime,
-      gender: params.gender,
-      birth: params.birth,
-      occupation: params.occupation,
-      phone: params.phone,
-      address: params.address,
-      emergency: params.emergency,
-      emergencyphone: params.emergencyphone,
-      question: params.question,
-      family: params.family,
-      expectation: params.expectation,
-      history: params.history,
-      test: params.test,
-      sleep: params.sleep,
-      relationship: params.relationship,
-      stress: params.stress,
-      mood: params.mood,
-      hurt: params.hurt,
-      suicide: params.suicide,
-      roomid: params.roomId,
-      start: params.start,
-      end: params.end
+      roomid: params.roomId
     }
   })
 }
 
 /**
  * 删除预约信息
+ * status置为false
  * @param {orderId:number} orderId 预约id
  */
 export function deleteOrderById(orderId) {
   return request({
-    url: urls.Form + '/' + orderId,
-    method: 'delete',
+    url: urls.OrderRefuse + '/' + orderId,
+    method: 'put',
   })
 }
 
 /**
- * 编辑form
+ * 编辑form——不用了
  * @param {id:number} orderId orderId
  * @param {*} params 预约信息form
  */
-export function updateOrderById(orderId, params) {
-  return request({
-    url: urls.Form + '/' + orderId,
-    method: 'put',
-    data: {
-      doctorid: params.doctorId,
-      orderid: params.orderId,
-      uid: params.uid,
-      type: params.type,
-      name: params.name,
-      ordertime: params.ordertime,
-      gender: params.gender,
-      birth: params.birth,
-      occupation: params.occupation,
-      phone: params.phone.phone,
-      address: params.address,
-      emergency: params.emergency,
-      emergencyphone: params.emergencyphone,
-      question: params.question,
-      family: params.family,
-      expectation: params.expectation,
-      history: params.history,
-      test: params.test,
-      roomid: params.roomId,
-      start: params.start,
-      end: params.end
-    }
-  })
-}
+// export function updateOrderById(orderId, params) {
+//   return request({
+//     url: urls.Form + '/' + orderId,
+//     method: 'put',
+//     data: {
+//       doctorid: params.doctorId,
+//       orderid: params.orderId,
+//       type: params.type,
+//       roomid: params.roomId,
+//     }
+//   })
+// }

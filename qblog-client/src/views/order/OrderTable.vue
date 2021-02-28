@@ -529,7 +529,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, createEventId, defaultConstraint, transEvent } from '@/utils/event-utils'
-import { transForm } from '@/utils/form-utils'
+import { transForm, newForm, RetransForm } from '@/utils/form-utils'
 import request from "@/http/request"
 import TextSample from './textsample'
 import '@fullcalendar/core/locales/zh-cn'
@@ -572,7 +572,7 @@ export default {
         initialView: 'timeGridWeek',
         initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
         events: '',
-        editable: true,  // 拖动并选择多个时段
+        editable: false,  // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead
           {
             daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
@@ -615,39 +615,13 @@ export default {
       alertExpectationVisible: false,
       alertHistoryVisible: false,
       alertTestVisible: false,
-      form: {
-        doctorId: '',
-        orderId: '',
-        uid: '',
-        type: '',
-        ordertime: '',
-        name: '',
-        gender: '',
-        birth: '',
-        occupation: '',
-        phone: '',
-        address: '',
-        emergency: '',
-        emergencyphone: '',
-        question: '',
-        family: '',
-        expectation: '',
-        history: '',
-        test: '',
-        sleep: '', // 睡眠状况
-        relationship: '', // 人际关系
-        stress: '', // 压力
-        mood: '', // 心情
-        hurt: '', // 自伤
-        suicide: '', // 自杀
-        roomId: '', // 咨询室
-      },
+      form: newForm(),
       rules: {
         type: [{ required: true, message: '请选择咨询方式', trigger: 'blur' }],
         ordertime: [{ required: true, message: '请选择预约时间', trigger: 'blur' }],
         name: [
           { required: true, message: '请输入姓名', trigger: 'blur' },
-          { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }],
+          { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }],
         gender: [{ required: true, message: '请选择性别', trigger: 'blur' }],
         birth: [{ required: true, message: '请选择日期', trigger: 'blur' }],
         phone: [{ required: true, message: '请填写联系方式', trigger: 'blur' }],
@@ -676,6 +650,8 @@ export default {
   created() {
     this.calendarOptions.businessHours = defaultConstraint()
     this.calendarOptions.selectConstraint = defaultConstraint()
+    this.form.doctorId = this.$route.params.doctorId
+    this.form.uid = '3'
     // 获取限制信息
     request.getConstraintById('张三').then((res) => {
       if (res.code === 0) {
@@ -721,11 +697,12 @@ export default {
       calendarApi.unselect() // clear date selection
       if (form.name) {
         // 发送预约信息
-        request.postOrder(this.getForm()).then((res) => {
+        this.form.orderId = createEventId()
+        request.postOrder(RetransForm(this.getForm())).then((res) => {
           console.log(res.data)
           // 日程表预约+1
           calendarApi.addEvent({
-            id: createEventId(),
+            id: this.form.orderId,
             title: form.name,
             start: selectInfo.startStr,
             end: selectInfo.endStr
@@ -747,46 +724,36 @@ export default {
     },
 
     handleEventClick(clickInfo) {
-      // check是不是自己的预约信息
-      request.checkOrderById(clickInfo.event.id, this.uid).then((res) => {
-        if (res.code === 0) {
-          if (res.data === true) {
-            request.getOrderById(clickInfo.event.id).then((res) => {
-              console.log(res)
-              if (res.code === 0) {
-                this.form = transForm(res.data[0]) // 传入表单信息 
-                console.log(this.form)
-                // 打开预约信息表格
-                this.dialogEditVisible = true
-                this.dialogFormVisible = true
-                this.selection = clickInfo
-              } else {
-                this.$notify.error({
-                  title: "提示",
-                  message: "预约信息加载失败",
-                })
-              }
-            }).catch((err) => {
-              console.log(err)
-              this.$notify.error({
-                title: "提示",
-                message: "网络忙，预约信息加载失败",
-              })
-            })
+      // TODO check是不是自己的预约信息
+      if (clickInfo.event.groupId === this.form.uid) {
+        request.getOrderById(clickInfo.event.id).then((res) => {
+          console.log(res)
+          if (res.code === 0) {
+            this.form = transForm(res.data[0]) // 传入表单信息 
+            console.log(this.form)
+            // 打开预约信息表格
+            this.dialogEditVisible = true
+            this.dialogFormVisible = true
+            this.selection = clickInfo
           } else {
             this.$notify.error({
               title: "提示",
-              message: "他人预约，无法查看具体信息！",
+              message: "预约信息加载失败",
             })
           }
-        }
-      }).catch((err) => {
-        console.log(err)
-        this.$notify.error({
-          title: "提示",
-          message: "网络忙，信息查询失败",
+        }).catch((err) => {
+          console.log(err)
+          this.$notify.error({
+            title: "提示",
+            message: "网络忙，预约信息加载失败",
+          })
         })
-      })
+      } else {
+        this.$notify.error({
+          title: '提示',
+          message: '无法查看其他用户预约信息！',
+        })
+      }
     },
 
     handleEventDelete(clickInfo) {
@@ -809,7 +776,7 @@ export default {
         })
       })
     },
-    
+
     // 修改预约信息
     handleEventEdit(form, clickInfo) {
       request.updateOrderById(form.orderId).then((res) => {
@@ -861,35 +828,9 @@ export default {
     },
 
     getForm() {
-      const params = {
-        doctorId: this.doctorId,
-        orderId: this.form.orderId,
-        uid: this.form.uid,
-        type: this.form.type,
-        name: this.form.name,
-        ordertime: this.form.ordertime,
-        gender: this.form.gender,
-        birth: this.form.birth,
-        occupation: this.form.occupation,
-        phone: this.form.phone,
-        address: this.form.address,
-        emergency: this.form.emergency,
-        emergencyphone: this.form.emergencyphone,
-        question: this.form.question,
-        family: this.form.family,
-        expectation: this.form.expectation,
-        history: this.form.history,
-        test: this.form.test,
-        sleep: this.form.sleep,
-        relationship: this.form.relationship,
-        stress: this.form.stress,
-        mood: this.form.mood,
-        hurt: this.form.hurt,
-        suicide: this.form.suicide,
-        roomId: this.form.roomId,
-        start: this.selection.startStr,
-        end: this.selection.endStr
-      }
+      const params = JSON.parse(JSON.stringify(this.form))
+      params['start'] = this.selection.startStr
+      params['end'] = this.selection.endStr
       return params
     }
   }

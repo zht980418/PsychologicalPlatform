@@ -106,21 +106,12 @@ export default {
   },
 
   /**
- * check 用户id与预约对应用户id是否相符
- * @param {orderId:number} orderId 预约id
- * @param {uid:number} params
- */
-  checkOrderById(orderId, params) {
-    return instance.get(urls.orderCheck + '/' + orderId, params).then(res => res.data)
-  },
-
-  /**
    * 添加预约
    * @param {*} form 预约信息
    */
   postOrder(form) {
     console.log(form)
-    return instance.post(urls.doctorCalendar, form).then(res => res.data)
+    return instance.post(urls.order, form).then(res => res.data)
   },
 
   /**

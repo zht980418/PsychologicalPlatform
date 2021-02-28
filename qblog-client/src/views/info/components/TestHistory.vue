@@ -26,7 +26,7 @@
 
 <script>
 import TestHistoryItem from '../components/TestHistoryItem'
-// import { getCourseHistory } from '@/api/course'
+// import { getTestHistory } from '@/api/course'
 
 export default {
   components: { TestHistoryItem },
