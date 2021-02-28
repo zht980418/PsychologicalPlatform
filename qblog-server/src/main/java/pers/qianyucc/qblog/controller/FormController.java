@@ -21,8 +21,7 @@ import java.util.List;
 public class FormController {
     @Autowired
     private FormService formService;
-    @Autowired
-    private RoomService roomService;
+
 
 
     @ApiOperation("根据doctorId获取咨询表格")
@@ -47,7 +46,26 @@ public class FormController {
     public Results<String> postForm(@ApiParam(name = "表单信息", value = "传入json格式", required = true)
                                        @RequestBody @Valid FormDTO formDTO) {
         formService.insForm(formDTO);
-        formService.insRoom(formDTO);
+//        formService.insRoom(formDTO);
         return Results.ok("表单新增成功", null);
     }
+
+    @ApiOperation("根据id删除form")
+    @DeleteMapping("/orderForm/{orderid}")
+    @ApiImplicitParam(name = "orderid", value = "预约id", required = true, dataType = "String", paramType = "path")
+    public Results deleteForm(@PathVariable String orderid) {
+        formService.deleteForm(orderid);
+        return Results.ok("删除成功", null);
+    }
+
+    @ApiOperation("根据id修改表格")
+    @PutMapping("/orderForm/{orderid}")
+    @ApiImplicitParam(name = "orderid", value = "预约id", required = true, dataType = "String", paramType = "path")
+    public Results<String> putForm(@ApiParam(name = "表单信息", value = "传入json格式", required = true)
+                                   @RequestBody @Valid FormDTO formDTO ,
+                                   @PathVariable String orderid){
+        formService.updateForm(formDTO, orderid);
+        return Results.ok("表单修改成功", null);
+    }
+
 }

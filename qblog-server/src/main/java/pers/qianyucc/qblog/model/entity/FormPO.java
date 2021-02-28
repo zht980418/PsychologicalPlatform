@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class FormPO implements Serializable{
 
     private static final long serialVersionUID = 4242353588092631058L;
-    @TableId
+    @TableId(value = "orderid")
 //    private String id;
     private String doctorid;
     private String orderid;
