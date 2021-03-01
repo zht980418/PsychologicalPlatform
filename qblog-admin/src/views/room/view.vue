@@ -3,9 +3,10 @@
     <el-row>
       <el-col
         :span="7"
-        :offset="9"
+        :offset="10"
       >
         <h1
+          v-once
           @mouseover="alertVisible=true"
           @mouseleave="alertVisible=false"
         >{{ room.name }}使用情况</h1>
@@ -32,7 +33,7 @@
     <el-row>
       <el-col
         :span="13"
-        :offset="5"
+        :offset="6"
       >
         <el-form
           :model="room"
@@ -52,15 +53,6 @@
             <el-input v-model="room.address" />
           </el-form-item>
         </el-form>
-      </el-col>
-      <el-col :span="4">
-        <el-button
-          v-if="roomConfig.selectable"
-          type="success"
-          icon="el-icon-check"
-          plain
-          @click="handleInfoUpdate"
-        >确认修改</el-button>
       </el-col>
     </el-row>
     <el-row>
@@ -88,8 +80,8 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, createEventId, defaultConstraint } from '@/utils/event-utils'
-import { getRoomConstraintById, getRoomCalendarById, updateRoomInfoById } from '@/api/room'
+import { INITIAL_EVENTS, defaultConstraint } from '@/utils/event-utils'
+import { getRoomCalendarById } from '@/api/room'
 import '@fullcalendar/core/locales/zh-cn'
 
 export default {
@@ -98,8 +90,6 @@ export default {
   },
   data() {
     return {
-      Init: true,
-      Update: false,
       alertVisible: false,
       formLabelWidth: '120px',
       room: {
@@ -145,7 +135,7 @@ export default {
             endTime: '18:00' // 6pm
           }
         ],
-        selectable: true,
+        selectable: false,
         selectMirror: true,
         dayMaxEvents: true,
         weekends: true,
@@ -172,76 +162,24 @@ export default {
     this.room.roomId = this.$route.params.roomId
     this.room.name = this.$route.params.name
     this.room.address = this.$route.params.address
-    // 获取查看/编辑状态
-    this.roomConfig.selectable = Boolean(this.$route.params.op)
     // 获取限制信息
     this.roomConfig.businessHours = defaultConstraint()
     this.roomConfig.selectConstraint = defaultConstraint()
     // 获取日程表数据
-    getRoomConstraintById(this.form.room).then((res) => {
-      this.roomConfig.selectConstraint = res // 传入限制时间数组
-      getRoomCalendarById(this.form.room).then((res) => {
-        this.roomConfig.initialEvents = res // 传入咨询室日程
-      }).catch((err) => {
-        console.log(err)
-        this.$notify.error({
-          title: '提示',
-          message: '网络忙，咨询室日程获取失败',
-        })
-      })
+    getRoomCalendarById(this.form.room).then((res) => {
+      this.roomConfig.initialEvents = res // 传入咨询室日程
     }).catch((err) => {
       console.log(err)
       this.$notify.error({
         title: '提示',
-        message: '网络忙，咨询室限制信息获取失败',
+        message: '网络忙，咨询室日程获取失败',
       })
     })
   },
   methods: {
-    // 基本信息
-    handleInfoUpdate() {
-      // 修改基本信息
-      updateRoomInfoById(this.room.roomId, this.room).then((res) => {
-        if (res === true) {
-          this.$notify.success({
-            title: '提示',
-            message: '咨询室信息修改成功',
-          })
-        }
-      }).catch((err) => {
-        console.log(err)
-        this.$notify.error({
-          title: '提示',
-          message: '网络忙，咨询室信息修改失败',
-        })
-      })
-    },
-
     // 预约
     handleWeekendsToggle() {
       this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
-    },
-
-    handleDateSelect(selectInfo) {
-      // const calendarApi = selectInfo.view.calendar
-      // calendarApi.unselect() // clear date selection
-      // if (selectInfo.startStr) {
-      //   calendarApi.addEvent({
-      //     id: createEventId(),
-      //     title: 'this.form.name',
-      //     start: selectInfo.startStr,
-      //     end: selectInfo.endStr,
-      //     allDay: selectInfo.allDay
-      //   })
-      // }
-      // TODO doctorId有问题
-      this.$router.push({ name: 'OrderPage', params: { doctorId: this.doctorId, editType: this.Init, selectInfo: selectInfo, orderId: createEventId() } })
-    },
-
-    // 点击已有预约
-    handleEventClick(clickInfo) {
-      // TODO doctorId有问题
-      this.$router.push({ name: 'OrderPage', params: { doctorId: this.doctorId, editType: this.Update, selectInfo: clickInfo, orderId: clickInfo.event.id } })
     },
 
     handleEvents(events) {

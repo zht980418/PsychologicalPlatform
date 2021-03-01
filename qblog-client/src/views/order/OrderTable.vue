@@ -496,28 +496,32 @@
         slot="footer"
         class="dialog-footer"
       >
-        <el-button @click="dialogFormVisible=false">取 消</el-button>
+        <el-button @click="dialogFormVisible=false">取消预约</el-button>
         <el-button
           type="primary"
           @click="addEvent(form,selection)"
-        >确 定</el-button>
+        >确认预约</el-button>
       </div>
       <div
         v-if="dialogEditVisible"
         slot="footer"
         class="dialog-footer"
       >
-        <el-button @click="(dialogFormVisible=false)&(dialogEditVisible=false)&handleClose">取 消</el-button>
+        <el-button
+          type="info"
+          icon="el-icon-close"
+          @click="(dialogFormVisible=false)&(dialogEditVisible=false)&handleClose"
+        >取消查看</el-button>
         <el-button
           type="success"
           icon="el-icon-edit"
           @click="handleEventEdit(form,selection)"
-        >修 改</el-button>
+        >修改预约</el-button>
         <el-button
           type="danger"
           icon="el-icon-delete"
           @click="handleEventDelete(form,selection)"
-        >删 除</el-button>
+        >删除预约</el-button>
       </div>
     </el-dialog>
   </div>
@@ -695,42 +699,45 @@ export default {
       this.dialogFormVisible = false
       let calendarApi = selectInfo.view.calendar
       calendarApi.unselect() // clear date selection
-      if (form.name) {
-        // 发送预约信息
-        this.form.orderId = createEventId()
-        request.postOrder(RetransForm(this.getForm())).then((res) => {
-          console.log(res.data)
-          // 日程表预约+1
-          calendarApi.addEvent({
-            id: this.form.orderId,
-            title: form.name,
-            start: selectInfo.startStr,
-            end: selectInfo.endStr
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          // 发送预约信息
+          this.form.orderId = createEventId()
+          request.postOrder(RetransForm(this.getForm())).then((res) => {
+            console.log(res.data)
+            // 日程表预约+1
+            calendarApi.addEvent({
+              id: this.form.orderId,
+              title: form.name,
+              start: selectInfo.startStr,
+              end: selectInfo.endStr
+            })
+            // 清空表单
+            this.$refs['form'].resetFields()
+            this.$notify.success({
+              title: "提示",
+              message: "预约成功!",
+            })
+          }).catch((err) => {
+            console.log(err)
+            this.$notify.error({
+              title: "提示",
+              message: "网络忙，预约失败",
+            })
           })
-          // 清空表单
-          this.$refs['form'].resetFields()
-          this.$notify.success({
-            title: "提示",
-            message: "网络忙，预约成功",
-          })
-        }).catch((err) => {
-          console.log(err)
-          this.$notify.error({
-            title: "提示",
-            message: "网络忙，预约失败",
-          })
-        })
-      }
+        }
+      })
     },
 
     handleEventClick(clickInfo) {
-      // TODO check是不是自己的预约信息
+      // check是不是自己的预约信息
       if (clickInfo.event.groupId === this.form.uid) {
         request.getOrderById(clickInfo.event.id).then((res) => {
           console.log(res)
           if (res.code === 0) {
             this.form = transForm(res.data[0]) // 传入表单信息 
             console.log(this.form)
+            // TODO check status
             // 打开预约信息表格
             this.dialogEditVisible = true
             this.dialogFormVisible = true

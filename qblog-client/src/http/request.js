@@ -99,6 +99,7 @@ export default {
 
   /**
    * 获取医生预约日程表
+   * 返回 orderid title【name】 start end uid
    * @param {doctorId:number} doctorId 医生id
    */
   getCalendarById(doctorId) {
