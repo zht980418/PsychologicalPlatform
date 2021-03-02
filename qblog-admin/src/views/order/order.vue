@@ -106,7 +106,7 @@ export default {
         ],
         initialView: 'timeGridWeek',
         initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
-        editable: true, // 拖动并选择多个时段
+        editable: false, // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead
           {
             daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
@@ -150,7 +150,7 @@ export default {
       if (res.code === 0) {
         this.calendarOptions.selectConstraint = res.data // 传入限制时间数组
         // TODO 有一个问题，就是获取的必须是当前周的事件，现在获取的还是所有事件
-        // this.calendarOptions.businessHours = res.data
+        this.calendarOptions.businessHours = res.data
       }
       // 获取日程
       getDoctorCalendarById(this.doctorId).then((res) => {

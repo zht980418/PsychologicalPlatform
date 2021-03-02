@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, register, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -7,6 +7,7 @@ const getDefaultState = () => {
     token: getToken(),
     name: '',
     avatar: '',
+    role: '',
   }
 }
 
@@ -25,9 +26,11 @@ const mutations = {
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
   },
-  SET_USERDATA: (state, userData) => {
-    state.userData = userData
-  }
+  SET_ROLE: (state, role) => {
+    state.role = role
+  },
+
+
 }
 
 const actions = {
@@ -50,6 +53,22 @@ const actions = {
     })
   },
 
+  register({commit}, userInfo){
+    const { username, password, } = userInfo
+    return new Promise(((resolve, reject) => {
+    register({ username: username.trim(), password: password, passwordRepeat:passwordRepeat}).then(response =>{
+      const { data } = response
+      // 调用 mutations 中 SET_TOKEN 方法，将 token 存到 vuex 中
+      commit('SET_TOKEN', data.token)
+      // 使用 js-cookie 插件，将 token 存入本地cookie中
+      setToken(data.token)
+      resolve()
+    }).catch(error => {
+      reject(error)
+    })
+    }))
+  },
+
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
@@ -64,6 +83,7 @@ const actions = {
 
         commit('SET_NAME', nickname)
         commit('SET_AVATAR', avatar)
+        commit('SET_ROLE', 'admin')
         resolve(data)
       }).catch(error => {
         reject(error)

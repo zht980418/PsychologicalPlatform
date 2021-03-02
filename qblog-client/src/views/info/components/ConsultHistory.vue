@@ -1,50 +1,43 @@
 <template>
-  <div class="exam-history">
-    <el-timeline>
-      <el-timeline-item
-        v-for="(item,index) of historyList"
-        :key="index"
-        :timestamp="item.time_stamp"
-        placement="top"
-      >
-        <el-card>
-          <ConsultHistoryItem
-            :icon="item.icon"
-            :title="item.exam_title"
-            :office="item.office"
-            :start="item.start"
-            :end="item.end"
-          />
-        </el-card>
-      </el-timeline-item>
-    </el-timeline>
-  </div>
+  <el-timeline>
+    <el-timeline-item
+      v-for="(item,index) of historyList"
+      :key="index"
+      :timestamp="item.start"
+      placement="top"
+    >
+      <el-card>
+        <ConsultHistoryItem
+          :icon="item.icon"
+          :doctorName="item.doctorName"
+          :status="item.status"
+          :start="item.start"
+          :end="item.end"
+        />
+      </el-card>
+    </el-timeline-item>
+  </el-timeline>
 </template>
 
 <script>
 import ConsultHistoryItem from '../components/ConsultHistoryItem'
-// import { getExamHistory } from '@/api/exam'
+// import { getConsultHistory } from '@/api/exam'
 
 export default {
   components: { ConsultHistoryItem },
   data() {
     return {
-      historyList: [{}]
+      historyList: [{ uid: 'uid123', orderId: '20210220155532703', doctorId: 'zhangsan123', doctorName: '张三', start: '起始', end: '终止', status: '未开始' }]
     }
   },
   created() {
-    console.log('获取考试记录数据')
-    this.handleGetExamHistory()
+    console.log('获取咨询记录数据')
+    // this.handleGetConsultHistory()
   },
   methods: {
-    // 获取考试记录数据
-    // handleGetExamHistory() {
-    //   const data = { type: 'getExamHistory', user_id: '1' }
-    //   getExamHistory(data).then((response) => {
-    //     console.log('考试记录：')
-    //     console.log(response)
-    //     this.historyList = response.data
-    //   })
+    // 获取咨询记录数据
+    // handleGetConsultHistory() {
+
     // }
   }
 }
