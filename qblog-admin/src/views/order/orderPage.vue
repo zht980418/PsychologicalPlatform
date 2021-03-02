@@ -17,6 +17,7 @@
               <el-select
                 v-model="form.type"
                 placeholder="请选择咨询方式"
+                :disabled="true"
               >
                 <el-option
                   label="线上"
@@ -64,6 +65,7 @@
                   v-model="form.ordertime"
                   type="datetime"
                   start-placeholder="开始时间"
+                  :disabled="true"
                 />
               </el-col>
               <el-col
@@ -99,7 +101,10 @@
                 :label-width="formLabelWidth"
                 prop="name"
               >
-                <el-input v-model="form.name" />
+                <el-input
+                  v-model="form.name"
+                  :disabled="true"
+                />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -111,6 +116,7 @@
                 <el-select
                   v-model="form.gender"
                   placeholder="请选择性别"
+                  :disabled="true"
                 >
                   <el-option
                     label="男"
@@ -135,6 +141,7 @@
                   v-model="form.birth"
                   type="date"
                   placeholder="选择日期"
+                  :disabled="true"
                 />
               </el-form-item>
             </el-col>
@@ -144,7 +151,10 @@
                 :label-width="formLabelWidth"
                 prop="occupation"
               >
-                <el-input v-model="form.occupation" />
+                <el-input
+                  v-model="form.occupation"
+                  :disabled="true"
+                />
               </el-form-item>
             </el-col>
           </el-row>
@@ -154,7 +164,10 @@
               :label-width="formLabelWidth"
               prop="phone"
             >
-              <el-input v-model="form.phone" />
+              <el-input
+                v-model="form.phone"
+                :disabled="true"
+              />
             </el-form-item>
           </el-row>
           <el-row>
@@ -163,7 +176,10 @@
               :label-width="formLabelWidth"
               prop="address"
             >
-              <el-input v-model="form.address" />
+              <el-input
+                v-model="form.address"
+                :disabled="true"
+              />
             </el-form-item>
           </el-row>
           <el-row>
@@ -173,7 +189,10 @@
                 :label-width="formLabelWidth"
                 prop="emergency"
               >
-                <el-input v-model="form.emergency" />
+                <el-input
+                  v-model="form.emergency"
+                  :disabled="true"
+                />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -182,7 +201,10 @@
                 :label-width="formLabelWidth"
                 prop="emergencyphone"
               >
-                <el-input v-model="form.emergencyphone" />
+                <el-input
+                  v-model="form.emergencyphone"
+                  :disabled="true"
+                />
               </el-form-item>
             </el-col>
           </el-row>
@@ -196,6 +218,7 @@
                 <el-input
                   v-model="form.question"
                   type="textarea"
+                  :disabled="true"
                 />
               </el-col>
               <el-col
@@ -231,6 +254,7 @@
                 <el-input
                   v-model="form.family"
                   type="textarea"
+                  :disabled="true"
                 />
               </el-col>
               <el-col
@@ -266,6 +290,7 @@
                 <el-input
                   v-model="form.expectation"
                   type="textarea"
+                  :disabled="true"
                 />
               </el-col>
               <el-col
@@ -301,6 +326,7 @@
                 <el-input
                   v-model="form.history"
                   type="textarea"
+                  :disabled="true"
                 />
               </el-col>
               <el-col
@@ -336,6 +362,7 @@
                 <el-input
                   v-model="form.test"
                   type="textarea"
+                  :disabled="true"
                 />
               </el-col>
               <el-col
@@ -369,7 +396,10 @@
               label="在过去一个月里，睡眠状况如何？"
               prop="sleep"
             >
-              <el-radio-group v-model="form.sleep">
+              <el-radio-group
+                v-model="form.sleep"
+                :disabled="true"
+              >
                 <el-radio label="很差" />
                 <el-radio label="不满意" />
                 <el-radio label="正常" />
@@ -381,7 +411,10 @@
               label="在过去一个月里，人际关系如何？"
               prop="relationship"
             >
-              <el-radio-group v-model="form.relationship">
+              <el-radio-group
+                v-model="form.relationship"
+                :disabled="true"
+              >
                 <el-radio label="很差" />
                 <el-radio label="不满意" />
                 <el-radio label="正常" />
@@ -393,7 +426,10 @@
               label="在过去一个月里，压力水平如何？"
               prop="stress"
             >
-              <el-radio-group v-model="form.stress">
+              <el-radio-group
+                v-model="form.stress"
+                :disabled="true"
+              >
                 <el-radio label="很高" />
                 <el-radio label="高" />
                 <el-radio label="中等" />
@@ -405,7 +441,10 @@
               label="在过去一个月里，心情如何？"
               prop="mood"
             >
-              <el-radio-group v-model="form.mood">
+              <el-radio-group
+                v-model="form.mood"
+                :disabled="true"
+              >
                 <el-radio label="很低落" />
                 <el-radio label="低落" />
                 <el-radio label="一般" />
@@ -417,7 +456,10 @@
               label="是否有过自伤行为？"
               prop="hurt"
             >
-              <el-radio-group v-model="form.hurt">
+              <el-radio-group
+                v-model="form.hurt"
+                :disabled="true"
+              >
                 <el-radio label="无" />
                 <el-radio label="曾经有" />
                 <el-radio label="现在有" />
@@ -427,7 +469,10 @@
               label="是否有过自杀的想法或行为？"
               prop="suicide"
             >
-              <el-radio-group v-model="form.suicide">
+              <el-radio-group
+                v-model="form.suicide"
+                :disabled="true"
+              >
                 <el-radio label="无" />
                 <el-radio label="曾经有" />
                 <el-radio label="现在有" />
@@ -490,39 +535,40 @@
     <br>
     <el-row>
       <el-col :offset="8">
-        <div v-if="initVisible">
-          <el-button
+        <!-- <div v-if="initVisible"> -->
+        <!-- <el-button
             type="info"
             icon="el-icon-close"
             plain
             @click="$router.back(-1)"
-          >取 消</el-button>
+          >取消添加</el-button>
           <el-button
             type="primary"
             icon="el-icon-check"
             plain
             @click="handleAddOrder"
-          >确 定</el-button>
-        </div>
-        <div v-else>
+          >添加预约</el-button>
+        </div> -->
+        <!-- <div v-else> -->
+        <div>
           <el-button
             type="info"
             icon="el-icon-close"
             plain
             @click="$router.back(-1)"
-          >取 消</el-button>
+          >取消查看</el-button>
           <el-button
             type="success"
             icon="el-icon-edit"
             plain
-            @click="handleUpdateOrder"
-          >修 改</el-button>
+            @click="handleConfirmOrder"
+          >接受预约</el-button>
           <el-button
             type="danger"
             icon="el-icon-delete"
             plain
             @click="handleDeleteOrder"
-          >删 除</el-button>
+          >拒绝预约</el-button>
         </div>
       </el-col>
     </el-row>
@@ -535,9 +581,9 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, defaultConstraint } from '@/utils/event-utils'
-import { transForm } from '@/utils/form-utils'
-import { getOrderById, postOrder, deleteOrderById, updateOrderById } from '@/api/order'
-import { getRoomConstraintById, getRoomCalendarById, postRoomOrder, updateRoomOrderById, deleteRoomOrderById } from '@/api/room'
+import { transForm, newForm } from '@/utils/form-utils'
+import { getOrderById, confirmOrderById, deleteOrderById } from '@/api/order'
+import { getRoomConstraintById, getRoomCalendarById } from '@/api/room'
 import '@fullcalendar/core/locales/zh-cn'
 
 export default {
@@ -547,7 +593,7 @@ export default {
   },
   data() {
     return {
-      initVisible: this.$route.params.editType,
+      // initVisible: this.$route.params.editType,
       orderSelectInfo: this.$route.params.selectInfo,
       calendarVisible: false,
       formLabelWidth: '120px',
@@ -618,40 +664,14 @@ export default {
       alertExpectationVisible: false,
       alertHistoryVisible: false,
       alertTestVisible: false,
-      form: {
-        doctorId: this.$route.params.doctorId,
-        orderId: this.$route.params.orderId, // 预约编号
-        uid: '', // 来访者id
-        type: '', // 线上/线下预约
-        ordertime: this.$route.params.selectInfo.start, // 预约时间
-        name: '', // 来访者姓名
-        gender: '', // 性别
-        birth: '', // 生日
-        occupation: '', // 职业
-        phone: '', // 电话
-        address: '', // 地址
-        emergency: '', // 紧急联系人
-        emergencyphone: '', // 紧急联系电话
-        question: '', // 来询问题
-        family: '', // 家庭情况
-        expectation: '', // 咨询期望
-        history: '', // 咨询历史
-        test: '', // 心理测试
-        sleep: '', // 睡眠状况
-        relationship: '', // 人际关系
-        stress: '', // 压力
-        mood: '', // 心情
-        hurt: '', // 自伤
-        suicide: '', // 自杀
-        roomId: '', // 咨询室
-      },
+      form: newForm(),
       room: [{ roomId: '1', name: '咨询室1' }, { roomId: '2', name: '咨询室2' }],
       rules: {
         type: [{ required: true, message: '请选择咨询方式', trigger: 'blur' }],
         ordertime: [{ required: true, message: '请选择预约时间', trigger: 'blur' }],
         name: [
           { required: true, message: '请输入姓名', trigger: 'blur' },
-          { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }],
+          { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }],
         gender: [{ required: true, message: '请选择性别', trigger: 'blur' }],
         birth: [{ required: true, message: '请选择日期', trigger: 'blur' }],
         phone: [{ required: true, message: '请填写联系方式', trigger: 'blur' }],
@@ -710,25 +730,26 @@ export default {
     }
   },
   created() {
-    if (Boolean(this.initVisible) === false) {
-      // 获取预约form
-      getOrderById(this.form.orderId).then((res) => {
-        if (res.code === 0) {
-          this.form = transForm(res.data[0])
-        } else {
-          this.$notify.error({
-            title: '提示',
-            message: '预约信息获取失败',
-          })
-        }
-      }).catch((err) => {
-        console.log(err)
+    this.form.doctorId = this.$route.params.doctorId
+    this.form.orderId = this.$route.params.orderId
+    this.form.ordertime = this.$route.params.selectInfo.start
+    // 获取预约form【查看预约】
+    getOrderById(this.form.orderId).then((res) => {
+      if (res.code === 0) {
+        this.form = transForm(res.data[0])
+      } else {
         this.$notify.error({
           title: '提示',
-          message: '网络忙，预约信息获取失败',
+          message: '预约信息获取失败',
         })
+      }
+    }).catch((err) => {
+      console.log(err)
+      this.$notify.error({
+        title: '提示',
+        message: '网络忙，预约信息获取失败',
       })
-    }
+    })
   },
   methods: {
     handleWeekendsToggle() {
@@ -743,38 +764,23 @@ export default {
     },
 
     // 预约信息处理
-    // 添加预约
-    handleAddOrder() {
-      console.log(this.getForm())
+    // 添加/修改预约
+    handleConfirmOrder() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           console.log('submit')
-          postOrder(this.getForm()).then((res) => {
+          const params = { type: this.form.type, roomId: this.form.roomId }
+          confirmOrderById(this.form.orderId, params).then((res) => {
             if (res.code === 0) {
-              if (this.form.type === 'offline') {
-                const params = { orderId: this.form.orderId, start: this.form.start, end: this.form.end }
-                postRoomOrder(this.form.roomId, params).then((res) => {
-                  if (res.code === 0) {
-                    console.log('添加成功')
-                    this.$notify.success({
-                      title: '提示',
-                      message: '预约添加成功',
-                    })
-                    this.$router.back(-1)
-                  } else {
-                    this.$notify.error({
-                      title: '提示',
-                      message: '预约添加失败',
-                    })
-                  }
-                }).catch((err) => {
-                  console.log(err)
-                  this.$notify.error({
-                    title: '提示',
-                    message: '网络忙，预约添加失败',
-                  })
-                })
-              }
+              this.$notify.success({
+                title: '提示',
+                message: '网络忙，预约确认成功',
+              })
+            } else {
+              this.$notify.error({
+                title: '提示',
+                message: res.code + '预约添加失败',
+              })
             }
           }).catch((err) => {
             console.log(err)
@@ -790,106 +796,56 @@ export default {
       })
     },
 
-    // 删除预约
+    // 拒绝预约【删除
     handleDeleteOrder() {
       deleteOrderById(this.form.orderId).then((res) => {
         if (res.code === 0) {
-          deleteRoomOrderById(this.form.roomId, this.form.orderId).then((res) => {
-            if (res.code === 0) {
-              console.log('删除成功')
-              this.$notify.success({
-                title: '提示',
-                message: '预约删除成功',
-              })
-              this.$router.back(-1)
-            } else {
-              this.$notify.error({
-                title: '提示',
-                message: res.code + '预约删除失败',
-              })
-            }
+          this.$notify.success({
+            title: '提示',
+            message: '预约拒绝成功',
           })
         } else {
           this.$notify.error({
             title: '提示',
-            message: res.code + '预约删除失败',
+            message: res.code + '预约拒绝失败',
           })
         }
       }).catch((err) => {
         console.log(err)
         this.$notify.error({
           title: '提示',
-          message: '网络忙，预约删除失败',
+          message: '网络忙，预约拒绝失败',
         })
       })
     },
 
     // 修改预约
-    handleUpdateOrder() {
-      updateOrderById(this.form.orderId, this.getForm()).then((res) => {
-        if (res.code === 0) {
-          const params = { orderId: this.form.orderId, start: this.form.start, end: this.form.end }
-          updateRoomOrderById(this.form.roomId, params).then((res) => {
-            if (res.code === 0) {
-              console.log('修改成功')
-              this.$notify.success({
-                title: '提示',
-                message: '预约信息修改成功',
-              })
-              this.$router.back(-1)
-            } else {
-              this.$notify.error({
-                title: '提示',
-                message: '网络忙，预约信息修改失败',
-              })
-            }
-          }).catch((err) => {
-            console.log(err)
-            this.$notify.error({
-              title: '提示',
-              message: '网络忙，预约信息修改失败',
-            })
-          })
-        }
-      }).catch((err) => {
-        console.log(err)
-        this.$notify.error({
-          title: '提示',
-          message: '网络忙，预约信息修改失败',
-        })
-      })
-    },
+    // handleUpdateOrder() {
+    //   updateOrderById(this.form.orderId, this.getForm()).then((res) => {
+    //     if (res.code === 0) {
+    //       this.$notify.success({
+    //         title: '提示',
+    //         message: '网络忙，预约修改成功',
+    //       })
+    //     } else {
+    //       this.$notify.error({
+    //         title: '提示',
+    //         message: res.code + '预约修改失败',
+    //       })
+    //     }
+    //   }).catch((err) => {
+    //     console.log(err)
+    //     this.$notify.error({
+    //       title: '提示',
+    //       message: '网络忙，预约修改失败',
+    //     })
+    //   })
+    // },
 
     getForm() {
-      const params = {
-        doctorId: this.form.doctorId,
-        orderId: this.form.orderId,
-        uid: this.form.uid,
-        type: this.form.type,
-        name: this.form.name,
-        ordertime: this.form.ordertime,
-        gender: this.form.gender,
-        birth: this.form.birth,
-        occupation: this.form.occupation,
-        phone: this.form.phone,
-        address: this.form.address,
-        emergency: this.form.emergency,
-        emergencyphone: this.form.emergencyphone,
-        question: this.form.question,
-        family: this.form.family,
-        expectation: this.form.expectation,
-        history: this.form.history,
-        test: this.form.test,
-        sleep: this.form.sleep,
-        relationship: this.form.relationship,
-        stress: this.form.stress,
-        mood: this.form.mood,
-        hurt: this.form.hurt,
-        suicide: this.form.suicide,
-        roomId: this.form.roomId,
-        start: this.orderSelectInfo.startStr,
-        end: this.orderSelectInfo.endStr
-      }
+      const params = JSON.parse(JSON.stringify(this.form))
+      params['start'] = this.orderSelectInfo.startStr
+      params['end'] = this.orderSelectInfo.endStr
       return params
     }
   },

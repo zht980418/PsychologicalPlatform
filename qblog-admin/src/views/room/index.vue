@@ -16,6 +16,7 @@
         <el-table
           :data="roomList"
           element-loading-text="加载中......"
+          :default-sort="{prop: 'roomId', order: 'ascending'}"
           border
           fit
           highlight-current-row
@@ -49,7 +50,7 @@
                 icon="el-icon-edit"
                 plain
                 @click="handleEdit(scope.row)"
-              >管理</el-button>
+              >编辑</el-button>
               <el-button
                 type="danger"
                 icon="el-icon-delete"
@@ -61,24 +62,77 @@
         </el-table>
       </el-col>
     </el-row>
+    <el-dialog
+      :visible.sync="dialogEditVisible"
+      title="编辑咨询室信息"
+    >
+      <el-form
+        ref="Room"
+        :model="Room"
+        :rules="rules"
+        :inline="true"
+      >
+        <el-form-item
+          label="咨询室内编号"
+          prop="roomId"
+        >
+          <el-input
+            v-model="Room.roomId"
+            :disabled="true"
+          />
+        </el-form-item>
+        <el-form-item
+          label="咨询室名称"
+          prop="name"
+        >
+          <el-input v-model="Room.name" />
+        </el-form-item>
+        <el-form-item
+          label="咨询室地址"
+          prop="address"
+        >
+          <el-input v-model="Room.address" />
+        </el-form-item>
+      </el-form>
+      <div
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button @click="dialogEditVisible=false">取消修改</el-button>
+        <el-button
+          type="primary"
+          @click="roomEdit"
+        >确认修改</el-button>
+      </div>
+    </el-dialog>
   </el-card>
 </template>
 
 <script>
-import { getRoomList, postRoomInfo, deleteRoomInfoById } from '@/api/room'
+import { getRoomList, postRoomInfo, deleteRoomInfoById, updateRoomInfoById } from '@/api/room'
+import { transRoomList } from '@/utils/room-utils'
 
 export default {
   data() {
     return {
+      dialogEditVisible: false,
       view: false,
-      edit: true,
-      roomList: [{ roomId: '0', name: '咨询室1', address: '二教103' }, { roomId: '1', name: '咨询室2', address: '二教104' }]
+      Room: {},
+      roomList: [],
+      rules: {
+        name: [{ required: true, message: '请填写咨询室名称，该项不能为空', trigger: 'blur' }],
+        address: [{ required: true, message: '请填写咨询室地址，该项不能为空', trigger: 'blur' }]
+      },
     }
   },
   created() {
     // 获取咨询室list
     getRoomList().then((res) => {
-      this.room = res // 传入咨询室列表
+      if (res.code === 0) {
+        console.log(res)
+        this.roomList = res.data // 传入咨询室列表
+        transRoomList(this.roomList)
+      }
     }).catch((err) => {
       console.log(err)
       this.$notify.error({
@@ -90,13 +144,15 @@ export default {
   methods: {
     // 查看
     handleView(row) {
-      this.$router.push({ name: 'View', params: { op: this.view, roomId: row.roomId, name: row.name, address: row.address } })
+      this.$router.push({ name: 'View', params: { roomId: row.roomId, name: row.name, address: row.address } })
     },
     handleAdd() {
-      const params = { roomId: this.roomList.length, name: 'newRoom', address: 'newAddress' }
-      this.roomList.push(params)
+      console.log(this.roomList[this.roomList.length - 1].roomId)
+      const params = { roomId: this.roomList[this.roomList.length - 1].roomId + 1, name: 'newRoom', address: 'newAddress' }
       postRoomInfo(params).then((res) => {
-        if (res === true) {
+        if (res.code === 0) {
+          console.log(res)
+          this.roomList.push(params)
           this.$notify.success({
             title: '提示',
             message: '咨询室添加成功',
@@ -110,17 +166,47 @@ export default {
         })
       })
     },
-    // 编辑咨询室信息
+
+    // 展示编辑dialog
     handleEdit(row) {
-      this.$router.push({ name: 'View', params: { op: this.edit, roomId: row.roomId, name: row.name, address: row.address } })
+      // this.$router.push({ name: 'View', params: { op: this.edit, roomId: row.roomId, name: row.name, address: row.address } })
+      this.dialogEditVisible = true
+      console.log(row)
+      this.Room = JSON.parse(JSON.stringify(row))
+    },
+
+    // 编辑咨询室信息
+    roomEdit() {
+      this.$refs['Room'].validate((valid) => {
+        if (valid) {
+          updateRoomInfoById(this.Room.roomId, this.Room).then((res) => {
+            if (res.code === 0) {
+              console.log(res)
+              this.dialogEditVisible = false
+              this.$notify.success({
+                title: '提示',
+                message: '咨询室信息编辑成功,请刷新页面查看',
+              })
+            }
+          }).catch((err) => {
+            console.log(err)
+            this.$notify.error({
+              title: '提示',
+              message: '网络忙，咨询室信息编辑失败',
+            })
+          })
+        }
+      })
     },
 
     // 删除咨询室信息
     handleDelete(index, row) {
       if (confirm(`你确定要删除该咨询室吗？`)) {
-        this.roomList.splice(index, index + 1)
         deleteRoomInfoById(row.roomId).then((res) => {
-          if (res === true) {
+          console.log(res)
+          if (res.code === 0) {
+            console.log(index)
+            this.roomList.splice(index, 1)
             this.$notify.success({
               title: '提示',
               message: '咨询室删除成功',
