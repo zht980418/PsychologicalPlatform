@@ -228,14 +228,6 @@ export default {
     },
     handleToggle(){
       this.toggleLoginRegister =!this.toggleLoginRegister;
-      // console.log(this.$refs.loginForm);
-      // console.log(this.$refs.registerForm);
-      // if(this.$refs.loginForm){
-      //   this.$refs.loginForm.clearValidate();
-      // };
-      // if(this.$refs.registerForm){
-      //   this.$refs.registerForm.clearValidate();
-      // }
     },
 
     handleLogin() {
@@ -267,23 +259,21 @@ export default {
         if (valid) {
           // 显示 loading
           this.loading = true
-          console.log('注册正常')
+          this.$store
+          // 执行 vuex 中的注册方法
+          .dispatch('user/login', this.registerForm)
+          .then(() => {
+          // this.redirect 为本来要跳转的页面，如果有值的话登录之后直接跳转到本来要跳转的页面，否则跳转到首页
+          this.$router.push({ path: this.redirect || '/' })
+          // 关闭 loading
           this.loading = false
-          // this.$store
-          //   // 执行 vuex 中的登录方法
-          //   .dispatch('user/login', this.loginForm)
-          //   .then(() => {
-          //     // this.redirect 为本来要跳转的页面，如果有值的话登录之后直接跳转到本来要跳转的页面，否则跳转到首页
-          //     this.$router.push({ path: this.redirect || '/' })
-          //     // 关闭 loading
-          //     this.loading = false
-          //   })
-          //   .catch(() => {
-          //     // 关闭 loading
-          //     this.loading = false
-          //   })
+          })
+          .catch(() => {
+          // 关闭 loading
+          this.loading = false
+          })
         } else {
-          console.log('error submit!!')
+          console.log('error register!!')
           return false
         }
       })
