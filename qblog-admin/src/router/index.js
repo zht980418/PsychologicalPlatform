@@ -156,7 +156,6 @@ export const constantRoutes = [
     children: [
       {
         path: 'userManage',
-        name: 'userManage',
         component: () => import('@/views/userManage/index'),
         meta: { title: '用户查询', icon: 'el-icon-user' },
       }
