@@ -93,7 +93,6 @@ export default {
   created() {
     getSchedule().then((res) => {
       if (res.code === 0) {
-        console.log(res)
         this.roomConfig.events = res.data
         transScheduleList(this.roomConfig.events)
       }
