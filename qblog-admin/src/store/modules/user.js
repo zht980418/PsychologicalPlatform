@@ -1,4 +1,4 @@
-import { login, register, logout, getUserById, } from '@/api/user'
+import { login, regist, logout, getUserById} from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -48,12 +48,13 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       // 用户名前后去掉空格
-      login({ username: username.trim(), password: password }).then(response => {
+      login({ userid: username.trim(), password: password }).then(response => {
         // 获取返回值中的 data
 
         const { data } = response
         // 调用 mutations 中 SET_TOKEN 方法，将 token 存到 vuex 中
         commit('SET_TOKEN', data.token)
+        commit('SET_ID', username)
         // 使用 js-cookie 插件，将 token 存入本地cookie中
         setToken(data.token)
         resolve()
@@ -66,7 +67,7 @@ const actions = {
   register({commit}, userInfo){
     const { username, password, } = userInfo
     return new Promise(((resolve, reject) => {
-    register({ username: username.trim(), password: password, passwordRepeat:passwordRepeat}).then(response =>{
+    regist({ userid: username.trim(), password: password, rolename:'editor'}).then(response =>{
       const { data } = response
       // 调用 mutations 中 SET_TOKEN 方法，将 token 存到 vuex 中
       commit('SET_TOKEN', data.token)
@@ -80,9 +81,9 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit, id }) {
+  getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getUserById(id).then(response => {
+      getUserById(state.id).then(response => {
         const { data } = response
 
         if (!data) {

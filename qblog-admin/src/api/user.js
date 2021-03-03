@@ -9,7 +9,7 @@ export function login(data) {
   })
 }
 
-export function register(data) {
+export function regist(data) {
   return request({
     url: '/register',
     method: 'post',
@@ -20,8 +20,10 @@ export function register(data) {
 export function getUserById(id){
   return request({
     url: '/logintest/' + id,
-    method: 'post',
-    id
+    method: 'get',
+    data: {
+      id: id
+    }
   })
 }
 

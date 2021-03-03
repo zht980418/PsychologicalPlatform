@@ -241,7 +241,7 @@ export default {
             .then(() => {
               // this.redirect 为本来要跳转的页面，如果有值的话登录之后直接跳转到本来要跳转的页面，否则跳转到首页
               this.$router.push({ path: this.redirect || '/' })
-
+              this.$store.dispatch('user/getInfo')
               // 关闭 loading
               this.loading = false
             })
@@ -262,7 +262,7 @@ export default {
           this.loading = true
           this.$store
           // 执行 vuex 中的注册方法
-          .dispatch('user/login', this.registerForm)
+          .dispatch('user/register', this.registerForm)
           .then(() => {
           // this.redirect 为本来要跳转的页面，如果有值的话登录之后直接跳转到本来要跳转的页面，否则跳转到首页
           this.$router.push({ path: this.redirect || '/' })
