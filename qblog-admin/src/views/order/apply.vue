@@ -22,6 +22,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_SCHEDULE, createEventId } from '@/utils/event-utils'
 import { getSchedule, postApplication, deleteApplicationById } from '@/api/schedule'
+import { transScheduleList } from '@/utils/schedule-utils'
 import '@fullcalendar/core/locales/zh-cn'
 
 export default {
@@ -31,7 +32,7 @@ export default {
   data() {
     return {
       // doctorId: this.$route.params.doctorId,
-      doctorId: '李医生',
+      doctorId: 'zhangsan123',
       roomConfig: {
         plugins: [
           dayGridPlugin,
@@ -52,6 +53,7 @@ export default {
         ],
         initialView: 'timeGridWeek',
         initialEvents: INITIAL_SCHEDULE, // alternatively, use the `events` setting to fetch from a feed
+        events: '',
         editable: true, // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead
           {
@@ -86,14 +88,15 @@ export default {
         */
       },
       currentEvents: [],
-      timelist: []
     }
   },
   created() {
-    // 获取排班表
     getSchedule().then((res) => {
-      this.roomConfig.initialEvents = res
-      console.log('获取成功')
+      if (res.code === 0) {
+        console.log(res)
+        this.roomConfig.events = res.data
+        transScheduleList(this.roomConfig.events)
+      }
     }).catch((err) => {
       console.log(err)
       this.$notify.error({
@@ -117,7 +120,7 @@ export default {
           if (res.data === 0) {
             this.$notify.success({
               title: '提示',
-              message: '排班申请成功',
+              message: '排班申请成功,请刷新查看',
             })
             const calendarApi = selectInfo.view.calendar
             calendarApi.unselect() // clear date selection

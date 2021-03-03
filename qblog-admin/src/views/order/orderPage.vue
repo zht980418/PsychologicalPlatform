@@ -535,21 +535,6 @@
     <br>
     <el-row>
       <el-col :offset="8">
-        <!-- <div v-if="initVisible"> -->
-        <!-- <el-button
-            type="info"
-            icon="el-icon-close"
-            plain
-            @click="$router.back(-1)"
-          >取消添加</el-button>
-          <el-button
-            type="primary"
-            icon="el-icon-check"
-            plain
-            @click="handleAddOrder"
-          >添加预约</el-button>
-        </div> -->
-        <!-- <div v-else> -->
         <div>
           <el-button
             type="info"

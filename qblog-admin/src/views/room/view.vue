@@ -11,24 +11,6 @@
           @mouseleave="alertVisible=false"
         >{{ room.name }}使用情况</h1>
       </el-col>
-      <el-col :span="5">
-        <el-alert
-          v-show="alertVisible&(!roomConfig.selectable)"
-          type="warning"
-          title="管理"
-          description="查看时间表时无法编辑"
-          show-icon
-          :closable="false"
-        />
-        <el-alert
-          v-show="alertVisible&(roomConfig.selectable)"
-          type="warning"
-          title="管理"
-          description="点击时间表可直接添加/修改预约"
-          show-icon
-          :closable="false"
-        />
-      </el-col>
     </el-row>
     <el-row>
       <el-col
@@ -38,7 +20,7 @@
         <el-form
           :model="room"
           :inline="true"
-          :disabled="!roomConfig.selectable"
+          :disabled="true"
         >
           <el-form-item
             label="咨询室名："
@@ -90,7 +72,6 @@ export default {
   },
   data() {
     return {
-      alertVisible: false,
       formLabelWidth: '120px',
       room: {
         roomId: 'newId',
@@ -122,6 +103,7 @@ export default {
         ],
         initialView: 'timeGridWeek',
         initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+        events: '',
         editable: true, // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead
           {
@@ -165,9 +147,12 @@ export default {
     // 获取限制信息
     this.roomConfig.businessHours = defaultConstraint()
     this.roomConfig.selectConstraint = defaultConstraint()
-    // 获取日程表数据
-    getRoomCalendarById(this.form.room).then((res) => {
-      this.roomConfig.initialEvents = res // 传入咨询室日程
+    // TODO 获取日程表数据
+    getRoomCalendarById(this.room.roomId).then((res) => {
+      if (res.code === 0) {
+        console.log(res)
+        this.roomConfig.events = res.data // 传入咨询室日程
+      }
     }).catch((err) => {
       console.log(err)
       this.$notify.error({
@@ -177,7 +162,6 @@ export default {
     })
   },
   methods: {
-    // 预约
     handleWeekendsToggle() {
       this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
     },
