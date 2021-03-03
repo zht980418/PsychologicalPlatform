@@ -2,7 +2,7 @@
 export default {
     // 咨询室信息
     Room: '/roomInfo',
-    // 咨询师日程表
+    // 咨询室日程表
     RoomCalendar: '/roomOrder',
     //医生排班表
     DoctorConstraint: '/doctorCon',
@@ -15,5 +15,7 @@ export default {
     // 预约记录
     Form: '/orderForm',
     // 排班
-    Schedule: '/schedule'
+    Schedule: '/schedule',
+    // 咨询室排班
+    RoomSchedule: '/roomSchedule',
 }

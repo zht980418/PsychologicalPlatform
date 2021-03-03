@@ -73,15 +73,6 @@
         :inline="true"
       >
         <el-form-item
-          label="咨询室内编号"
-          prop="roomId"
-        >
-          <el-input
-            v-model="Room.roomId"
-            :disabled="true"
-          />
-        </el-form-item>
-        <el-form-item
           label="咨询室名称"
           prop="name"
         >
@@ -147,11 +138,9 @@ export default {
       this.$router.push({ name: 'View', params: { roomId: row.roomId, name: row.name, address: row.address } })
     },
     handleAdd() {
-      console.log(this.roomList[this.roomList.length - 1].roomId)
       const params = { roomId: this.roomList[this.roomList.length - 1].roomId + 1, name: 'newRoom', address: 'newAddress' }
       postRoomInfo(params).then((res) => {
         if (res.code === 0) {
-          console.log(res)
           this.roomList.push(params)
           this.$notify.success({
             title: '提示',

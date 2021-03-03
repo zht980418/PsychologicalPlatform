@@ -17,15 +17,16 @@ export function getSchedule() {
  * @param {appId:number,doctorId:number,start:Date,end:Date,daysOfWeek:number} params 排班时间参数
  */
 export function postApplication(params) {
+    console.log(params)
     return request({
         url: urls.Schedule,
         method: 'post',
         data: {
-            appId: params.appId,
-            doctorId: parmas.doctorId,
+            appid: params.appId,
+            doctorid: params.doctorId,
             start: params.start,
             end: params.end,
-            daysOfWeek: params.daysOfWeek
+            daysofweek: params.daysOfWeek
         }
     })
 }
@@ -38,5 +39,33 @@ export function deleteApplicationById(appId) {
     return request({
         url: urls.Schedule + '/' + appId,
         method: 'delete',
+    })
+}
+
+/**
+ * 获取咨询室排班表event 
+ * 返回数据：{appid,start,end,roomid,doctorid}名称随意，反正就这几个数据
+ * @param {roomId:number} roomId
+ */
+
+export function getRoomScheduleById(roomId) {
+    return request({
+        url: urls.RoomSchedule + '/' + roomId,
+        method: 'get'
+    })
+}
+
+/**
+ * 添加咨询室排班
+ * @param {appId:number} appId 
+ * @param {roomId:number} params 
+ */
+export function postRoomSchedule(appId, params) {
+    return request({
+        url: urls.RoomSchedule + '/' + appId,
+        method: 'post',
+        data: {
+            roomid: params.roomId
+        }
     })
 }
