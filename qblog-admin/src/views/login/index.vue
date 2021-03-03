@@ -146,7 +146,7 @@
 </template>
 
 <script>
-// import { validUsername } from '@/utils/validate'
+
 
 export default {
   name: 'Login',
@@ -166,7 +166,7 @@ export default {
       }
     }
     const validatePasswordRepeat = (rule, value, callback) => {
-      if (value !== this.registerForm.passwordR) {
+      if (value !== this.registerForm.passwordRepeat) {
         callback(new Error('两次密码必须相同'))
       } else {
         callback()
@@ -241,6 +241,7 @@ export default {
             .then(() => {
               // this.redirect 为本来要跳转的页面，如果有值的话登录之后直接跳转到本来要跳转的页面，否则跳转到首页
               this.$router.push({ path: this.redirect || '/' })
+
               // 关闭 loading
               this.loading = false
             })
