@@ -1,5 +1,6 @@
 package pers.qianyucc.qblog.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -11,10 +12,10 @@ import java.io.Serializable;
 public class FormPO implements Serializable{
 
     private static final long serialVersionUID = 4242353588092631058L;
-    @TableId(value = "orderid")
+    @TableId(value = "orderid",type = IdType.INPUT)
 //    private String id;
-    private String doctorid;
     private String orderid;
+    private String doctorid;
     private String uid;
     private String type;
     private String name;

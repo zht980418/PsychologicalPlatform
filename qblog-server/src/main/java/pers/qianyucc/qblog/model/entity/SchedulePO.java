@@ -15,6 +15,7 @@ public class SchedulePO implements Serializable {
     @TableId(value = "appid", type = IdType.INPUT)
     private String appid;
     private String doctorid;
+    private String doctorname;
     private String start;
     private String end;
     private String daysofweek;

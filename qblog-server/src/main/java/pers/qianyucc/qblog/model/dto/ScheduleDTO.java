@@ -18,6 +18,9 @@ public class ScheduleDTO {
     @ApiModelProperty(notes = "doctorid", example = "zhangsan123")
     private String doctorid;
 
+    @ApiModelProperty(notes = "docotorname", example = "zhangsan")
+    private String doctorname;
+
     @ApiModelProperty(notes = "开始时间", example = "9:00:00")
     private String start;
 

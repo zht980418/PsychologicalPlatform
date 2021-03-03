@@ -49,7 +49,7 @@ public class ScheduleService {
     public List<ScheduleVO> getAllSchedules(){
         ArrayList res = new ArrayList<>();
         QueryWrapper<SchedulePO> wrapper = new QueryWrapper<>();
-        wrapper.select("appid","start","end","daysofweek","doctorid");
+        wrapper.select("appid","start","end","daysofweek","doctorid","doctorname");
         List<Map<String, Object>> maps = scheduleMapper.selectMaps(wrapper);
         for(int i =0; i<maps.size(); i++){
             res.add(maps.get(i));
