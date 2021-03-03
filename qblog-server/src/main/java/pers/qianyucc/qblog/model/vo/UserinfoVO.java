@@ -11,6 +11,8 @@ public class UserinfoVO {
     private String userid;
     private String password;
     private String rolename;
+    private String phonenumber;
+    private String nickname;
 
 
     public static UserinfoVO fromUserinfoPO(UserinfoPO userinfoPO){return new Converter().convertToVO(userinfoPO);}

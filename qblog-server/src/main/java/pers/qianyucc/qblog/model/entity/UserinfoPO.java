@@ -17,4 +17,6 @@ public class UserinfoPO implements Serializable {
     private String userid;
     private String password;
     private String rolename;
+    private String phonenumber;
+    private String nickname;
 }

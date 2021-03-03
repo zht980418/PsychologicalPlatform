@@ -23,6 +23,13 @@ public class UserinfoDTO {
     @ApiModelProperty(notes = "rolename", example = "管理员")
     private String rolename;
 
+    @ApiModelProperty(notes = "phonenumber", example = "19934271418")
+    private String phonenumber;
+
+    @NotEmpty(message = "昵称不能为空")
+    @ApiModelProperty(notes = "nickname", example = "zhangsan")
+    private String nickname;
+
     public UserinfoPO toUserinfoPO(){return new UserinfoDTO.Converter().convertToPO(this);}
 
     private static class Converter implements IConverter<UserinfoDTO, UserinfoPO>{

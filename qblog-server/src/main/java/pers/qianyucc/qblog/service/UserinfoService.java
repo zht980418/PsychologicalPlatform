@@ -52,7 +52,7 @@ public class UserinfoService {
     public List<UserinfoVO> getAlluserinfo(){
         ArrayList res = new ArrayList();
         QueryWrapper<UserinfoPO> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("userid", "password", "rolename");
+        queryWrapper.select("userid", "password", "rolename","phonenumber","nickname");
         List<Map<String, Object>> maps = userinfoMapper.selectMaps(queryWrapper);
         for(int i = 0; i <maps.size(); i++){
             res.add(maps.get(i));
