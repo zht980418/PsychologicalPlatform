@@ -45,7 +45,7 @@ public class RoomService {
             throw new BlogException(INVALID_ID);
         }
         RoomPO roomPO = roomDTO.toRoomPO();
-        System.out.println(roomPO.getRoomid());
+//        System.out.println(roomPO.getRoomid());
         roomPO.setRoomid(roomid);
         roomMapper.updateById(roomPO);
     }

@@ -109,8 +109,6 @@ public class FormDTO {
         return new FormDTO.Converter().convertToPO(this);
     }
 
-    public RoomPO toRoomPO() { return new FormDTO.Converter_room().convertToPO(this);
-    }
 
     private static class Converter implements IConverter<FormDTO, FormPO> {
         @Override
@@ -121,12 +119,4 @@ public class FormDTO {
         }
     }
 
-    private static class Converter_room implements IConverter<FormDTO, RoomPO> {
-        @Override
-        public RoomPO convertToPO(FormDTO roomDTO) {
-            RoomPO po = new RoomPO();
-            BeanUtil.copyProperties(roomDTO, po);
-            return po;
-        }
-    }
 }
