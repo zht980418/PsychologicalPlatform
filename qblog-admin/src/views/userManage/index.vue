@@ -49,7 +49,7 @@
 <script>
 import router from '@/router'
 import modifyUser from '@/views/userManage/modifyUser'
-// import { getUsers } from '@/api/user'
+import { getUsers } from '@/api/user'
 
 
 export default {
@@ -57,32 +57,16 @@ export default {
     return {
       search:'',
       selectionFlag:false,
-      userData: [{
-        id: '000001',
-        username: '新垣结衣',
-        phoneNumber:'400123',
-        permissionList:['医生','编辑'],
-      }, {
-        id: '000002',
-        username: '长泽雅美',
-        phoneNumber:'400124',
-        permissionList:['管理员'],
-      },  {
-        id: '000003',
-        username: '新垣结衣',
-        phoneNumber:'400123',
-        permissionList:['医生'],
-      },{
-        id: '000004',
-        username: '新垣结衣',
-        phoneNumber:'400123',
-        permissionList:[],
-      }]
+      userData: [],
     }
   },
   // created() {
-  //   this.userData = getUsers
+  //   this.userData = getUsers().then((response) => {
+  //     console.log(response);
+  //     }
+  //   )
   // },
+
   methods: {
 
     modifyUser: function(row){
