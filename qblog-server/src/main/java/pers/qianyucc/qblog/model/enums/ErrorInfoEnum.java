@@ -19,7 +19,9 @@ public enum ErrorInfoEnum implements IErrorInfo {
     USERNAME_PASSWORD_ERROR(4009, "用户名或密码错误"),
     UNKNOWN_ERROR(5000, "出现未知错误"),
     FILE_UPLOAD_ERROR(5001, "图片上传失败"),
-    FILE_DOWNLOAD_ERROR(5002, "图片下载失败");
+    FILE_DOWNLOAD_ERROR(5002, "图片下载失败"),
+    DUPLICATE_USERID(5003,"用户名重复"),
+    REGISTER_INFO_NOT_COMPLETE(5004,"注册信息不完整");
 
     private int code;
     private String msg;
