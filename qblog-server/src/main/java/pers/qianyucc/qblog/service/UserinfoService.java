@@ -63,7 +63,12 @@ public class UserinfoService {
     public UserinfoVO getUserinfo(String userid){
         UserinfoPO dbUserinfo = userinfoMapper.selectById(userid);
         UserinfoVO userinfoVO = UserinfoVO.fromUserinfoPO(dbUserinfo);
-        return  userinfoVO;
+        if(userinfoVO.getUserid()==null){
+            throw new BlogException(USERNAME_PASSWORD_ERROR);
+        }
+        else {
+            return  userinfoVO;
+        }
     }
 //    核对用户密码
     public String checkUsernamePassword(UserinfoDTO userinfoDTO, String Userid, String Password){

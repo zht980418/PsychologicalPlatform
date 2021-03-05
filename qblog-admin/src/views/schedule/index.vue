@@ -15,11 +15,10 @@
     <el-dialog
       :visible.sync="dialogEditVisible"
       title="分配咨询室"
-    >
+    >咨询室：
       <el-select
         v-model="roomSelection"
         placeholder="请选择咨询室"
-        clearable
       >
         <el-option
           v-for="item in room"
@@ -28,6 +27,7 @@
           :label="item.name"
         />
       </el-select>
+      <h1 align="center">咨询室排班表</h1>
       <FullCalendar :options="roomConfig">
         <template v-slot:eventContent="arg">
           <!-- <b>{{ arg.timeText }}</b> -->
@@ -44,7 +44,6 @@
           @click="roomEdit"
         >确认修改</el-button>
       </div>
-
     </el-dialog>
   </div>
 </template>
@@ -54,11 +53,12 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { getSchedule, getRoomScheduleById, postRoomSchedule } from '@/api/schedule'
-import { getroom } from '@/api/room'
-import { INITIAL_SCHEDULE } from '@/utils/event-utils'
-import { transScheduleList } from '@/utils/schedule-utils'
 import '@fullcalendar/core/locales/zh-cn'
+import { getSchedule, getRoomScheduleById, postRoomSchedule } from '@/api/schedule'
+import { getRoomList } from '@/api/room'
+import { INITIAL_SCHEDULE, transEvent } from '@/utils/event-utils'
+import { transScheduleList } from '@/utils/schedule-utils'
+import { transRoomList } from '@/utils/room-utils'
 
 export default {
   components: {
@@ -90,7 +90,7 @@ export default {
         ],
         initialView: 'timeGridWeek',
         initialEvents: INITIAL_SCHEDULE, // alternatively, use the `events` setting to fetch from a feed
-        events: '',
+        events: [],
         editable: true, // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead
           {
@@ -135,14 +135,8 @@ export default {
             startTime: '09:00',
             endTime: '18:00'
           },
-          // {
-          //   daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
-          //   startTime: '14:00',
-          //   endTime: '18:00'
-          // },
         ],
         initialView: 'timeGridWeek',
-        // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
         editable: true, // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead
           {
@@ -150,11 +144,6 @@ export default {
             startTime: '09:00',
             endTime: '18:00'
           },
-          // {
-          //   daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
-          //   startTime: '14:00', // 8am
-          //   endTime: '18:00' // 6pm
-          // }
         ],
         selectable: false,
         selectMirror: true,
@@ -166,9 +155,9 @@ export default {
         slotDuration: '04:00:00',
         expandRows: true,
         locale: 'zh-cn',
-        select: this.handleDateSelect,
-        eventClick: this.handleEventClick,
-        eventsSet: this.handleEvents,
+        // select: this.handleDateSelect,
+        // eventClick: this.handleEventClick,
+        eventsSet: this.handleEvents2,
         /* you can update a remote database when these fire:
         eventAdd:
         eventChange:
@@ -176,14 +165,15 @@ export default {
         */
       },
       currentEvents: [],
+      currentEvents2: [],
     }
   },
   watch: {
     roomSelection: function (val) {
       getRoomScheduleById(val).then((res) => {
         if (res.code === 0) {
-          console.log(res.data)
-          this.roomConfig.events
+          console.log(res.code)
+          this.roomConfig.events = transEvent(res.data)
         }
       }).catch((err) => {
         console.log(err)
@@ -195,11 +185,10 @@ export default {
     }
   },
   created() {
-    getroom().then((res) => {
+    getRoomList().then((res) => {
       if (res.code === 0) {
-        console.log(res)
         this.room = res.data // 传入咨询室列表
-        transroom(this.room)
+        transRoomList(this.room)
         this.roomSelection = this.room[0].roomId
       }
     }).catch((err) => {
@@ -213,7 +202,7 @@ export default {
       if (res.code === 0) {
         console.log(res)
         this.scheduleConfig.events = res.data
-        transScheduleList(this.roomConfig.events)
+        transScheduleList(this.scheduleConfig.events)
       }
     }).catch((err) => {
       console.log(err)
@@ -251,6 +240,9 @@ export default {
 
     handleEvents(events) {
       this.currentEvents = events
+    },
+    handleEvents2(events2) {
+      this.currentEvents2 = events2
     },
 
     errorHandler() {

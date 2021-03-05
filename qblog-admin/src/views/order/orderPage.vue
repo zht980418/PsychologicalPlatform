@@ -487,7 +487,6 @@
               <el-select
                 v-model="form.roomId"
                 placeholder="请选择咨询室"
-                clearable
               >
                 <el-option
                   v-for="item in room"

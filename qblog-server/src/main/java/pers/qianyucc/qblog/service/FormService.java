@@ -46,6 +46,17 @@ public class FormService {
         }
         return res;
     }
+    public List findByRoomId(String roomid) {
+
+        ArrayList res = new ArrayList<>();
+        QueryWrapper<FormPO> wrapper = new QueryWrapper<>();
+        wrapper.eq("roomid",roomid);
+        List<Map<String, Object>> maps = formMapper.selectMaps(wrapper);
+        for(int i =0; i<maps.size(); i++){
+            res.add(maps.get(i));
+        }
+        return res;
+    }
     public void insForm(FormDTO formDTO) {
         FormPO formPO = formDTO.toFormPO();
         formMapper.insert(formPO);

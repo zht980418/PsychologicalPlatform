@@ -41,6 +41,14 @@ public class FormController {
         return Results.ok(orderform);
     }
 
+    @ApiOperation("根据roomid获取咨询表格")
+    @GetMapping("/roomOrder/{roomid}")
+    @ApiImplicitParam(name = "roomid", value = "房间ID", required = true, dataType = "String", paramType = "path")
+    public Results<List<FormVO>> getFormByroomId(@PathVariable String roomid){
+        List<FormVO> formVOList = formService.findByRoomId(roomid);
+        return Results.ok(formVOList);
+    }
+
     @ApiOperation("新增表单数据")
     @PostMapping("/orderForm")
     public Results<String> postForm(@ApiParam(name = "表单信息", value = "传入json格式", required = true)
