@@ -17,8 +17,7 @@ import retrofit2.http.QueryMap;
 
 import java.util.*;
 
-import static pers.qianyucc.qblog.model.enums.ErrorInfoEnum.INVALID_ID;
-import static pers.qianyucc.qblog.model.enums.ErrorInfoEnum.USERNAME_PASSWORD_ERROR;
+import static pers.qianyucc.qblog.model.enums.ErrorInfoEnum.*;
 
 @Slf4j
 @Service
@@ -29,8 +28,21 @@ public class UserinfoService {
 
 //    增加用户
     public void insUserinfo(UserinfoDTO userinfoDTO){
-        UserinfoPO userinfoPO = userinfoDTO.toUserinfoPO();
-        userinfoMapper.insert(userinfoPO);
+        String userid = userinfoDTO.getUserid();
+        String password = userinfoDTO.getPassword();
+        String nickname = userinfoDTO.getPassword();
+        String phonenumber = userinfoDTO.getPhonenumber();
+        UserinfoPO dbUserinfo = userinfoMapper.selectById(userid);
+        if(Objects.isNull(dbUserinfo)){
+            UserinfoPO userinfoPO = userinfoDTO.toUserinfoPO();
+            userinfoMapper.insert(userinfoPO);
+        }
+        else if (userid==null||password==null||nickname==null||phonenumber==null){
+            throw  new BlogException(REGISTER_INFO_NOT_COMPLETE);
+        }
+        else {
+            throw new BlogException(DUPLICATE_USERID);
+        }
     }
 //    删除用户
     public void deleteUserinfo(String userid){
@@ -63,7 +75,12 @@ public class UserinfoService {
     public UserinfoVO getUserinfo(String userid){
         UserinfoPO dbUserinfo = userinfoMapper.selectById(userid);
         UserinfoVO userinfoVO = UserinfoVO.fromUserinfoPO(dbUserinfo);
-        return  userinfoVO;
+        if(userinfoVO.getUserid()==null){
+            throw new BlogException(USERNAME_PASSWORD_ERROR);
+        }
+        else {
+            return  userinfoVO;
+        }
     }
 //    核对用户密码
     public String checkUsernamePassword(UserinfoDTO userinfoDTO, String Userid, String Password){

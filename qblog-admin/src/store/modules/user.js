@@ -1,4 +1,4 @@
-import { login, regist, logout, getUserById} from '@/api/user'
+import { login, register, logout, getUserById} from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -67,7 +67,7 @@ const actions = {
   register({commit}, userInfo){
     const { username, password, } = userInfo
     return new Promise(((resolve, reject) => {
-    regist({ userid: username.trim(), password: password, rolename:'editor'}).then(response =>{
+    register({ userid: username.trim(), password: password, rolename:'editor'}).then(response =>{
       const { data } = response
       // 调用 mutations 中 SET_TOKEN 方法，将 token 存到 vuex 中
       commit('SET_TOKEN', data.token)

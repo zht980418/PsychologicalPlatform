@@ -9,7 +9,7 @@ export function login(data) {
   })
 }
 
-export function regist(data) {
+export function register(data) {
   return request({
     url: '/register',
     method: 'post',
@@ -27,20 +27,26 @@ export function getUserById(id){
   })
 }
 
-// export function getUsers(){
-//   return request({
-//     url: '/logintest',
-//     method: 'get'
-//   })
-// }
+export function getUsers(){return request({
+    url: '/logintest',
+    method: 'get'
+  })
+}
 
-// export function addUser(data){
-//   return request({
-//     url: '/',
-//     method: 'post',
-//     data
-//   })
-// }
+export function modifyUser(id,data){return request({
+  url: '/register/' + id,
+  method: 'put',
+  data
+})
+}
+
+export function deleteUser(id){return request({
+  url: '/register/' + id,
+  method: 'delete'
+})
+}
+
+
 
 export function logout() {
   return request({

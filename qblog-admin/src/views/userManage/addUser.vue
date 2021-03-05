@@ -24,7 +24,7 @@
               </el-form-item>
               <el-form-item label="权限">
                 <el-checkbox-group  v-model="user.permissionList">
-                  <el-checkbox label="医生" name="permission"></el-checkbox>
+                  <el-checkbox label="咨询师" name="permission"></el-checkbox>
                   <el-checkbox label="编辑" name="permission"></el-checkbox>
                   <el-checkbox label="管理员" name="permission"></el-checkbox>
                 </el-checkbox-group>
@@ -42,28 +42,51 @@
 </template>
 
 <script>
-import { addUser } from '@/api/user'
+import {getUserById, register} from '@/api/user'
 
 export default {
   name: 'addUser',
   data(){
     return{
      user:{
-       username:'LoveCraft',
-       password:'',
-       name: '',
-       phoneNumber: '',
-       permissionList:['医生','编辑']
+       username:'Lovecraft',
+       password:'123456',
+       name: '洛夫',
+       phoneNumber: '123456789',
+       permissionList:[],
      },
     }
   },
   methods:{
-    onSubmit:function(){
-      console.log(this.user)
-      // addUser(this.user)
-      // this.$router.push({name:'userManage'})
+    onSubmit:function() {
+      //检查用户名是否可用
+          register({
+              userid: this.user.username,
+              nickname: this.user.name,
+              password: this.user.password,
+              phonenumber: this.user.phoneNumber,
+              rolename: this.user.permissionList.join(" ")
+            }
+          ).then((res) => {
+            console.log(res)
+            if(res.code === 0){
+              this.$notify.success({
+                title: '提示',
+                message: '用户添加成功',
+              })
+              this.$router.push({name: 'addUser'})
+            }else{
+              this.$notify.error({
+                title: '提示',
+                message: '用户名已被占用',
+              })
+            }
+          }).catch((err) => {
+              console.log(err)
+    })
     },
-    onCancel:function(){
+
+    onCancel: function(){
       this.$router.push({name:'userManage'})
     }
   }

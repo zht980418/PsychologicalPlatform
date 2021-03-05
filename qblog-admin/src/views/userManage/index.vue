@@ -1,32 +1,27 @@
 <template>
   <el-row>
   <el-table
-    :data="userData.filter(data => !search || data.username.toLowerCase().includes(search.toLowerCase())||data.id.match(search))"
+    :data="userData.filter(data => !search || data.userid.toLowerCase().includes(search.toLowerCase())||data.rolename.match(search))"
     style="width: 100%">
     <el-table-column
-      prop="id"
+      prop="userid"
       label="编号"
       width="180">
     </el-table-column>
     <el-table-column
-      prop="username"
+      prop="nickname"
       label="用户名"
       width="180">
     </el-table-column>
     <el-table-column
-      prop="phoneNumber"
+      prop="phonenumber"
       label="电话"
       width="180">
     </el-table-column>
     <el-table-column
-      prop="permissionList"
+      prop="rolename"
       label="授权"
       width="180">
-      <template slot-scope="scope">
-        <li v-for="item in scope.row.permissionList" style="display: inline">
-        {{ item }}
-        </li>
-      </template>
     </el-table-column>
     <el-table-column
       align="left">
@@ -49,7 +44,7 @@
 <script>
 import router from '@/router'
 import modifyUser from '@/views/userManage/modifyUser'
-import { getUsers } from '@/api/user'
+import { getUsers,deleteUser } from '@/api/user'
 
 
 export default {
@@ -60,23 +55,62 @@ export default {
       userData: [],
     }
   },
-  // created() {
-  //   this.userData = getUsers().then((response) => {
-  //     console.log(response);
-  //     }
-  //   )
-  // },
+  created() {
+    getUsers().then((response) => {
+      this.userData = response.data
+        console.log(response)
+      }
+    ).catch((err) => {
+      console.log(err)
+      this.$notify.error({
+        title: '提示',
+        message: '用户获取失败,请与管理员联系',
+      })
+    })
+  },
 
   methods: {
 
     modifyUser: function(row){
-      console.log(row.id);
-      router.push({name: 'modifyUser', params: {userId: row.id}});
+      console.log(row.userid);
+      router.push({name: 'modifyUser', params: {userId: row.userid}});
 
     },
     deleteUser:function(row){
-      console.log(row.id)
-      router.push({name: 'modifyUser', params: {userId: row.id}});
+      {
+        this.$confirm('此操作将永久删除用户, 是否继续?', '提示', {
+          cancelButtonText: '取消',
+          confirmButtonText: '确定',
+          type: 'warning'
+        }).then(() => {
+          deleteUser(row.userid)
+            .then((response)=>{
+            console.log(response)
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+          })
+            .then(() => {
+          getUsers().then((response) => {
+              this.userData = response.data
+              console.log(response)
+              })
+              }
+            ).catch((err) => {
+            console.log(err)
+            this.$notify.error({
+              title: '提示',
+              message: '用户获取失败,请与管理员联系',
+            })
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      }
     }
   },
 
