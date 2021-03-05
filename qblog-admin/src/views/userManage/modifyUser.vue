@@ -31,8 +31,8 @@
               <el-input v-model="user.phoneNumber" />
             </el-form-item>
             <el-form-item label="权限">
-              <el-checkbox-group  v-model="form.permissionList">
-                <el-checkbox label="医生" name="permissionList"></el-checkbox>
+              <el-checkbox-group  v-model="user.permissionList">
+                <el-checkbox label="咨询师" name="permissionList"></el-checkbox>
                 <el-checkbox label="编辑" name="permissionList"></el-checkbox>
                 <el-checkbox label="管理员" name="permissionList"></el-checkbox>
               </el-checkbox-group>
@@ -52,25 +52,55 @@
 
 <script>
 import PanThumb from '@/components/PanThumb'
+import {getUserById, modifyUser} from "@/api/user";
+
 export default {
   name: 'modifyUser',
 
   data(){
     return{
-      form:{
-        permissionList:[],
-      },
       user:{
+        userid:'',
         name: '',
         phoneNumber: '',
-        permission: '',
+        permissionList: [],
+        permissionString:'',
         avatar:'',
       },
     }
   },
+  created() {
+    let userId = this.$route.params.userId
+    getUserById(userId).then((response) => {
+
+      this.user.userid = response.data.userid
+      this.user.name = response.data.nickname
+      this.user.phoneNumber = response.data.phonenumber
+      this.user.permission = response.data.rolename
+      this.user.permissionList = response.data.rolename.split(" ")
+      console.log('created',response.data.rolename)
+    })
+  },
   methods: {
     onSubmit() {
-      console.log('提交');
+      modifyUser(
+        this.user.userid,
+        {
+          // 按后端数据解构进行转换
+        userid: this.user.userid,
+        nickname: this.user.name,
+        rolename: this.user.permissionList.join(' '),
+        phonenumber:this.user.phoneNumber,
+      })
+        .then((response) => {
+          this.$router.push("/userManage")
+        }
+      ).catch((err) => {
+        this.$notify.error({
+          title: '提示',
+          message: '用户修改失败',
+        })
+      })
     }
   },
   components: { PanThumb },
