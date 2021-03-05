@@ -60,13 +60,6 @@ export default {
   methods:{
     onSubmit:function() {
       //检查用户名是否可用
-      getUserById(this.user.username).then((res) => {
-        if (res.data.userid) {
-          this.$notify.error({
-            title: '提示',
-            message: '用户名已被占用',
-          })
-        } else {
           register({
               userid: this.user.username,
               nickname: this.user.name,
@@ -76,14 +69,21 @@ export default {
             }
           ).then((res) => {
             console.log(res)
-            this.$notify.success({
-              title: '提示',
-              message: '用户添加成功',
-            })
-            this.$router.push({name: 'addUser'})
-          })
-        }
-      })
+            if(res.code === 0){
+              this.$notify.success({
+                title: '提示',
+                message: '用户添加成功',
+              })
+              this.$router.push({name: 'addUser'})
+            }else{
+              this.$notify.error({
+                title: '提示',
+                message: '用户名已被占用',
+              })
+            }
+          }).catch((err) => {
+              console.log(err)
+    })
     },
 
     onCancel: function(){
