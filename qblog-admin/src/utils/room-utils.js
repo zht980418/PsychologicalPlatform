@@ -1,5 +1,5 @@
 /* eslint-disable */
-export function transRoom(room) {
+function transRoom(room) {
     room['roomId'] = room.roomid
     delete (room['roomid'])
 }
