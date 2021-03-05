@@ -95,6 +95,5 @@ export function transEvent(event) {
   for (let i = 0; i < event.length; i++) {
     list.push({ id: event[i].orderid, title: event[i].name, start: event[i].start, end: event[i].end })
   }
-  console.log(list)
   return list
 }

@@ -32,7 +32,9 @@ export default {
   data() {
     return {
       // doctorId: this.$route.params.doctorId,
+      // doctorName: this.$route.params.doctorName,
       doctorId: 'zhangsan123',
+      doctorName: '张三',
       roomConfig: {
         plugins: [
           dayGridPlugin,
@@ -93,8 +95,7 @@ export default {
   created() {
     getSchedule().then((res) => {
       if (res.code === 0) {
-        this.roomConfig.events = res.data
-        transScheduleList(this.roomConfig.events)
+        this.roomConfig.events = transScheduleList(res.data)
       }
     }).catch((err) => {
       console.log(err)
@@ -114,7 +115,7 @@ export default {
       if (confirm('你确定要申请该时段排班吗？')) {
         // 存储
         const appId = createEventId()
-        const params = { appId: appId, doctorId: this.doctorId, start: selectInfo.startStr, end: selectInfo.endStr, daysOfWeek: selectInfo.start.getDay() }
+        const params = { appId: appId, doctorId: this.doctorId, doctorName: this.doctorName, start: selectInfo.startStr, end: selectInfo.endStr, daysOfWeek: selectInfo.start.getDay() }
         postApplication(params).then((res) => {
           if (res.data === 0) {
             this.$notify.success({

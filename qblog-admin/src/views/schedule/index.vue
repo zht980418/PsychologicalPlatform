@@ -172,7 +172,6 @@ export default {
     roomSelection: function (val) {
       getRoomScheduleById(val).then((res) => {
         if (res.code === 0) {
-          console.log(res.code)
           this.roomConfig.events = transEvent(res.data)
         }
       }).catch((err) => {
@@ -201,8 +200,7 @@ export default {
     getSchedule().then((res) => {
       if (res.code === 0) {
         console.log(res)
-        this.scheduleConfig.events = res.data
-        transScheduleList(this.scheduleConfig.events)
+        this.scheduleConfig.events = transScheduleList(res.data)
       }
     }).catch((err) => {
       console.log(err)
@@ -217,7 +215,6 @@ export default {
     handleEventClick(clickInfo) {
       this.dialogEditVisible = true
       this.clickapp = clickInfo
-      console.log(clickInfo)
     },
 
     // 分配咨询室

@@ -17,7 +17,6 @@
               <el-select
                 v-model="form.type"
                 placeholder="请选择咨询方式"
-                :disabled="true"
               >
                 <el-option
                   label="线上"
@@ -65,7 +64,6 @@
                   v-model="form.ordertime"
                   type="datetime"
                   start-placeholder="开始时间"
-                  :disabled="true"
                 />
               </el-col>
               <el-col
@@ -101,10 +99,7 @@
                 :label-width="formLabelWidth"
                 prop="name"
               >
-                <el-input
-                  v-model="form.name"
-                  :disabled="true"
-                />
+                <el-input v-model="form.name" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -116,7 +111,6 @@
                 <el-select
                   v-model="form.gender"
                   placeholder="请选择性别"
-                  :disabled="true"
                 >
                   <el-option
                     label="男"
@@ -141,7 +135,6 @@
                   v-model="form.birth"
                   type="date"
                   placeholder="选择日期"
-                  :disabled="true"
                 />
               </el-form-item>
             </el-col>
@@ -151,10 +144,7 @@
                 :label-width="formLabelWidth"
                 prop="occupation"
               >
-                <el-input
-                  v-model="form.occupation"
-                  :disabled="true"
-                />
+                <el-input v-model="form.occupation" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -164,10 +154,7 @@
               :label-width="formLabelWidth"
               prop="phone"
             >
-              <el-input
-                v-model="form.phone"
-                :disabled="true"
-              />
+              <el-input v-model="form.phone" />
             </el-form-item>
           </el-row>
           <el-row>
@@ -176,10 +163,7 @@
               :label-width="formLabelWidth"
               prop="address"
             >
-              <el-input
-                v-model="form.address"
-                :disabled="true"
-              />
+              <el-input v-model="form.address" />
             </el-form-item>
           </el-row>
           <el-row>
@@ -189,10 +173,7 @@
                 :label-width="formLabelWidth"
                 prop="emergency"
               >
-                <el-input
-                  v-model="form.emergency"
-                  :disabled="true"
-                />
+                <el-input v-model="form.emergency" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -201,10 +182,7 @@
                 :label-width="formLabelWidth"
                 prop="emergencyphone"
               >
-                <el-input
-                  v-model="form.emergencyphone"
-                  :disabled="true"
-                />
+                <el-input v-model="form.emergencyphone" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -218,7 +196,6 @@
                 <el-input
                   v-model="form.question"
                   type="textarea"
-                  :disabled="true"
                 />
               </el-col>
               <el-col
@@ -254,7 +231,6 @@
                 <el-input
                   v-model="form.family"
                   type="textarea"
-                  :disabled="true"
                 />
               </el-col>
               <el-col
@@ -290,7 +266,6 @@
                 <el-input
                   v-model="form.expectation"
                   type="textarea"
-                  :disabled="true"
                 />
               </el-col>
               <el-col
@@ -326,7 +301,6 @@
                 <el-input
                   v-model="form.history"
                   type="textarea"
-                  :disabled="true"
                 />
               </el-col>
               <el-col
@@ -362,7 +336,6 @@
                 <el-input
                   v-model="form.test"
                   type="textarea"
-                  :disabled="true"
                 />
               </el-col>
               <el-col
@@ -396,10 +369,7 @@
               label="在过去一个月里，睡眠状况如何？"
               prop="sleep"
             >
-              <el-radio-group
-                v-model="form.sleep"
-                :disabled="true"
-              >
+              <el-radio-group v-model="form.sleep">
                 <el-radio label="很差" />
                 <el-radio label="不满意" />
                 <el-radio label="正常" />
@@ -411,10 +381,7 @@
               label="在过去一个月里，人际关系如何？"
               prop="relationship"
             >
-              <el-radio-group
-                v-model="form.relationship"
-                :disabled="true"
-              >
+              <el-radio-group v-model="form.relationship">
                 <el-radio label="很差" />
                 <el-radio label="不满意" />
                 <el-radio label="正常" />
@@ -426,10 +393,7 @@
               label="在过去一个月里，压力水平如何？"
               prop="stress"
             >
-              <el-radio-group
-                v-model="form.stress"
-                :disabled="true"
-              >
+              <el-radio-group v-model="form.stress">
                 <el-radio label="很高" />
                 <el-radio label="高" />
                 <el-radio label="中等" />
@@ -441,10 +405,7 @@
               label="在过去一个月里，心情如何？"
               prop="mood"
             >
-              <el-radio-group
-                v-model="form.mood"
-                :disabled="true"
-              >
+              <el-radio-group v-model="form.mood">
                 <el-radio label="很低落" />
                 <el-radio label="低落" />
                 <el-radio label="一般" />
@@ -456,10 +417,7 @@
               label="是否有过自伤行为？"
               prop="hurt"
             >
-              <el-radio-group
-                v-model="form.hurt"
-                :disabled="true"
-              >
+              <el-radio-group v-model="form.hurt">
                 <el-radio label="无" />
                 <el-radio label="曾经有" />
                 <el-radio label="现在有" />
@@ -469,10 +427,7 @@
               label="是否有过自杀的想法或行为？"
               prop="suicide"
             >
-              <el-radio-group
-                v-model="form.suicide"
-                :disabled="true"
-              >
+              <el-radio-group v-model="form.suicide">
                 <el-radio label="无" />
                 <el-radio label="曾经有" />
                 <el-radio label="现在有" />
@@ -534,7 +489,21 @@
     <br>
     <el-row>
       <el-col :offset="8">
-        <div>
+        <div v-if="initVisible">
+          <el-button
+            type="info"
+            icon="el-icon-close"
+            plain
+            @click="$router.back(-1)"
+          >取消添加</el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-check"
+            plain
+            @click="handleAddOrder"
+          >确定添加</el-button>
+        </div>
+        <div v-else>
           <el-button
             type="info"
             icon="el-icon-close"
@@ -545,7 +514,7 @@
             type="success"
             icon="el-icon-edit"
             plain
-            @click="handleConfirmOrder"
+            @click="handleAddOrder"
           >接受预约</el-button>
           <el-button
             type="danger"
@@ -565,8 +534,8 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, defaultConstraint } from '@/utils/event-utils'
-import { transForm, newForm } from '@/utils/form-utils'
-import { getOrderById, confirmOrderById, deleteOrderById } from '@/api/order'
+import { transForm, newForm, RetransForm } from '@/utils/form-utils'
+import { getOrderById, postOrder, updateOrderById, deleteOrderById } from '@/api/order'
 import { getRoomConstraintById, getRoomCalendarById } from '@/api/room'
 import '@fullcalendar/core/locales/zh-cn'
 
@@ -577,7 +546,7 @@ export default {
   },
   data() {
     return {
-      // initVisible: this.$route.params.editType,
+      initVisible: this.$route.params.editType,
       orderSelectInfo: this.$route.params.selectInfo,
       calendarVisible: false,
       formLabelWidth: '120px',
@@ -717,23 +686,25 @@ export default {
     this.form.doctorId = this.$route.params.doctorId
     this.form.orderId = this.$route.params.orderId
     this.form.ordertime = this.$route.params.selectInfo.start
-    // 获取预约form【查看预约】
-    getOrderById(this.form.orderId).then((res) => {
-      if (res.code === 0) {
-        this.form = transForm(res.data[0])
-      } else {
+    if (Boolean(this.initVisible) === false) {
+      // 获取预约form【查看预约】
+      getOrderById(this.form.orderId).then((res) => {
+        if (res.code === 0) {
+          this.form = transForm(res.data[0])
+        } else {
+          this.$notify.error({
+            title: '提示',
+            message: '预约信息获取失败',
+          })
+        }
+      }).catch((err) => {
+        console.log(err)
         this.$notify.error({
           title: '提示',
-          message: '预约信息获取失败',
+          message: '网络忙，预约信息获取失败',
         })
-      }
-    }).catch((err) => {
-      console.log(err)
-      this.$notify.error({
-        title: '提示',
-        message: '网络忙，预约信息获取失败',
       })
-    })
+    }
   },
   methods: {
     handleWeekendsToggle() {
@@ -749,21 +720,22 @@ export default {
 
     // 预约信息处理
     // 添加/修改预约
-    handleConfirmOrder() {
+    handleAddOrder() {
+      console.log(this.getForm())
       this.$refs['form'].validate((valid) => {
         if (valid) {
-          console.log('submit')
-          const params = { type: this.form.type, roomId: this.form.roomId }
-          confirmOrderById(this.form.orderId, params).then((res) => {
+          // 添加form信息
+          postOrder(RetransForm(this.getForm())).then((res) => {
             if (res.code === 0) {
+              this.$router.back(-1)
               this.$notify.success({
                 title: '提示',
-                message: '网络忙，预约确认成功',
+                message: '预约添加成功',
               })
             } else {
               this.$notify.error({
                 title: '提示',
-                message: res.code + '预约添加失败',
+                message: '预约添加失败',
               })
             }
           }).catch((err) => {
@@ -780,10 +752,11 @@ export default {
       })
     },
 
-    // 拒绝预约【删除
+    // 拒绝预约
     handleDeleteOrder() {
       deleteOrderById(this.form.orderId).then((res) => {
         if (res.code === 0) {
+          this.$router.back(-1)
           this.$notify.success({
             title: '提示',
             message: '预约拒绝成功',
@@ -804,27 +777,23 @@ export default {
     },
 
     // 修改预约
-    // handleUpdateOrder() {
-    //   updateOrderById(this.form.orderId, this.getForm()).then((res) => {
-    //     if (res.code === 0) {
-    //       this.$notify.success({
-    //         title: '提示',
-    //         message: '网络忙，预约修改成功',
-    //       })
-    //     } else {
-    //       this.$notify.error({
-    //         title: '提示',
-    //         message: res.code + '预约修改失败',
-    //       })
-    //     }
-    //   }).catch((err) => {
-    //     console.log(err)
-    //     this.$notify.error({
-    //       title: '提示',
-    //       message: '网络忙，预约修改失败',
-    //     })
-    //   })
-    // },
+    handleUpdateOrder() {
+      updateOrderById(this.form.orderId, RetransForm(this.getForm())).then((res) => {
+        if (res.code === 0) {
+          this.$router.back(-1)
+          this.$notify.success({
+            title: '提示',
+            message: '预约信息修改成功',
+          })
+        }
+      }).catch((err) => {
+        console.log(err)
+        this.$notify.error({
+          title: '提示',
+          message: '网络忙，预约信息修改失败',
+        })
+      })
+    },
 
     getForm() {
       const params = JSON.parse(JSON.stringify(this.form))
