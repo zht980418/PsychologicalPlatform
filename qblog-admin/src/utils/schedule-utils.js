@@ -32,23 +32,6 @@ function getTime(n) {
     return s
 }
 
-function transSchedule(schedule) {
-    schedule['id'] = schedule.appid
-    schedule['title'] = schedule.doctorid
-    getDate(schedule.daysofweek, schedule.start, schedule.end)
-    // schedule['groupId'] = schedule.doctorid
-    // delete (schedule['doctorid'])
-    delete (schedule['appid'])
-    delete (schedule['doctorid'])
-    delete (schedule['daysofweek'])
-}
-
-export function transScheduleList(list) {
-    for (var i = 0; i < list.length; i++) {
-        transSchedule(list[i])
-    }
-}
-
 function getDate(dayOfWeek, start, end) {
     const today = new Date()
     start = start.split('T')
@@ -65,3 +48,18 @@ function getDate(dayOfWeek, start, end) {
     // console.log(getTime(-6))
 }
 
+function transSchedule(schedule) {
+    schedule['id'] = schedule.appid
+    schedule['title'] = schedule.doctorname
+    getDate(schedule.daysofweek, schedule.start, schedule.end)
+    delete (schedule['doctorname'])
+    delete (schedule['appid'])
+    delete (schedule['daysofweek'])
+}
+
+export function transScheduleList(list) {
+    for (var i = 0; i < list.length; i++) {
+        transSchedule(list[i])
+    }
+    return list
+}
