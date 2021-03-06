@@ -26,15 +26,23 @@ router.beforeEach(async (to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
-      const hasGetUserInfo = store.getters.name
-      if (hasGetUserInfo) {
+      const hasGetUserInfo = store.getters.role
+      console.log('路由守卫，检查是否成功拉取信息', hasGetUserInfo)
+      if (hasGetUserInfo[0]) {
+        console.log('检测到用户信息已获取，继续执行')
         next()
       } else {
         try {
           // get user info
+          console.log('没有检测到用户信息，开始拉取用户信息')
           await store.dispatch('user/getInfo')
-
-          next()
+          const roles = store.getters.role
+          console.log('用户权限为:', roles)
+          store.dispatch('GenerateRoutes', { roles }).then(() => { // 生成可访问的路由表
+            console.log('开始根据权限生成路由表')
+            router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
+            next({ ...to, replace: true })
+          })
         } catch (error) {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')
