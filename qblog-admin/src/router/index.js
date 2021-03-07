@@ -83,13 +83,13 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: '/message/list',
     name: 'Message',
-    meta: { title: '我的留言', icon: 'el-icon-message', role: ['管理员', '编辑', '咨询师'] },
+    meta: { title: '我的留言', icon: 'el-icon-message', role: ['管理员', '咨询师'] },
     children: [
       {
         path: 'list',
         name: 'List',
         component: () => import('@/views/message/index'),
-        meta: { title: '留言列表', icon: 'el-icon-s-comment', role: ['管理员', '编辑'] }
+        meta: { title: '留言列表', icon: 'el-icon-s-comment', role: ['管理员', '咨询师'] }
       }
     ]
   },
@@ -182,6 +182,7 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: '/room/list',
     name: 'Room',
+    meta: { role: ['管理员'] },
     children: [
       {
         path: 'list',
@@ -203,6 +204,7 @@ export const asyncRouterMap = [
     component: Layout,
     name: 'Schedule',
     redirect: '/schedule/list',
+    meta: { role: ['管理员'] },
     children: [
       {
         path: '/list',

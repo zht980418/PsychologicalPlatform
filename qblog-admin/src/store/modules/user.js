@@ -95,7 +95,7 @@ const actions = {
         commit('SET_NAME', nickname)
         commit('SET_PHONE_NUMBER', phonenumber)
         commit('SET_AVATAR', avatar)
-        commit('SET_ROLE', rolename)
+        commit('SET_ROLE', rolename.trim())
         console.log(state)
         resolve(data)
       }).catch(error => {
@@ -111,6 +111,7 @@ const actions = {
         removeToken() // must remove  token  first
         resetRouter()
         commit('RESET_STATE')
+        this.dispatch('ResetRouters')
         resolve()
       }).catch(error => {
         reject(error)

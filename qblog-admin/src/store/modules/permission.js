@@ -18,6 +18,9 @@ const permission = {
     SET_ROUTERS: (state, routers) => {
       state.addRouters = routers
       state.routers = constantRouterMap.concat(routers)
+    },
+    RESET_ROUTERS: (state) => {
+      state.addRouters = []
     }
   },
   actions: {
@@ -44,6 +47,9 @@ const permission = {
         commit('SET_ROUTERS', accessedRouters)
         resolve()
       })
+    },
+    ResetRouters({ commit }) {
+      commit('RESET_ROUTERS')
     }
   }
 }
