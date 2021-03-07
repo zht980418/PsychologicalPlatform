@@ -120,7 +120,6 @@ export default {
     // 获取咨询室list
     getRoomList().then((res) => {
       if (res.code === 0) {
-        console.log(res)
         this.roomList = res.data // 传入咨询室列表
         transRoomList(this.roomList)
       }

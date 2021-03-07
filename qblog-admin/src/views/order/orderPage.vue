@@ -444,7 +444,7 @@
                 placeholder="请选择咨询室"
               >
                 <el-option
-                  v-for="item in room"
+                  v-for="item in roomList"
                   :key="item.roomId"
                   :value="item.roomId"
                   :label="item.name"
@@ -455,13 +455,14 @@
         </el-form>
       </el-col>
     </el-row>
-    <el-row v-if="(form.roomId!=='')&(form.type==='offline')">
+    <el-row v-if="(form.roomId!==null)&(form.roomId!=='')&(form.type==='offline')">
       <el-col
         :span="20"
         :offset="2"
       >
         <h1 style="text-align:center;">咨询室使用情况</h1>
         <FullCalendar
+          id="calendar"
           class="demo-app-calendar"
           :options="roomConfig"
         >
@@ -533,10 +534,11 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, defaultConstraint } from '@/utils/event-utils'
+import { INITIAL_EVENTS, defaultConstraint, transEvent } from '@/utils/event-utils'
 import { transForm, newForm, RetransForm } from '@/utils/form-utils'
+import { transRoomList } from '@/utils/room-utils'
 import { getOrderById, postOrder, updateOrderById, deleteOrderById } from '@/api/order'
-import { getRoomConstraintById, getRoomCalendarById } from '@/api/room'
+import { getRoomCalendarById, getRoomList } from '@/api/room'
 import '@fullcalendar/core/locales/zh-cn'
 
 export default {
@@ -548,7 +550,6 @@ export default {
     return {
       initVisible: this.$route.params.editType,
       orderSelectInfo: this.$route.params.selectInfo,
-      calendarVisible: false,
       formLabelWidth: '120px',
       // 日历参数
       roomConfig: {
@@ -575,7 +576,8 @@ export default {
           },
         ],
         initialView: 'timeGridWeek',
-        initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+        // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+        events: '',
         editable: true, // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead
           {
@@ -618,7 +620,7 @@ export default {
       alertHistoryVisible: false,
       alertTestVisible: false,
       form: newForm(),
-      room: [{ roomId: '1', name: '咨询室1' }, { roomId: '2', name: '咨询室2' }],
+      roomList: [],
       rules: {
         type: [{ required: true, message: '请选择咨询方式', trigger: 'blur' }],
         ordertime: [{ required: true, message: '请选择预约时间', trigger: 'blur' }],
@@ -656,33 +658,46 @@ export default {
       }
     },
     'form.roomId': function (newVal) {
-      if (newVal) {
-        // TODO 获取咨询室列表
+      if (newVal !== '') {
         this.roomConfig.businessHours = defaultConstraint()
         this.roomConfig.selectConstraint = defaultConstraint()
-        getRoomConstraintById(newVal).then((res) => {
-          this.roomConfig.selectConstraint = res // 传入限制时间数组
-          getRoomCalendarById(newVal).then((res) => {
-            this.roomConfig.initialEvents = res // 传入咨询室日程
-            this.roomConfig
-          }).catch((err) => {
-            console.log(err)
-            this.$notify.error({
-              title: '提示',
-              message: '网络忙，咨询室日程获取失败',
-            })
-          })
+        // getRoomConstraintById(newVal).then((res) => {
+        //   this.roomConfig.selectConstraint = res // 传入限制时间数组
+        getRoomCalendarById(newVal).then((res) => {
+          if (res.code === 0) {
+            this.roomConfig.events = transEvent(res.data) // 传入咨询室日程
+          }
         }).catch((err) => {
           console.log(err)
           this.$notify.error({
             title: '提示',
-            message: '网络忙，咨询室限制信息获取失败',
+            message: '网络忙，咨询室日程获取失败',
           })
         })
+        // }).catch((err) => {
+        //   console.log(err)
+        //   this.$notify.error({
+        //     title: '提示',
+        //     message: '网络忙，咨询室限制信息获取失败',
+        //   })
+        // })
       }
     }
   },
   created() {
+    // 获取咨询室list
+    getRoomList().then((res) => {
+      if (res.code === 0) {
+        this.roomList = res.data // 传入咨询室列表
+        transRoomList(this.roomList)
+      }
+    }).catch((err) => {
+      console.log(err)
+      this.$notify.error({
+        title: '提示',
+        message: '网络忙，咨询室信息获取失败',
+      })
+    })
     this.form.doctorId = this.$route.params.doctorId
     this.form.orderId = this.$route.params.orderId
     this.form.ordertime = this.$route.params.selectInfo.start
@@ -691,6 +706,12 @@ export default {
       getOrderById(this.form.orderId).then((res) => {
         if (res.code === 0) {
           this.form = transForm(res.data[0])
+          if (this.form.roomId & (this.form.roomId != '')) {
+            // 转换roomId，使select显示label
+            this.form.roomId = this.roomList[this.roomList.findIndex((item) => {
+              if (item.roomId == this.form.roomId) { return true }
+            })].roomId
+          }
         } else {
           this.$notify.error({
             title: '提示',
@@ -705,6 +726,7 @@ export default {
         })
       })
     }
+
   },
   methods: {
     handleWeekendsToggle() {
@@ -721,7 +743,6 @@ export default {
     // 预约信息处理
     // 添加/修改预约
     handleAddOrder() {
-      console.log(this.getForm())
       this.$refs['form'].validate((valid) => {
         if (valid) {
           // 添加form信息

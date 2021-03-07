@@ -189,7 +189,6 @@ export default {
 
     // 点击已有预约
     handleEventClick(clickInfo) {
-      console.log(clickInfo)
       this.$router.push({ name: 'OrderPage', params: { doctorId: this.doctorId, editType: this.Update, selectInfo: clickInfo, orderId: clickInfo.event.id } })
     },
 

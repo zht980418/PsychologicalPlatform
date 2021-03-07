@@ -59,12 +59,12 @@ export function updateRoomInfoById(roomId, params) {
  * 获取咨询室日程限制信息
  * @param {roomId:number} roomId 咨询室id
  */
-export function getRoomConstraintById(roomId) {
-    return request({
-        url: urls.RoomConstraint + '/' + roomId,
-        method: 'get',
-    })
-}
+// export function getRoomConstraintById(roomId) {
+//     return request({
+//         url: urls.RoomConstraint + '/' + roomId,
+//         method: 'get',
+//     })
+// }
 
 /**
  * 获取咨询室日程,以event的形式返回
