@@ -41,4 +41,5 @@ public class FormPO implements Serializable{
     private String roomid;
     private String start;
     private String end;
+    private String status;
 }

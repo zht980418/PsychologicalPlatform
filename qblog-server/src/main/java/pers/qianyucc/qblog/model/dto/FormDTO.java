@@ -105,6 +105,9 @@ public class FormDTO {
     @ApiModelProperty(notes = "end", example = "10:00:00")
     private String end;
 
+    @ApiModelProperty(notes = "status", example = "1")
+    private String status;
+
     public FormPO toFormPO() {
         return new FormDTO.Converter().convertToPO(this);
     }

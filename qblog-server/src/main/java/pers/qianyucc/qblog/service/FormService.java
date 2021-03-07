@@ -28,7 +28,7 @@ public class FormService {
         ArrayList res = new ArrayList<>();
         QueryWrapper<FormPO> wrapper = new QueryWrapper<>();
         wrapper.eq("doctorid",doctorid)
-        .select("orderid","name","start","end");
+        .select("orderid","name","start","end","uid","status");
         List<Map<String, Object>> maps = formMapper.selectMaps(wrapper);
         for(int i =0; i<maps.size(); i++){
             res.add(maps.get(i));
@@ -50,7 +50,8 @@ public class FormService {
 
         ArrayList res = new ArrayList<>();
         QueryWrapper<FormPO> wrapper = new QueryWrapper<>();
-        wrapper.eq("roomid",roomid);
+        wrapper.eq("roomid",roomid)
+                .select("orderid","name","start","end");;
         List<Map<String, Object>> maps = formMapper.selectMaps(wrapper);
         for(int i =0; i<maps.size(); i++){
             res.add(maps.get(i));
@@ -72,7 +73,7 @@ public class FormService {
             throw new BlogException(INVALID_ID);
         }
         FormPO formPO = formDTO.toFormPO();
-//        formPO.setOrderid(orderid);
+        formPO.setOrderid(orderid);
         formMapper.updateById(formPO);
     }
 

@@ -49,11 +49,29 @@ public class ScheduleService {
     public List<ScheduleVO> getAllSchedules(){
         ArrayList res = new ArrayList<>();
         QueryWrapper<SchedulePO> wrapper = new QueryWrapper<>();
-        wrapper.select("appid","start","end","daysofweek","doctorid","doctorname");
+        wrapper.select("appid","start","end","daysofweek","doctorid","doctorname","roomid");
         List<Map<String, Object>> maps = scheduleMapper.selectMaps(wrapper);
         for(int i =0; i<maps.size(); i++){
             res.add(maps.get(i));
         }
         return res;
+    }
+
+    public List<ScheduleVO> getSchedulesByRoomID(String roomid){
+        ArrayList res = new ArrayList<>();
+        QueryWrapper<SchedulePO> wrapper = new QueryWrapper<>();
+        wrapper.select("appid","start","end","daysofweek","doctorid","doctorname","roomid");
+        List<Map<String, Object>> maps = scheduleMapper.selectMaps(wrapper);
+        for(int i=0; i<maps.size();i++){
+            if (maps.get(i).get("roomid")!=null&&maps.get(i).get("roomid").equals(roomid)){
+                System.out.println("###");
+                System.out.println(maps.get(i).get("roomid"));
+                System.out.println(roomid);
+                res.add(maps.get(i));
+            }
+        }
+        return res;
+
+
     }
 }

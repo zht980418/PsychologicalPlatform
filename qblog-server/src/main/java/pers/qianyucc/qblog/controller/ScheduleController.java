@@ -53,4 +53,9 @@ public class ScheduleController {
     public Results<List<ScheduleVO>> getSchedules() {
         return Results.ok(scheduleService.getAllSchedules());
     }
+
+    @ApiOperation("根据roomid获取日程表")
+    @GetMapping("/schedule/{roomid}")
+    @ApiImplicitParam(name = "schedule", value = "日程表", required = true, dataType = "String", paramType = "path")
+    public Results<List<ScheduleVO>> getSchedulesByRoomID(@PathVariable String roomid){ return Results.ok(scheduleService.getSchedulesByRoomID(roomid));}
 }

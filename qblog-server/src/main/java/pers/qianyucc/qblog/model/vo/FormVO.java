@@ -34,5 +34,6 @@ public class FormVO {
     private String roomid;
     private String start;
     private String end;
+    private String status;
 
 }
