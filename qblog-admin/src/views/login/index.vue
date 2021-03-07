@@ -1,7 +1,8 @@
 <template>
   <div class="login-container">
     <div class="blur" />
-    <el-form v-if="toggleLoginRegister"
+    <el-form
+      v-if="toggleLoginRegister"
       ref="loginForm"
       :model="loginForm"
       :rules="loginRules"
@@ -13,7 +14,7 @@
         <h3 class="title">四川大学心理健康教育教育平台后台管理系统</h3>
       </div>
 
-      <el-form-item   prop="username">
+      <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
@@ -28,7 +29,7 @@
         />
       </el-form-item>
 
-      <el-form-item   prop="password">
+      <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
@@ -58,11 +59,12 @@
         @click.native.prevent="handleLogin"
       >登录</el-button>
 
-      <el-link  type="primary"  @click="handleToggle">没有账号?现在注册</el-link>
+      <el-link type="primary" @click="handleToggle">没有账号?现在注册</el-link>
 
     </el-form>
 
-    <el-form v-if="!toggleLoginRegister"
+    <el-form
+      v-if="!toggleLoginRegister"
       ref="registerForm"
       :model="registerForm"
       :rules="registerRules"
@@ -73,7 +75,7 @@
         <h3 class="title">四川大学心理健康教育教育平台后台管理系统</h3>
       </div>
 
-      <el-form-item   prop="username">
+      <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
@@ -88,7 +90,7 @@
         />
       </el-form-item>
 
-      <el-form-item   prop="password">
+      <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
@@ -110,7 +112,7 @@
         </span>
       </el-form-item>
 
-      <el-form-item  prop="passwordRepeat">
+      <el-form-item prop="passwordRepeat">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
@@ -147,7 +149,6 @@
 
 <script>
 
-
 export default {
   name: 'Login',
   data() {
@@ -173,7 +174,7 @@ export default {
       }
     }
     return {
-      toggleLoginRegister : true,
+      toggleLoginRegister: true,
       loginForm: {
         username: '',
         password: '',
@@ -181,7 +182,7 @@ export default {
       registerForm: {
         username: '',
         password: '',
-        passwordRepeat:'',
+        passwordRepeat: '',
       },
       loginRules: {
         username: [
@@ -226,8 +227,8 @@ export default {
         this.$refs.password.focus()
       })
     },
-    handleToggle(){
-      this.toggleLoginRegister =!this.toggleLoginRegister;
+    handleToggle() {
+      this.toggleLoginRegister = !this.toggleLoginRegister
     },
 
     handleLogin() {
@@ -241,7 +242,6 @@ export default {
             .then(() => {
               // this.redirect 为本来要跳转的页面，如果有值的话登录之后直接跳转到本来要跳转的页面，否则跳转到首页
               this.$router.push({ path: this.redirect || '/' })
-              this.$store.dispatch('user/getInfo')
               // 关闭 loading
               this.loading = false
             })
@@ -262,17 +262,17 @@ export default {
           this.loading = true
           this.$store
           // 执行 vuex 中的注册方法
-          .dispatch('user/register', this.registerForm)
-          .then(() => {
-          // this.redirect 为本来要跳转的页面，如果有值的话登录之后直接跳转到本来要跳转的页面，否则跳转到首页
-          this.$router.push({ path: this.redirect || '/' })
-          // 关闭 loading
-          this.loading = false
-          })
-          .catch(() => {
-          // 关闭 loading
-          this.loading = false
-          })
+            .dispatch('user/register', this.registerForm)
+            .then(() => {
+            // this.redirect 为本来要跳转的页面，如果有值的话登录之后直接跳转到本来要跳转的页面，否则跳转到首页
+              this.$router.push({ path: this.redirect || '/' })
+              // 关闭 loading
+              this.loading = false
+            })
+            .catch(() => {
+            // 关闭 loading
+              this.loading = false
+            })
         } else {
           console.log('error register!!')
           return false

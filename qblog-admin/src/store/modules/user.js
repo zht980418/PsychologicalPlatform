@@ -1,11 +1,11 @@
-import { login, register, logout, getUserById} from '@/api/user'
+import { login, register, logout, getUserById } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
     token: getToken(),
-    id:'',
+    id: '',
     name: '',
     phoneNumber: '',
     avatar: '',
@@ -35,10 +35,8 @@ const mutations = {
     state.avatar = avatar
   },
   SET_ROLE: (state, role) => {
-    state.role = role
+    role == null ? state.role = '编辑' : state.role = role
   },
-
-
 
 }
 
@@ -55,6 +53,7 @@ const actions = {
         // 调用 mutations 中 SET_TOKEN 方法，将 token 存到 vuex 中
         commit('SET_TOKEN', data.token)
         commit('SET_ID', username)
+        console.log('登录成功，state id=' + username)
         // 使用 js-cookie 插件，将 token 存入本地cookie中
         setToken(data.token)
         resolve()
@@ -64,38 +63,40 @@ const actions = {
     })
   },
 
-  register({commit}, userInfo){
+  register({ commit }, userInfo) {
     const { username, password, } = userInfo
-    return new Promise(((resolve, reject) => {
-    register({ userid: username.trim(), password: password, rolename:'editor'}).then(response =>{
-      const { data } = response
-      // 调用 mutations 中 SET_TOKEN 方法，将 token 存到 vuex 中
-      commit('SET_TOKEN', data.token)
-      // 使用 js-cookie 插件，将 token 存入本地cookie中
-      setToken(data.token)
-      resolve()
-    }).catch(error => {
-      reject(error)
+    return new Promise((resolve, reject) => {
+      register({ userid: username.trim(), password: password, rolename: 'editor' }).then(response => {
+        const { data } = response
+        // 调用 mutations 中 SET_TOKEN 方法，将 token 存到 vuex 中
+        commit('SET_TOKEN', data.token)
+        // 使用 js-cookie 插件，将 token 存入本地cookie中
+        setToken(data.token)
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
     })
-    }))
   },
 
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
+      console.log('当前用户id为: ' + state.id)
       getUserById(state.id).then(response => {
         const { data } = response
-
+        console.log('拉取用户信息', data)
         if (!data) {
           return reject('认证失败，请重新登录')
         }
 
-        const {name, phoneNumber, avatar} = data
+        const { nickname, phonenumber, avatar, rolename } = data
 
-        commit('SET_NAME', name)
-        commit('SET_PHONE_NUMBER', phoneNumber)
+        commit('SET_NAME', nickname)
+        commit('SET_PHONE_NUMBER', phonenumber)
         commit('SET_AVATAR', avatar)
-        commit('SET_ROLE', 'admin')
+        commit('SET_ROLE', rolename.trim())
+        console.log(state)
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -110,6 +111,7 @@ const actions = {
         removeToken() // must remove  token  first
         resetRouter()
         commit('RESET_STATE')
+        this.dispatch('ResetRouters')
         resolve()
       }).catch(error => {
         reject(error)

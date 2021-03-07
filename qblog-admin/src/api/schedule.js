@@ -14,7 +14,7 @@ export function getSchedule() {
 
 /**
  * 新增排班
- * @param {appId:number,doctorId:number,start:Date,end:Date,daysOfWeek:number} params 排班时间参数
+ * @param {appId:number,doctorId:number,doctorName:number,start:Date,end:Date,daysOfWeek:number} params 排班时间参数
  */
 export function postApplication(params) {
     console.log(params)
@@ -24,6 +24,7 @@ export function postApplication(params) {
         data: {
             appid: params.appId,
             doctorid: params.doctorId,
+            doctorname: params.doctorName,
             start: params.start,
             end: params.end,
             daysofweek: params.daysOfWeek

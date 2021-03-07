@@ -35,20 +35,16 @@ export function getOrderById(orderId) {
 }
 
 /**
- * 确认预约
+ * 添加预约
  * 信息存在form中，status置为true
- * @param {type:String,roomId:number} parmas form表
+ * @param {*} parmas form表
  */
 
-export function confirmOrderById(orderId, params) {
-  console.log(params)
+export function postOrder(params) {
   return request({
-    url: urls.OrderConfirm + '/' + orderId,
-    method: 'put',
-    data: {
-      type: params.type,
-      roomid: params.roomId
-    }
+    url: urls.Form,
+    method: 'post',
+    data: params
   })
 }
 
@@ -59,25 +55,20 @@ export function confirmOrderById(orderId, params) {
  */
 export function deleteOrderById(orderId) {
   return request({
-    url: urls.OrderRefuse + '/' + orderId,
+    url: urls.Form + '/' + orderId,
     method: 'put',
   })
 }
 
 /**
- * 编辑form——不用了
+ * 编辑form
  * @param {id:number} orderId orderId
  * @param {*} params 预约信息form
  */
-// export function updateOrderById(orderId, params) {
-//   return request({
-//     url: urls.Form + '/' + orderId,
-//     method: 'put',
-//     data: {
-//       doctorid: params.doctorId,
-//       orderid: params.orderId,
-//       type: params.type,
-//       roomid: params.roomId,
-//     }
-//   })
-// }
+export function updateOrderById(orderId, params) {
+  return request({
+    url: urls.Form + '/' + orderId,
+    method: 'put',
+    data: params
+  })
+}

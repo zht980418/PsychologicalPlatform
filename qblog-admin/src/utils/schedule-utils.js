@@ -32,29 +32,22 @@ function getTime(n) {
     return s
 }
 
-function transSchedule(schedule) {
-    schedule['id'] = schedule.appid
-    schedule['title'] = schedule.doctorid
-    getDate(schedule.daysofweek, schedule.start, schedule.end)
-    // schedule['groupId'] = schedule.doctorid
-    // delete (schedule['doctorid'])
-    delete (schedule['appid'])
-    delete (schedule['doctorid'])
-    delete (schedule['daysofweek'])
-}
-
-export function transScheduleList(list) {
-    for (var i = 0; i < list.length; i++) {
-        transSchedule(list[i])
-    }
-}
-
 function getDate(dayOfWeek, start, end) {
     const today = new Date()
-    start = start.split('T')
-    start = getTime(1 - dayOfWeek) + 'T' + start[1]
-    end = end.split('T')
-    end = getTime(1 - dayOfWeek) + 'T' + end[1]
+    const day = today.getDay()
+    if (day === 0) {
+        start = start.split('T')
+        start = getTime(dayOfWeek - 6) + 'T' + start[1]
+        end = end.split('T')
+        end = getTime(dayOfWeek - 6) + 'T' + end[1]
+    }
+    else {
+        start = start.split('T')
+        start = getTime(1 - dayOfWeek) + 'T' + start[1]
+        end = end.split('T')
+        end = getTime(1 - dayOfWeek) + 'T' + end[1]
+    }
+    return { start, end }
     // //上周的开始时间
     // console.log(getTime(7))
     // //上周的结束时间
@@ -65,3 +58,20 @@ function getDate(dayOfWeek, start, end) {
     // console.log(getTime(-6))
 }
 
+function transSchedule(schedule) {
+    schedule['id'] = schedule.appid
+    schedule['title'] = schedule.doctorname
+    const tmp = getDate(schedule.daysofweek, schedule.start, schedule.end)
+    schedule.start = tmp.start
+    schedule.end = tmp.end
+    delete (schedule['doctorname'])
+    delete (schedule['appid'])
+    delete (schedule['daysofweek'])
+}
+
+export function transScheduleList(list) {
+    for (var i = 0; i < list.length; i++) {
+        transSchedule(list[i])
+    }
+    return list
+}

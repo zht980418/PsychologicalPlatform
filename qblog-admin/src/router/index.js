@@ -30,7 +30,7 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes = [
+export const constantRouterMap = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
@@ -42,7 +42,9 @@ export const constantRoutes = [
     component: () => import('@/views/404'),
     hidden: true
   },
+]
 
+export const asyncRouterMap = [
   {
     path: '/',
     component: Layout,
@@ -60,19 +62,19 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/example/table',
     name: 'Example',
-    meta: { title: '我的文章', icon: 'el-icon-document' },
+    meta: { title: '我的文章', icon: 'el-icon-document', role: ['管理员', '编辑'] },
     children: [
       {
         path: 'table',
         name: 'Table',
         component: () => import('@/views/table/index'),
-        meta: { title: '文章管理', icon: 'table' }
+        meta: { title: '文章管理', icon: 'table', role: ['管理员', '编辑'] }
       },
       {
         path: 'editor',
         name: 'Editor',
         component: () => import('@/views/editor/index'),
-        meta: { title: '写文章', icon: 'el-icon-edit' }
+        meta: { title: '写文章', icon: 'el-icon-edit', role: ['管理员', '编辑'] }
       }
     ]
   },
@@ -81,13 +83,13 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/message/list',
     name: 'Message',
-    meta: { title: '我的留言', icon: 'el-icon-message' },
+    meta: { title: '我的留言', icon: 'el-icon-message', role: ['管理员', '咨询师'] },
     children: [
       {
         path: 'list',
         name: 'List',
         component: () => import('@/views/message/index'),
-        meta: { title: '留言列表', icon: 'el-icon-s-comment' }
+        meta: { title: '留言列表', icon: 'el-icon-s-comment', role: ['管理员', '咨询师'] }
       }
     ]
   },
@@ -96,26 +98,26 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/order/orderCalendar',
     name: 'Order',
-    meta: { title: '日程管理', icon: 'el-icon-date' },
+    meta: { title: '日程管理', icon: 'el-icon-date', role: ['管理员', '咨询师'] },
     children: [
       {
         path: 'orderCalendar',
         name: 'OrderCalendar',
         component: () => import('@/views/order/order'),
-        meta: { title: '我的日程', icon: 'el-icon-date' }
+        meta: { title: '我的日程', icon: 'el-icon-date', role: ['管理员', '咨询师'] }
       },
       {
         path: 'orderPage',
         name: 'OrderPage',
         component: () => import('@/views/order/orderPage'),
-        meta: { title: '预约详情', icon: 'el-icon-date' },
+        meta: { title: '预约详情', icon: 'el-icon-date', role: ['管理员', '咨询师'] },
         hidden: true
       },
       {
         path: 'apply',
         name: 'Apply',
         component: () => import('@/views/order/apply'),
-        meta: { title: '排班申请', icon: 'el-icon-s-order' }
+        meta: { title: '排班申请', icon: 'el-icon-s-order', role: ['管理员', '咨询师'] }
       }
     ]
   },
@@ -129,7 +131,7 @@ export const constantRoutes = [
         path: 'info',
         name: 'info',
         component: () => import('@/views/info/index'),
-        meta: { title: '个人中心', icon: 'el-icon-user' },
+        meta: { title: '个人中心', icon: 'el-icon-user', role: ['管理员', '编辑', '咨询师'] },
       }
     ]
   },
@@ -143,7 +145,7 @@ export const constantRoutes = [
         path: 'record',
         name: 'record',
         component: () => import('@/views/record/index'),
-        meta: { title: '咨询病历', icon: 'el-icon-notebook-1' },
+        meta: { title: '咨询记录', icon: 'el-icon-notebook-1', role: ['管理员', '咨询师'] },
       }
     ]
   },
@@ -152,26 +154,25 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/userManage/userManage',
     name: 'userManage',
-    meta: { title: '用户管理', icon: 'el-icon-user' },
+    meta: { title: '用户管理', icon: 'el-icon-user', role: ['管理员'] },
     children: [
       {
         path: 'userManage',
         component: () => import('@/views/userManage/index'),
-        meta: { title: '用户查询', icon: 'el-icon-user' },
-      }
-        ,
+        meta: { title: '用户查询', icon: 'el-icon-user', role: ['管理员'] },
+      },
       {
-        path:'modifyUser',
-        name:'modifyUser',
+        path: 'modifyUser',
+        name: 'modifyUser',
         component: () => import('@/views/userManage/modifyUser'),
-        meta: { title: '用户编辑', icon: 'el-icon-user' },
+        meta: { title: '用户编辑', icon: 'el-icon-user', role: ['管理员'] },
         hidden: true,
       },
       {
-        path:'addUser',
-        name:'addUser',
+        path: 'addUser',
+        name: 'addUser',
         component: () => import('@/views/userManage/addUser'),
-        meta: { title: '添加用户', icon: 'el-icon-user' },
+        meta: { title: '添加用户', icon: 'el-icon-user', role: ['管理员'] },
       },
 
     ]
@@ -181,18 +182,19 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/room/list',
     name: 'Room',
+    meta: { role: ['管理员'] },
     children: [
       {
         path: 'list',
         name: 'room',
         component: () => import('@/views/room/index'),
-        meta: { title: '咨询室管理', icon: 'el-icon-s-home' },
+        meta: { title: '咨询室管理', icon: 'el-icon-s-home', role: ['管理员'] },
       },
       {
         path: 'view',
         name: 'View',
         component: () => import('@/views/room/view'),
-        meta: { title: '咨询室管理', icon: 'el-icon-s-home' },
+        meta: { title: '咨询室管理', icon: 'el-icon-s-home', role: ['管理员'] },
         hidden: true
       }
     ]
@@ -202,12 +204,13 @@ export const constantRoutes = [
     component: Layout,
     name: 'Schedule',
     redirect: '/schedule/list',
+    meta: { role: ['管理员'] },
     children: [
       {
         path: '/list',
         name: 'room',
         component: () => import('@/views/schedule/index'),
-        meta: { title: '排班管理', icon: 'el-icon-set-up' },
+        meta: { title: '排班管理', icon: 'el-icon-set-up', role: ['管理员'] },
       },
     ]
   },
@@ -219,7 +222,7 @@ export const constantRoutes = [
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+  routes: constantRouterMap
 })
 
 const router = createRouter()
