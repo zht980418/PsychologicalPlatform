@@ -5,32 +5,31 @@
         <div slot="header" class="clearfix">
           <span>添加用户</span>
         </div>
-        <div class="user-profile">
-        </div>
+        <div class="user-profile" />
         <div class="user-info">
           <div class="user-info user-info-section">
-            <el-form class="info-form" inline label-position="left" label-width="80px">
-              <el-form-item label="用户名" inline-message>
-                <el-input v-model="user.username"/>
+            <el-form ref="user" class="info-form" inline :model="user" :rules="userRules" label-position="left" label-width="80px">
+              <el-form-item label="用户名" prop="username" inline-message>
+                <el-input ref="username" v-model="user.username" />
               </el-form-item>
-              <el-form-item label="密码" inline-message>
-                <el-input v-model="user.password"/>
+              <el-form-item ref="password" label="密码" prop="password" inline-message>
+                <el-input v-model="user.password" />
               </el-form-item>
               <el-form-item label="姓名" inline-message>
-                <el-input v-model="user.name"/>
+                <el-input v-model="user.name" />
               </el-form-item>
               <el-form-item label="电话">
                 <el-input v-model="user.phoneNumber" />
               </el-form-item>
               <el-form-item label="权限">
-                <el-checkbox-group  v-model="user.permissionList">
-                  <el-checkbox label="咨询师" name="permission"></el-checkbox>
-                  <el-checkbox label="编辑" name="permission"></el-checkbox>
-                  <el-checkbox label="管理员" name="permission"></el-checkbox>
+                <el-checkbox-group v-model="user.permissionList">
+                  <el-checkbox label="咨询师" name="permission" />
+                  <el-checkbox label="编辑" name="permission" />
+                  <el-checkbox label="管理员" name="permission" />
                 </el-checkbox-group>
               </el-form-item>
               <el-row class="btn">
-                <el-button type="primary" @click="onSubmit">提交</el-button>
+                <el-button type="primary" @click="onSubmit('user')">提交</el-button>
                 <el-button @click="onCancel">取消</el-button>
               </el-row>
             </el-form>
@@ -42,52 +41,73 @@
 </template>
 
 <script>
-import {getUserById, register} from '@/api/user'
+import { register } from '@/api/user'
 
 export default {
-  name: 'addUser',
-  data(){
-    return{
-     user:{
-       username:'Lovecraft',
-       password:'123456',
-       name: '洛夫',
-       phoneNumber: '123456789',
-       permissionList:[],
-     },
+  name: 'AaddUser',
+  data() {
+    const validateUsername = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('用户名不能为空'))
+      } else {
+        callback()
+      }
+    }
+    const validatePassword = (rule, value, callback) => {
+      if (value.length < 5) {
+        callback(new Error('密码不能小于5个字符'))
+      } else {
+        callback()
+      }
+    }
+    return {
+      user: {
+        username: 'Lovecraft',
+        password: '123456',
+        name: '洛夫',
+        phoneNumber: '123456789',
+        permissionList: [],
+      },
+      userRules: {
+        username: [
+          { required: true, trigger: 'blur', validator: validateUsername },
+        ],
+        password: [
+          { required: true, trigger: 'blur', validator: validatePassword },
+        ],
+      },
     }
   },
-  methods:{
-    onSubmit:function() {
-      //检查用户名是否可用
+  methods: {
+    onSubmit: function(user) {
+      this.$refs[user].validate((valid) => {
+        if (valid) {
+          // 检查用户名是否可用
           register({
-              userid: this.user.username,
-              nickname: this.user.name,
-              password: this.user.password,
-              phonenumber: this.user.phoneNumber,
-              rolename: this.user.permissionList.join(" ")
-            }
+            userid: this.user.username,
+            nickname: this.user.name,
+            password: this.user.password,
+            phonenumber: this.user.phoneNumber,
+            rolename: this.user.permissionList.join(' ')
+          }
           ).then((res) => {
             console.log(res)
-            if(res.code === 0){
-              this.$notify.success({
-                title: '提示',
-                message: '用户添加成功',
-              })
-              this.$router.push({name: 'addUser'})
-            }else{
-              this.$notify.error({
-                title: '提示',
-                message: '用户名已被占用',
-              })
-            }
           }).catch((err) => {
-              console.log(err)
-    })
+            console.log(err)
+          })
+        } else {
+          this.$notify.error({
+            title: '提示',
+            message: '提交失败'
+          })
+          return false
+        }
+      }
+      )
     },
 
-    onCancel: function(){
-      this.$router.push({name:'userManage'})
+    onCancel: function() {
+      this.$router.push({ name: 'userManage' })
     }
   }
 
@@ -102,7 +122,6 @@ export default {
 .el-form-item.btn {
   display: block;
 }
-
 
 .box-center {
   margin: 0 auto;

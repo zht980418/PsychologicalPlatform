@@ -17,7 +17,7 @@ export function register(data) {
   })
 }
 
-export function getUserById(id){
+export function getUserById(id) {
   return request({
     url: '/logintest/' + id,
     method: 'get',
@@ -27,26 +27,27 @@ export function getUserById(id){
   })
 }
 
-export function getUsers(){return request({
+export function getUsers() {
+  return request({
     url: '/logintest',
     method: 'get'
   })
 }
 
-export function modifyUser(id,data){return request({
-  url: '/register/' + id,
-  method: 'put',
-  data
-})
+export function modifyUser(id, data) {
+  return request({
+    url: '/register/' + id,
+    method: 'put',
+    data
+  })
 }
 
-export function deleteUser(id){return request({
-  url: '/register/' + id,
-  method: 'delete'
-})
+export function deleteUser(id) {
+  return request({
+    url: '/register/' + id,
+    method: 'delete'
+  })
 }
-
-
 
 export function logout() {
   return request({
