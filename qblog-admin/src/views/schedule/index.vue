@@ -219,7 +219,7 @@ export default {
 
     // 分配咨询室
     roomEdit() {
-      postRoomSchedule(this.clickapp.event.id, this.roomSelection).then((res) => {
+      EditRoomSchedule(this.clickapp.event.id, this.roomSelection).then((res) => {
         if (res.code === 0) {
           this.$notify.success({
             title: '提示',

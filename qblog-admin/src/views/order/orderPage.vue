@@ -442,6 +442,7 @@
               <el-select
                 v-model="form.roomId"
                 placeholder="请选择咨询室"
+                clearable
               >
                 <el-option
                   v-for="item in roomList"
@@ -515,13 +516,13 @@
             type="success"
             icon="el-icon-edit"
             plain
-            @click="handleAddOrder"
+            @click="handleUpdateOrder(true)"
           >接受预约</el-button>
           <el-button
             type="danger"
             icon="el-icon-delete"
             plain
-            @click="handleDeleteOrder"
+            @click="handleUpdateOrder(false)"
           >拒绝预约</el-button>
         </div>
       </el-col>
@@ -665,6 +666,7 @@ export default {
         //   this.roomConfig.selectConstraint = res // 传入限制时间数组
         getRoomCalendarById(newVal).then((res) => {
           if (res.code === 0) {
+            console.log(res)
             this.roomConfig.events = transEvent(res.data) // 传入咨询室日程
           }
         }).catch((err) => {
@@ -726,7 +728,6 @@ export default {
         })
       })
     }
-
   },
   methods: {
     handleWeekendsToggle() {
@@ -741,7 +742,7 @@ export default {
     },
 
     // 预约信息处理
-    // 添加/修改预约
+    // 添加预约
     handleAddOrder() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
@@ -773,48 +774,49 @@ export default {
       })
     },
 
-    // 拒绝预约
-    handleDeleteOrder() {
-      deleteOrderById(this.form.orderId).then((res) => {
-        if (res.code === 0) {
-          this.$router.back(-1)
-          this.$notify.success({
-            title: '提示',
-            message: '预约拒绝成功',
-          })
-        } else {
-          this.$notify.error({
-            title: '提示',
-            message: res.code + '预约拒绝失败',
-          })
-        }
-      }).catch((err) => {
-        console.log(err)
-        this.$notify.error({
-          title: '提示',
-          message: '网络忙，预约拒绝失败',
-        })
-      })
-    },
-
-    // 修改预约
-    handleUpdateOrder() {
+    // 修改/拒绝预约
+    handleUpdateOrder(status) {
+      this.form.status = status
       updateOrderById(this.form.orderId, RetransForm(this.getForm())).then((res) => {
         if (res.code === 0) {
           this.$router.back(-1)
           this.$notify.success({
             title: '提示',
-            message: '预约信息修改成功',
+            message: '预约修改成功',
           })
         }
       }).catch((err) => {
         console.log(err)
         this.$notify.error({
           title: '提示',
-          message: '网络忙，预约信息修改失败',
+          message: '网络忙，预约修改失败',
         })
       })
     },
+
+    // 拒绝预约
+    // handleDeleteOrder() {
+    //   deleteOrderById(this.form.orderId).then((res) => {
+    //     if (res.code === 0) {
+    //       this.$router.back(-1)
+    //       this.$notify.success({
+    //         title: '提示',
+    //         message: '预约拒绝成功',
+    //       })
+    //     } else {
+    //       this.$notify.error({
+    //         title: '提示',
+    //         message: res.code + '预约拒绝失败',
+    //       })
+    //     }
+    //   }).catch((err) => {
+    //     console.log(err)
+    //     this.$notify.error({
+    //       title: '提示',
+    //       message: '网络忙，预约拒绝失败',
+    //     })
+    //   })
+    // },
 
     getForm() {
       const params = JSON.parse(JSON.stringify(this.form))

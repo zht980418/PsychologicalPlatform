@@ -155,6 +155,7 @@ export default {
       // 获取日程
       getDoctorCalendarById(this.doctorId).then((res) => {
         if (res.code === 0) {
+          console.log(res)
           this.calendarOptions.events = transEvent(res.data) // 传入预约信息
         } else {
           this.$notify.error({

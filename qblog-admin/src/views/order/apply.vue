@@ -22,7 +22,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_SCHEDULE, createEventId } from '@/utils/event-utils'
 import { getSchedule, postApplication, deleteApplicationById } from '@/api/schedule'
-import { transScheduleList } from '@/utils/schedule-utils'
+import { transScheduleList, RetranSchedule } from '@/utils/schedule-utils'
 import '@fullcalendar/core/locales/zh-cn'
 
 export default {
@@ -115,18 +115,26 @@ export default {
       if (confirm('你确定要申请该时段排班吗？')) {
         // 存储
         const appId = createEventId()
-        const params = { appId: appId, doctorId: this.doctorId, doctorName: this.doctorName, start: selectInfo.startStr, end: selectInfo.endStr, daysOfWeek: selectInfo.start.getDay() }
-        postApplication(params).then((res) => {
-          if (res.data === 0) {
+        let params = {
+          appId: appId,
+          doctorId: this.doctorId,
+          doctorName: this.doctorName,
+          start: selectInfo.startStr,
+          end: selectInfo.endStr,
+          daysOfWeek: selectInfo.start.getDay()
+        }
+        postApplication(RetranSchedule(params)).then((res) => {
+          if (res.code === 0) {
             this.$notify.success({
               title: '提示',
-              message: '排班申请成功,请刷新查看',
+              message: '排班申请成功！',
             })
             const calendarApi = selectInfo.view.calendar
             calendarApi.unselect() // clear date selection
             calendarApi.addEvent({
               id: appId,
-              title: this.doctorId,
+              title: this.doctorName,
+              groupId: this.doctorId,
               start: selectInfo.startStr,
               end: selectInfo.endStr,
             })
@@ -140,16 +148,20 @@ export default {
         })
       }
     },
+
     // 点击已有预约
     handleEventClick(clickInfo) {
-      if (clickInfo.event.title === this.doctorId) {
+      console.log(clickInfo.event)
+      if (clickInfo.event.groupId === this.doctorId) {
         if (confirm(`你确定要取消该排班申请吗？ '${clickInfo.event.title}'`)) {
           deleteApplicationById(clickInfo.event.id).then((res) => {
-            clickInfo.event.remove()
-            this.$notify.success({
-              title: '提示',
-              message: '排班删除成功',
-            })
+            if (res.code === 0) {
+              clickInfo.event.remove()
+              this.$notify.success({
+                title: '提示',
+                message: '排班删除成功',
+              })
+            }
           }).catch((err) => {
             console.log(err)
             this.$notify.error({
@@ -165,7 +177,7 @@ export default {
           const appId = createEventId()
           calendarApi.addEvent({
             id: appId,
-            title: this.doctorId,
+            title: this.doctorName,
             start: clickInfo.event.startStr,
             end: clickInfo.event.endStr
           })
@@ -173,12 +185,13 @@ export default {
           const params = {
             appId: appId,
             doctorId: this.doctorId,
+            doctorName: this.doctorName,
             start: clickInfo.event.startStr,
             end: clickInfo.event.endStr,
             daysOfWeek: clickInfo.event.start.getDay()
           }
-          postApplication(params).then((res) => {
-            if (res === true) {
+          postApplication(RetranSchedule(params)).then((res) => {
+            if (res.code === 0) {
               this.$notify.success({
                 title: '提示',
                 message: '排班申请成功',

@@ -135,7 +135,7 @@ export default {
    * 修改预约信息
    * @param {orderId:number} orderId 预约id
    */
-  updateOrderById(orderId) {
-    return instance.put(urls.order + '/' + orderId).then(res => res.data)
+  updateOrderById(orderId, form) {
+    return instance.put(urls.order + '/' + orderId, form).then(res => res.data)
   }
 }
