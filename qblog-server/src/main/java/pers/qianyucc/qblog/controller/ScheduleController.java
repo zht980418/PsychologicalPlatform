@@ -39,11 +39,11 @@ public class ScheduleController {
 
     @ApiOperation("根据id修改日程表")
     @PutMapping("/schedule/{appid}")
-    @ApiImplicitParam(name = "scheduleid", value = "咨询室id", required = true, dataType = "String", paramType = "path")
+    @ApiImplicitParam(name = "appid", value = "咨询室id", required = true, dataType = "String", paramType = "path")
     public Results<String> putSchedule(@ApiParam(name = "咨询室信息", value = "传入json格式", required = true)
                                    @RequestBody @Valid ScheduleDTO scheduleDTO ,
-                                   @PathVariable String scheduleid){
-        scheduleService.updateSchedule(scheduleDTO, scheduleid);
+                                   @PathVariable String appid){
+        scheduleService.updateSchedule(scheduleDTO, appid);
         return Results.ok("表单修改成功", null);
     }
 

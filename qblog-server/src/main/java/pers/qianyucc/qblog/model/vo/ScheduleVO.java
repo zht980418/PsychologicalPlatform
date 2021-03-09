@@ -13,4 +13,5 @@ public class ScheduleVO {
     private String start;
     private String end;
     private String daysofweek;
+    private String roomid;
 }

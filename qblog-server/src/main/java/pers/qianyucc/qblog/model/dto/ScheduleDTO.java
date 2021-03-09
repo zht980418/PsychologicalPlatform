@@ -30,6 +30,9 @@ public class ScheduleDTO {
     @ApiModelProperty(notes = "工作日", example = "[1,3,5]")
     private String daysofweek;
 
+    @ApiModelProperty(notes = "房间号", example = "1")
+    private String roomid;
+
     public SchedulePO toSchedulePO() {
         return new ScheduleDTO.Converter().convertToPO(this);
     }
