@@ -16,6 +16,4 @@ export default {
     Form: '/orderForm',
     // 排班
     Schedule: '/schedule',
-    // 咨询室排班
-    RoomSchedule: '/roomSchedule',
 }

@@ -469,6 +469,7 @@
         >
           <template v-slot:eventContent="arg">
             <b>{{ arg.timeText }}</b>
+            <br>
             <i>{{ arg.event.title }}</i>
           </template>
         </FullCalendar>
@@ -535,10 +536,10 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, defaultConstraint, transEvent } from '@/utils/event-utils'
+import { defaultConstraint, transEvent } from '@/utils/event-utils'
 import { transForm, newForm, RetransForm } from '@/utils/form-utils'
 import { transRoomList } from '@/utils/room-utils'
-import { getOrderById, postOrder, updateOrderById, deleteOrderById } from '@/api/order'
+import { getOrderById, postOrder, updateOrderById } from '@/api/order'
 import { getRoomCalendarById, getRoomList } from '@/api/room'
 import '@fullcalendar/core/locales/zh-cn'
 
@@ -777,6 +778,7 @@ export default {
     // 修改/拒绝预约
     handleUpdateOrder(status) {
       this.form.status = status
+      console.log(RetransForm(this.getForm()))
       updateOrderById(this.form.orderId, RetransForm(this.getForm())).then((res) => {
         if (res.code === 0) {
           this.$router.back(-1)

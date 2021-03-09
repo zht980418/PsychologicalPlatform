@@ -92,8 +92,16 @@ export function defaultConstraint() {
 
 export function transEvent(event) {
   const list = []
+  const green = '#67C23A'
+  const yellow = '#E6A23C'
+  const red = '#F56C6C'
+  const Lgreen = '#E1F3D8'
+  const Lyellow = '#FAECD8'
+  const Lred = '#FDE2E2'
   for (let i = 0; i < event.length; i++) {
-    list.push({ id: event[i].orderid, title: event[i].name, start: event[i].start, end: event[i].end })
+    list.push({
+      id: event[i].orderid, title: event[i].name, start: event[i].start, end: event[i].end, status: event[i].status, backgroundColor: event[i].status === '' ? yellow : event[i].status === 'true' ? green : red, borderColor: event[i].status === '' ? Lyellow : event[i].status === 'true' ? Lgreen : Lred
+    })
   }
   return list
 }

@@ -1,6 +1,10 @@
 <template>
   <section class="app-main">
-    <transition name="fade-transform" mode="out-in">
+    <h1 class="app-title">{{ title }}</h1>
+    <transition
+      name="fade-transform"
+      mode="out-in"
+    >
       <router-view :key="key" />
     </transition>
   </section>
@@ -12,6 +16,9 @@ export default {
   computed: {
     key() {
       return this.$route.path
+    },
+    title() {
+      return this.$route.meta.title
     }
   }
 }
@@ -25,7 +32,7 @@ export default {
   position: relative;
   overflow: hidden;
 }
-.fixed-header+.app-main {
+.fixed-header + .app-main {
   padding-top: 50px;
 }
 </style>

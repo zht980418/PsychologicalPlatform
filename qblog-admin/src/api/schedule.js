@@ -44,7 +44,7 @@ export function deleteApplicationById(appId) {
 
 export function getRoomScheduleById(roomId) {
     return request({
-        url: urls.RoomSchedule + '/' + roomId,
+        url: urls.Schedule + '/' + roomId,
         method: 'get'
     })
 }

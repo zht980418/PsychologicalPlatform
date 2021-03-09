@@ -59,7 +59,10 @@
         @click.native.prevent="handleLogin"
       >登录</el-button>
 
-      <el-link type="primary" @click="handleToggle">没有账号?现在注册</el-link>
+      <el-link
+        type="primary"
+        @click="handleToggle"
+      >没有账号?现在注册</el-link>
 
     </el-form>
 
@@ -142,7 +145,10 @@
         @click.native.prevent="handleRegister"
       >注册</el-button>
 
-      <el-link type="primary" @click="handleToggle">已有账号?现在登录</el-link>
+      <el-link
+        type="primary"
+        @click="handleToggle"
+      >已有账号?现在登录</el-link>
     </el-form>
   </div>
 </template>
@@ -210,7 +216,7 @@ export default {
   },
   watch: {
     $route: {
-      handler: function(route) {
+      handler: function (route) {
         this.redirect = route.query && route.query.redirect
       },
       immediate: true,
@@ -261,16 +267,16 @@ export default {
           // 显示 loading
           this.loading = true
           this.$store
-          // 执行 vuex 中的注册方法
+            // 执行 vuex 中的注册方法
             .dispatch('user/register', this.registerForm)
             .then(() => {
-            // this.redirect 为本来要跳转的页面，如果有值的话登录之后直接跳转到本来要跳转的页面，否则跳转到首页
+              // this.redirect 为本来要跳转的页面，如果有值的话登录之后直接跳转到本来要跳转的页面，否则跳转到首页
               this.$router.push({ path: this.redirect || '/' })
               // 关闭 loading
               this.loading = false
             })
             .catch(() => {
-            // 关闭 loading
+              // 关闭 loading
               this.loading = false
             })
         } else {
@@ -341,9 +347,10 @@ $light_gray: #eee;
   background-color: $bg;
   overflow: hidden;
 
-   .blur {
+  .blur {
     // background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1603619028761&di=fbf77e68f9d4ee3884e9c6ca1d72907b&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F8%2F53ed7a4907e17.jpg");
-    background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1603620908596&di=77812b2da1ada6318fd2af28388a7ce0&imgtype=0&src=http%3A%2F%2F01.minipic.eastday.com%2F20180827%2F20180827192747_d3c1239df05a21e179f3e8740eac5d7e_8.jpg");
+    // background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1603620908596&di=77812b2da1ada6318fd2af28388a7ce0&imgtype=0&src=http%3A%2F%2F01.minipic.eastday.com%2F20180827%2F20180827192747_d3c1239df05a21e179f3e8740eac5d7e_8.jpg");
+    background-image: url("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1334494611,415365918&fm=26&gp=0.jpg");
     filter: blur(30px);
     position: absolute;
     height: 100%;

@@ -64,9 +64,11 @@ function transSchedule(schedule) {
     schedule['id'] = schedule.appid
     schedule['groupId'] = schedule.doctorid
     schedule['title'] = schedule.doctorname
+    schedule['roomId'] = schedule.roomid
     const tmp = getDate(schedule.daysofweek, schedule.start, schedule.end)
     schedule.start = tmp.start
     schedule.end = tmp.end
+    delete (schedule['roomid'])
     delete (schedule['doctorid'])
     delete (schedule['doctorname'])
     delete (schedule['appid'])

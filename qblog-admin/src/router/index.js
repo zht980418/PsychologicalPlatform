@@ -208,7 +208,7 @@ export const asyncRouterMap = [
     children: [
       {
         path: '/list',
-        name: 'room',
+        name: 'schedule',
         component: () => import('@/views/schedule/index'),
         meta: { title: '排班管理', icon: 'el-icon-set-up', role: ['管理员'] },
       },

@@ -3,56 +3,48 @@
   <div class="app-container">
     <el-row>
       <el-col :span="6">
-        <el-card class="demo-app-sidebar">
-          <div class="demo-app-sidebar-section">
-            <h2>{{ timelist }}</h2>
-            <h2>功能介绍</h2>
+        <el-card class="demo-app">
+          <el-col :offset="3">
             <br>
+            <h2>功能介绍</h2>
             <ul>
               <li>咨询师日程表</li>
               <li>点击时段即可添加预约信息</li>
               <li>再次点击预约即可删除</li>
             </ul>
             <br>
-          </div>
-          <div class="demo-app-sidebar-section">
-            <label>
-              <input
-                type="checkbox"
-                :checked="calendarOptions.weekends"
-                @change="handleWeekendsToggle"
-              >
-              显示周末
-            </label>
-          </div>
-          <br>
-          <div class="demo-app-sidebar-section">
-            <h2>所有预约 ({{ currentEvents.length }})</h2>
+            <h2>事件说明：</h2>
             <ul>
-              <li
-                v-for="event in currentEvents"
-                :key="event.id"
-              >
-                <b>{{ event.startStr }}</b>
-                <i>{{ event.title }}</i>
-              </li>
+              <li> <span style="color:#E6A23C;">黄色事件：未确认预约</span> </li>
+              <li> <span style="color:#67C23A;">绿色事件：已确认预约</span> </li>
+              <li> <span style="color:#F56C6C;">红色事件：已拒绝预约</span> </li>
             </ul>
-          </div>
+            <br>
+            <h2>时段说明：</h2>
+            <ul>
+              <li><span>白色时段：未预约时段</span></li>
+              <li><span>灰色时段：非工作时段</span></li>
+              <li><span>黄色时段：本日时段</span></li>
+            </ul>
+            <br>
+            <br>
+          </el-col>
         </el-card>
       </el-col>
       <el-col :span="18">
-        <el-card class="demo-app-sidebar">
-          <div class="demo-app-main">
-            <FullCalendar
-              class="demo-app-calendar"
-              :options="calendarOptions"
-            >
+        <el-card class="demo-app">
+          <el-col
+            :span="20"
+            :offset="2"
+          >
+            <FullCalendar :options="calendarOptions">
               <template v-slot:eventContent="arg">
                 <b>{{ arg.timeText }}</b>
+                <br>
                 <i>{{ arg.event.title }}</i>
               </template>
             </FullCalendar>
-          </div>
+          </el-col>
         </el-card>
       </el-col>
     </el-row>
@@ -78,7 +70,7 @@ export default {
       Update: false,
       // TODO doctorId: this.$route.params.doctorId,
       doctorId: 'zhangsan123',
-      timelist: this.$route.params.timelist,
+      // timelist: this.$route.params.timelist,
       formLabelWidth: '120px',
       // 日历参数
       calendarOptions: {
@@ -190,6 +182,7 @@ export default {
 
     // 点击已有预约
     handleEventClick(clickInfo) {
+      console.log(clickInfo);
       this.$router.push({ name: 'OrderPage', params: { doctorId: this.doctorId, editType: this.Update, selectInfo: clickInfo, orderId: clickInfo.event.id } })
     },
 
@@ -203,10 +196,3 @@ export default {
   }
 }
 </script>
-
-<style lang='scss' scoped>
-.demo-app-sidebar {
-  height: 100vh;
-  padding: 3vh;
-}
-</style>

@@ -1,16 +1,48 @@
 <template>
-  <div>
-    <h1 align="center">排班管理</h1>
-    <el-col
-      :span="22"
-      :offset="1"
-    >
-      <FullCalendar :options="scheduleConfig">
-        <template v-slot:eventContent="arg">
-          <!-- <b>{{ arg.timeText }}</b> -->
-          <i>{{ arg.event.title }}</i>
-        </template>
-      </FullCalendar>
+  <div class="app-container">
+    <el-col :span="6">
+      <el-card class="demo-app">
+        <el-col :offset="3">
+          <br>
+          <h2>功能介绍</h2>
+          <ul>
+            <li>咨询师日程表</li>
+            <li>点击时段即可添加预约信息</li>
+            <li>再次点击预约即可删除</li>
+          </ul>
+          <br>
+          <h2>事件说明：</h2>
+          <ul>
+            <li> <span style="color:#E6A23C;">黄色事件：未确认预约</span> </li>
+            <li> <span style="color:#67C23A;">绿色事件：已确认预约</span> </li>
+            <li> <span style="color:#F56C6C;">红色事件：已拒绝预约</span> </li>
+          </ul>
+          <br>
+          <h2>时段说明：</h2>
+          <ul>
+            <li><span>白色时段：未预约时段</span></li>
+            <li><span>灰色时段：非工作时段</span></li>
+            <li><span>黄色时段：本日时段</span></li>
+          </ul>
+          <br>
+          <br>
+        </el-col>
+      </el-card>
+    </el-col>
+    <el-col :span="18">
+      <el-card class="demo-app">
+        <el-col
+          :span="20"
+          :offset="2"
+        >
+          <FullCalendar :options="scheduleConfig">
+            <template v-slot:eventContent="arg">
+              <!-- <b>{{ arg.timeText }}</b> -->
+              <i>{{ arg.event.title }}</i>
+            </template>
+          </FullCalendar>
+        </el-col>
+      </el-card>
     </el-col>
     <el-dialog
       :visible.sync="dialogEditVisible"
@@ -19,6 +51,7 @@
       <el-select
         v-model="roomSelection"
         placeholder="请选择咨询室"
+        clearable
       >
         <el-option
           v-for="item in room"
@@ -28,21 +61,16 @@
         />
       </el-select>
       <h1 align="center">咨询室排班表</h1>
-      <FullCalendar :options="roomConfig">
-        <template v-slot:eventContent="arg">
-          <!-- <b>{{ arg.timeText }}</b> -->
-          <i>{{ arg.event.title }}</i>
-        </template>
-      </FullCalendar>
+      <FullCalendar :options="roomConfig" />
       <div
         slot="footer"
         class="dialog-footer"
       >
-        <el-button @click="dialogEditVisible=false">取消修改</el-button>
+        <el-button @click="dialogEditVisible=false">拒绝申请</el-button>
         <el-button
           type="primary"
           @click="roomEdit"
-        >确认修改</el-button>
+        >确认分配</el-button>
       </div>
     </el-dialog>
   </div>
@@ -54,7 +82,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import '@fullcalendar/core/locales/zh-cn'
-import { getSchedule, getRoomScheduleById, postRoomSchedule } from '@/api/schedule'
+import { getSchedule, getRoomScheduleById, EditRoomSchedule } from '@/api/schedule'
 import { getRoomList } from '@/api/room'
 import { INITIAL_SCHEDULE, transEvent } from '@/utils/event-utils'
 import { transScheduleList } from '@/utils/schedule-utils'
@@ -137,6 +165,7 @@ export default {
           },
         ],
         initialView: 'timeGridWeek',
+        events: [],
         editable: true, // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead
           {
@@ -170,17 +199,22 @@ export default {
   },
   watch: {
     roomSelection: function (val) {
-      getRoomScheduleById(val).then((res) => {
-        if (res.code === 0) {
-          this.roomConfig.events = transEvent(res.data)
-        }
-      }).catch((err) => {
-        console.log(err)
-        this.$notify.error({
-          title: '提示',
-          message: '网络忙，咨询室排班信息获取失败',
+      if (val != "") {
+        getRoomScheduleById(val).then((res) => {
+          if (res.code === 0) {
+            console.log(res)
+            this.roomConfig.events = transScheduleList(res.data)
+          }
+        }).catch((err) => {
+          console.log(err)
+          this.$notify.error({
+            title: '提示',
+            message: '网络忙，咨询室排班信息获取失败',
+          })
         })
-      })
+      } else {
+        this.roomConfig.events = []
+      }
     }
   },
   created() {
@@ -213,8 +247,10 @@ export default {
   methods: {
     // 点击已有预约
     handleEventClick(clickInfo) {
+      console.log(clickInfo)
       this.dialogEditVisible = true
       this.clickapp = clickInfo
+
     },
 
     // 分配咨询室

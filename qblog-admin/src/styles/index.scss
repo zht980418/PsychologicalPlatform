@@ -61,5 +61,19 @@ div:focus {
 
 // main-container global css
 .app-container {
-  padding: 20px;
+  padding: 15px;
+}
+
+.demo-app {
+  height: 83vh;
+}
+
+.app-title{
+  font-size: 25px;
+  line-height: 46px;
+  color: #409eff;
+  border-bottom: solid 2px #66B1FF;
+  margin-left: 2vh;
+  margin-right:2vh;
+  margin-bottom:0;
 }
