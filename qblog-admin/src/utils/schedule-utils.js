@@ -1,3 +1,5 @@
+import { login } from "@/api/user"
+
 /* eslint-disable */
 function getTime(n) {
     var now = new Date()
@@ -37,9 +39,9 @@ function getDate(dayOfWeek, start, end) {
     const day = today.getDay()
     if (day === 0) {
         start = start.split('T')
-        start = getTime(dayOfWeek - 6) + 'T' + start[1]
+        start = getTime(-dayOfWeek) + 'T' + start[1]
         end = end.split('T')
-        end = getTime(dayOfWeek - 6) + 'T' + end[1]
+        end = getTime(-dayOfWeek) + 'T' + end[1]
     }
     else {
         start = start.split('T')
@@ -60,10 +62,14 @@ function getDate(dayOfWeek, start, end) {
 
 function transSchedule(schedule) {
     schedule['id'] = schedule.appid
+    schedule['groupId'] = schedule.doctorid
     schedule['title'] = schedule.doctorname
+    schedule['roomId'] = schedule.roomid
     const tmp = getDate(schedule.daysofweek, schedule.start, schedule.end)
     schedule.start = tmp.start
     schedule.end = tmp.end
+    delete (schedule['roomid'])
+    delete (schedule['doctorid'])
     delete (schedule['doctorname'])
     delete (schedule['appid'])
     delete (schedule['daysofweek'])
@@ -74,4 +80,16 @@ export function transScheduleList(list) {
         transSchedule(list[i])
     }
     return list
+}
+
+export function RetranSchedule(schedule) {
+    schedule['appid'] = schedule.appId
+    schedule['doctorid'] = schedule.doctorId
+    schedule['doctorname'] = schedule.doctorName
+    schedule['daysofweek'] = schedule.daysOfWeek
+    delete (schedule['appId'])
+    delete (schedule['doctorId'])
+    delete (schedule['doctorName'])
+    delete (schedule['daysOfWeek'])
+    return schedule
 }

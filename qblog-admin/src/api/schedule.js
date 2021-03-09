@@ -21,14 +21,7 @@ export function postApplication(params) {
     return request({
         url: urls.Schedule,
         method: 'post',
-        data: {
-            appid: params.appId,
-            doctorid: params.doctorId,
-            doctorname: params.doctorName,
-            start: params.start,
-            end: params.end,
-            daysofweek: params.daysOfWeek
-        }
+        data: params
     })
 }
 
@@ -51,20 +44,20 @@ export function deleteApplicationById(appId) {
 
 export function getRoomScheduleById(roomId) {
     return request({
-        url: urls.RoomSchedule + '/' + roomId,
+        url: urls.Schedule + '/' + roomId,
         method: 'get'
     })
 }
 
 /**
  * 添加咨询室排班
- * @param {appId:number} appId 
+ * @param {appId:number} appId
  * @param {roomId:number} params 
  */
-export function postRoomSchedule(appId, params) {
+export function EditRoomSchedule(appId, params) {
     return request({
-        url: urls.RoomSchedule + '/' + appId,
-        method: 'post',
+        url: urls.Schedule + '/' + appId,
+        method: 'put',
         data: {
             roomid: params.roomId
         }

@@ -532,7 +532,7 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, createEventId, defaultConstraint, transEvent } from '@/utils/event-utils'
+import { createEventId, defaultConstraint, transEvent } from '@/utils/event-utils'
 import { transForm, newForm, RetransForm } from '@/utils/form-utils'
 import request from "@/http/request"
 import TextSample from './textsample'
@@ -546,7 +546,7 @@ export default {
   data() {
     return {
       // TODO 全局变量
-      uid: 'uid123',
+      uid: '3',
       doctorId: this.$route.params.doctorId,
       timelist: this.$route.params.timelist,
       formLabelWidth: '120px',
@@ -574,8 +574,8 @@ export default {
           },
         ],
         initialView: 'timeGridWeek',
-        initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
-        events: '',
+        // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+        events: [],
         editable: false,  // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead
           {
@@ -663,6 +663,7 @@ export default {
         this.calendarOptions.businessHours = res.data //传入显示工作时间数组
         request.getCalendarById(this.doctorId).then((res) => {
           if (res.code === 0) {
+            console.log(res)
             this.calendarOptions.events = transEvent(res.data) //传入预约
           }
         }).catch((err) => {
@@ -731,30 +732,44 @@ export default {
 
     handleEventClick(clickInfo) {
       // check是不是自己的预约信息
-      if (clickInfo.event.groupId === this.form.uid) {
-        request.getOrderById(clickInfo.event.id).then((res) => {
-          console.log(res)
-          if (res.code === 0) {
-            this.form = transForm(res.data[0]) // 传入表单信息 
-            console.log(this.form)
-            // TODO check status
-            // 打开预约信息表格
-            this.dialogEditVisible = true
-            this.dialogFormVisible = true
-            this.selection = clickInfo
-          } else {
+      if (clickInfo.event.groupId === this.uid) {
+        const index = this.calendarOptions.events.findIndex((item => {
+          if ((item.groupId === this.uid)) { return true }
+        }))
+        console.log(index)
+        if (this.calendarOptions.events[index].status === '') {
+          request.getOrderById(clickInfo.event.id).then((res) => {
+            if (res.code === 0) {
+              this.form = transForm(res.data[0]) // 传入表单信息 
+              // 打开预约信息表格
+              this.dialogEditVisible = true
+              this.dialogFormVisible = true
+              this.selection = clickInfo
+            } else {
+              this.$notify.error({
+                title: "提示",
+                message: "预约信息加载失败",
+              })
+            }
+          }).catch((err) => {
+            console.log(err)
             this.$notify.error({
               title: "提示",
-              message: "预约信息加载失败",
+              message: "网络忙，预约信息加载失败",
             })
-          }
-        }).catch((err) => {
-          console.log(err)
-          this.$notify.error({
-            title: "提示",
-            message: "网络忙，预约信息加载失败",
           })
-        })
+        }
+        else if (Boolean(this.calendarOptions.events[index].status) === true) {
+          this.$notify.success({
+            title: '提示',
+            message: '咨询师已接受该预约,请于个人中心查看预约信息！',
+          })
+        } else if (Boolean(this.calendarOptions.events[index].status) === false) {
+          this.$notify.error({
+            title: '提示',
+            message: '该预约已被咨询师拒绝，请重新预约！',
+          })
+        }
       } else {
         this.$notify.error({
           title: '提示',
@@ -786,8 +801,7 @@ export default {
 
     // 修改预约信息
     handleEventEdit(form, clickInfo) {
-      request.updateOrderById(form.orderId).then((res) => {
-        console.log(res)
+      request.updateOrderById(form.orderId, RetransForm(this.getForm())).then((res) => {
         if (res.code === 0) {
           this.handleEventDelete(form, clickInfo) // 删除
           this.handleModify(form, clickInfo) // 添加
@@ -813,7 +827,8 @@ export default {
           id: selectInfo.event.id,
           title: form.name,
           start: selectInfo.event.startStr,
-          end: selectInfo.event.endStr
+          end: selectInfo.event.endStr,
+          groupId: this.uid
         })
         // 清空表单
         this.$refs['form'].resetFields()

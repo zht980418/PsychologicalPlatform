@@ -70,7 +70,7 @@ export function defaultConstraint() {
 export function transEvent(event) {
   let list = []
   for (let i = 0; i < event.length; i++) {
-    list.push({ id: event[i].orderid, title: event[i].name, start: event[i].start, end: event[i].end, groupId: i }) // TODO 用户id放到groupid
+    list.push({ id: event[i].orderid, title: event[i].name, start: event[i].start, end: event[i].end, groupId: event[i].uid, status: event[i].status })
   }
   return list
 }

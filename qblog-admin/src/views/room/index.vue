@@ -1,102 +1,104 @@
 <template>
-  <el-card style="height:100vh;margin:5px;">
-    <el-row>
-      <el-col :offset="21">
-        <el-button
-          type="primary"
-          icon="el-icon-plus"
-          plain
-          @click="handleAdd"
-        >添加咨询室</el-button>
-      </el-col>
-    </el-row>
-    <br>
-    <el-row>
-      <el-col>
-        <el-table
-          :data="roomList"
-          element-loading-text="加载中......"
-          :default-sort="{prop: 'roomId', order: 'ascending'}"
-          border
-          fit
-          highlight-current-row
-        >
-          <el-table-column
-            prop="name"
-            label="咨询室名称"
-            min-width="180"
-            align="center"
-          />
-          <el-table-column
-            prop="address"
-            label="咨询室地址"
-            min-width="180"
-            align="center"
-          />
-          <el-table-column
-            label="操作"
-            min-width="180"
-            align="center"
+  <div class="app-container">
+    <el-card class="demo-app">
+      <el-row>
+        <el-col :offset="21">
+          <el-button
+            type="primary"
+            icon="el-icon-plus"
+            plain
+            @click="handleAdd"
+          >添加咨询室</el-button>
+        </el-col>
+      </el-row>
+      <br>
+      <el-row>
+        <el-col>
+          <el-table
+            :data="roomList"
+            element-loading-text="加载中......"
+            :default-sort="{prop: 'roomId', order: 'ascending'}"
+            border
+            fit
+            highlight-current-row
           >
-            <template slot-scope="scope">
-              <el-button
-                type="primary"
-                icon="el-icon-reading"
-                plain
-                @click="handleView(scope.row)"
-              >查看</el-button>
-              <el-button
-                type="success"
-                icon="el-icon-edit"
-                plain
-                @click="handleEdit(scope.row)"
-              >编辑</el-button>
-              <el-button
-                type="danger"
-                icon="el-icon-delete"
-                plain
-                @click="handleDelete(scope.$index, scope.row)"
-              >删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-col>
-    </el-row>
-    <el-dialog
-      :visible.sync="dialogEditVisible"
-      title="编辑咨询室信息"
-    >
-      <el-form
-        ref="Room"
-        :model="Room"
-        :rules="rules"
-        :inline="true"
+            <el-table-column
+              prop="name"
+              label="咨询室名称"
+              min-width="180"
+              align="center"
+            />
+            <el-table-column
+              prop="address"
+              label="咨询室地址"
+              min-width="180"
+              align="center"
+            />
+            <el-table-column
+              label="操作"
+              min-width="180"
+              align="center"
+            >
+              <template slot-scope="scope">
+                <el-button
+                  type="primary"
+                  icon="el-icon-reading"
+                  plain
+                  @click="handleView(scope.row)"
+                >查看</el-button>
+                <el-button
+                  type="success"
+                  icon="el-icon-edit"
+                  plain
+                  @click="handleEdit(scope.row)"
+                >编辑</el-button>
+                <el-button
+                  type="danger"
+                  icon="el-icon-delete"
+                  plain
+                  @click="handleDelete(scope.$index, scope.row)"
+                >删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-col>
+      </el-row>
+      <el-dialog
+        :visible.sync="dialogEditVisible"
+        title="编辑咨询室信息"
       >
-        <el-form-item
-          label="咨询室名称"
-          prop="name"
+        <el-form
+          ref="Room"
+          :model="Room"
+          :rules="rules"
+          :inline="true"
         >
-          <el-input v-model="Room.name" />
-        </el-form-item>
-        <el-form-item
-          label="咨询室地址"
-          prop="address"
+          <el-form-item
+            label="咨询室名称"
+            prop="name"
+          >
+            <el-input v-model="Room.name" />
+          </el-form-item>
+          <el-form-item
+            label="咨询室地址"
+            prop="address"
+          >
+            <el-input v-model="Room.address" />
+          </el-form-item>
+        </el-form>
+        <div
+          slot="footer"
+          class="dialog-footer"
         >
-          <el-input v-model="Room.address" />
-        </el-form-item>
-      </el-form>
-      <div
-        slot="footer"
-        class="dialog-footer"
-      >
-        <el-button @click="dialogEditVisible=false">取消修改</el-button>
-        <el-button
-          type="primary"
-          @click="roomEdit"
-        >确认修改</el-button>
-      </div>
-    </el-dialog>
-  </el-card>
+          <el-button @click="dialogEditVisible=false">取消修改</el-button>
+          <el-button
+            type="primary"
+            @click="roomEdit"
+          >确认修改</el-button>
+        </div>
+      </el-dialog>
+    </el-card>
+  </div>
 </template>
 
 <script>
