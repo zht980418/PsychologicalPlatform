@@ -71,8 +71,8 @@ function transSchedule(schedule) {
     schedule['groupId'] = schedule.doctorid
     schedule['title'] = schedule.doctorname
     schedule['roomId'] = schedule.roomid
-    schedule['backgroundColor'] = schedule.roomId === -1 ? red : schedule.roomId ? green : yellow
-    schedule['borderColor'] = schedule.roomId === -1 ? Lred : schedule.roomId ? Lgreen : Lyellow
+    schedule['backgroundColor'] = schedule.roomId == -1 ? red : schedule.roomId ? green : yellow
+    schedule['borderColor'] = schedule.roomId == -1 ? Lred : schedule.roomId ? Lgreen : Lyellow
     const tmp = getDate(schedule.daysofweek, schedule.start, schedule.end)
     schedule.start = tmp.start
     schedule.end = tmp.end

@@ -2,38 +2,36 @@
   <div class="app-container">
     <el-col :span="6">
       <el-card class="demo-app">
-        <el-col :offset="3">
-          <br>
-          <h2>功能介绍</h2>
-          <ul>
-            <li>咨询师日程表</li>
-            <li>点击时段即可添加预约信息</li>
-            <li>再次点击预约即可删除</li>
-          </ul>
-          <br>
-          <h2>事件说明：</h2>
-          <ul>
-            <li> <span style="color:#E6A23C;">黄色事件：未确认预约</span> </li>
-            <li> <span style="color:#67C23A;">绿色事件：已确认预约</span> </li>
-            <li> <span style="color:#F56C6C;">红色事件：已拒绝预约</span> </li>
-          </ul>
-          <br>
-          <h2>时段说明：</h2>
-          <ul>
-            <li><span>白色时段：未预约时段</span></li>
-            <li><span>灰色时段：非工作时段</span></li>
-            <li><span>黄色时段：本日时段</span></li>
-          </ul>
-          <br>
-          <br>
-        </el-col>
+        <br>
+        <h2>功能介绍</h2>
+        <ul>
+          <li>咨询师日程表</li>
+          <li>点击时段即可添加预约信息</li>
+          <li>再次点击预约即可删除</li>
+        </ul>
+        <br>
+        <h2>事件说明：</h2>
+        <ul>
+          <li> <span style="color:#E6A23C;">黄色事件：未确认预约</span> </li>
+          <li> <span style="color:#67C23A;">绿色事件：已确认预约</span> </li>
+          <li> <span style="color:#F56C6C;">红色事件：已拒绝预约</span> </li>
+        </ul>
+        <br>
+        <h2>时段说明：</h2>
+        <ul>
+          <li><span>白色时段：未预约时段</span></li>
+          <li><span>灰色时段：非工作时段</span></li>
+          <li><span>黄色时段：本日时段</span></li>
+        </ul>
+        <br>
+        <br>
       </el-card>
     </el-col>
     <el-col :span="18">
       <el-card class="demo-app">
         <el-col
-          :span="20"
-          :offset="2"
+          :span="22"
+          :offset="1"
         >
           <FullCalendar :options="scheduleConfig">
             <template v-slot:eventContent="arg">
@@ -89,7 +87,6 @@ import interactionPlugin from '@fullcalendar/interaction'
 import '@fullcalendar/core/locales/zh-cn'
 import { getSchedule, getRoomScheduleById, EditRoomSchedule } from '@/api/schedule'
 import { getRoomList } from '@/api/room'
-import { INITIAL_SCHEDULE, transEvent } from '@/utils/event-utils'
 import { transScheduleList } from '@/utils/schedule-utils'
 import { transRoomList } from '@/utils/room-utils'
 
@@ -122,7 +119,6 @@ export default {
           }
         ],
         initialView: 'timeGridWeek',
-        initialEvents: INITIAL_SCHEDULE, // alternatively, use the `events` setting to fetch from a feed
         events: [],
         editable: true, // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead
@@ -204,7 +200,7 @@ export default {
   },
   watch: {
     roomSelection: function (val) {
-      if (val != "") {
+      if (val != '' | '-1') {
         getRoomScheduleById(val).then((res) => {
           if (res.code === 0) {
             console.log(res)
@@ -252,7 +248,10 @@ export default {
     handleEventClick(clickInfo) {
       this.clickapp = clickInfo
       // 排班咨询室初始化
-      if (clickInfo.event.extendedProps.roomId != null) {
+      // 拒绝
+      if (clickInfo.event.extendedProps.roomId == -1) {
+        this.roomSelection = '-1'
+      } else if (clickInfo.event.extendedProps.roomId != null) {
         this.roomSelection = this.room[this.room.findIndex((item) => {
           if (item.roomId == clickInfo.event.extendedProps.roomId) { return true }
         })].roomId
@@ -264,6 +263,8 @@ export default {
     roomEdit() {
       EditRoomSchedule(this.clickapp.event.id, this.roomSelection).then((res) => {
         if (res.code === 0) {
+          this.clickapp.event.backgroundColor = 'green'
+          this.clickapp.events.borderColor = 'green'
           this.$notify.success({
             title: '提示',
             message: '咨询室分配成功！'
