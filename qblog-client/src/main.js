@@ -18,8 +18,10 @@ Vue.component('VueShowdown', VueShowdown)
 
 new Vue({
   render: h => h(App),
-  store,
+  // store,
   router,
+  // components: { Layout },
+  // template: '<Layout>',
   created: initBlog
 }).$mount('#app')
 

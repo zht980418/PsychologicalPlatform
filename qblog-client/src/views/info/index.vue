@@ -1,17 +1,5 @@
 <template>
   <div class="app-container">
-    <el-row>
-      <Header></Header>
-      <el-divider></el-divider>
-    </el-row>
-    <el-row>
-      <el-col
-        :span="15"
-        :offset="3"
-      >
-        <NavMenu></NavMenu>
-      </el-col>
-    </el-row>
     <div v-if="user">
       <el-row :gutter="20">
         <el-col
@@ -26,7 +14,10 @@
           :xs="24"
         >
           <el-card>
-            <el-tabs v-model="activeTab" style="height:97vh;">
+            <el-tabs
+              v-model="activeTab"
+              style="height:97vh;"
+            >
               <el-tab-pane
                 label="心理自测记录"
                 name="CourseHistory"
@@ -50,9 +41,6 @@
         </el-col>
       </el-row>
     </div>
-    <el-row>
-      <Footer></Footer>
-    </el-row>
   </div>
 </template>
 
@@ -67,9 +55,6 @@ export default {
   name: 'Profile',
   components: {
     UserCard, TestHistory, ConsultHistory, infoModify,
-    Footer: () => import("@/components/Footer"),
-    Header: () => import("@/components/Header"),
-    NavMenu: () => import("@/components/NavMenu"),
   },
   data() {
     return {
