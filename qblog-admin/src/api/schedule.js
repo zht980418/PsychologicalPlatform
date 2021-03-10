@@ -50,7 +50,7 @@ export function getRoomScheduleById(roomId) {
 }
 
 /**
- * 添加咨询室排班
+ * 修改咨询室排班
  * @param {appId:number} appId
  * @param {roomId:number} params 
  */
@@ -59,7 +59,7 @@ export function EditRoomSchedule(appId, params) {
         url: urls.Schedule + '/' + appId,
         method: 'put',
         data: {
-            roomid: params.roomId
+            roomid: params
         }
     })
 }

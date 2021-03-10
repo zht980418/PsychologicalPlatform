@@ -1,11 +1,19 @@
 <template>
-  <el-card style="margin-bottom:20px;">
-    <div slot="header" class="clearfix">
+  <el-card class="demo-app">
+    <div
+      slot="header"
+      class="clearfix"
+    >
       <span>个人信息</span>
     </div>
     <div class="user-profile">
       <div class="box-center">
-        <pan-thumb :image="user.avatar" :height="'100px'" :width="'100px'" :hoverable="false">
+        <pan-thumb
+          :image="user.avatar"
+          :height="'90px'"
+          :width="'90px'"
+          :hoverable="false"
+        >
           <div>Hello</div>
           {{ user.role }}
         </pan-thumb>
@@ -22,19 +30,28 @@
         </div>
         <el-form class="info-form">
           <el-form-item label="用户名">
-            <el-input v-model="user.login_id" :disabled="true" />
+            <el-input
+              v-model="user.login_id"
+              :disabled="true"
+            />
           </el-form-item>
           <el-form-item label="姓名">
-            <el-input v-model="user.user_name" :disabled="true" />
+            <el-input
+              v-model="user.user_name"
+              :disabled="true"
+            />
           </el-form-item>
           <el-form-item label="性别">
-            <el-input v-model="user.sex" :disabled="true" />
+            <el-input
+              v-model="user.sex"
+              :disabled="true"
+            />
           </el-form-item>
           <el-form-item label="职称">
-            <el-input v-model="user.post" :disabled="true" />
-          </el-form-item>
-          <el-form-item label="科室">
-            <el-input v-model="user.office" :disabled="true" />
+            <el-input
+              v-model="user.post"
+              :disabled="true"
+            />
           </el-form-item>
         </el-form>
       </div>
@@ -57,7 +74,6 @@ export default {
           sex: '',
           post: '',
           email: '',
-          office: '',
           avatar: ''
         }
       }
@@ -77,19 +93,15 @@ export default {
     font-weight: bold;
   }
 
-  .box-center {
-    padding-top: 10px;
-  }
-
   .user-role {
-    padding-top: 10px;
+    // padding-top: 10px;
     font-weight: 400;
     font-size: 14px;
   }
 }
 
 .user-info {
-  margin-top: 20px;
+  margin-top: 10px;
   color: #606266;
 
   .user-info-section {

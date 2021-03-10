@@ -100,6 +100,11 @@ const routes = [
     meta: {
       title: "个人中心"
     }
+  },
+  {
+    path:"/test",
+    component: Layout,
+    meta:{}
   }
 ]
 
