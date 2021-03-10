@@ -18,7 +18,7 @@ export function getArticleList(params) {
 export function postArticle(params) {
   return request({
     url: '/auth/articles',
-    method: "post",
+    method: 'post',
     data: {
       title: params.title,
       content: params.content,
@@ -37,7 +37,7 @@ export function postArticle(params) {
 export function deleteArticleById(id) {
   return request({
     url: '/auth/article/' + id,
-    method: "delete"
+    method: 'delete'
   })
 }
 
@@ -46,11 +46,11 @@ export function deleteArticleById(id) {
  * @param {id:number} id 文章 id
  * @param {*} params 要更新的字段
  */
-export function updateArticleById(id,params){
+export function updateArticleById(id, params) {
   return request({
     url: '/auth/article/' + id,
-    method: "put",
-    data:{
+    method: 'put',
+    data: {
       title: params.title,
       content: params.content,
       category: params.category,
@@ -66,7 +66,7 @@ export function updateArticleById(id,params){
  * 根据文章 id 获取文章信息
  * @param {id:number} id 文章id
  */
-export function getArticleById(id){
+export function getArticleById(id) {
   return request({
     url: '/article/' + id,
     method: 'get'

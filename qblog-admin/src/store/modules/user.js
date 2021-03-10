@@ -90,11 +90,11 @@ const actions = {
           return reject('认证失败，请重新登录')
         }
 
-        const { nickname, phonenumber, avatar, rolename } = data
+        const { nickname, phonenumber, rolename } = data
 
         commit('SET_NAME', nickname)
         commit('SET_PHONE_NUMBER', phonenumber)
-        commit('SET_AVATAR', avatar)
+        commit('SET_AVATAR', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')
         commit('SET_ROLE', rolename.trim())
         console.log(state)
         resolve(data)
