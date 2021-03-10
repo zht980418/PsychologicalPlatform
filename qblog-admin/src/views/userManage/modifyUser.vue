@@ -1,5 +1,5 @@
 <template>
-  <el-row>
+  <el-row >
     <el-col :span="16" :offset="4">
       <el-card style="margin:20px 0;">
         <div slot="header" class="clearfix">

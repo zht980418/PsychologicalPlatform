@@ -47,12 +47,17 @@
     <el-dialog
       :visible.sync="dialogEditVisible"
       title="分配咨询室"
+      @close="handleClose"
     >咨询室：
       <el-select
         v-model="roomSelection"
         placeholder="请选择咨询室"
         clearable
       >
+        <el-option
+          value='-1'
+          label='拒绝申请'
+        />
         <el-option
           v-for="item in room"
           :key="item.roomId"
@@ -222,7 +227,6 @@ export default {
       if (res.code === 0) {
         this.room = res.data // 传入咨询室列表
         transRoomList(this.room)
-        this.roomSelection = this.room[0].roomId
       }
     }).catch((err) => {
       console.log(err)
@@ -233,7 +237,6 @@ export default {
     })
     getSchedule().then((res) => {
       if (res.code === 0) {
-        console.log(res)
         this.scheduleConfig.events = transScheduleList(res.data)
       }
     }).catch((err) => {
@@ -247,10 +250,14 @@ export default {
   methods: {
     // 点击已有预约
     handleEventClick(clickInfo) {
-      console.log(clickInfo)
-      this.dialogEditVisible = true
       this.clickapp = clickInfo
-
+      // 排班咨询室初始化
+      if (clickInfo.event.extendedProps.roomId != null) {
+        this.roomSelection = this.room[this.room.findIndex((item) => {
+          if (item.roomId == clickInfo.event.extendedProps.roomId) { return true }
+        })].roomId
+      }
+      this.dialogEditVisible = true
     },
 
     // 分配咨询室
@@ -269,6 +276,10 @@ export default {
           message: '网络忙，咨询室分配失败',
         })
       })
+    },
+
+    handleClose() {
+      this.roomSelection = null
     },
 
     handleEvents(events) {

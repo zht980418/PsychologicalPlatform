@@ -12,7 +12,7 @@
           :span="18"
           :xs="24"
         >
-          <el-card>
+          <el-card class="demo-app">
             <el-tabs v-model="activeTab">
               <el-tab-pane
                 label="心理自测记录"
@@ -27,7 +27,7 @@
                 <ExamHistory />
               </el-tab-pane>
               <el-tab-pane
-                label="修改个人信息"
+                label="修改密码"
                 name="infoModify"
               >
                 <infoModify :user="user" />

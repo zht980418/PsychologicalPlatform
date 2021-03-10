@@ -1,5 +1,5 @@
 <template>
-  <el-row>
+  <el-row class="app-container">
     <el-table
       :data="userData.filter(data => !search || data.userid.toLowerCase().includes(search.toLowerCase())||data.rolename.match(search))"
       style="width: 100%"
@@ -24,10 +24,11 @@
         label="授权"
         width="180"
       />
-      <el-table-column
-        align="left"
-      >
-        <template slot="header" slot-scope="scope">
+      <el-table-column align="left">
+        <template
+          slot="header"
+          slot-scope="scope"
+        >
           <el-input
             v-model="search"
             style="width: 30%"
@@ -36,8 +37,16 @@
           />
         </template>
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="modifyUser(scope.row)">编辑</el-button>
-          <el-button type="danger" size="mini" @click="deleteUser(scope.row)">删除</el-button>
+          <el-button
+            type="primary"
+            size="mini"
+            @click="modifyUser(scope.row)"
+          >编辑</el-button>
+          <el-button
+            type="danger"
+            size="mini"
+            @click="deleteUser(scope.row)"
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>

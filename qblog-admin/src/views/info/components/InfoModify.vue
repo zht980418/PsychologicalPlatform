@@ -4,9 +4,8 @@
       <el-form-item label="头像">
         <el-image
           :src="head1"
-          style="width:200px; height:200px;"
+          style="width:150px; height:150px;"
         />
-        <!-- TODO完成头像修改 -->
       </el-form-item>
       <el-form-item label="旧密码">
         <el-input
