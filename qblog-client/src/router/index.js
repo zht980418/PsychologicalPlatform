@@ -102,9 +102,9 @@ const routes = [
     }
   },
   {
-    path:"/test",
-    component: Layout,
-    meta:{}
+    path: "/test",
+    // component: Layout,
+    meta: {}
   }
 ]
 

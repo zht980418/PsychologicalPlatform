@@ -35,7 +35,7 @@
             :span="22"
             :offset="1"
           >
-            <FullCalendar :options="calendarOptions">
+            <FullCalendar :options="calendarOptions" style="height:50vh;">
               <template v-slot:eventContent="arg">
                 <b>{{ arg.timeText }}</b>
                 <br>
