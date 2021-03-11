@@ -20,13 +20,13 @@
             >
               <el-tab-pane
                 label="心理自测记录"
-                name="CourseHistory"
+                name="TestHistory"
               >
                 <TestHistory />
               </el-tab-pane>
               <el-tab-pane
                 label="预约咨询记录"
-                name="ExamHistory"
+                name="ConsultHistory"
               >
                 <ConsultHistory />
               </el-tab-pane>
@@ -59,7 +59,7 @@ export default {
   data() {
     return {
       user: {},
-      activeTab: 'CourseHistory'// 默认tab
+      activeTab: 'TestHistory'// 默认tab
     }
   },
   created() {

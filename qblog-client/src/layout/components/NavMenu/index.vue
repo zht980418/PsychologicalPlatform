@@ -18,12 +18,7 @@
           :key="route.path"
           :index="route.path"
         >
-          <template
-            slot="title"
-            v-if="route.children&&route.children.length===1&&!route.hidden"
-          >
-            {{ route.meta.title }}
-          </template>
+          {{ route.meta.title }}
         </el-menu-item>
         <el-submenu index="2">
           <template slot="title">心理教育</template>
@@ -51,13 +46,19 @@ export default {
   },
   computed: {
     routes() {
-      console.log(this.$router.options.routes)
-      return this.$router.options.routes
+      var routes = this.$router.options.routes
+      var list = []
+      for (let i = 0; i < routes.length; i++) {
+        if (routes[i].children && routes[i].children.length === 1 && !routes[i].hidden) {
+          list.push(routes[i])
+        }
+      }
+      console.log(list)
+      return list
     },
     children() {
-      const routes = this.$router.options.routes
-      const list = []
-      console.log(routes)
+      var routes = this.$router.options.routes
+      var list = []
       for (let i = 0; i < routes.length; i++) {
         if (routes[i].children && routes[i].children.length > 1) {
           for (let j = 0; j < routes[i].children.length; j++)

@@ -33,6 +33,7 @@ const routes = [
     path: '/education',
     name: 'Education',
     meta: { title: "心理教育" },
+    Sub: true,
     component: Layout,
     children: [
       {

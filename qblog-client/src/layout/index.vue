@@ -1,10 +1,8 @@
 <template>
   <div>
     <Header />
-    <el-row>
-      <NavMenu></NavMenu>
-    </el-row>
-    <router-view :key="key" />
+    <NavMenu></NavMenu>
+    <AppMain />
     <Footer />
   </div>
 </template>
@@ -17,15 +15,11 @@ export default {
     Header: () => import("@/components/Header"),
     Footer: () => import("@/components/Footer"),
     NavMenu: () => import("@/layout/components/NavMenu/index"),
-    // AppMain: () => import("@/layout/components/AppMain")
+    AppMain: () => import("@/layout/components/AppMain")
   },
   data() {
     return {
       img_SCU: require('@/assets/SCU_LOGO.png')
-    }
-  }, computed: {
-    key() {
-      return this.$route.path
     }
   },
   methods: {

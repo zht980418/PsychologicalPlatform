@@ -1,5 +1,7 @@
 <template>
-  <router-view :key="key" />
+  <div>
+    <router-view :key="key" />
+  </div>
 </template>
 
 <script>
