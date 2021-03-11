@@ -9,7 +9,6 @@ import 'element-ui/lib/theme-chalk/display.css';
 import 'github-markdown-css/github-markdown.css';
 import 'highlight.js/styles/github.css';
 import 'default-passive-events';
-import '@/permission' // permission control
 
 Vue.config.productionTip = false
 Vue.use(ElementUI);
@@ -19,7 +18,13 @@ Vue.component('VueShowdown', VueShowdown)
 
 new Vue({
   render: h => h(App),
-  store,
+  // store,
   router,
+  // components: { Layout },
+  // template: '<Layout>',
+  created: initBlog
 }).$mount('#app')
 
+function initBlog() {
+  store.dispatch('getBlogInfo');
+}

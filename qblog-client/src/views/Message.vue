@@ -1,49 +1,75 @@
 <template>
   <el-row>
-    <el-row><Header></header></el-row>
-
     <el-row>
-      <el-col :span="15" :offset="3"><NavMenu></NavMenu></el-col>
-    </el-row>
-
-    <el-row>
-      <el-col :span="14" :offset="5">
+      <el-col
+        :span="14"
+        :offset="5"
+      >
         <el-card>
           <div slot="header">
             <h4>留言互动</h4>
             <br />
             务必填写有效的邮箱地址，否则不会收到回复信息的哦 ~
           </div>
-          <el-form ref="form" :model="message" :rules="rules" label-width="80px">
-            <el-form-item label="昵称" prop="nickname">
+          <el-form
+            ref="form"
+            :model="message"
+            :rules="rules"
+            label-width="80px"
+          >
+            <el-form-item
+              label="昵称"
+              prop="nickname"
+            >
               <el-input v-model="message.nickname"></el-input>
             </el-form-item>
-            <el-form-item label="邮箱" prop="email">
-              <el-input type="email" v-model="message.email"></el-input>
-            </el-form-item>
-            <el-form-item label="内容" prop="content">
+            <el-form-item
+              label="邮箱"
+              prop="email"
+            >
               <el-input
-                  type="textarea"
-                  v-model="message.content"
-                  rows="6"
+                type="email"
+                v-model="message.email"
+              ></el-input>
+            </el-form-item>
+            <el-form-item
+              label="内容"
+              prop="content"
+            >
+              <el-input
+                type="textarea"
+                v-model="message.content"
+                rows="6"
               ></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitMessage">提交</el-button>
+              <el-button
+                type="primary"
+                @click="submitMessage"
+              >提交</el-button>
               <el-button @click="resetMessage">重置</el-button>
             </el-form-item>
           </el-form>
-          <div v-for="(message, index) in pageInfo.records" :key="index">
+          <div
+            v-for="(message, index) in pageInfo.records"
+            :key="index"
+          >
             <el-divider></el-divider>
             <div class="info-box">
-              <div class="avatar" :style="'background-color:#' + message.bgColor">
+              <div
+                class="avatar"
+                :style="'background-color:#' + message.bgColor"
+              >
                 {{ message.nickname[0] }}
               </div>
               <div class="nickname">{{ message.nickname }}</div>
               <div class="time">{{ message.gmtCreate }}</div>
             </div>
             <div class="content">{{ message.content }}</div>
-            <div class="reply-box" v-if="message.replyContent">
+            <div
+              class="reply-box"
+              v-if="message.replyContent"
+            >
               <div class="reply-content">
                 <span class="author-text">作者回复：</span>
                 {{ message.replyContent }}
@@ -52,20 +78,17 @@
             </div>
           </div>
           <el-pagination
-              background
-              @current-change="handleCurrentChange"
-              :current-page.sync="pageInfo.current"
-              :page-size="pageInfo.size"
-              layout="prev, pager, next, jumper"
-              :total="pageInfo.total"
-              :hide-on-single-page="true"
+            background
+            @current-change="handleCurrentChange"
+            :current-page.sync="pageInfo.current"
+            :page-size="pageInfo.size"
+            layout="prev, pager, next, jumper"
+            :total="pageInfo.total"
+            :hide-on-single-page="true"
           ></el-pagination>
         </el-card>
       </el-col>
       <el-backtop></el-backtop>
-    </el-row>
-    <el-row>
-      <Footer></Footer>
     </el-row>
   </el-row>
 
@@ -75,10 +98,7 @@
 import request from "@/http/request";
 export default {
   name: "Message",
-  components:{
-    Footer: ()=>import("@/components/Footer"),
-    Header:() => import("@/components/Header"),
-    NavMenu:() => import("@/components/NavMenu"),
+  components: {
   },
   data() {
     return {
@@ -154,10 +174,10 @@ export default {
             this.pageInfo = res.data;
             this.pageInfo.records.forEach(
               (ele) =>
-                (ele.bgColor = Math.random()
-                  .toString(16)
-                  .substr(2, 6)
-                  .toUpperCase())
+              (ele.bgColor = Math.random()
+                .toString(16)
+                .substr(2, 6)
+                .toUpperCase())
             );
           } else {
             this.$notify.error({
