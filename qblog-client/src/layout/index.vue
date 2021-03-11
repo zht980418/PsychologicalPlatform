@@ -1,7 +1,9 @@
 <template>
   <div>
     <Header />
-    <NavMenu></NavMenu>
+    <el-row>
+      <NavMenu></NavMenu>
+    </el-row>
     <router-view :key="key" />
     <Footer />
   </div>

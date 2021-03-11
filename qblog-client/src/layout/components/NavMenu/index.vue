@@ -13,29 +13,28 @@
         default-active="/home"
         router
       >
-        <el-menu-item index="/home">首页</el-menu-item>
-        <el-submenu index="2">
-          <template slot="title">心理教育</template>
-          <el-menu-item index="/category/all">分类浏览</el-menu-item>
-          <el-menu-item index="/tag/all">标签浏览</el-menu-item>
-        </el-submenu>
-        <el-menu-item index="/quiz">心理自测</el-menu-item>
-        <el-menu-item index="/order">咨询预约</el-menu-item>
-        <el-menu-item index="/info">个人中心</el-menu-item>
-        <!-- <el-menu-item
+        <el-menu-item
           v-for="route in routes"
           :key="route.path"
           :index="route.path"
-          :base-path="route.path"
         >
-          {{ route.meta.title }}
-        </el-menu-item> -->
-        <!-- <navItem
-          v-for="route in routes"
-          :key="route.path"
-          :item="route"
-          :base-path="route.path"
-        ></navItem> -->
+          <template
+            slot="title"
+            v-if="route.children&&route.children.length===1&&!route.hidden"
+          >
+            {{ route.meta.title }}
+          </template>
+        </el-menu-item>
+        <el-submenu index="2">
+          <template slot="title">心理教育</template>
+          <el-menu-item
+            v-for="route in children"
+            :key="route.path"
+            :index="route.path"
+          >
+            {{ route.meta.title }}
+          </el-menu-item>
+        </el-submenu>
       </el-menu>
     </el-col>
   </el-row>
@@ -45,11 +44,9 @@
 export default {
   name: "NavMenu",
   components: {
-    // navItem: () => import('./components/index')
   },
   data() {
     return {
-      route: []
     }
   },
   computed: {
@@ -57,6 +54,18 @@ export default {
       console.log(this.$router.options.routes)
       return this.$router.options.routes
     },
+    children() {
+      const routes = this.$router.options.routes
+      const list = []
+      console.log(routes)
+      for (let i = 0; i < routes.length; i++) {
+        if (routes[i].children && routes[i].children.length > 1) {
+          for (let j = 0; j < routes[i].children.length; j++)
+            list.push(routes[i].children[j])
+        }
+      }
+      return list
+    }
   }
 
 };

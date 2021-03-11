@@ -23,68 +23,31 @@ const routes = [
     }],
   },
   {
-    path: "/post/:id",
-    name: "Article",
-    component: Layout,
-    meta: { title: "文章详情" },
-    children: [{
-      path: '/article',
-      component: () => import("@/views/Article.vue"),
-    }],
-  },
-  {
     path: "/Login",
     name: "Login",
     component: () => import("@/views/Login.vue"),
     meta: { title: "登录注册" },
     hidden: true
   },
-  // {
-  //   path: '/education',
-  //   name: 'Education',
-  //   children: [
-  //   ]
-  // },
   {
-    path: "/category/:name",
-    name: "Category",
+    path: '/education',
+    name: 'Education',
+    meta: { title: "心理教育" },
     component: Layout,
-    meta: { title: "文章分类" },
-    children: [{
-      path: '/category/:name',
-      component: () => import("@/views/Category.vue"),
-    }]
-  },
-  {
-    path: "/tag/:name",
-    name: "Tag",
-    component: Layout,
-    meta: { title: "标签" },
-    children: [{
-      path: '/tag/:name',
-      component: () => import("@/views/Tag.vue"),
-    }],
-  },
-  {
-    path: "/timeline",
-    name: "TimeLine",
-    component: Layout,
-    meta: { title: "时间线" },
-    children: [{
-      path: '/timeline',
-      component: () => import("@/views/TimeLine.vue"),
-
-    }],
-  },
-  {
-    path: "/message",
-    name: "Message",
-    component: Layout,
-    meta: { title: "留言板" },
-    children: [{
-      path: '/message',
-      component: () => import("@/views/Message.vue"),
-    }],
+    children: [
+      {
+        path: "/category/:name",
+        name: "Category",
+        component: () => import("@/views/Category.vue"),
+        meta: { title: "分类浏览" },
+      },
+      {
+        path: "/tag/:name",
+        name: "Tag",
+        component: () => import("@/views/Tag.vue"),
+        meta: { title: "标签浏览" },
+      },
+    ]
   },
   {
     path: "/quiz",
