@@ -1,11 +1,16 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import request from '@/http/request';
+import user from './modules/user'
 import { Notification } from 'element-ui';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
+  modules: {
+    user,
+  },
+
   state: {
     token: window.sessionStorage.getItem("token"),
     userInfo: null,
