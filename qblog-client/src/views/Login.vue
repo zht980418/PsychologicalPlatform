@@ -154,7 +154,6 @@
 </template>
 
 <script>
-import { login } from '@/api/user'
 export default {
   name: 'Login',
   data() {
@@ -239,10 +238,9 @@ export default {
 
     handleLogin() {
       this.$refs.loginForm.validate((valid) => {
+        console.log('登录按钮')
+        console.log(this.loginForm)
         if (valid) {
-          login(this.loginForm).then((res) => {
-            console.log(res)
-          })
           // 显示 loading
           this.loading = true
           this.$store

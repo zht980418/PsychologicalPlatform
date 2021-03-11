@@ -1,34 +1,22 @@
 import instance from '@/http/request'
 import urls from "@/http/urls";
 
-export { login, register, getUserById, getUsers, modifyUser, deleteUser, logout}
+export { login, register, getUserById, modifyUser, deleteUser, logout}
 
 function login(data) {
-    return instance.post(urls.login, {
-        data
-    }).then(res => {
-        res.data
-    });
+    return instance.post(urls.login, data).then(res => res.data)
 }
 
 function register(data){
     return instance.post('/register', {
         data
-    }).then(res => {
+    }).then(res =>
         res.data
-    })
+    )
 }
 
 function getUserById(id){
-    return instance.get('/logintest/' + id)
-        .then(res => {
-            res.data
-        })
-}
-
-function getUsers() {
-    return instance.get('/logintest')
-        .then(res => res.data)
+    return instance.get('/logintest/' + id).then(res => res.data)
 }
 
 function modifyUser(id, data){

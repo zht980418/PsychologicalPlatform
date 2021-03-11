@@ -37,14 +37,9 @@ const routes = [
   {
     path: "/Login",
     name: "Login",
-    component: Layout,
-    children: [{
-      path: '/login',
-      component: () => import("@/views/Login.vue"),
-      meta: {
-        title: "登录注册",
-      },
-    }],
+    component: () => import("@/views/Login.vue"),
+    meta: {
+      title: "登录注册",}
   },
   {
     path: "/category/:name",
