@@ -1,26 +1,9 @@
 <template>
   <div>
     <el-row>
-      <el-col
-        :span="24"
-        :offset="0"
-      >
+      <el-col :span="24">
         <el-row>
-          <el-col
-            :xs="{span:16,offset:4}"
-            :sm="{span:16,offset:4}"
-            :md="{span:18,offset:4}"
-            :lg="{span:18,offset:5}"
-            :xl="{span:18,offset:5}"
-          >
-            <NavMenu></NavMenu>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col
-            :span="24"
-            :offset="0"
-          >
+          <el-col :span="24">
             <AdBoard></AdBoard>
           </el-col>
         </el-row>
@@ -107,11 +90,6 @@ export default {
   },
 };
 </script>
-<style>
-div {
-  min_width: 100%;
-}
-</style>
 <style scoped>
 .none-article {
   margin-top: 20px;

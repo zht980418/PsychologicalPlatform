@@ -16,88 +16,85 @@ const routes = [
     name: "Home",
     redirect: '/home',
     component: Layout,
+    meta: { title: "首页" },
     children: [{
       path: '/home',
-      component: () => import("@/views/Home.vue"),
-      meta: { title: "心理健康中心", },
+      component: () => import("@/views/Home.vue")
     }],
   },
   {
     path: "/post/:id",
     name: "Article",
     component: Layout,
+    meta: { title: "文章详情" },
     children: [{
       path: '/article',
       component: () => import("@/views/Article.vue"),
-      meta: {
-        title: "文章详情",
-      },
     }],
   },
   {
     path: "/Login",
     name: "Login",
     component: () => import("@/views/Login.vue"),
-    meta: {
-      title: "登录注册",}
+    meta: { title: "登录注册" },
+    hidden: true
   },
+  // {
+  //   path: '/education',
+  //   name: 'Education',
+  //   children: [
+  //   ]
+  // },
   {
     path: "/category/:name",
     name: "Category",
     component: Layout,
+    meta: { title: "文章分类" },
     children: [{
       path: '/category/:name',
       component: () => import("@/views/Category.vue"),
-      meta: {
-        title: "文章分类",
-      },
     }]
   },
   {
     path: "/tag/:name",
     name: "Tag",
     component: Layout,
+    meta: { title: "标签" },
     children: [{
       path: '/tag/:name',
       component: () => import("@/views/Tag.vue"),
-      meta: { title: "标签", },
     }],
   },
   {
     path: "/timeline",
     name: "TimeLine",
     component: Layout,
+    meta: { title: "时间线" },
     children: [{
       path: '/timeline',
       component: () => import("@/views/TimeLine.vue"),
-      meta: {
-        title: "时间线",
-      },
+
     }],
   },
   {
     path: "/message",
     name: "Message",
     component: Layout,
+    meta: { title: "留言板" },
     children: [{
       path: '/message',
       component: () => import("@/views/Message.vue"),
-      meta: {
-        title: "留言板",
-      },
     }],
   },
   {
     path: "/quiz",
     name: "Quiz",
     component: Layout,
+    meta: { title: "心理测量问卷" },
     children: [{
       path: '/quiz',
       component: () => import("@/views/Quiz.vue"),
       redirect: "/quiz/quiz1",
-      meta: {
-        title: "心理测量问卷",
-      },
       children: [
         { path: "quiz1", component: () => import("@/views/quiz/Quiz1.vue") },
         { path: "quiz2", component: () => import("@/views/quiz/Quiz2.vue") },
@@ -110,12 +107,10 @@ const routes = [
     path: "/order",
     name: "Order",
     component: Layout,
+    meta: { title: "心理咨询预约" },
     children: [{
       path: '/order',
       component: () => import("@/views/Order.vue"),
-      meta: {
-        title: "心理咨询预约",
-      },
       children: [
         { path: "doctorlist", component: () => import("@/views/order/DoctorList.vue") },
         { path: "orderform", component: () => import("@/views/order/OrderForm.vue") },
@@ -127,12 +122,10 @@ const routes = [
     path: "/info",
     name: "Info",
     component: Layout,
+    meta: { title: "个人中心" },
     children: [{
       path: '/info',
       component: () => import("@/views/info/index.vue"),
-      meta: {
-        title: "个人中心"
-      }
     }],
   },
 ]
