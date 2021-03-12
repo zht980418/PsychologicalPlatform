@@ -27,8 +27,10 @@ const whiteList = ['/login', '/',] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
   const hasToken = getToken()
+      console.log('路由守卫')
   // let userid = sessionStorage.getItem('userid');
   if (hasToken) {
+    console.log('有token')
     if (to.path === '/login') {
       /* if is logged in, redirect to the home page*/next({ path: '/' })
     } else {

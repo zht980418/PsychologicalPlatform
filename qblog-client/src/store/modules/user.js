@@ -46,7 +46,6 @@ const actions = {
             // 用户名前后去掉空格
             login({ userid: username.trim(), password: password }).then(response => {
                 // 获取返回值中的 data
-                console.log(response)
                 const { data } = response
                 // 调用 mutations 中 SET_TOKEN 方法，将 token 存到 vuex 中
                 commit('SET_TOKEN', data.token)

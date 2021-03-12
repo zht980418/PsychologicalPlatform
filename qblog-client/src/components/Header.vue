@@ -21,7 +21,7 @@
       :lg="{span:3,offset:6}"
       :xl="{span:3,offset:3}"
     >
-      <router-link v-if="!id" to="/Login">
+      <router-link v-if="!id" to="/login">
         <el-row style="margin:70px 0 0 120px">
           <el-button type="primary">
             <i
@@ -33,7 +33,7 @@
         </el-row>
       </router-link>
         <el-dropdown v-if="id" class="avatar-container">
-          <el-row style="margin:70px 0 0 120px;">
+          <el-row style="margin:40px 0 0 120px;">
             <img style="margin: 11px" :src="avatar" :alt="name" class="user-avatar" />
             <i class="el-icon-caret-bottom" />
             <p>{{ id }}</p>

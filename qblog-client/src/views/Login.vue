@@ -249,13 +249,14 @@ export default {
               // 执行 vuex 中的登录方法
               .dispatch('user/login', this.loginForm)
               .then(() => {
-                console.log('登录成功准备跳转')
+                console.log('登录成功准备跳转', this.redirect)
                 // this.redirect 为本来要跳转的页面，如果有值的话登录之后直接跳转到本来要跳转的页面，否则跳转到首页
                 this.$router.push({ path: this.redirect || '/' })
-                this.$store.dispatch('user/getInfo').catch(() => Message.error('用户信息获取失败，请重新登录'))
                 // 关闭 loading
                 this.loading = false
-              })
+              }).then(() => {
+            this.$store.dispatch('user/getInfo').catch(() => Message.error('用户信息获取失败，请重新登录'))
+          })
               .catch(() => {
                 // 关闭 loading
                 this.loading = false
