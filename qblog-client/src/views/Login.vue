@@ -73,9 +73,10 @@
         :rules="registerRules"
         class="login-form"
         label-position="left"
+        style="padding-top: 100px"
     >
       <div class="title-container">
-        <h3 class="title">四川大学心理健康教育教育平台后台管理系统</h3>
+        <h3 class="title">四川大学心理健康教育教育平台</h3>
       </div>
 
       <el-form-item prop="username">
@@ -87,6 +88,36 @@
             v-model="registerForm.username"
             placeholder="用户名"
             name="username"
+            type="text"
+            tabindex="1"
+            auto-complete="on"
+        />
+      </el-form-item>
+
+      <el-form-item prop="nickname">
+        <span class="svg-container">
+          <svg-icon icon-class="user" />
+        </span>
+        <el-input
+            ref="nickname"
+            v-model="registerForm.nickname"
+            placeholder="昵称"
+            name="nickname"
+            type="text"
+            tabindex="1"
+            auto-complete="on"
+        />
+      </el-form-item>
+
+      <el-form-item prop="phoneNumber">
+        <span class="svg-container">
+          <svg-icon icon-class="user" />
+        </span>
+        <el-input
+            ref="phoneNumber"
+            v-model="registerForm.phoneNumber"
+            placeholder="电话"
+            name="phoneNumber"
             type="text"
             tabindex="1"
             auto-complete="on"
@@ -147,7 +178,7 @@
 
       <el-link
           type="primary"
-          @click="handleToggle"
+          @click="handleToggle()"
       >已有账号?现在登录</el-link>
     </el-form>
   </div>
@@ -180,6 +211,13 @@ export default {
         callback()
       }
     }
+    const validatePhoneNumber = (rule, value, callback) => {
+      if (!(/^1[3456789]\d{9}$/.test(value))) {
+        callback(new Error('请确认输入正确的号码'))
+      } else {
+        callback()
+      }
+    }
     return {
       toggleLoginRegister: true,
       loginForm: {
@@ -190,6 +228,8 @@ export default {
         username: '',
         password: '',
         passwordRepeat: '',
+        nickname: '',
+        phoneNumber: ''
       },
       loginRules: {
         username: [
@@ -208,6 +248,9 @@ export default {
         ],
         passwordRepeat: [
           { required: true, trigger: 'blur', validator: validatePasswordRepeat },
+        ],
+        phoneNumber: [
+          { required: true, trigger: 'blur', validator: validatePhoneNumber },
         ],
       },
       loading: false,
@@ -268,6 +311,7 @@ export default {
       })
     },
     handleRegister() {
+      console.log('注册按钮')
       this.$refs.registerForm.validate((valid) => {
         if (valid) {
           // 显示 loading
@@ -276,12 +320,11 @@ export default {
               // 执行 vuex 中的注册方法
               .dispatch('user/register', this.registerForm)
               .then(() => {
-                // this.redirect 为本来要跳转的页面，如果有值的话登录之后直接跳转到本来要跳转的页面，否则跳转到首页
-                this.$router.push({ path: this.redirect || '/' })
-                // 关闭 loading
+                this.loginForm = {username: this.registerForm.username, password: this.registerForm.password}
+                this.$store.dispatch('user/login', this.loginForm).then(()=> this.$router.push({ path: this.redirect || '/' })).catch(err => Message.error(err || '用户登录失败，请重试！'))
+                this.$store.dispatch('user/getInfo').catch(err => Message.error(err || '获取用户信息失败，请重试！'))
                 this.loading = false
-              })
-              .catch(() => {
+              }).catch(() => {
                 // 关闭 loading
                 this.loading = false
               })
