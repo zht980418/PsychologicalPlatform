@@ -100,7 +100,6 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(from);
   if (to.meta.title) {
     document.title = to.meta.title;
   }

@@ -95,7 +95,8 @@
 </template>
 
 <script>
-import request from "@/http/request";
+import { postMessages, getMessages} from "@/api/message";
+
 export default {
   name: "Message",
   components: {
@@ -125,8 +126,7 @@ export default {
     submitMessage() {
       this.$refs["form"].validate((valid) => {
         if (valid) {
-          request
-            .postMessages(this.message)
+          postMessages(this.message)
             .then((res) => {
               if (res.code === 0) {
                 this.$notify.success({
@@ -167,8 +167,7 @@ export default {
       };
     },
     getPageMessages(page, limit) {
-      request
-        .getMessages(page, limit)
+      getMessages(page, limit)
         .then((res) => {
           if (res.code === 0) {
             this.pageInfo = res.data;

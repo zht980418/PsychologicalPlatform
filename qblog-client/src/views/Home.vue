@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import request from "@/http/request";
+import { getArticles } from "@/api/article";
 import { mapState } from "vuex";
 import 'element-ui/lib/theme-chalk/display.css';
 export default {
@@ -67,8 +67,7 @@ export default {
       this.getPageArticles(page, 5);
     },
     getPageArticles(page, limit) {
-      request
-        .getArticles(page, limit)
+      getArticles(page, limit)
         .then((res) => {
           if (res.code === 0) {
             this.pageInfo = res.data;

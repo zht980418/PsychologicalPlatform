@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import request from "@/http/request";
+import { getAllCategories, getAllTags } from "@/api/article";
 import { mapState } from "vuex";
 
 export default {
@@ -47,8 +47,7 @@ export default {
   },
   computed: mapState(["blogInfo"]),
   created() {
-    request
-      .getAllTags()
+    getAllTags()
       .then((res) => {
         if (res.code === 0) {
           this.tags = res.data;
@@ -66,8 +65,7 @@ export default {
           message: "网络忙，标签获取失败",
         });
       });
-    request
-      .getAllCategories()
+    getAllCategories()
       .then((res) => {
         if (res.code === 0) {
           this.categories = res.data;

@@ -24,7 +24,8 @@
 </template>
 
 <script>
-import request from "@/http/request";
+import { getArticleByID } from "@/api/article"
+
 import showdownHighlight from "showdown-highlight";
 
 function getVideoAddress(content){
@@ -41,8 +42,7 @@ export default {
     };
   },
   created() {
-    request
-      .getArticleByID(this.$route.params.id)
+    getArticleByID(this.$route.params.id)
       .then(res => {
         if (res.code === 0) {
           this.article = res.data

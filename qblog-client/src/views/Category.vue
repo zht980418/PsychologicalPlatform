@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import request from "@/http/request";
+import { getArticles, getAllCategories, getArticlesByCategory} from "@/api/article";
 
 export default {
   name: "Category",
@@ -58,8 +58,7 @@ export default {
     getArticlesInCategoryView(page, limit) {
       const category = this.$route.params.name;
       if (category === "all") {
-        request
-          .getArticles(page, limit)
+        getArticles(page, limit)
           .then((res) => {
             if (res.code === 0) {
               this.pageInfo = res.data;
@@ -78,8 +77,7 @@ export default {
             });
           });
       } else {
-        request
-          .getArticlesByCategory(category, page, limit)
+        getArticlesByCategory(category, page, limit)
           .then((res) => {
             if (res.code === 0) {
               this.pageInfo = res.data;
@@ -100,8 +98,7 @@ export default {
       }
     },
     loadData() {
-      request
-        .getAllCategories()
+      getAllCategories()
         .then((res) => {
           if (res.code === 0) {
             this.categories = res.data;

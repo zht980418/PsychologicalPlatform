@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import request from "@/http/request";
+import { getAllTags, getArticles, getArticlesByTag } from "@/api/article";
 
 export default {
   name: "Tag",
@@ -58,8 +58,7 @@ export default {
     getArticlesInTagView(page, limit) {
       const tag = this.$route.params.name;
       if (tag === "all") {
-        request
-          .getArticles(page, limit)
+        getArticles(page, limit)
           .then((res) => {
             if (res.code === 0) {
               this.pageInfo = res.data;
@@ -78,8 +77,7 @@ export default {
             });
           });
       } else {
-        request
-          .getArticlesByTag(tag, page, limit)
+        getArticlesByTag(tag, page, limit)
           .then((res) => {
             if (res.code === 0) {
               this.pageInfo = res.data;
@@ -100,8 +98,7 @@ export default {
       }
     },
     loadData() {
-      request
-        .getAllTags()
+      getAllTags()
         .then((res) => {
           if (res.code === 0) {
             this.tags = res.data;

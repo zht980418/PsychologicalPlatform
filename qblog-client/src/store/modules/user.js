@@ -1,4 +1,4 @@
-import { login, getUserById} from '@/api/user'
+import { login, getUserById, register, logout} from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const getDefaultState = () => {
@@ -35,6 +35,9 @@ const mutations = {
 }
 
 const actions = {
+    setId({commit}, id){
+      commit('SET_ID', id)
+    },
     // user login
     login({ commit }, userInfo) {
         console.log('分发登录')
@@ -58,21 +61,21 @@ const actions = {
         })
     },
 
-    // register({ commit }, userInfo) {
-    //     const { username, password, } = userInfo
-    //     return new Promise((resolve, reject) => {
-    //         register({ userid: username.trim(), password: password, rolename: 'editor' }).then(response => {
-    //             const { data } = response
-    //             // 调用 mutations 中 SET_TOKEN 方法，将 token 存到 vuex 中
-    //             commit('SET_TOKEN', data.token)
-    //             // 使用 js-cookie 插件，将 token 存入本地cookie中
-    //             setToken(data.token)
-    //             resolve()
-    //         }).catch(error => {
-    //             reject(error)
-    //         })
-    //     })
-    // },
+    register({ commit }, userInfo) {
+        const { username, password, } = userInfo
+        return new Promise((resolve, reject) => {
+            register({ userid: username.trim(), password: password, rolename: 'editor' }).then(response => {
+                const { data } = response
+                // 调用 mutations 中 SET_TOKEN 方法，将 token 存到 vuex 中
+                commit('SET_TOKEN', data.token)
+                // 使用 js-cookie 插件，将 token 存入本地cookie中
+                setToken(data.token)
+                resolve()
+            }).catch(error => {
+                reject(error)
+            })
+        })
+    },
 
     getInfo({ commit, state }) {
         return new Promise((resolve, reject) => {
@@ -87,7 +90,6 @@ const actions = {
                 commit('SET_NAME', nickname)
                 commit('SET_PHONE_NUMBER', phonenumber)
                 commit('SET_AVATAR', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')
-                console.log(state)
                 resolve(data)
             }).catch(error => {
                 reject(error)
@@ -96,17 +98,18 @@ const actions = {
     },
 
     // user logout
-    // logout({ commit, state }) {
-    //     return new Promise((resolve, reject) => {
-    //         logout(state.token).then(() => {
-    //             removeToken() // must remove  token  first
-    //             commit('RESET_STATE')
-    //             resolve()
-    //         }).catch(error => {
-    //             reject(error)
-    //         })
-    //     })
-    // },
+    logout({ commit, state }) {
+        return new Promise((resolve, reject) => {
+            logout(state.token).then(() => {
+                removeToken() // must remove  token  first
+                sessionStorage.clear()// 清除防止刷新丢失state储存的sessionStorage
+                commit('RESET_STATE')
+                resolve()
+            }).catch(error => {
+                reject(error)
+            })
+        })
+    },
 
     // remove token
     resetToken({ commit }) {
