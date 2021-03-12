@@ -33,7 +33,6 @@ const routes = [
     path: '/education',
     name: 'Education',
     meta: { title: "心理教育" },
-    Sub: true,
     component: Layout,
     children: [
       {
@@ -83,9 +82,33 @@ const routes = [
     }],
   },
   {
+    path: '/course',
+    name: 'Course',
+    component: Layout,
+    redirect: '/course/courseList',
+    meta: { title: '心理课程' },
+    children: [
+      {
+        path: 'courseList',
+        name: 'CourseList',
+        component: () => import('@/views/course/courseList'),
+        meta: { title: '课程培训', icon: 'el-icon-s-management' }
+      },
+      {
+        path: 'coursePage',
+        name: 'CoursePage',
+        component: () => import('@/views/course/coursePage'),
+        meta: { title: '课程培训', noCache: true },
+        hidden: true
+      }
+    ]
+
+  },
+  {
     path: "/info",
     name: "Info",
     component: Layout,
+    hidden: true,
     meta: { title: "个人中心" },
     children: [{
       path: '/info',

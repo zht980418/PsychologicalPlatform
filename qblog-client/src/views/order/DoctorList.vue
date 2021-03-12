@@ -6,7 +6,7 @@
       :key="item.doctorId"
       :offset="index > 0 ? 2 : 0"
     >
-      <el-card class="demo-app">
+      <el-card>
         <el-image
           style="width: 100px; height: 100px"
           :src="item.img"

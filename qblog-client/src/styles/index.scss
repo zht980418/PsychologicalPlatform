@@ -62,9 +62,6 @@ div:focus {
 // main-container global css
 .app-container {
   padding: 15px;
-}
-
-.demo-app {
   height: 82vh;
 }
 
@@ -76,4 +73,11 @@ div:focus {
   margin-left: 2vh;
   margin-right:2vh;
   margin-bottom:0;
+}
+
+.course-list {
+  list-style-type: none;
+  display: flex;
+  direction: row;
+  flex-wrap: wrap;
 }
