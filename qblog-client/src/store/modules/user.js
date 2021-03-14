@@ -60,15 +60,13 @@ const actions = {
         })
     },
 
-    register({ commit }, userInfo) {
-        const { username, password, } = userInfo
+    register({commit}, userInfo) {
+        const { username, password, phoneNumber, nickname} = userInfo
+        console.log(userInfo)
         return new Promise((resolve, reject) => {
-            register({ userid: username.trim(), password: password, rolename: 'editor' }).then(response => {
-                const { data } = response
-                // 调用 mutations 中 SET_TOKEN 方法，将 token 存到 vuex 中
-                commit('SET_TOKEN', data.token)
-                // 使用 js-cookie 插件，将 token 存入本地cookie中
-                setToken(data.token)
+            register({ userid: username.trim(), password: password, rolename: '游客', phonenumber:phoneNumber, nickname:nickname }).then(response => {
+                console.log(response)
+                commit('SET_ID', username)
                 resolve()
             }).catch(error => {
                 reject(error)

@@ -1,8 +1,8 @@
 <template>
   <div class="login-container">
-    <div class="blur" />
+    <div class="blur"/>
     <el-form
-        v-if="toggleLoginRegister"
+        v-show="toggleLoginRegister"
         ref="loginForm"
         :model="loginForm"
         :rules="loginRules"
@@ -16,7 +16,7 @@
 
       <el-form-item prop="username">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <svg-icon icon-class="user"/>
         </span>
         <el-input
             ref="username"
@@ -31,7 +31,7 @@
 
       <el-form-item prop="password">
         <span class="svg-container">
-          <svg-icon icon-class="password" />
+          <svg-icon icon-class="password"/>
         </span>
         <el-input
             :key="passwordType"
@@ -48,7 +48,7 @@
             class="show-pwd"
             @click="showPwd"
         >
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
         </span>
       </el-form-item>
 
@@ -57,53 +57,80 @@
           type="primary"
           style="width:100%;margin-bottom:30px;"
           @click.native.prevent="handleLogin"
-      >登录</el-button>
+      >登录
+      </el-button>
 
       <el-link
           type="primary"
           @click="handleToggle"
-      >没有账号?现在注册</el-link>
+      >没有账号?现在注册
+      </el-link>
 
     </el-form>
 
     <el-form
-        v-if="!toggleLoginRegister"
+        v-show="!toggleLoginRegister"
         ref="registerForm"
         :model="registerForm"
         :rules="registerRules"
         class="login-form"
         label-position="left"
+        style="padding-top: 100px"
     >
       <div class="title-container">
-        <h3 class="title">四川大学心理健康教育教育平台后台管理系统</h3>
+        <h3 class="title">四川大学心理健康教育教育平台</h3>
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item prop="username2">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <svg-icon icon-class="user"/>
         </span>
         <el-input
-            ref="username"
             v-model="registerForm.username"
             placeholder="用户名"
-            name="username"
             type="text"
             tabindex="1"
             auto-complete="on"
         />
       </el-form-item>
 
-      <el-form-item prop="password">
+      <el-form-item prop="nickname">
         <span class="svg-container">
-          <svg-icon icon-class="password" />
+          <svg-icon icon-class="user"/>
         </span>
         <el-input
-            :key="passwordType"
-            ref="password"
-            v-model="registerForm.password"
+            v-model="registerForm.nickname"
+            placeholder="昵称"
+            name="nickname"
+            type="text"
+            tabindex="1"
+            auto-complete="on"
+        />
+      </el-form-item>
+
+      <el-form-item prop="phoneNumber">
+        <span class="svg-container">
+          <svg-icon icon-class="user"/>
+        </span>
+        <el-input
+            ref="phoneNumber"
+            v-model="registerForm.phoneNumber"
+            placeholder="电话"
+            name="phoneNumber"
+            type="text"
+            tabindex="1"
+            auto-complete="on"
+        />
+      </el-form-item>
+
+      <el-form-item prop="password2">
+        <span class="svg-container">
+          <svg-icon icon-class="password"/>
+        </span>
+        <el-input
+            v-model="registerForm.password2"
             :type="passwordType"
             placeholder="密码"
-            name="password"
             tabindex="2"
             auto-complete="on"
         />
@@ -111,17 +138,17 @@
             class="show-pwd"
             @click="showPwd"
         >
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
         </span>
       </el-form-item>
 
       <el-form-item prop="passwordRepeat">
         <span class="svg-container">
-          <svg-icon icon-class="password" />
+          <svg-icon icon-class="password"/>
         </span>
         <el-input
             :key="passwordType"
-            ref="passwordR"
+            ref="passwordRepeat"
             v-model="registerForm.passwordRepeat"
             :type="passwordType"
             placeholder="重复密码"
@@ -134,7 +161,7 @@
             class="show-pwd"
             @click="showPwd"
         >
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
         </span>
       </el-form-item>
 
@@ -143,18 +170,20 @@
           type="primary"
           style="width:100%;margin-bottom:30px;"
           @click.native.prevent="handleRegister"
-      >注册</el-button>
+      >注册
+      </el-button>
 
       <el-link
           type="primary"
-          @click="handleToggle"
-      >已有账号?现在登录</el-link>
+          @click="handleToggle()"
+      >已有账号?现在登录
+      </el-link>
     </el-form>
   </div>
 </template>
 
 <script>
-import { Message } from 'element-ui'
+import {Message} from 'element-ui'
 
 export default {
   name: 'Login',
@@ -167,15 +196,26 @@ export default {
       }
     }
     const validatePassword = (rule, value, callback) => {
+      console.log(rule)
+      console.log(value)
       if (value.length < 5) {
         callback(new Error('密码不能小于5个字符'))
       } else {
         callback()
       }
     }
+
     const validatePasswordRepeat = (rule, value, callback) => {
-      if (value !== this.registerForm.passwordRepeat) {
+      if (value !== this.registerForm.password) {
         callback(new Error('两次密码必须相同'))
+      } else {
+        callback()
+      }
+    }
+
+    const validatePhoneNumber = (rule, value, callback) => {
+      if (!(/^1[3456789]\d{9}$/.test(value))) {
+        callback(new Error('请确认输入正确的号码'))
       } else {
         callback()
       }
@@ -188,26 +228,31 @@ export default {
       },
       registerForm: {
         username: '',
-        password: '',
+        password2: '',
         passwordRepeat: '',
+        nickname: '',
+        phoneNumber: ''
       },
       loginRules: {
         username: [
-          { required: true, trigger: 'blur', validator: validateUsername },
+          {required: true, trigger: 'blur', validator: validateUsername},
         ],
         password: [
-          { required: true, trigger: 'blur', validator: validatePassword },
+          {required: true, trigger: 'blur', validator: validatePassword},
         ],
       },
       registerRules: {
-        username: [
-          { required: true, trigger: 'blur', validator: validateUsername },
+        username2: [
+          {required: true, trigger: 'blur', validator: validateUsername},
         ],
-        password: [
-          { required: true, trigger: 'blur', validator: validatePassword },
+        password2: [
+          {required: true, trigger: 'blur', validator: validatePassword},
         ],
         passwordRepeat: [
-          { required: true, trigger: 'blur', validator: validatePasswordRepeat },
+          {required: true, trigger: 'blur', validator: validatePasswordRepeat},
+        ],
+        phoneNumber: [
+          {required: true, trigger: 'blur', validator: validatePhoneNumber},
         ],
       },
       loading: false,
@@ -236,6 +281,11 @@ export default {
     },
     handleToggle() {
       this.toggleLoginRegister = !this.toggleLoginRegister
+      if (this.toggleLoginRegister) {
+        this.$refs.regitserForm.clearValidate()
+      } else {
+        this.$refs.loginForm.clearValidate()
+      }
     },
 
     handleLogin() {
@@ -251,7 +301,7 @@ export default {
               .then(() => {
                 console.log('登录成功准备跳转', this.redirect)
                 // this.redirect 为本来要跳转的页面，如果有值的话登录之后直接跳转到本来要跳转的页面，否则跳转到首页
-                this.$router.push({ path: this.redirect || '/' })
+                this.$router.push({path: this.redirect || '/'})
                 // 关闭 loading
                 this.loading = false
               }).then(() => {
@@ -268,6 +318,7 @@ export default {
       })
     },
     handleRegister() {
+      console.log('注册按钮')
       this.$refs.registerForm.validate((valid) => {
         if (valid) {
           // 显示 loading
@@ -276,15 +327,14 @@ export default {
               // 执行 vuex 中的注册方法
               .dispatch('user/register', this.registerForm)
               .then(() => {
-                // this.redirect 为本来要跳转的页面，如果有值的话登录之后直接跳转到本来要跳转的页面，否则跳转到首页
-                this.$router.push({ path: this.redirect || '/' })
-                // 关闭 loading
+                this.loginForm = {username: this.registerForm.username, password: this.registerForm.password}
+                this.$store.dispatch('user/login', this.loginForm).then(() => this.$router.push({path: this.redirect || '/'})).catch(err => Message.error(err || '用户登录失败，请重试！'))
+                this.$store.dispatch('user/getInfo').catch(err => Message.error(err || '获取用户信息失败，请重试！'))
                 this.loading = false
-              })
-              .catch(() => {
-                // 关闭 loading
-                this.loading = false
-              })
+              }).catch(() => {
+            // 关闭 loading
+            this.loading = false
+          })
         } else {
           console.log('error register!!')
           return false

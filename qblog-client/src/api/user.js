@@ -8,9 +8,7 @@ function login(data) {
 }
 
 function register(data){
-    return instance.post('/register', {
-        data
-    }).then(res =>
+    return instance.post('/register', data).then(res =>
         res.data
     )
 }
