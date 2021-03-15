@@ -29,7 +29,8 @@
 </template>
 
 <script>
-import request from "@/http/request";
+import { getTimeline } from "@/api/views";
+
 export default {
   name: "TimeLine",
   data() {
@@ -56,8 +57,7 @@ export default {
     };
   },
   created() {
-    request
-      .getTimeline()
+    getTimeline()
       .then((res) => {
         if (res.code === 0) {
           this.timelineData = res.data;

@@ -1,25 +1,10 @@
 <template>
-  <div class="app-main-container">
-    <el-row>
-      <el-col
-        :span="7"
-        :offset="10"
-      >
-        <h1
-          v-once
-          @mouseover="alertVisible=true"
-          @mouseleave="alertVisible=false"
-        >{{ room.name }}使用情况</h1>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col
-        :span="13"
-        :offset="6"
-      >
+  <div class="app-container">
+    <el-col :span="6">
+      <el-card class="demo-app">
+        <h2>基本信息</h2>
         <el-form
           :model="room"
-          :inline="true"
           :disabled="true"
         >
           <el-form-item
@@ -35,26 +20,48 @@
             <el-input v-model="room.address" />
           </el-form-item>
         </el-form>
-      </el-col>
-    </el-row>
-    <el-row>
+        <h2>功能介绍</h2>
+        <ul>
+          <li>咨询师日程表</li>
+          <li>点击时段即可添加预约信息</li>
+          <li>再次点击预约即可删除</li>
+        </ul>
+        <h2>事件说明：</h2>
+        <ul>
+          <li> <span style="color:#E6A23C;">黄色事件：未确认预约</span> </li>
+          <li> <span style="color:#67C23A;">绿色事件：已确认预约</span> </li>
+          <li> <span style="color:#F56C6C;">红色事件：已拒绝预约</span> </li>
+        </ul>
+        <h2>时段说明：</h2>
+        <ul>
+          <li><span>白色时段：未预约时段</span></li>
+          <li><span>灰色时段：非工作时段</span></li>
+          <li><span>黄色时段：本日时段</span></li>
+        </ul>
+      </el-card>
+    </el-col>
+    <el-card class="demo-app">
+      <h1
+        v-once
+        @mouseover="alertVisible=true"
+        @mouseleave="alertVisible=false"
+        align='center'
+      >{{ room.name }}预约情况</h1>
       <el-col
-        :span="20"
-        :offset="2"
+        :span="19"
+        :offset="3"
       >
-        <el-card>
-          <FullCalendar
-            class="demo-app-calendar"
-            :options="roomConfig"
-          >
-            <template v-slot:eventContent="arg">
-              <b>{{ arg.timeText }}</b>
-              <i>{{ arg.event.title }}</i>
-            </template>
-          </FullCalendar>
-        </el-card>
+        <FullCalendar
+          class="demo-app-calendar"
+          :options="roomConfig"
+        >
+          <template v-slot:eventContent="arg">
+            <b>{{ arg.timeText }}</b>
+            <i>{{ arg.event.title }}</i>
+          </template>
+        </FullCalendar>
       </el-col>
-    </el-row>
+    </el-card>
   </div>
 </template>
 <script>
@@ -62,7 +69,7 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, defaultConstraint } from '@/utils/event-utils'
+import { transEvent, defaultConstraint } from '@/utils/event-utils'
 import { getRoomCalendarById } from '@/api/room'
 import '@fullcalendar/core/locales/zh-cn'
 
@@ -102,7 +109,6 @@ export default {
           },
         ],
         initialView: 'timeGridWeek',
-        initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
         events: '',
         editable: true, // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead
@@ -151,7 +157,7 @@ export default {
     getRoomCalendarById(this.room.roomId).then((res) => {
       if (res.code === 0) {
         console.log(res)
-        this.roomConfig.events = res.data // 传入咨询室日程
+        this.roomConfig.events = transEvent(res.data) // 传入咨询室日程
       }
     }).catch((err) => {
       console.log(err)

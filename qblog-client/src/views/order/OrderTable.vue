@@ -534,7 +534,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { createEventId, defaultConstraint, transEvent } from '@/utils/event-utils'
 import { transForm, newForm, RetransForm } from '@/utils/form-utils'
-import request from "@/http/request"
+import { getConstraintById, getCalendarById, postOrder, getOrderById, deleteOrderById, updateOrderById } from '@/api/order'
 import TextSample from './textsample'
 import '@fullcalendar/core/locales/zh-cn'
 
@@ -657,11 +657,11 @@ export default {
     this.form.doctorId = this.$route.params.doctorId
     this.form.uid = '3'
     // 获取限制信息
-    request.getConstraintById('张三').then((res) => {
+    getConstraintById('张三').then((res) => {
       if (res.code === 0) {
         this.calendarOptions.selectConstraint = res.data //传入限制时间数组
         this.calendarOptions.businessHours = res.data //传入显示工作时间数组
-        request.getCalendarById(this.doctorId).then((res) => {
+        getCalendarById(this.doctorId).then((res) => {
           if (res.code === 0) {
             console.log(res)
             this.calendarOptions.events = transEvent(res.data) //传入预约
@@ -704,7 +704,7 @@ export default {
         if (valid) {
           // 发送预约信息
           this.form.orderId = createEventId()
-          request.postOrder(RetransForm(this.getForm())).then((res) => {
+          postOrder(RetransForm(this.getForm())).then((res) => {
             console.log(res.data)
             // 日程表预约+1
             calendarApi.addEvent({
@@ -738,7 +738,7 @@ export default {
         }))
         console.log(index)
         if (this.calendarOptions.events[index].status === '') {
-          request.getOrderById(clickInfo.event.id).then((res) => {
+          getOrderById(clickInfo.event.id).then((res) => {
             if (res.code === 0) {
               this.form = transForm(res.data[0]) // 传入表单信息 
               // 打开预约信息表格
@@ -780,7 +780,7 @@ export default {
 
     handleEventDelete(clickInfo) {
       // 删数据
-      request.deleteOrderById(this.form.orderId).then((res) => {
+      deleteOrderById(this.form.orderId).then((res) => {
         console.log(res)
         clickInfo.event.remove()
         // 关表格
@@ -801,7 +801,7 @@ export default {
 
     // 修改预约信息
     handleEventEdit(form, clickInfo) {
-      request.updateOrderById(form.orderId, RetransForm(this.getForm())).then((res) => {
+      updateOrderById(form.orderId, RetransForm(this.getForm())).then((res) => {
         if (res.code === 0) {
           this.handleEventDelete(form, clickInfo) // 删除
           this.handleModify(form, clickInfo) // 添加

@@ -4,40 +4,38 @@
     <el-row>
       <el-col :span="6">
         <el-card class="demo-app">
-          <el-col :offset="3">
-            <br>
-            <h2>功能介绍</h2>
-            <ul>
-              <li>咨询师日程表</li>
-              <li>点击时段即可添加预约信息</li>
-              <li>再次点击预约即可删除</li>
-            </ul>
-            <br>
-            <h2>事件说明：</h2>
-            <ul>
-              <li> <span style="color:#E6A23C;">黄色事件：未确认预约</span> </li>
-              <li> <span style="color:#67C23A;">绿色事件：已确认预约</span> </li>
-              <li> <span style="color:#F56C6C;">红色事件：已拒绝预约</span> </li>
-            </ul>
-            <br>
-            <h2>时段说明：</h2>
-            <ul>
-              <li><span>白色时段：未预约时段</span></li>
-              <li><span>灰色时段：非工作时段</span></li>
-              <li><span>黄色时段：本日时段</span></li>
-            </ul>
-            <br>
-            <br>
-          </el-col>
+          <br>
+          <h2>功能介绍</h2>
+          <ul>
+            <li>咨询师日程表</li>
+            <li>点击时段即可添加预约信息</li>
+            <li>再次点击预约即可删除</li>
+          </ul>
+          <br>
+          <h2>事件说明：</h2>
+          <ul>
+            <li> <span style="color:#E6A23C;">黄色事件：未确认预约</span> </li>
+            <li> <span style="color:#67C23A;">绿色事件：已确认预约</span> </li>
+            <li> <span style="color:#F56C6C;">红色事件：已拒绝预约</span> </li>
+          </ul>
+          <br>
+          <h2>时段说明：</h2>
+          <ul>
+            <li><span>白色时段：未预约时段</span></li>
+            <li><span>灰色时段：非工作时段</span></li>
+            <li><span>黄色时段：本日时段</span></li>
+          </ul>
+          <br>
+          <br>
         </el-card>
       </el-col>
       <el-col :span="18">
         <el-card class="demo-app">
           <el-col
-            :span="20"
-            :offset="2"
+            :span="22"
+            :offset="1"
           >
-            <FullCalendar :options="calendarOptions">
+            <FullCalendar :options="calendarOptions" style="height:50vh;">
               <template v-slot:eventContent="arg">
                 <b>{{ arg.timeText }}</b>
                 <br>

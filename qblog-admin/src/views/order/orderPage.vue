@@ -578,7 +578,6 @@ export default {
           },
         ],
         initialView: 'timeGridWeek',
-        // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
         events: '',
         editable: true, // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead

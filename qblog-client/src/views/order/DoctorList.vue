@@ -1,81 +1,54 @@
 <template>
-  <el-row style="height:90vh;">
+  <el-row class="app-container">
     <el-col
       :span="6"
       v-for="(item, index) in doctorlist"
       :key="item.doctorId"
       :offset="index > 0 ? 2 : 0"
     >
-      <el-card :body-style="{ padding: '0px' }">
+      <el-card>
         <el-image
           style="width: 100px; height: 100px"
           :src="item.img"
-        ></el-image>
-        <div style="padding: 14px;">
-          <span>{{item.doctorName}}</span>
-          <tr>{{item.timelist}}</tr>
-          <div class="bottom clearfix">
-            <el-button
-              type="primary"
-              @click="goToPage(index)"
-              style="float:right;"
-            >点击预约</el-button>
-          </div>
+          align="center"
+        />
+        <br>
+        <br>
+        <p>{{item.doctorName}}</p>
+        <p>{{ item.position }}</p>
+        <div>
+          <el-button
+            type="primary"
+            @click="goToPage(index)"
+            style="float:right;"
+          >点击预约</el-button>
         </div>
       </el-card>
     </el-col>
   </el-row>
 </template>
 
-<style lang="scss">
-.time {
-  font-size: 13px;
-  color: #999;
-}
-
-.bottom {
-  margin-top: 13px;
-  line-height: 12px;
-}
-
-.image {
-  width: 100%;
-  display: block;
-}
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-
-.clearfix:after {
-  clear: both;
-}
-</style>
-
 <script>
 export default {
   data() {
     return {
-      currentDate: new Date(),
       doctorlist: [
         {
           doctorId: "zhangsan123",
           doctorName: '张三',
-          timelist: ["09:00:00", "14:00:00", "16:00:00"],
+          position: '金牌咨询师',
           img: "https://img1.dxycdn.com/2020/0206/245/3395151617954823081-22.jpg!wh200"
         },
         {
           doctorId: "lisi123",
           doctorName: '李四',
-          timelist: ["09:00:00", "14:00:00", "16:00:00"],
+          position: '金牌咨询师',
           img: "https://img1.dxycdn.com/2020/0206/245/3395151617954823081-22.jpg!wh200"
         },
         {
           doctorId: "wangwu123",
           doctorName: '王五',
-          timelist: ["09:00:00", "14:00:00", "16:00:00"],
+          position: '金牌咨询师',
           img: "https://img1.dxycdn.com/2020/0206/245/3395151617954823081-22.jpg!wh200"
         },
       ],

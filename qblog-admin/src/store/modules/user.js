@@ -64,14 +64,11 @@ const actions = {
   },
 
   register({ commit }, userInfo) {
-    const { username, password, } = userInfo
+    const { username, password, nickname, phoneNumber} = userInfo
     return new Promise((resolve, reject) => {
-      register({ userid: username.trim(), password: password, rolename: 'editor' }).then(response => {
-        const { data } = response
-        // 调用 mutations 中 SET_TOKEN 方法，将 token 存到 vuex 中
-        commit('SET_TOKEN', data.token)
-        // 使用 js-cookie 插件，将 token 存入本地cookie中
-        setToken(data.token)
+      register({ userid: username.trim(), password: password, rolename: 'visitor', nickname: nickname, phonenumber: phoneNumber}).then(response => {
+        console.log(response)
+        commit('SET_ID', username)
         resolve()
       }).catch(error => {
         reject(error)
@@ -90,11 +87,11 @@ const actions = {
           return reject('认证失败，请重新登录')
         }
 
-        const { nickname, phonenumber, avatar, rolename } = data
+        const { nickname, phonenumber, rolename } = data
 
         commit('SET_NAME', nickname)
         commit('SET_PHONE_NUMBER', phonenumber)
-        commit('SET_AVATAR', avatar)
+        commit('SET_AVATAR', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')
         commit('SET_ROLE', rolename.trim())
         console.log(state)
         resolve(data)

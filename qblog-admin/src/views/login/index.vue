@@ -29,6 +29,7 @@
         />
       </el-form-item>
 
+
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
@@ -93,6 +94,37 @@
         />
       </el-form-item>
 
+      <el-form-item prop="nickname">
+        <span class="svg-container">
+          <svg-icon icon-class="user" />
+        </span>
+        <el-input
+          ref="nickname"
+          v-model="registerForm.nickname"
+          placeholder="昵称"
+          name="nickname"
+          type="text"
+          tabindex="1"
+          auto-complete="on"
+        />
+      </el-form-item>
+
+      <el-form-item prop="phoneNumber">
+        <span class="svg-container">
+          <svg-icon icon-class="user" />
+        </span>
+        <el-input
+          ref="phoneNumber"
+          v-model="registerForm.phoneNumber"
+          placeholder="电话"
+          name="phoneNumber"
+          type="text"
+          tabindex="1"
+          auto-complete="on"
+        />
+      </el-form-item>
+
+
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
@@ -155,6 +187,8 @@
 
 <script>
 
+import {Message} from "element-ui";
+
 export default {
   name: 'Login',
   data() {
@@ -179,6 +213,13 @@ export default {
         callback()
       }
     }
+    const validatePhoneNumber = (rule, value, callback) => {
+      if (!(/^1[3456789]\d{9}$/.test(value))) {
+        callback(new Error('请确认输入正确的号码'))
+      } else {
+        callback()
+      }
+    }
     return {
       toggleLoginRegister: true,
       loginForm: {
@@ -189,6 +230,8 @@ export default {
         username: '',
         password: '',
         passwordRepeat: '',
+        nickname:'',
+        phoneNumber: '',
       },
       loginRules: {
         username: [
@@ -207,6 +250,9 @@ export default {
         ],
         passwordRepeat: [
           { required: true, trigger: 'blur', validator: validatePasswordRepeat },
+        ],
+        phoneNumber: [
+          { required: true, trigger: 'blur', validator: validatePhoneNumber },
         ],
       },
       loading: false,
@@ -270,9 +316,10 @@ export default {
             // 执行 vuex 中的注册方法
             .dispatch('user/register', this.registerForm)
             .then(() => {
-              // this.redirect 为本来要跳转的页面，如果有值的话登录之后直接跳转到本来要跳转的页面，否则跳转到首页
-              this.$router.push({ path: this.redirect || '/' })
-              // 关闭 loading
+              this.loginForm = {username: this.registerForm.username, password: this.registerForm.password}
+              this.$store.dispatch('user/login', this.loginForm)
+                .then(() => this.$router.push({ path: this.redirect || '/' }))
+                .catch(err => Message.error(err || '用户登录失败，请重试！'))
               this.loading = false
             })
             .catch(() => {

@@ -1,4 +1,5 @@
 export default {
+  login: "/logintest",
   baseUrl: "/api/v1",
   article: "/article",
   articles: "/articles",

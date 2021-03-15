@@ -79,6 +79,26 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/courseManager',
+    component: Layout,
+    meta: { title: '课程管理', icon: 'el-icon-collection', role: ['管理员', '编辑'] },
+    children: [
+      {
+        path: 'index',
+        name: 'CourseManager',
+        component: () => import('@/views/courseManage/courseList'),
+        meta: { title: '课程列表', icon: 'el-icon-collection', role: ['管理员', '编辑'] }
+      },
+      {
+        path: 'courseAddPage',
+        name: 'CourseAddPage',
+        component: () => import('@/views/courseManage/addPage'),
+        meta: { title: '添加课程', noCache: true, icon: 'el-icon-circle-plus-outline', role: ['管理员', '编辑'] },
+        // hidden: true
+      },
+    ]
+  },
+  {
     path: '/message',
     component: Layout,
     redirect: '/message/list',

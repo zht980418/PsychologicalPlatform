@@ -1,50 +1,50 @@
 <template>
   <el-row>
-    <el-row>
-      <Header></Header>
-      <el-divider></el-divider>
-    </el-row>
-
-    <el-row>
-      <el-col :span="15" :offset="3"><NavMenu></NavMenu></el-col>
-    </el-row>
-
-    <el-row :gutter="0" style="height: 800px">
-      <el-col :span="14" :offset="5">
+    <el-row
+      :gutter="0"
+      style="height: 800px"
+    >
+      <el-col
+        :span="14"
+        :offset="5"
+      >
         <router-link
-            :to="'/category/' + category.name"
-            :class="category.name === $route.params.name ? 'category-item category-selected' : 'category-item'"
-            v-for="(category,index) in categories"
-            :key="index"
+          :to="'/category/' + category.name"
+          :class="category.name === $route.params.name ? 'category-item category-selected' : 'category-item'"
+          v-for="(category,index) in categories"
+          :key="index"
         >
           {{category.name}}
-          <el-tag type="success" size="small" effect="dark">{{category.count}}</el-tag>
+          <el-tag
+            type="success"
+            size="small"
+            effect="dark"
+          >{{category.count}}</el-tag>
         </router-link>
-        <article-item v-for="article in pageInfo.records" :key="article.id" :article="article"></article-item>
+        <article-item
+          v-for="article in pageInfo.records"
+          :key="article.id"
+          :article="article"
+        ></article-item>
         <el-pagination
-            background
-            @current-change="handleCurrentChange"
-            :current-page.sync="pageInfo.current"
-            :page-size="pageInfo.size"
-            layout="prev, pager, next, jumper"
-            :total="pageInfo.total"
-            :hide-on-single-page="true"
+          background
+          @current-change="handleCurrentChange"
+          :current-page.sync="pageInfo.current"
+          :page-size="pageInfo.size"
+          layout="prev, pager, next, jumper"
+          :total="pageInfo.total"
+          :hide-on-single-page="true"
         ></el-pagination>
       </el-col>
     </el-row>
-    <el-row>
-      <Footer></Footer>
-    </el-row>
   </el-row>
-
 </template>
 
 <script>
-import request from "@/http/request";
+import { getArticles, getAllCategories, getArticlesByCategory} from "@/api/article";
 
 export default {
   name: "Category",
-
   data() {
     return {
       pageInfo: [],
@@ -53,16 +53,12 @@ export default {
   },
   components: {
     ArticleItem: () => import("@/components/ArticleItem.vue"),
-    Footer: ()=>import("@/components/Footer"),
-    Header:() => import("@/components/Header"),
-    NavMenu:() => import("@/components/NavMenu"),
   },
   methods: {
     getArticlesInCategoryView(page, limit) {
       const category = this.$route.params.name;
       if (category === "all") {
-        request
-          .getArticles(page, limit)
+        getArticles(page, limit)
           .then((res) => {
             if (res.code === 0) {
               this.pageInfo = res.data;
@@ -81,8 +77,7 @@ export default {
             });
           });
       } else {
-        request
-          .getArticlesByCategory(category, page, limit)
+        getArticlesByCategory(category, page, limit)
           .then((res) => {
             if (res.code === 0) {
               this.pageInfo = res.data;
@@ -103,8 +98,7 @@ export default {
       }
     },
     loadData() {
-      request
-        .getAllCategories()
+      getAllCategories()
         .then((res) => {
           if (res.code === 0) {
             this.categories = res.data;

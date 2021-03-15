@@ -1,6 +1,8 @@
 import VueRouter from "vue-router";
 import Vue from 'vue';
 
+import Layout from '@/layout/index'
+
 Vue.use(VueRouter);
 
 const originalPush = VueRouter.prototype.push
@@ -12,95 +14,107 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: () => import("@/views/Home.vue"),
-    meta: {
-      title: "心理健康中心",
-    },
+    redirect: '/home',
+    component: Layout,
+    meta: { title: "首页" },
+    children: [{
+      path: '/home',
+      component: () => import("@/views/Home.vue")
+    }],
   },
   {
-    path: "/post/:id",
-    name: "Article",
-    component: () => import("@/views/Article.vue"),
-    meta: {
-      title: "文章详情",
-    },
-  },
-  {
-    path: "/Login",
+    path: "/login",
     name: "Login",
     component: () => import("@/views/Login.vue"),
-    meta: {
-      title: "登录注册",
-    },
+    meta: { title: "登录注册" },
+    hidden: true
   },
   {
-    path: "/category/:name",
-    name: "Category",
-    component: () => import("@/views/Category.vue"),
-    meta: {
-      title: "文章分类",
-    },
-  },
-  {
-    path: "/tag/:name",
-    name: "Tag",
-    component: () => import("@/views/Tag.vue"),
-    meta: {
-      title: "标签",
-    },
-  },
-  {
-    path: "/timeline",
-    name: "TimeLine",
-    component: () => import("@/views/TimeLine.vue"),
-    meta: {
-      title: "时间线",
-    },
-  },
-  {
-    path: "/message",
-    name: "Message",
-    component: () => import("@/views/Message.vue"),
-    meta: {
-      title: "留言板",
-    },
+    path: '/education',
+    name: 'Education',
+    meta: { title: "心理教育" },
+    component: Layout,
+    children: [
+      {
+        path: "/category/:name",
+        name: "Category",
+        component: () => import("@/views/Category.vue"),
+        meta: { title: "分类浏览" },
+      },
+      {
+        path: "/tag/:name",
+        name: "Tag",
+        component: () => import("@/views/Tag.vue"),
+        meta: { title: "标签浏览" },
+      },
+    ]
   },
   {
     path: "/quiz",
     name: "Quiz",
-    component: () => import("@/views/Quiz.vue"),
-    // redirect:"/quiz/quiz1",
-    meta: {
-      title: "心理测量问卷",
-    },
-    children: [
-      { path: "quiz1", component: () => import("@/views/quiz/Quiz1.vue") },
-      { path: "quiz2", component: () => import("@/views/quiz/Quiz2.vue") },
-      { path: "quiz3", component: () => import("@/views/quiz/Quiz3.vue") },
-      { path: "quiz4", component: () => import("@/views/quiz/Quiz4.vue") },
-    ]
+    component: Layout,
+    meta: { title: "心理测量问卷" },
+    children: [{
+      path: '/quiz',
+      component: () => import("@/views/Quiz.vue"),
+      redirect: "/quiz/quiz1",
+      children: [
+        { path: "quiz1", component: () => import("@/views/quiz/Quiz1.vue") },
+        { path: "quiz2", component: () => import("@/views/quiz/Quiz2.vue") },
+        { path: "quiz3", component: () => import("@/views/quiz/Quiz3.vue") },
+        { path: "quiz4", component: () => import("@/views/quiz/Quiz4.vue") },
+      ]
+    }],
   },
   {
     path: "/order",
     name: "Order",
-    component: () => import("@/views/Order.vue"),
-    meta: {
-      title: "心理咨询预约",
-    },
+    component: Layout,
+    meta: { title: "心理咨询预约" },
+    children: [{
+      path: '/order',
+      component: () => import("@/views/Order.vue"),
+      children: [
+        { path: "doctorlist", component: () => import("@/views/order/DoctorList.vue") },
+        { path: "orderform", component: () => import("@/views/order/OrderForm.vue") },
+        { name: "ordertable", path: "ordertable", component: () => import("@/views/order/OrderTable.vue") },
+      ]
+    }],
+  },
+  {
+    path: '/course',
+    name: 'Course',
+    component: Layout,
+    redirect: '/course/courseList',
+    meta: { title: '心理课程' },
     children: [
-      { path: "doctorlist", component: () => import("@/views/order/DoctorList.vue") },
-      { path: "orderform", component: () => import("@/views/order/OrderForm.vue") },
-      { name: "ordertable", path: "ordertable", component: () => import("@/views/order/OrderTable.vue") },
+      {
+        path: 'courseList',
+        name: 'CourseList',
+        component: () => import('@/views/course/courseList'),
+        meta: { title: '课程培训', icon: 'el-icon-s-management' }
+      },
+      {
+        path: 'coursePage',
+        name: 'CoursePage',
+        component: () => import('@/views/course/coursePage'),
+        meta: { title: '课程培训', noCache: true },
+        hidden: true
+      }
     ]
+
   },
   {
     path: "/info",
     name: "Info",
-    component: () => import("@/views/info/index.vue"),
-    meta: {
-      title: "个人中心"
-    }
-  }
+    component: Layout,
+    hidden: true,
+    meta: { title: "个人中心" },
+    children: [{
+      path: '/info',
+      component: () => import("@/views/info/index.vue"),
+    }],
+  },
 ]
 
 const router = new VueRouter({
@@ -109,7 +123,6 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(from);
   if (to.meta.title) {
     document.title = to.meta.title;
   }
