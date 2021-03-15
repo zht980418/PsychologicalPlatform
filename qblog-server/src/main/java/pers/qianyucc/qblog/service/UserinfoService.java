@@ -82,6 +82,19 @@ public class UserinfoService {
             return  userinfoVO;
         }
     }
+//    查询咨询师父列表
+    public List<UserinfoVO> getDoctorinfo(){
+        ArrayList res = new ArrayList();
+        QueryWrapper<UserinfoPO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("userid","rolename","nickname");
+        List<Map<String, Object>> maps =userinfoMapper.selectMaps(queryWrapper);
+        for(int i=0;i<maps.size();i++){
+            if(maps.get(i).get("rolename")!=null&&maps.get(i).get("rolename").equals("咨询师")){
+                res.add(maps.get(i));
+            }
+        }
+        return res;
+    }
 //    核对用户密码
     public String checkUsernamePassword(UserinfoDTO userinfoDTO, String Userid, String Password){
         if(Objects.equals(Userid, userinfoDTO.getUserid())&&Objects.equals(Password, userinfoDTO.getPassword())){
