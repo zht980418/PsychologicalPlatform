@@ -47,22 +47,47 @@
         />
       </el-col>
     </el-row>
+    <!-- <el-row>
+      <div v-on:click="playVideo()">
+        <video
+          :src="videoSrc"
+          id="videoPlay"
+          v-show="true"
+          class="video"
+          controls
+        >您的浏览器不支持 video 视屏播放。</video>
+      </div>
+    </el-row> -->
+    <!-- <div class="input_video video">
+      <video-player
+        class="video-player vjs-custom-skin"
+        ref="videoPlayer"
+        :playsinline="true"
+        :options="playerOptions"
+      >
+      </video-player>
+    </div> -->
   </div>
 </template>
 
 <script>
-// import 'video.js/dist/video-js.css'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'CoursePage',
-  components: { RecItem: () => import('./components/Item2') },
+  components: {
+    RecItem: () => import('./components/Item2'),
+  },
   data() {
     return {
-      course_id: '', // 当前课程编号
-      courselist: [{ course_id: '2020082602', title: '课程1', sum: '10', completed: '2', start: '2020/10/1', end: '2020/11/12' }, { course_id: '2020082801', title: '课程2', sum: '10', completed: '6', start: '2020/11/1', end: '2020/11/12' }, { course_id: '2020082602', title: '课程3', sum: '10', completed: '3' },{ course_id: '2020082602', title: '课程1', sum: '10', completed: '2', start: '2020/10/1', end: '2020/11/12' }, { course_id: '2020082801', title: '课程2', sum: '10', completed: '6', start: '2020/11/1', end: '2020/11/12' }, { course_id: '2020082602', title: '课程3', sum: '10', completed: '3' },],
-      taglist: ['哈利波特', '电影']
+      course_id: this.$route.params.course_id, // 当前课程编号
+      courselist: [{ course_id: '2020082602', title: '课程1', sum: '10', completed: '2', start: '2020/10/1', end: '2020/11/12' }, { course_id: '2020082801', title: '课程2', sum: '10', completed: '6', start: '2020/11/1', end: '2020/11/12' }, { course_id: '2020082602', title: '课程3', sum: '10', completed: '3' }, { course_id: '2020082602', title: '课程1', sum: '10', completed: '2', start: '2020/10/1', end: '2020/11/12' }, { course_id: '2020082801', title: '课程2', sum: '10', completed: '6', start: '2020/11/1', end: '2020/11/12' }, { course_id: '2020082602', title: '课程3', sum: '10', completed: '3' },],
+      taglist: ['哈利波特', '电影'],
+      // videoSrc: require('./example.mp4')
+      videoSrc: '//vjs.zencdn.net/v/oceans.mp4'
     }
+  },
+  mounted() {
   },
   computed: {
     ...mapGetters([
@@ -70,16 +95,22 @@ export default {
       'token',
       'id',
       'name'
-    ])
+    ]),
+
   },
   created() {
     this.course_id = this.$route.params
-    this.currentFrame = this.list[0]
+
   },
   methods: {
+    // 跳转页面
     handleCourse(course_id) {
       console.log('点击课程')
       this.$router.push({ name: 'CoursePage', params: { course_id: course_id } })// 传入course_id
+    },
+    playVideo() {
+      var vdo = document.getElementById("videoPlay");
+      vdo.play();
     }
   }
 }
@@ -87,7 +118,12 @@ export default {
 
 <style lang='scss' scoped>
 .video {
-  height: 90vh;
-  width: 70vw;
+  height: 70vh;
+  width: 100vh;
+}
+.input_video {
+  width: 400px;
+  height: 400px;
+  margin: 0 auto;
 }
 </style>

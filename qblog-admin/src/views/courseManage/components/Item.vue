@@ -23,7 +23,7 @@ export default {
   name: 'CourseItem',
   functional: false,
   props: {
-    courseid: {
+    courseId: {
       type: String,
       default: '2020080101'
     },
@@ -37,7 +37,7 @@ export default {
     },
     office: {
       type: String,
-      default: '科室'
+      default: '主讲人'
     },
     sum: {
       type: Number,
@@ -59,7 +59,7 @@ export default {
   data() {
     return {
       // 计算百分比
-      Percentage: this.completed === 0 ? 0 : this.completed / this.sum * 100
+      // Percentage: this.completed === 0 ? 0 : this.completed / this.sum * 100
     }
   }
 }

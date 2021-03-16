@@ -1,8 +1,21 @@
 import instance from '@/http/request'
-import urls from "@/http/urls";
+import urls from "@/http/urls"
+import { transDocList } from '@/utils/doctor-utils'
 
 export {
-    getConstraintById, getCalendarById, postOrder, getOrderById, deleteOrderById, updateOrderById
+    getDoctorList, getConstraintById, getCalendarById, postOrder, getOrderById, deleteOrderById, updateOrderById
+}
+
+/**
+ * 
+ * @param {doctorId:number} doctorId 
+ * @returns {doctorName:String,doctorId:number,avatar}
+ */
+function getDoctorList() {
+    return instance.get(urls.doctorList).then(res => {
+        transDocList(res.data.data)
+        return res.data
+    })
 }
 
 /**

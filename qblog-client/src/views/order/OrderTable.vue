@@ -2,7 +2,6 @@
   <div class='demo-app'>
     <div class='demo-app-sidebar'>
       <div class='demo-app-sidebar-section'>
-        <h2>{{timelist}}</h2>
         <h2>功能介绍</h2>
         <ul>
           <li>点击时段即可预约</li>
@@ -532,11 +531,12 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import '@fullcalendar/core/locales/zh-cn'
 import { createEventId, defaultConstraint, transEvent } from '@/utils/event-utils'
 import { transForm, newForm, RetransForm } from '@/utils/form-utils'
 import { getConstraintById, getCalendarById, postOrder, getOrderById, deleteOrderById, updateOrderById } from '@/api/order'
 import TextSample from './textsample'
-import '@fullcalendar/core/locales/zh-cn'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -545,10 +545,7 @@ export default {
   },
   data() {
     return {
-      // TODO 全局变量
-      uid: '3',
       doctorId: this.$route.params.doctorId,
-      timelist: this.$route.params.timelist,
       formLabelWidth: '120px',
       calendarOptions: {
         plugins: [
@@ -646,6 +643,11 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters({
+      uid: 'id'
+    })
+  },
   watch: {
     selection(newVal) {
       if (newVal.start) { this.form.ordertime = newVal.start }
@@ -655,7 +657,6 @@ export default {
     this.calendarOptions.businessHours = defaultConstraint()
     this.calendarOptions.selectConstraint = defaultConstraint()
     this.form.doctorId = this.$route.params.doctorId
-    this.form.uid = '3'
     // 获取限制信息
     getConstraintById('张三').then((res) => {
       if (res.code === 0) {
@@ -853,6 +854,7 @@ export default {
       const params = JSON.parse(JSON.stringify(this.form))
       params['start'] = this.selection.startStr
       params['end'] = this.selection.endStr
+      params['uid'] = this.id
       return params
     }
   }

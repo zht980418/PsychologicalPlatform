@@ -10,12 +10,12 @@
       <div class="item-description">
         <p class="item-title">{{ title }}</p>
         <p class="item-office">{{ office }}</p>
-        <span class="item-progress-text">观看进度{{ completed }}/{{ sum }}</span>
-        <el-progress
+        <!-- <span class="item-progress-text">观看进度{{ completed }}/{{ sum }}</span> -->
+        <!-- <el-progress
           class="item-progress"
           :percentage="Percentage"
           show-text="false"
-        />
+        /> -->
         <p class="item-time">{{ start }}-{{ end }}</p>
       </div>
     </el-col>

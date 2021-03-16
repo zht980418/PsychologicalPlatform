@@ -6,13 +6,15 @@
     >
     <div class="item-description">
       <p class="item-title">{{ title }}</p>
+      <br>
       <p class="item-office">{{ office }}</p>
-      <span class="item-progress-text">观看进度{{ completed }}/{{ sum }}</span>
-      <el-progress
+      <br>
+      <!-- <span class="item-progress-text">观看进度{{ completed }}/{{ sum }}</span> -->
+      <!-- <el-progress
         class="item-progress"
         :percentage="Percentage"
         show-text="false"
-      />
+      /> -->
       <p class="item-time">{{ start }}-{{ end }}</p>
     </div>
   </li>
@@ -23,7 +25,7 @@ export default {
   name: 'CourseItem',
   functional: false,
   props: {
-    courseid: {
+    courseId: {
       type: String,
       default: '2020080101'
     },
@@ -37,7 +39,7 @@ export default {
     },
     office: {
       type: String,
-      default: '科室'
+      default: '主讲人'
     },
     sum: {
       type: Number,

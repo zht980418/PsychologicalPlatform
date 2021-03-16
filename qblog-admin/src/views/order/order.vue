@@ -35,7 +35,10 @@
             :span="22"
             :offset="1"
           >
-            <FullCalendar :options="calendarOptions" style="height:50vh;">
+            <FullCalendar
+              :options="calendarOptions"
+              style="height:50vh;"
+            >
               <template v-slot:eventContent="arg">
                 <b>{{ arg.timeText }}</b>
                 <br>
@@ -54,9 +57,10 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import '@fullcalendar/core/locales/zh-cn'
 import { INITIAL_EVENTS, defaultConstraint, createEventId, transEvent } from '@/utils/event-utils'
 import { getDoctorConstraintById, getDoctorCalendarById } from '@/api/order'
-import '@fullcalendar/core/locales/zh-cn'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -66,9 +70,6 @@ export default {
     return {
       Init: true,
       Update: false,
-      // TODO doctorId: this.$route.params.doctorId,
-      doctorId: 'zhangsan123',
-      // timelist: this.$route.params.timelist,
       formLabelWidth: '120px',
       // 日历参数
       calendarOptions: {
@@ -131,6 +132,11 @@ export default {
       },
       currentEvents: [],
     }
+  },
+  computed: {
+    ...mapGetters({
+      doctorId: 'id'
+    })
   },
   created() {
     // 获取时间限制

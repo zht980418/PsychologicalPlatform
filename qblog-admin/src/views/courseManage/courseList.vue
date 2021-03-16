@@ -25,10 +25,6 @@ export default {
     handleGetCourseList() {
 
     },
-    addExam() {
-      console.log();
-      this.$router.push({ name: 'CourseAddPage' })
-    },
   }
 }
 </script>
