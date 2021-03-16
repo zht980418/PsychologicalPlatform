@@ -71,15 +71,27 @@ const routes = [
     name: "Order",
     component: Layout,
     meta: { title: "心理咨询预约" },
-    children: [{
-      path: '/order',
-      component: () => import("@/views/Order.vue"),
-      children: [
-        { path: "doctorlist", component: () => import("@/views/order/DoctorList.vue") },
-        { path: "orderform", component: () => import("@/views/order/OrderForm.vue") },
-        { name: "ordertable", path: "ordertable", component: () => import("@/views/order/OrderTable.vue") },
-      ]
-    }],
+    children: [
+      {
+        path: '/order',
+        component: () => import("@/views/Order.vue"),
+        children: [
+          {
+            path: "doctorlist",
+            name: 'DocList',
+            component: () => import("@/views/order/DoctorList.vue")
+          },
+          {
+            name: "ordertable",
+            path: "ordertable",
+            component: () => import("@/views/order/OrderTable.vue")
+          },
+          {
+            path: "orderform",
+            component: () => import("@/views/order/OrderForm.vue")
+          },
+        ]
+      }],
   },
   {
     path: '/course',

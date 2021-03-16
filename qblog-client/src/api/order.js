@@ -7,7 +7,7 @@ export {
 }
 
 /**
- * 
+ * 获取医生列表
  * @param {doctorId:number} doctorId 
  * @returns {doctorName:String,doctorId:number,avatar}
  */

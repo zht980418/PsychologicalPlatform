@@ -15,12 +15,12 @@
           :hoverable="false"
         >
           <div>Hello</div>
-          {{ user.role }}
+          <!-- {{ user.role }} -->
         </pan-thumb>
       </div>
       <div class="box-center">
         <div class="user-name text-center">{{ user.name }}</div>
-        <div class="user-role text-center text-muted">{{ user.role | uppercaseFirst }}</div>
+        <!-- <div class="user-role text-center text-muted">{{ user.role | uppercaseFirst }}</div> -->
       </div>
     </div>
     <div class="user-info">
@@ -31,19 +31,19 @@
         <el-form class="info-form">
           <el-form-item label="用户名">
             <el-input
-              v-model="user.login_id"
+              v-model="user.id"
               :disabled="true"
             />
           </el-form-item>
           <el-form-item label="姓名">
             <el-input
-              v-model="user.user_name"
+              v-model="user.name"
               :disabled="true"
             />
           </el-form-item>
-          <el-form-item label="性别">
+          <el-form-item label="手机号码">
             <el-input
-              v-model="user.sex"
+              v-model="user.phoneNumber"
               :disabled="true"
             />
           </el-form-item>
@@ -63,13 +63,10 @@ export default {
       type: Object,
       default: () => {
         return {
-          login_id: '',
-          user_name: '',
-          sex: '',
-          post: '',
-          email: '',
-          office: '',
-          avatar: ''
+          id: '',
+          name: '',
+          avatar: '',
+          phoneNumber: '',
         }
       }
     }
