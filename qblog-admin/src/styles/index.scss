@@ -77,3 +77,10 @@ div:focus {
   margin-right:2vh;
   margin-bottom:0;
 }
+
+.course-list {
+  list-style-type: none;
+  display: flex;
+  direction: row;
+  flex-wrap: wrap;
+}

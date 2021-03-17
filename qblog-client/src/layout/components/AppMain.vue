@@ -1,6 +1,8 @@
 <template>
   <div>
-    <router-view :key="key" />
+    <el-row>
+      <router-view :key="key" />
+    </el-row>
   </div>
 </template>
 

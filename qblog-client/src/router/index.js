@@ -33,7 +33,6 @@ const routes = [
     path: '/education',
     name: 'Education',
     meta: { title: "心理教育" },
-    Sub: true,
     component: Layout,
     children: [
       {
@@ -72,20 +71,56 @@ const routes = [
     name: "Order",
     component: Layout,
     meta: { title: "心理咨询预约" },
-    children: [{
-      path: '/order',
-      component: () => import("@/views/Order.vue"),
-      children: [
-        { path: "doctorlist", component: () => import("@/views/order/DoctorList.vue") },
-        { path: "orderform", component: () => import("@/views/order/OrderForm.vue") },
-        { name: "ordertable", path: "ordertable", component: () => import("@/views/order/OrderTable.vue") },
-      ]
-    }],
+    children: [
+      {
+        path: '/order',
+        component: () => import("@/views/Order.vue"),
+        children: [
+          {
+            path: "doctorlist",
+            name: 'DocList',
+            component: () => import("@/views/order/DoctorList.vue")
+          },
+          {
+            name: "ordertable",
+            path: "ordertable",
+            component: () => import("@/views/order/OrderTable.vue")
+          },
+          {
+            path: "orderform",
+            component: () => import("@/views/order/OrderForm.vue")
+          },
+        ]
+      }],
+  },
+  {
+    path: '/course',
+    name: 'Course',
+    component: Layout,
+    redirect: '/course/courseList',
+    meta: { title: '心理课程' },
+    children: [
+      {
+        path: 'courseList',
+        name: 'CourseList',
+        component: () => import('@/views/course/courseList'),
+        meta: { title: '课程培训', icon: 'el-icon-s-management' }
+      },
+      {
+        path: 'coursePage',
+        name: 'CoursePage',
+        component: () => import('@/views/course/coursePage'),
+        meta: { title: '课程培训', noCache: true },
+        hidden: true
+      }
+    ]
+
   },
   {
     path: "/info",
     name: "Info",
     component: Layout,
+    hidden: true,
     meta: { title: "个人中心" },
     children: [{
       path: '/info',

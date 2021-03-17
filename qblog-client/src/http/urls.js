@@ -13,8 +13,14 @@ export default {
   quiz: "/quiz",
   quiz1: "/quizpaper/quiz1",
   order: '/orderForm',
-  orderCheck: '/order/check',
-  doctorlist: "/order/doctorlist",
+  // 咨询师列表
+  doctorList: "/order/doctorlist",
+  // 咨询师日程表
   doctorCalendar: "/doctorOrder",
+  // 咨询师限制信息
   doctordate: "/order/doctordate",
+  // 课程列表
+  courseList: '/courselist',
+  // 课程信息
+  course: '/course'
 }

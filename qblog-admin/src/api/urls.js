@@ -16,4 +16,8 @@ export default {
     Form: '/orderForm',
     // 排班
     Schedule: '/schedule',
+    // 课程列表
+    CourseList: '/courselist',
+    // 单个课程
+    Course: '/course'
 }

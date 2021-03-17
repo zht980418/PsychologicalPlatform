@@ -1,5 +1,4 @@
 <template>
-
   <el-row style="height:180px;">
     <el-col
       style="height:180px;"
@@ -21,7 +20,10 @@
       :lg="{span:3,offset:6}"
       :xl="{span:3,offset:3}"
     >
-      <router-link v-if="!id" to="/login">
+      <router-link
+        v-if="!id"
+        to="/login"
+      >
         <el-row style="margin:70px 0 0 120px">
           <el-button type="primary">
             <i
@@ -32,26 +34,39 @@
           </el-button>
         </el-row>
       </router-link>
-        <el-dropdown v-if="id" class="avatar-container">
-          <el-row style="margin:40px 0 0 120px;">
-            <img style="margin: 11px" :src="avatar" :alt="name" class="user-avatar" />
-            <i class="el-icon-caret-bottom" />
-            <p>{{ id }}</p>
-            <p>{{ name }}</p>
-          </el-row>
-            <el-dropdown-menu slot="dropdown" class="user-dropdown">
-            <router-link to="/">
-              <el-dropdown-item>首页</el-dropdown-item>
-            </router-link>
-            <router-link to="/info">
-              <el-dropdown-item>个人中心</el-dropdown-item>
-            </router-link>
-            <el-dropdown-item divided @click.native="logout">
-              <span style="display:block;">退出登录</span>
-            </el-dropdown-item>
-
-          </el-dropdown-menu>
-        </el-dropdown>
+      <el-dropdown
+        v-if="id"
+        class="avatar-container"
+      >
+        <el-row style="margin:40px 0 0 120px;">
+          <img
+            style="margin: 11px"
+            :src="avatar"
+            :alt="name"
+            class="user-avatar"
+          />
+          <i class="el-icon-caret-bottom" />
+          <p>{{ id }}</p>
+          <p>{{ name }}</p>
+        </el-row>
+        <el-dropdown-menu
+          slot="dropdown"
+          class="user-dropdown"
+        >
+          <router-link to="/">
+            <el-dropdown-item>首页</el-dropdown-item>
+          </router-link>
+          <router-link to="/info">
+            <el-dropdown-item>个人中心</el-dropdown-item>
+          </router-link>
+          <el-dropdown-item
+            divided
+            @click.native="logout"
+          >
+            <span style="display:block;">退出登录</span>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </el-col>
   </el-row>
 
@@ -70,11 +85,11 @@ export default {
   },
   computed: {
     ...mapGetters([
-        'avatar',
-        'token',
-        'id',
-        'name'
-        ])
+      'avatar',
+      'token',
+      'id',
+      'name'
+    ])
   },
   methods: {
     async logout() {

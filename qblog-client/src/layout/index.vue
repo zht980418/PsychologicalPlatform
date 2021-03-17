@@ -1,8 +1,18 @@
 <template>
   <div>
     <Header />
-    <NavMenu></NavMenu>
-    <AppMain />
+    <el-row>
+      <el-col
+        :xs="{span:18,offset:3}"
+        :sm="{span:18,offset:3}"
+        :md="{span:18,offset:3}"
+        :lg="{span:18,offset:5}"
+        :xl="{span:18,offset:3}"
+      >
+        <NavMenu></NavMenu>
+        <AppMain />
+      </el-col>
+    </el-row>
     <Footer />
   </div>
 </template>

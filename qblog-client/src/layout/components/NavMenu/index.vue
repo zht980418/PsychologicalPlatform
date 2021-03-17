@@ -1,37 +1,39 @@
 <template>
   <el-row>
-    <el-col
-      :xs="{span:16,offset:4}"
-      :sm="{span:16,offset:4}"
-      :md="{span:18,offset:4}"
-      :lg="{span:18,offset:5}"
-      :xl="{span:18,offset:5}"
+    <el-menu
+      mode="horizontal"
+      menu-trigger="hover"
+      default-active="/home"
+      router
     >
-      <el-menu
-        mode="horizontal"
-        menu-trigger="hover"
-        default-active="/home"
-        router
+      <menu-item
+        v-for="route in $router.options.routes"
+        :key="route.path"
+        :item="route"
+        :basePath="route.path"
+      />
+
+      <!-- <el-menu-item
+        v-for="route in routes"
+        :key="route.path"
+        :index="route.path"
       >
+        {{ route.meta.title }}
+      </el-menu-item>
+      <el-submenu index="2">
+        <template slot="title">心理教育</template>
         <el-menu-item
-          v-for="route in routes"
+          v-for="route in children"
           :key="route.path"
           :index="route.path"
         >
           {{ route.meta.title }}
         </el-menu-item>
-        <el-submenu index="2">
-          <template slot="title">心理教育</template>
-          <el-menu-item
-            v-for="route in children"
-            :key="route.path"
-            :index="route.path"
-          >
-            {{ route.meta.title }}
-          </el-menu-item>
-        </el-submenu>
-      </el-menu>
-    </el-col>
+      </el-submenu>
+      <el-menu-item index="/course">
+        课程
+      </el-menu-item> -->
+    </el-menu>
   </el-row>
 </template>
 
@@ -39,6 +41,7 @@
 export default {
   name: "NavMenu",
   components: {
+    MenuItem: () => import('./MenuItem')
   },
   data() {
     return {
@@ -53,7 +56,6 @@ export default {
           list.push(routes[i])
         }
       }
-      console.log(list)
       return list
     },
     children() {

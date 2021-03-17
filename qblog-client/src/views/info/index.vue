@@ -49,7 +49,7 @@ import UserCard from './components/UserCard'
 import TestHistory from './components/TestHistory'
 import ConsultHistory from './components/ConsultHistory'
 import infoModify from './components/InfoModify'
-// import { getInfo } from '@/api/user'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Profile',
@@ -58,22 +58,17 @@ export default {
   },
   data() {
     return {
-      user: {},
       activeTab: 'TestHistory'// 默认tab
     }
   },
+  computed: {
+    ...mapGetters([
+      'user',
+    ])
+  },
   created() {
-    this.getUser()
   },
   methods: {
-    getUser() {
-      // const data = { type: 'getInfo', user_id: '1' }
-      // getInfo(data).then((response) => {
-      //   console.log('个人信息：')
-      //   console.log(response)
-      //   this.user = response.data[0]
-      // })
-    }
   }
 }
 </script>

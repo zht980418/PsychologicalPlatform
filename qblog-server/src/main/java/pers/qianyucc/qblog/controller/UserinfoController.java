@@ -2,10 +2,7 @@ package pers.qianyucc.qblog.controller;
 
 import cn.hutool.core.map.MapUtil;
 import com.google.common.collect.Maps;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pers.qianyucc.qblog.model.comm.Results;
@@ -73,6 +70,14 @@ public class UserinfoController {
     @ApiImplicitParam(name = "userid", value = "用户ID", required = true, dataType = "String", paramType = "path")
     public Results<List<UserinfoVO>> getAlluserinfo(){
         List<UserinfoVO> userinfoVOList = userinfoService.getAlluserinfo();
+        return Results.ok(userinfoVOList);
+    }
+//    查询咨询师列表
+    @GetMapping("/order/doctorlist")
+    @ApiOperation("获取咨询师列表")
+    @ApiImplicitParam(name="doctorlsit",value = "用户列表",required = true,dataType = "String")
+    public Results<List<UserinfoVO>> getAlldoctor(){
+        List<UserinfoVO> userinfoVOList=userinfoService.getDoctorinfo();
         return Results.ok(userinfoVOList);
     }
 }
