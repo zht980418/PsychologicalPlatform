@@ -1,7 +1,7 @@
 <template>
   <div class="history-container">
     <el-row>
-      <el-col :span="8">
+      <el-col :span="10">
         <img :src="icon">
       </el-col>
       <el-col :span="6">
@@ -9,7 +9,7 @@
         <br>
         <h2>状态： {{ status }}</h2>
         <br>
-        <h2>{{ start }} - {{ end }}</h2>
+        <h2>预约时间：{{ start }} - {{ end }}</h2>
       </el-col>
     </el-row>
   </div>

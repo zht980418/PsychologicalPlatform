@@ -20,7 +20,6 @@
       </div>
       <div class="box-center">
         <div class="user-name text-center">{{ user.name }}</div>
-        <div class="user-role text-center text-muted">{{ user.role | uppercaseFirst }}</div>
       </div>
     </div>
     <div class="user-info">
@@ -31,25 +30,19 @@
         <el-form class="info-form">
           <el-form-item label="用户名">
             <el-input
-              v-model="user.login_id"
+              v-model="user.id"
               :disabled="true"
             />
           </el-form-item>
           <el-form-item label="姓名">
             <el-input
-              v-model="user.user_name"
+              v-model="user.name"
               :disabled="true"
             />
           </el-form-item>
-          <el-form-item label="性别">
+          <el-form-item label="权限">
             <el-input
-              v-model="user.sex"
-              :disabled="true"
-            />
-          </el-form-item>
-          <el-form-item label="职称">
-            <el-input
-              v-model="user.post"
+              v-model="user.role"
               :disabled="true"
             />
           </el-form-item>

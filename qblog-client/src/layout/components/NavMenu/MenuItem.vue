@@ -2,7 +2,10 @@
   <el-col :span="3">
     <div v-if="!item.hidden">
       <template v-if="hasOneShowingChild(item.children,item)">
-        <el-menu-item :index="basePath">
+        <el-menu-item
+          :index="basePath"
+          style="text-align:center;"
+        >
           {{ item.meta.title }}
         </el-menu-item>
       </template>
@@ -21,6 +24,7 @@
           :key="child.path"
           :index="child.path"
           :v-if="!child.hidden"
+          style="text-align:center;"
         >
           {{ child.meta.title }}
         </el-menu-item>

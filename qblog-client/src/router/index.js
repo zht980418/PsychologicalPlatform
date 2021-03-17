@@ -74,6 +74,7 @@ const routes = [
     children: [
       {
         path: '/order',
+        redirect: '/order/doctorlist',
         component: () => import("@/views/Order.vue"),
         children: [
           {
