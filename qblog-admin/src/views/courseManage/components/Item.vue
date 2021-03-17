@@ -7,12 +7,12 @@
     <div class="item-description">
       <p class="item-title">{{ title }}</p>
       <p class="item-office">{{ office }}</p>
-      <span class="item-progress-text">已学习{{ completed }}/{{ sum }}</span>
-      <el-progress
-        class="item-progress"
-        :percentage="Percentage"
-        show-text="false"
-      />
+<!--      <span class="item-progress-text">已学习{{ completed }}/{{ sum }}</span>-->
+<!--      <el-progress-->
+<!--        class="item-progress"-->
+<!--        :percentage="Percentage"-->
+<!--        show-text="false"-->
+<!--      />-->
       <p class="item-time">{{ start }}-{{ end }}</p>
     </div>
   </li>
