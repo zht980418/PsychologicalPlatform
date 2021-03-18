@@ -40,17 +40,7 @@ export default {
     this.handleGetCourseHistory()
   },
   methods: {
-    // 获取courseList
-    // handleGetCourseHistory() {
-    //   const data = { type: 'getCourseHistory', user_id: '1' }
-    //   getCourseHistory(data).then((response) => {
-    //     console.log('课程记录')
-    //     console.log(response)
-    //     this.historyList = response.data
-    //   })
-    // },
     handleClick() {
-      console.log('点击课程卡片')
       // this.$router.push({ name: 'CoursePage' })
     }
   }

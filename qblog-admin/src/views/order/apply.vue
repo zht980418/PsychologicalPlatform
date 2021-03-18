@@ -50,10 +50,11 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import '@fullcalendar/core/locales/zh-cn'
 import { INITIAL_SCHEDULE, createEventId } from '@/utils/event-utils'
 import { getSchedule, postApplication, deleteApplicationById } from '@/api/schedule'
 import { transScheduleList, RetranSchedule } from '@/utils/schedule-utils'
-import '@fullcalendar/core/locales/zh-cn'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -61,10 +62,6 @@ export default {
   },
   data() {
     return {
-      // doctorId: this.$route.params.doctorId,
-      // doctorName: this.$route.params.doctorName,
-      doctorId: 'zhangsan123',
-      doctorName: '张三',
       roomConfig: {
         plugins: [
           dayGridPlugin,
@@ -122,6 +119,12 @@ export default {
       currentEvents: [],
     }
   },
+  computed: {
+    ...mapGetters({
+      doctorId: 'id',
+      doctorName: 'name'
+    })
+  },
   created() {
     getSchedule().then((res) => {
       if (res.code === 0) {
@@ -167,6 +170,8 @@ export default {
               groupId: this.doctorId,
               start: selectInfo.startStr,
               end: selectInfo.endStr,
+              backgroundColor: '#E6A23C',
+              borderColor: '#FAECD8'
             })
           }
         }).catch((err) => {
@@ -209,7 +214,9 @@ export default {
             id: appId,
             title: this.doctorName,
             start: clickInfo.event.startStr,
-            end: clickInfo.event.endStr
+            end: clickInfo.event.endStr,
+            backgroundColor: '#E6A23C',
+            borderColor: '#FAECD8'
           })
           // 存储
           const params = {

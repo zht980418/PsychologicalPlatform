@@ -56,7 +56,6 @@ export default {
           list.push(routes[i])
         }
       }
-      console.log(list)
       return list
     },
     children() {

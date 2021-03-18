@@ -1,22 +1,28 @@
 <template>
-  <li class="course-item">
-    <el-col :span="12">
+  <li
+    class="course-item"
+    @click="$router.push({ name: 'CoursePage', params: { courseId: courseId} })"
+  >
+    <el-col :span="16">
       <img
         class="course-img"
         :src="icon"
       >
     </el-col>
-    <el-col :span="12">
+    <el-col :span="5">
       <div class="item-description">
+        <br>
         <p class="item-title">{{ title }}</p>
-        <p class="item-office">{{ office }}</p>
-        <span class="item-progress-text">观看进度{{ completed }}/{{ sum }}</span>
-        <el-progress
+        <!-- <span class="item-progress-text">观看进度{{ completed }}/{{ sum }}</span> -->
+        <!-- <el-progress
           class="item-progress"
           :percentage="Percentage"
           show-text="false"
-        />
-        <p class="item-time">{{ start }}-{{ end }}</p>
+        /> -->
+        <br>
+        <br>
+        <br>
+        <p class="item-time">{{ time }}</p>
       </div>
     </el-col>
   </li>
@@ -27,7 +33,7 @@ export default {
   name: 'CourseItem',
   functional: false,
   props: {
-    courseid: {
+    courseId: {
       type: String,
       default: '2020080101'
     },
@@ -37,27 +43,11 @@ export default {
     },
     title: {
       type: String,
-      default: '课程'
+      default: '课程名'
     },
-    office: {
-      type: String,
-      default: '科室'
-    },
-    sum: {
-      type: Number,
-      default: 0
-    },
-    completed: {
-      type: Number,
-      default: 0
-    },
-    start: {
+    time: {
       type: String,
       default: '2020/7/29'
-    },
-    end: {
-      type: String,
-      default: '2020/9/9'
     }
   },
   data() {
@@ -79,7 +69,7 @@ export default {
   background: ghostwhite;
   margin-right: 20px;
   margin-bottom: 20px;
-  //   width: 400px;
+  width: 300px;
   height: 120px;
   .course-img {
     width: 200px;
@@ -110,7 +100,7 @@ export default {
     }
     .item-time {
       font-size: 12px;
-      padding-right: 16px;
+      // padding-right: 16px;
       color: darkgray;
       float: right;
     }

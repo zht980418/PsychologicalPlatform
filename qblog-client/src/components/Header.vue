@@ -1,5 +1,4 @@
 <template>
-
   <el-row style="height:180px;">
     <el-col
       style="height:180px;"

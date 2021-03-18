@@ -8,7 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/display.css';
 import 'github-markdown-css/github-markdown.css';
 import 'highlight.js/styles/github.css';
-import {Message} from 'element-ui'
+import { Message } from 'element-ui'
 import 'default-passive-events';
 import { getToken } from '@/utils/auth' // get token from cookie
 
@@ -16,6 +16,11 @@ import '@/icons' // icon
 
 Vue.config.productionTip = false
 Vue.use(ElementUI);
+
+import VideoPlayer from 'vue-video-player'
+Vue.use(VideoPlayer);
+require('video.js/dist/video-js.css')
+require('vue-video-player/src/custom-theme.css')
 
 new Vue({
   render: h => h(App),
@@ -25,16 +30,16 @@ new Vue({
 
 const whiteList = ['/login', '/',] // no redirect whitelist
 
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const hasToken = getToken()
-      console.log('路由守卫')
+  console.log('路由守卫')
   // let userid = sessionStorage.getItem('userid');
   if (hasToken) {
     console.log('有token')
     if (to.path === '/login') {
       /* if is logged in, redirect to the home page*/next({ path: '/' })
     } else {
-        next()
+      next()
     }
   } else {
     /* has no token*/

@@ -160,13 +160,34 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: '/record',
     name: 'Record',
+    meta: { title: '咨询管理', icon: 'el-icon-notebook-1', role: ['管理员', '咨询师'] },
     children: [
       {
-        path: 'record',
-        name: 'record',
+        path: 'recordByUser',
+        name: 'recordByUser',
         component: () => import('@/views/record/index'),
-        meta: { title: '咨询记录', icon: 'el-icon-notebook-1', role: ['管理员', '咨询师'] },
-      }
+        meta: { title: '用户查询', icon: 'el-icon-search', role: ['管理员', '咨询师'] },
+      },
+      {
+        path: 'viewRecord',
+        name: 'viewRecord',
+        component: () => import('@/views/record/viewRecord'),
+        hidden: true,
+        meta: { title: '查看记录', icon: 'el-icon-edit-outline', role: ['管理员', '咨询师'] },
+      },
+      {
+        path: 'recordTable',
+        name: 'recordTable',
+        component: () => import('@/views/record/record'),
+        hidden: true,
+        meta: { title: '表格填写', icon: 'el-icon-edit-outline', role: ['管理员', '咨询师'] },
+      },
+      {
+        path: 'modifyRecordTable',
+        name: 'modifyRecordTable',
+        component: () => import('@/views/record/modifyRecordTable'),
+        meta: { title: '表格编辑', icon: 'el-icon-edit', role: ['管理员', '咨询师'] },
+      },
     ]
   },
   {
@@ -174,7 +195,7 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: '/userManage/userManage',
     name: 'userManage',
-    meta: { title: '用户管理', icon: 'el-icon-user', role: ['管理员'] },
+    meta: { title: '用户管理', icon: 'el-icon-s-data', role: ['管理员'] },
     children: [
       {
         path: 'userManage',

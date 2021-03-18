@@ -1,8 +1,21 @@
 import instance from '@/http/request'
-import urls from "@/http/urls";
+import urls from "@/http/urls"
+import { transDocList } from '@/utils/doctor-utils'
 
 export {
-    getConstraintById, getCalendarById, postOrder, getOrderById, deleteOrderById, updateOrderById
+    getDoctorList, getConstraintById, getCalendarById, postOrder, getOrderById, deleteOrderById, updateOrderById, getOrderHistoryById
+}
+
+/**
+ * 获取医生列表
+ * @param {doctorId:number} doctorId 
+ * @returns {doctorName:String,doctorId:number,avatar}
+ */
+function getDoctorList() {
+    return instance.get(urls.doctorList).then(res => {
+        transDocList(res.data.data)
+        return res.data
+    })
 }
 
 /**
@@ -53,4 +66,15 @@ function deleteOrderById(orderId) {
  */
 function updateOrderById(orderId, form) {
     return instance.put(urls.order + '/' + orderId, form).then(res => res.data)
+}
+
+/**
+ * 获取用户预约列表【根据uid在form表查找】
+ * @param {uid:number} uid
+ * @returns {orderId,doctorName,status,start,end} 
+ */
+function getOrderHistoryById(uid) {
+    return instance.get(urls.orderHistory + '/' + uid).then(res => {
+        console.log(res);
+    })
 }
