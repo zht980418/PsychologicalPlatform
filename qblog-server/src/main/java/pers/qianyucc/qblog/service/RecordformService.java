@@ -27,6 +27,8 @@ public class RecordformService {
 //    增加咨询记录
     public void insRecordform(RecordformDTO recordformDTO, int consultno){
         RecordformPO recordformPO =recordformDTO.toRecordformPO();
+//        System.out.println(recordformDTO);
+//        System.out.println(recordformPO);
         recordformPO.setConsultno(consultno);
         recordformMapper.insert(recordformPO);
     }

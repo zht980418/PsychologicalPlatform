@@ -4,7 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pers.qianyucc.qblog.model.comm.Results;
@@ -24,12 +23,16 @@ public class RecordformController {
     @ApiOperation("新增咨询记录")
     @PostMapping("/record")
     public Results<String> postRecordform(@ApiParam(name="咨询记录", value = "传入json格式",required = true)
-                                          @RequestBody @Valid RecordformDTO recordformDTO){
+                                          @RequestBody RecordformDTO recordformDTO){
+        System.out.println(recordformDTO);
         int size = recordformService.getNumofRecordform();
-        System.out.println(size);
-        int consultno=recordformService.getLatestID(size);
-        consultno++;
-        System.out.println(consultno);
+//        System.out.println(size);
+        int consultno=1;
+        if(size!=0){
+            consultno=recordformService.getLatestID(size);
+            consultno++;
+        }
+//        System.out.println(consultno);
         recordformService.insRecordform(recordformDTO, consultno);
         return Results.ok("咨询记录新增成功",null);
     }
