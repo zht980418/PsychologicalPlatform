@@ -22,5 +22,7 @@ export default {
   // 课程列表
   courseList: '/courselist',
   // 课程信息
-  course: '/course'
+  course: '/course',
+  //用户咨询历史:
+  orderHistory: '/orderHistory',
 }

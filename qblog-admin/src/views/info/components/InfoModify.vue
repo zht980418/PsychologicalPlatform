@@ -1,30 +1,45 @@
 <template>
   <div style="padding:30px;">
-    <el-form class="user_info">
-      <el-form-item label="头像">
+    <el-form
+      class="user_info"
+      ref="modify"
+      :model="modify"
+      :rules="rules"
+    >
+      <!-- <el-form-item label="头像">
         <el-image
-          :src="head1"
-          style="width:150px; height:150px;"
+          :src="user.avatar"
+          style="width:200px; height:200px;"
         />
-      </el-form-item>
-      <el-form-item label="旧密码">
+      </el-form-item> -->
+      <el-form-item
+        label="旧密码"
+        prop="old"
+      >
         <el-input
-          v-model.trim="user.oldPassword"
+          v-model.trim="modify.old"
           show-password
         />
       </el-form-item>
-      <el-form-item label="新密码">
+      <el-form-item
+        label="新密码"
+        prop="new"
+      >
         <el-input
-          v-model.trim="user.newPassword"
+          v-model.trim="modify.new"
           show-password
         />
       </el-form-item>
-      <el-form-item label="重复新密码">
+      <el-form-item
+        label="重复新密码"
+        prop="new2"
+      >
         <el-input
-          v-model.trim="user.newPassword2"
+          v-model.trim="modify.new2"
           show-password
         />
       </el-form-item>
+      <br>
       <el-form-item>
         <el-button
           type="primary"
@@ -35,7 +50,7 @@
   </div>
 </template>
 <script>
-// import { modifyInfo } from '@/api/user'
+import { modifyUser, getUserById } from '@/api/user'
 
 export default {
   name: 'Info',
@@ -46,36 +61,87 @@ export default {
         return {
           id: '',
           name: '',
-          sex: '',
-          post: '',
-          email: '',
-          office: '',
           avatar: '',
-          role: ''
+          phoneNumber: '',
         }
       }
     }
   },
   data() {
+    const validatePasswordRepeat = (rule, value, callback) => {
+      if (value !== this.modify.new) {
+        callback(new Error('两次密码必须相同'))
+      } else {
+        callback()
+      }
+    }
+    const validateNewPassword = (rule, value, callback) => {
+      if (value === this.modify.old) {
+        callback(new Error('新密码和旧密码不能相同'))
+      } else {
+        callback()
+      }
+    }
     return {
-      head1: require('@/icons/img/head1.jpg')
+      modify: {},
+      rules: {
+        old: [
+          { required: true, message: '请输入旧密码', trigger: 'blur' },
+          { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' },],
+        new: [
+          { required: true, message: '请输入新密码', trigger: 'blur' },
+          { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' },
+          { validator: validateNewPassword, trigger: 'blur' }],
+        new2: [
+          { required: true, message: '请输入新密码', trigger: 'blur' },
+          { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' },
+          { validator: validatePasswordRepeat, trigger: 'blur' },
+          { validator: validateNewPassword, trigger: 'blur' }
+        ]
+      }
     }
   },
+  computed: {
+  },
   methods: {
-    // TODO--提交修改
     submit() {
-      // modifyInfo()
+      this.$refs['modify'].validate((valid) => {
+        if (valid) {
+          const data = { password: this.modify.new }
+          getUserById(this.user.id).then((res) => {
+            if (res.code === 0) {
+              if (res.data.password === this.modify.old) {
+                modifyUser(this.user.id, data).then((res) => {
+                  if (res.code === 0) {
+                    this.$notify.success({
+                      title: "提示",
+                      message: "密码修改成功！",
+                    })
+                    this.$refs.modify.resetFields()
+                  }
+                })
+              } else {
+                this.$notify.error({
+                  title: "提示",
+                  message: "旧密码错误！",
+                })
+              }
+            }
+          }).catch((err) => {
+            console.log(err)
+            this.$notify.error({
+              title: "提示",
+              message: "网络忙，修改密码失败",
+            })
+          })
+        }
+      })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.text {
-  font-size: 14px;
-  margin-bottom: 10px;
-  margin-top: 10px;
-}
 .head-container {
   height: 150px;
   width: 150px;

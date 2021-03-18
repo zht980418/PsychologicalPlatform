@@ -21,7 +21,7 @@
 
 <script>
 import ConsultHistoryItem from '../components/ConsultHistoryItem'
-// import { getConsultHistory } from '@/api/exam'
+import { getOrderHistoryById } from '@/api/order'
 
 export default {
   components: { ConsultHistoryItem },
@@ -31,14 +31,17 @@ export default {
     }
   },
   created() {
-    console.log('获取咨询记录数据')
-    // this.handleGetConsultHistory()
+    getOrderHistoryById().then((res) => {
+      console.log(res)
+    }).catch((err) => {
+      console.log(err)
+      this.$notify.error({
+        title: "提示",
+        message: "网络忙，获取咨询历史失败",
+      })
+    })
   },
   methods: {
-    // 获取咨询记录数据
-    // handleGetConsultHistory() {
-
-    // }
   }
 }
 </script>

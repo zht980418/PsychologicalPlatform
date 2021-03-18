@@ -102,25 +102,26 @@ export default {
     }
   },
   computed: {
-    // ...mapGetters([
-    //   'user'
-    // ])
   },
   methods: {
     submit() {
       this.$refs['modify'].validate((valid) => {
         if (valid) {
-          const data = { oldPassword: this.modify.old, newPassword: this.modify.new }
+          const data = { password: this.modify.new }
           getUserById(this.user.id).then((res) => {
             if (res.code === 0) {
-              if (res.data.password === this.modify.new) {
+              if (res.data.password === this.modify.old) {
                 modifyUser(this.user.id, data).then((res) => {
                   if (res.code === 0) {
-                    console.log(res);
+                    this.$notify.success({
+                      title: "提示",
+                      message: "密码修改成功！",
+                    })
+                    this.$refs.modify.resetFields()
                   }
                 })
               } else {
-                this.notify.error({
+                this.$notify.error({
                   title: "提示",
                   message: "旧密码错误！",
                 })
@@ -130,7 +131,7 @@ export default {
             console.log(err)
             this.$notify.error({
               title: "提示",
-              message: "网络忙，修改密码错误！",
+              message: "网络忙，修改密码失败",
             })
           })
         }

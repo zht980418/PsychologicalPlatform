@@ -8,5 +8,6 @@ const getters = {
   phoneNumber: state => state.user.phoneNumber,
   role: state => state.user.role.split(' '),
   addRouters: state => state.permission.routers,
+  user: state => state.user,
 }
 export default getters
