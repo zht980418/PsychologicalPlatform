@@ -22,6 +22,7 @@
 <script>
 import ConsultHistoryItem from '../components/ConsultHistoryItem'
 import { getOrderHistoryById } from '@/api/order'
+import { mapGetters } from 'vuex'
 
 export default {
   components: { ConsultHistoryItem },
@@ -31,8 +32,8 @@ export default {
     }
   },
   created() {
-    getOrderHistoryById().then((res) => {
-      console.log(res)
+    getOrderHistoryById(this.id).then((res) => {
+      this.historyList = res.data
     }).catch((err) => {
       console.log(err)
       this.$notify.error({
@@ -40,6 +41,11 @@ export default {
         message: "网络忙，获取咨询历史失败",
       })
     })
+  },
+  computed: {
+    ...mapGetters([
+      'id'
+    ])
   },
   methods: {
   }

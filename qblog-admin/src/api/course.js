@@ -20,7 +20,7 @@ export function getCourseList() {
 }
 
 /**
- * // TODO 获取单个课程信息
+ * // 获取单个课程信息
  * @param {courseId:number} courseId 
  * @returns {CourseId:number,CourseTitle:String,CourseDescription:String,CourseLink:String }
  */

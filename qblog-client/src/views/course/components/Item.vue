@@ -10,14 +10,7 @@
     <div class="item-description">
       <h2 class="item-title">{{ title }}</h2>
       <br>
-      <!-- <p class="item-office">{{ office }}</p> -->
       <br>
-      <!-- <span class="item-progress-text">观看进度{{ completed }}/{{ sum }}</span> -->
-      <!-- <el-progress
-        class="item-progress"
-        :percentage="Percentage"
-        show-text="false"
-      /> -->
       <p class="item-time">{{ time }}</p>
     </div>
   </li>
@@ -44,15 +37,6 @@ export default {
       type: String,
       default: '2020/7/29'
     }
-  },
-  data() {
-    return {
-    }
-  },
-  computed: {
-    Percentage() {
-      return this.completed === 0 ? 0 : this.completed / this.sum * 100
-    }
   }
 }
 </script>
@@ -64,7 +48,6 @@ export default {
   margin-right: 20px;
   margin-bottom: 20px;
   width: 200px;
-  height: 200px;
   .course-img {
     width: 200px;
     height: 100px;

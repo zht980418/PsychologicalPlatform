@@ -6,7 +6,7 @@
         <br>
         <iframe
           class="video"
-          src="//player.bilibili.com/player.html?aid=204577853&bvid=BV1hh411Q71K&cid=309144601&page=1"
+          :src="course.link"
           scrolling="no"
           border="0"
           frameborder="no"
@@ -18,7 +18,6 @@
         <el-row>
           <p>{{course.description}}</p>
         </el-row>
-        <br>
         <el-row>
           <el-tag
             v-for="item in taglist"
@@ -31,7 +30,6 @@
       </el-col>
       <el-col :span="6">
         <p>其他推荐课程</p>
-        <br>
         <RecItem
           class="course-list"
           v-for="item in courselist"
@@ -85,8 +83,6 @@ export default {
       videoSrc: '//vjs.zencdn.net/v/oceans.mp4'
     }
   },
-  mounted() {
-  },
   computed: {
     ...mapGetters([
       'avatar',
@@ -99,7 +95,6 @@ export default {
     getCourse(this.$route.params.courseId).then((res) => {
       if (res.code === 0) {
         this.course = res.data
-        console.log(res);
       }
     }).catch((err) => {
       console.log(err)
@@ -121,11 +116,6 @@ export default {
     })
   },
   methods: {
-    // 跳转页面
-    handleCourse(course_id) {
-      console.log('点击课程')
-      this.$router.push({ name: 'CoursePage', params: { course_id: course_id } })// 传入course_id
-    },
     playVideo() {
       var vdo = document.getElementById("videoPlay");
       vdo.play();
