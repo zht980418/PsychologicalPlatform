@@ -82,7 +82,12 @@ public class UserinfoService {
             return  userinfoVO;
         }
     }
-//    查询咨询师父列表
+//    查询用户姓名
+    public String getUserName(String userid){
+        UserinfoPO dbUserinfo = userinfoMapper.selectById(userid);
+        return dbUserinfo.getNickname();
+    }
+//    查询咨询师列表
     public List<UserinfoVO> getDoctorinfo(){
         ArrayList res = new ArrayList();
         QueryWrapper<UserinfoPO> queryWrapper = new QueryWrapper<>();

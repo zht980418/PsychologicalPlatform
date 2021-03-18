@@ -36,4 +36,8 @@ public class FormVO {
     private String end;
     private String status;
 
+    public String getDoctorID(){
+        return doctorid;
+    }
+
 }

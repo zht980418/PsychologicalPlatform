@@ -12,15 +12,20 @@ import pers.qianyucc.qblog.model.dto.RoomDTO;
 import pers.qianyucc.qblog.model.vo.FormVO;
 import pers.qianyucc.qblog.service.FormService;
 import pers.qianyucc.qblog.service.RoomService;
+import pers.qianyucc.qblog.service.UserinfoService;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Api("与咨询表格相关接口")
 @RestController
 public class FormController {
     @Autowired
     private FormService formService;
+    @Autowired
+    private UserinfoService userinfoService;
 
 
 
@@ -47,6 +52,24 @@ public class FormController {
     public Results<List<FormVO>> getFormByroomId(@PathVariable String roomid){
         List<FormVO> formVOList = formService.findByRoomId(roomid);
         return Results.ok(formVOList);
+    }
+    @ApiOperation("根据uid获取咨询表格")
+    @GetMapping("/orderHistory/{uid}")
+    @ApiImplicitParam(name = "uid", value = "uid", required = true, dataType = "String", paramType = "path")
+    public Results<List> getFormsByuid(@PathVariable String uid){
+        ArrayList res = new ArrayList();
+        List<Map<String, Object>> formVOList =formService.findByUid(uid);
+        List doctoridList = formService.findDoctoridByUid(uid);
+        for(int i=0;i<formVOList.size();i++){
+            String doctorname = userinfoService.getUserName(doctoridList.get(i).toString());
+//            System.out.println("***********");
+//            System.out.println(doctorname);
+//            System.out.println(formVOList.get(i));
+            formVOList.get(i).put("doctorname",doctorname);
+            res.add(formVOList.get(i));
+        }
+//        System.out.println(res);
+        return Results.ok(res);
     }
 
     @ApiOperation("新增表单数据")
