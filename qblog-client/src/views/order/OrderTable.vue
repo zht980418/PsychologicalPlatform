@@ -854,7 +854,7 @@ export default {
       const params = JSON.parse(JSON.stringify(this.form))
       params['start'] = this.selection.startStr
       params['end'] = this.selection.endStr
-      params['uid'] = this.id
+      params['uid'] = this.uid
       return params
     }
   }

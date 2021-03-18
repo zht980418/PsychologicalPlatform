@@ -3,25 +3,19 @@
     class="course-item"
     @click="$router.push({ name: 'CoursePage', params: { courseId: courseId} })"
   >
-    <el-col :span="16">
+    <el-col :span="15">
       <img
         class="course-img"
         :src="icon"
       >
     </el-col>
-    <el-col :span="5">
+    <el-col
+      :span="9"
+      style="height:120px;"
+    >
       <div class="item-description">
         <br>
         <p class="item-title">{{ title }}</p>
-        <!-- <span class="item-progress-text">观看进度{{ completed }}/{{ sum }}</span> -->
-        <!-- <el-progress
-          class="item-progress"
-          :percentage="Percentage"
-          show-text="false"
-        /> -->
-        <br>
-        <br>
-        <br>
         <p class="item-time">{{ time }}</p>
       </div>
     </el-col>
@@ -49,16 +43,6 @@ export default {
       type: String,
       default: '2020/7/29'
     }
-  },
-  data() {
-    return {
-    }
-  },
-  computed: {
-    // 计算百分比
-    Percentage() {
-      return this.completed === 0 ? 0 : this.completed / this.sum * 100
-    }
   }
 }
 </script>
@@ -67,9 +51,7 @@ export default {
 .course-item {
   border: solid 1px lavender;
   background: ghostwhite;
-  margin-right: 20px;
   margin-bottom: 20px;
-  width: 300px;
   height: 120px;
   .course-img {
     width: 200px;
@@ -78,31 +60,17 @@ export default {
     margin-right: 1px;
   }
   .item-description {
-    padding-left: 10px;
+    height: inherit;
     .item-title {
-      font-size: 16px;
-      color: #283443;
-      font-weight: 800;
-    }
-    .item-office {
       font-size: 14px;
-      font-weight: 600;
-      color: rgb(117, 111, 111);
     }
-    .item-progress-text {
-      font-size: 12px;
-      font-weight: 600;
-      color: #283443;
-    }
-    .item-progress {
-      margin-top: 5px;
-      margin-bottom: 5px;
-    }
+
     .item-time {
       font-size: 12px;
-      // padding-right: 16px;
       color: darkgray;
       float: right;
+      padding: 3px;
+      position: absolute;
     }
   }
 }

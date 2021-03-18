@@ -1,6 +1,7 @@
 import instance from '@/http/request'
 import urls from "@/http/urls"
 import { transDocList } from '@/utils/doctor-utils'
+import { transOrderList } from '@/utils/event-utils'
 
 export {
     getDoctorList, getConstraintById, getCalendarById, postOrder, getOrderById, deleteOrderById, updateOrderById, getOrderHistoryById
@@ -75,6 +76,8 @@ function updateOrderById(orderId, form) {
  */
 function getOrderHistoryById(uid) {
     return instance.get(urls.orderHistory + '/' + uid).then(res => {
-        console.log(res);
+        transOrderList(res.data.data)
+        console.log(res.data.data);
+        return res.data
     })
 }

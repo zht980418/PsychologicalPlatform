@@ -1,7 +1,7 @@
 <template>
   <div class="history-container">
     <div class="img-container">
-      <img :src="icon">
+      <el-image :src=icon></el-image>
     </div>
     <div class="msg-container">
       <div class="title-container">

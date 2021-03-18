@@ -75,3 +75,34 @@ export function transEvent(event) {
   return list
 }
 
+function editTime(time) {
+  time = time.split('T')
+  const hour = time[1].split('+')
+  console.log(time)
+  console.log(hour[0])
+  return time[0] + ' ' + hour[0]
+}
+
+function transOrder(order) {
+  order.orderId = order.orderid
+  order.doctorId = order.doctorid
+  order.doctorName = order.doctorname
+  delete (order.orderid)
+  delete (order.doctorid)
+  delete (order.doctorname)
+  switch (order.status) {
+    case 'true': order.status = '接受'; break;
+    case '': order.status = '待确认'; break;
+    case 'false': order.status = '已拒绝'; break;
+  }
+  order.start = editTime(order.start)
+  order.end = editTime(order.end)
+  console.log(order.start)
+  console.log(order.end)
+}
+
+export function transOrderList(list) {
+  for (let i = 0; i < list.length; i++)
+    transOrder(list[i])
+}
+

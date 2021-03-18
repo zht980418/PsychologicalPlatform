@@ -1,15 +1,20 @@
 <template>
-  <div class="history-container">
+  <div>
     <el-row>
       <el-col :span="10">
-        <img :src="icon">
+        <el-image :src=icon></el-image>
       </el-col>
-      <el-col :span="6">
-        <h1>咨询师：{{ doctorName }}</h1>
+      <el-col :span="10">
+        <br>
+        <h2>咨询师：{{ doctorName }}</h2>
         <br>
         <h2>状态： {{ status }}</h2>
         <br>
-        <h2>预约时间：{{ start }} - {{ end }}</h2>
+        <h2>预约时间：<br><br>{{ start }} -- {{ end }}</h2>
+      </el-col>
+      <el-col :span="3">
+        <br>
+        <el-button type="primary">开始咨询</el-button>
       </el-col>
     </el-row>
   </div>
@@ -17,7 +22,7 @@
 
 <script>
 export default {
-  name: 'ExamHistoryItem',
+  name: 'ConsultHistoryItem',
   functional: false,
   props: {
     icon: {
