@@ -12,8 +12,8 @@ import javax.validation.constraints.NotEmpty;
 @ApiModel(value = "咨询记录表格",description = "前端的咨询记录")
 public class RecordformDTO {
 //    @NotEmpty(message = "appid不能为空")
-//    @ApiModelProperty(notes = "consultno", example="1")
-//    private Integer consultno;
+    @ApiModelProperty(notes = "consultno", example="1")
+    private int consultno;
     @ApiModelProperty(notes = "type", example="1")
     private String type;
     @ApiModelProperty(notes = "userid", example="1")

@@ -25,8 +25,12 @@ public class RecordformController {
     @PostMapping("/record")
     public Results<String> postRecordform(@ApiParam(name="咨询记录", value = "传入json格式",required = true)
                                           @RequestBody @Valid RecordformDTO recordformDTO){
-        System.out.println(recordformDTO.getType());
-        recordformService.insRecordform(recordformDTO);
+        int size = recordformService.getNumofRecordform();
+        System.out.println(size);
+        int consultno=recordformService.getLatestID(size);
+        consultno++;
+        System.out.println(consultno);
+        recordformService.insRecordform(recordformDTO, consultno);
         return Results.ok("咨询记录新增成功",null);
     }
 //    删除咨询记录

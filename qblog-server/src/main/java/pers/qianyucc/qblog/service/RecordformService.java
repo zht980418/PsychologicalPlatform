@@ -25,8 +25,9 @@ public class RecordformService {
     private RecordformMapper recordformMapper;
     @Transactional(rollbackFor = Exception.class)
 //    增加咨询记录
-    public void insRecordform(RecordformDTO recordformDTO){
+    public void insRecordform(RecordformDTO recordformDTO, int consultno){
         RecordformPO recordformPO =recordformDTO.toRecordformPO();
+        recordformPO.setConsultno(consultno);
         recordformMapper.insert(recordformPO);
     }
 //    删除咨询记录
@@ -42,7 +43,7 @@ public class RecordformService {
         recordformPO.setConsultno(consultno);
         recordformMapper.updateById(recordformPO);
     }
-//    查询咨询记录
+//    根据consultno查询咨询记录
     public RecordformVO getRecordform(int consultno){
         RecordformPO dbrecordform = recordformMapper.selectById(consultno);
         RecordformVO res = RecordformVO.fromRecordformPO(dbrecordform);
@@ -59,4 +60,18 @@ public class RecordformService {
         }
         return res;
     }
+//    查询咨询记录个数
+    public int getNumofRecordform(){
+        QueryWrapper<RecordformPO> wrapper = new QueryWrapper<>();
+        List<Map<String,Object>> maps= recordformMapper.selectMaps(wrapper);
+        return maps.size();
+    }
+//    查询最新主键
+    public int getLatestID(int num){
+        QueryWrapper<RecordformPO> wrapper = new QueryWrapper<>();
+        List<Map<String, Object>> maps= recordformMapper.selectMaps(wrapper);
+        long res = (long) maps.get(num-1).get("consultno");
+        return (int) res;
+    }
+
 }
