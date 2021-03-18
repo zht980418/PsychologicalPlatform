@@ -50,7 +50,7 @@
             <template slot-scope="scope">
               <el-button
                 type="primary"
-                icon="el-icon-reading"
+                icon="el-icon-edit"
                 plain
                 @click="handleView(scope.row)"
               >查看</el-button>
@@ -92,14 +92,16 @@ export default {
   methods: {
     handleAdd(){
       console.log("add")
-      this.$router.push({name:"addRecord", params: { userid: this.$route.params.userid}})
-    },
-    handleView(row){
-      console.log("view")
+      this.$router.push({name:"recordTable", params: { userid: this.$route.params.userid}})
     },
     // 展示编辑dialog
-    handleEdit() {
+    handleView(row) {
+      console.log("view")
+      this.$router.push({name:"recordTable", params: { consultNo: row.consultNo, type: "view"}})
+    },
+    handleEdit(row) {
       console.log("edit")
+      this.$router.push({name:"recordTable", params: { consultNo: row.consultNo, type: "edit"}})
     },
     handleDelete(index, row){
       console.log("delete")

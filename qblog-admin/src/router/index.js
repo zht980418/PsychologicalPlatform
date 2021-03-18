@@ -176,8 +176,8 @@ export const asyncRouterMap = [
         meta: { title: '查看记录', icon: 'el-icon-edit-outline', role: ['管理员', '咨询师'] },
       },
       {
-        path: 'addRecord',
-        name: 'addRecord',
+        path: 'recordTable',
+        name: 'recordTable',
         component: () => import('@/views/record/record'),
         hidden: true,
         meta: { title: '表格填写', icon: 'el-icon-edit-outline', role: ['管理员', '咨询师'] },

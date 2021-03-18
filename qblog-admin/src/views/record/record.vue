@@ -91,10 +91,20 @@
               </el-col>
             </el-col>
           </el-row>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmit">立即创建</el-button>
-            <el-button>取消</el-button>
+          <br>
+          <el-form-item v-if="routeType">
+            <el-row>
+            <el-col :span="5" :offset="7">
+              <el-button type="primary" @click="onSubmit">立即创建</el-button>
+            </el-col>
+            <el-col :span="5" :offset="1">
+              <el-button>取消创建</el-button>
+            </el-col>
+            </el-row>
           </el-form-item>
+          <br>
+          <br>
+          <br>
         </el-col>
       </el-row>
     </el-form>
@@ -175,11 +185,10 @@
               </el-col>
             </el-col>
           </el-row>
-          <el-form-item>
+          <el-form-item v-if="routeType">
             <el-button type="primary" @click="onSubmit">立即创建</el-button>
             <el-button>取消</el-button>
           </el-form-item>
-
         </el-col>
       </el-row>
     </el-form>
@@ -190,6 +199,7 @@
 export default {
   data() {
     return {
+      routeType: this.$route.params.type === "edit",
       form1: {
         type: 'First',
         userid: this.$route.params.userid,
@@ -224,6 +234,10 @@ export default {
       },
       formFlag: true,
     }
+  },
+  created() {
+    console.log("params", this.$route.params)
+
   },
   methods:{
     onSubmit() {
