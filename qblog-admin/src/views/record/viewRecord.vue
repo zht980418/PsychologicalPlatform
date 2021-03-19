@@ -19,25 +19,25 @@
         <el-table
           :data="recordList"
           element-loading-text="加载中......"
-          :default-sort="{prop: 'recordNo', order: 'ascending'}"
+          :default-sort="{prop: 'consultno', order: 'ascending'}"
           border
           fit
           highlight-current-row
         >
           <el-table-column
-            prop="consultNo"
+            prop="consultno"
             label="记录编号"
             min-width="180"
             align="center"
           />
           <el-table-column
-            prop="doctorName"
+            prop="doctorname"
             label="咨询师"
             min-width="180"
             align="center"
           />
           <el-table-column
-            prop="consultType"
+            prop="consulttype"
             label="咨询类型"
             min-width="180"
             align="center"
@@ -75,37 +75,67 @@
 </template>
 
 <script>
-
+import {deleteRecordTableByNo, getRecordTableListById } from "@/api/recordTable";
 
 export default {
   name: "viewRecord",
   data() {
     return {
-      recordList: [{consultNo: "0000001", doctorName: '鸿鸟', consultType:'线下'}, {consultNo: "0000002", doctorName: '鸿鸟', consultType:'线下'}],
+      recordList: [],
       userid: this.$route.params.userid,
       nickname: this.$route.params.nickname,
     }
   },
   created() {
-
+    getRecordTableListById(this.userid).then((res) => {
+      if (res.code === 0) {
+        console.log(res)
+        this.recordList = res.data // 传入咨询室列表
+      }
+    }).catch((err) => {
+      console.log(err)
+      this.$notify.error({
+        title: '提示',
+        message: '网络忙，咨询记录获取失败',
+      })
+    })
   },
   methods: {
     handleAdd(){
       console.log("add")
-      this.$router.push({name:"recordTable", params: { userid: this.$route.params.userid}})
+      this.$router.push({name:"recordTable", params: { userid: this.$route.params.userid, type: "add"}})
     },
     // 展示编辑dialog
     handleView(row) {
       console.log("view")
-      this.$router.push({name:"recordTable", params: { consultNo: row.consultNo, type: "view"}})
+      this.$router.push({name:"recordTable", params: { userid: this.$route.params.userid, consultno: row.consultno, type: "view"}})
     },
     handleEdit(row) {
       console.log("edit")
-      this.$router.push({name:"recordTable", params: { consultNo: row.consultNo, type: "edit"}})
+      this.$router.push({name:"recordTable", params: { userid: this.$route.params.userid, consultno: row.consultno, type: "edit"}})
     },
     handleDelete(index, row){
       console.log("delete")
-    }
+      if (confirm(`你确定要删除该咨询记录吗？`)) {
+        deleteRecordTableByNo(row.consultno).then((res) => {
+          console.log(res)
+          if (res.code === 0) {
+            console.log(index)
+            this.recordList.splice(index, 1)
+            this.$notify.success({
+              title: '提示',
+              message: '咨询记录删除成功',
+            })
+          }
+        }).catch((err) => {
+          console.log(err)
+          this.$notify.error({
+            title: '提示',
+            message: '网络忙，咨询记录删除失败',
+          })
+        })
+      }
+    },
   }
 }
 </script>

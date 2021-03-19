@@ -41,7 +41,7 @@ router.beforeEach(async (to, from, next) => {
           store.dispatch('GenerateRoutes', { roles }).then(() => { // 生成可访问的路由表
             console.log('开始根据权限生成路由表')
             router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
-            next({ ...to, replace: true })
+            next('/')
           })
         } catch (error) {
           // remove token and go to login page to re-login
