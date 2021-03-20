@@ -58,34 +58,9 @@
                 ></el-input>
               </el-form-item>
             </el-col>
-<<<<<<< HEAD
-            <el-col
-              :span="12"
-              :offset="0"
-            >
-              <el-form-item
-                label-width="60px"
-                label="咨询师"
-              >
-                <el-input v-model="form1.doctorName"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col
-              :span="12"
-              :offset="0"
-            >
-              <el-form-item
-                label-width="100px"
-                label="咨询次数"
-              >
-                <el-input v-model="form1.consultNo"></el-input>
-=======
             <el-col :span="12" :offset="0">
               <el-form-item  label-width="60px" label="咨询师">
                 <el-input v-model="form1.doctorname"></el-input>
->>>>>>> ee0c8db3894d5a3aa2081b251b853884811dcf6e
               </el-form-item>
             </el-col>
           </el-row>
@@ -114,29 +89,6 @@
             </el-form-item>
           </el-row>
           <el-row>
-<<<<<<< HEAD
-            <el-form-item
-              label="咨询要点记录(A):"
-              label-width="130px"
-            >
-              <el-input
-                type="textarea"
-                :rows="10"
-                v-model="form1.mainPoint"
-              ></el-input>
-            </el-form-item>
-          </el-row>
-          <el-row>
-            <el-form-item
-              label="后期跟进计划（P）:"
-              label-width="140px"
-            >
-              <el-form-item
-                label="是否进行下一次预约:"
-                label-width="150px"
-              >
-                <el-radio-group v-model="form1.nextExist">
-=======
             <el-form-item label="咨询要点记录(A):" label-width="130px">
               <el-input type="textarea" :rows="10" v-model="form1.mainpoint"></el-input>
             </el-form-item>
@@ -145,7 +97,6 @@
             <el-form-item label="后期跟进计划（P）:" label-width="140px">
               <el-form-item label="是否进行下一次预约:" label-width="150px">
                 <el-radio-group v-model="form1.nextexist">
->>>>>>> ee0c8db3894d5a3aa2081b251b853884811dcf6e
                   <el-radio label="是"></el-radio>
                   <el-radio label="否"></el-radio>
                 </el-radio-group>
@@ -159,21 +110,6 @@
                 </el-form-item>
               </el-row>
               <el-row>
-<<<<<<< HEAD
-                <el-form-item
-                  label="咨询方式:"
-                  label-width="180px"
-                >
-                  <el-input v-model="form1.consultType"></el-input>
-                </el-form-item>
-              </el-row>
-              <el-row>
-                <el-form-item
-                  label="依据严重性程度，是否需要特别关注？"
-                  label-width="270px"
-                >
-                  <el-radio-group v-model="form1.specialAttention">
-=======
                 <el-form-item label="咨询方式:" label-width="180px">
                   <el-input v-model="form1.consulttype"  ></el-input>
                 </el-form-item>
@@ -181,27 +117,14 @@
               <el-row>
                 <el-form-item label="依据严重性程度，是否需要特别关注？" label-width="270px">
                   <el-radio-group v-model="form1.specialattention">
->>>>>>> ee0c8db3894d5a3aa2081b251b853884811dcf6e
                     <el-radio label="是"></el-radio>
                     <el-radio label="否"></el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-row>
               <el-row>
-<<<<<<< HEAD
-                <el-form-item
-                  label="本次咨询作业和下次咨询计划:"
-                  label-width="260px"
-                >
-                  <el-input
-                    type="textarea"
-                    :rows="5"
-                    v-model="form1.followPlan"
-                  ></el-input>
-=======
                 <el-form-item label="本次咨询作业和下次咨询计划:" label-width="260px">
                   <el-input type="textarea" :rows="5" v-model="form1.followplan"></el-input>
->>>>>>> ee0c8db3894d5a3aa2081b251b853884811dcf6e
                 </el-form-item>
               </el-row>
             </el-form-item>
@@ -245,30 +168,12 @@
           <br>
           <el-form-item v-if="canSubmit">
             <el-row>
-<<<<<<< HEAD
-              <el-col
-                :span="5"
-                :offset="7"
-              >
-                <el-button
-                  type="primary"
-                  @click="onSubmit"
-                >立即创建</el-button>
-              </el-col>
-              <el-col
-                :span="5"
-                :offset="1"
-              >
-                <el-button>取消创建</el-button>
-              </el-col>
-=======
             <el-col :span="5" :offset="7">
               <el-button type="primary" @click="onSubmit">立即提交</el-button>
             </el-col>
             <el-col :span="5" :offset="1">
               <el-button>取消提交</el-button>
             </el-col>
->>>>>>> ee0c8db3894d5a3aa2081b251b853884811dcf6e
             </el-row>
           </el-form-item>
           <el-form-item v-else>
@@ -313,68 +218,21 @@
                 ></el-input>
               </el-form-item>
             </el-col>
-<<<<<<< HEAD
-            <el-col
-              :span="12"
-              :offset="0"
-            >
-              <el-form-item
-                label-width="60px"
-                label="咨询师"
-              >
-                <el-input v-model="form2.doctorName"></el-input>
-=======
             <el-col :span="12" :offset="0">
               <el-form-item  label-width="60px" label="咨询师">
                 <el-input v-model="form2.doctorname"></el-input>
->>>>>>> ee0c8db3894d5a3aa2081b251b853884811dcf6e
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
-<<<<<<< HEAD
-            <el-col
-              :span="12"
-              :offset="0"
-            >
-              <el-form-item
-                label-width="100px"
-                label="咨询次数"
-              >
-                <el-input v-model="form2.consultNo"></el-input>
-=======
             <el-col :span="12" :offset="0">
               <el-form-item  label-width="100px" label="咨询次数">
                 <el-input v-model="form2.consultno"></el-input>
->>>>>>> ee0c8db3894d5a3aa2081b251b853884811dcf6e
               </el-form-item>
             </el-col>
           </el-row>
 
           <el-row>
-<<<<<<< HEAD
-            <el-form-item
-              label="咨询要点记录(A):"
-              label-width="130px"
-            >
-              <el-input
-                type="textarea"
-                :rows="10"
-                v-model="form2.mainPoint"
-              ></el-input>
-            </el-form-item>
-          </el-row>
-          <el-row>
-            <el-form-item
-              label="后期跟进计划（P）:"
-              label-width="140px"
-            >
-              <el-form-item
-                label="是否进行下一次预约:"
-                label-width="150px"
-              >
-                <el-radio-group v-model="form2.nextExist">
-=======
             <el-form-item label="咨询要点记录(A):" label-width="130px">
               <el-input type="textarea" :rows="10" v-model="form2.mainpoint"></el-input>
             </el-form-item>
@@ -383,7 +241,6 @@
             <el-form-item label="后期跟进计划（P）:" label-width="140px">
               <el-form-item label="是否进行下一次预约:" label-width="150px">
                 <el-radio-group v-model="form2.nextexist">
->>>>>>> ee0c8db3894d5a3aa2081b251b853884811dcf6e
                   <el-radio label="是"></el-radio>
                   <el-radio label="否"></el-radio>
                 </el-radio-group>
@@ -397,21 +254,6 @@
                 </el-form-item>
               </el-row>
               <el-row>
-<<<<<<< HEAD
-                <el-form-item
-                  label="咨询方式:"
-                  label-width="180px"
-                >
-                  <el-input v-model="form2.consultType"></el-input>
-                </el-form-item>
-              </el-row>
-              <el-row>
-                <el-form-item
-                  label="依据严重性程度，是否需要特别关注？"
-                  label-width="270px"
-                >
-                  <el-radio-group v-model="form2.specialAttention">
-=======
                 <el-form-item label="咨询方式:" label-width="180px">
                   <el-input v-model="form2.consulttype"  ></el-input>
                 </el-form-item>
@@ -419,27 +261,14 @@
               <el-row>
                 <el-form-item label="依据严重性程度，是否需要特别关注？" label-width="270px">
                   <el-radio-group v-model="form2.specialattention">
->>>>>>> ee0c8db3894d5a3aa2081b251b853884811dcf6e
                     <el-radio label="是"></el-radio>
                     <el-radio label="否"></el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-row>
               <el-row>
-<<<<<<< HEAD
-                <el-form-item
-                  label="本次咨询作业和下次咨询计划:"
-                  label-width="260px"
-                >
-                  <el-input
-                    type="textarea"
-                    :rows="5"
-                    v-model="form2.followPlan"
-                  ></el-input>
-=======
                 <el-form-item label="本次咨询作业和下次咨询计划:" label-width="260px">
                   <el-input type="textarea" :rows="5" v-model="form2.followplan"></el-input>
->>>>>>> ee0c8db3894d5a3aa2081b251b853884811dcf6e
                 </el-form-item>
               </el-row>
             </el-form-item>
@@ -480,14 +309,6 @@
               </el-col>
             </el-col>
           </el-row>
-<<<<<<< HEAD
-          <el-form-item v-if="routeType">
-            <el-button
-              type="primary"
-              @click="onSubmit"
-            >立即创建</el-button>
-            <el-button>取消</el-button>
-=======
           <el-form-item v-if="canSubmit">
             <el-button type="primary" @click="onSubmit">立即提交</el-button>
             <el-button>取消提交</el-button>
@@ -498,7 +319,6 @@
                 <el-button type="primary" @click="returnList">返回列表</el-button>
               </el-col>
             </el-row>
->>>>>>> ee0c8db3894d5a3aa2081b251b853884811dcf6e
           </el-form-item>
         </el-col>
       </el-row>
@@ -523,16 +343,6 @@ export default {
         doctorname: '',
         consultno: '',
         date1: '',
-<<<<<<< HEAD
-        date2: '',
-        date3: '',
-        consultType: '',
-        mainPoint: '',
-        nextExist: false,
-        specialAttention: '',
-        followPlan: '',
-        sign: '',
-=======
         date2:'',
         date3:'',
         consulttype:'',
@@ -541,7 +351,6 @@ export default {
         specialattention:'',
         followplan:'',
         sign:'',
->>>>>>> ee0c8db3894d5a3aa2081b251b853884811dcf6e
         complaint: '',
         impression: '',
       },
@@ -552,15 +361,6 @@ export default {
         consultno: '',
         times: '',
         date1: '',
-<<<<<<< HEAD
-        date2: '',
-        date3: '',
-        consultType: '',
-        mainPoint: '',
-        nextExist: false,
-        specialAttention: '',
-        followPlan: '',
-=======
         date2:'',
         date3:'',
         consulttype:'',
@@ -568,7 +368,6 @@ export default {
         nextexist: false,
         specialattention:'',
         followplan: '',
->>>>>>> ee0c8db3894d5a3aa2081b251b853884811dcf6e
         sign: '',
       },
 
@@ -576,8 +375,6 @@ export default {
   },
   created() {
     console.log("params", this.$route.params)
-<<<<<<< HEAD
-=======
     if(this.$route.params.type === 'edit' || this.$route.params.type === 'view'){
       getRecordTableByNo(this.$route.params.consultno).then((res) => {
         if (res.code === 0) {
@@ -601,7 +398,6 @@ export default {
         })
       })
     }
->>>>>>> ee0c8db3894d5a3aa2081b251b853884811dcf6e
   },
   methods: {
     onSubmit() {
