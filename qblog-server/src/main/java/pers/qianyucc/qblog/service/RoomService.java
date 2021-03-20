@@ -60,6 +60,18 @@ public class RoomService {
         }
         return res;
     }
+//    通过roomid获取name
+    public String getRoomNameByRoomID(String roomid){
+        String res = null;
+        QueryWrapper<RoomPO> wrapper = new QueryWrapper<>();
+        wrapper.select("name","address","roomid");
+        List<Map<String, Object>> maps = roomMapper.selectMaps(wrapper);
+        for(int i =0; i<maps.size(); i++){
+            if(maps.get(i).get("roomid").toString().equals(roomid))
+                res=maps.get(i).get("name").toString();
+        }
+        return res;
+    }
 
 
 }

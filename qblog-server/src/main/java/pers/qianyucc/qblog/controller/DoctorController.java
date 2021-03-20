@@ -30,13 +30,13 @@ public class DoctorController {
         return Results.ok(doctortime);
     }
 
-    @ApiOperation("查询所有医生工作时间")
-    @GetMapping("/doctorCon/{doctorId}")
-    @ApiImplicitParam(name = "doctorId", value = "医生ID", required = true, dataType = "String", paramType = "path")
-    public Results<List<DoctorVO>> getWorktime(@PathVariable String doctorId){
-        List<DoctorVO> worktime = doctorService.findByDoctorId(doctorId);
-        System.out.println("#############worktime"+worktime);
-        return Results.ok(worktime);
-    }
+//    @ApiOperation("查询所有医生工作时间")
+//    @GetMapping("/doctorCon/{doctorId}")
+//    @ApiImplicitParam(name = "doctorId", value = "医生ID", required = true, dataType = "String", paramType = "path")
+//    public Results<List<DoctorVO>> getWorktime(@PathVariable String doctorId){
+//        List<DoctorVO> worktime = doctorService.findByDoctorId(doctorId);
+//        System.out.println("#############worktime"+worktime);
+//        return Results.ok(worktime);
+//    }
 
 }

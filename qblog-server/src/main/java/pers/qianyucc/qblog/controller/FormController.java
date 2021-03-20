@@ -26,6 +26,8 @@ public class FormController {
     private FormService formService;
     @Autowired
     private UserinfoService userinfoService;
+    @Autowired
+    private RoomService roomService;
 
 
 
@@ -62,6 +64,10 @@ public class FormController {
         List doctoridList = formService.findDoctoridByUid(uid);
         for(int i=0;i<formVOList.size();i++){
             String doctorname = userinfoService.getUserName(doctoridList.get(i).toString());
+            if(!formVOList.get(i).get("roomid").equals(null)){
+                String roomname = roomService.getRoomNameByRoomID(formVOList.get(i).get("roomid").toString());
+                formVOList.get(i).put("roomname",roomname);
+            }
 //            System.out.println("***********");
 //            System.out.println(doctorname);
 //            System.out.println(formVOList.get(i));

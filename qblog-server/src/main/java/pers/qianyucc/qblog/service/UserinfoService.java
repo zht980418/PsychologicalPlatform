@@ -71,7 +71,7 @@ public class UserinfoService {
         }
         return res;
     }
-//    查询单个用户
+//    根据userid查询单个用户
     public UserinfoVO getUserinfo(String userid){
         UserinfoPO dbUserinfo = userinfoMapper.selectById(userid);
         UserinfoVO userinfoVO = UserinfoVO.fromUserinfoPO(dbUserinfo);
@@ -81,6 +81,18 @@ public class UserinfoService {
         else {
             return  userinfoVO;
         }
+    }
+//    根据nickname查询用户
+    public List<UserinfoVO> getUserinfoBynickname(String nickname){
+        ArrayList res = new ArrayList();
+        QueryWrapper<UserinfoPO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("userid", "password", "rolename","phonenumber","nickname");
+        List<Map<String, Object>> maps = userinfoMapper.selectMaps(queryWrapper);
+        for(int i = 0; i <maps.size(); i++){
+            if(maps.get(i).get("nickname").equals(nickname))
+                res.add(maps.get(i));
+        }
+        return res;
     }
 //    查询用户姓名
     public String getUserName(String userid){

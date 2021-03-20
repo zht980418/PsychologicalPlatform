@@ -27,6 +27,8 @@ public class RecordformService {
 //    增加咨询记录
     public void insRecordform(RecordformDTO recordformDTO, int consultno){
         RecordformPO recordformPO =recordformDTO.toRecordformPO();
+//        System.out.println(recordformDTO);
+//        System.out.println(recordformPO);
         recordformPO.setConsultno(consultno);
         recordformMapper.insert(recordformPO);
     }
@@ -73,5 +75,29 @@ public class RecordformService {
         long res = (long) maps.get(num-1).get("consultno");
         return (int) res;
     }
-
+//    根据userid查询咨询记录条数
+    public int getRecordtimesByuserid(String userid){
+        int res=0;
+        QueryWrapper<RecordformPO> wrapper = new QueryWrapper<>();
+        List<Map<String,Object>> maps= recordformMapper.selectMaps(wrapper);
+        for(int i=0;i<maps.size();i++){
+            if(maps.get(i).get("userid").equals(userid)) {
+                res++;
+            }
+        }
+        return res;
+    }
+//    根据userid查询记录
+    public List<RecordformVO> getRecordformsByuserid(String userid){
+        ArrayList res = new ArrayList();
+        QueryWrapper<RecordformPO> wrapper = new QueryWrapper<>();
+        List<Map<String,Object>> maps= recordformMapper.selectMaps(wrapper);
+        for(int i=0;i<maps.size();i++){
+            if(maps.get(i).get("userid").equals(userid)){
+//                System.out.println("*******");
+                res.add(maps.get(i));
+            }
+        }
+        return res;
+    }
 }
