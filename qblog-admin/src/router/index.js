@@ -158,7 +158,7 @@ export const asyncRouterMap = [
   {
     path: '/record',
     component: Layout,
-    redirect: '/record',
+    redirect: '/record/recordByUser',
     name: 'Record',
     meta: { title: '咨询管理', icon: 'el-icon-notebook-1', role: ['管理员', '咨询师'] },
     children: [
