@@ -2,6 +2,8 @@ import instance from '@/http/request'
 import urls from "@/http/urls"
 import { transDocList } from '@/utils/doctor-utils'
 import { transOrderList } from '@/utils/event-utils'
+import { transEvent } from '../utils/event-utils'
+import { RetransForm, transForm } from '../utils/form-utils'
 
 export {
     getDoctorList, getConstraintById, getCalendarById, postOrder, getOrderById, deleteOrderById, updateOrderById, getOrderHistoryById
@@ -33,7 +35,10 @@ function getConstraintById(doctorId) {
  * @param {doctorId:number} doctorId 医生id
  */
 function getCalendarById(doctorId) {
-    return instance.get(urls.doctorCalendar + '/' + doctorId).then(res => res.data)
+    return instance.get(urls.doctorCalendar + '/' + doctorId).then(res => {
+        transEvent(res.data.data)
+        return res.data
+    })
 }
 
 /**
@@ -42,7 +47,7 @@ function getCalendarById(doctorId) {
  */
 function postOrder(form) {
     console.log(form)
-    return instance.post(urls.order, form).then(res => res.data)
+    return instance.post(urls.order, RetransForm(form)).then(res => res.data)
 }
 
 /**
@@ -50,7 +55,10 @@ function postOrder(form) {
  * @param {orderId:number} orderId 预约id
  */
 function getOrderById(orderId) {
-    return instance.get(urls.order + '/' + orderId).then(res => res.data)
+    return instance.get(urls.order + '/' + orderId).then(res => {
+        transForm(res.data.data)
+        return res.data
+    })
 }
 
 /**
@@ -66,7 +74,7 @@ function deleteOrderById(orderId) {
  * @param {orderId:number} orderId 预约id
  */
 function updateOrderById(orderId, form) {
-    return instance.put(urls.order + '/' + orderId, form).then(res => res.data)
+    return instance.put(urls.order + '/' + orderId, RetransForm(form)).then(res => res.data)
 }
 
 /**
