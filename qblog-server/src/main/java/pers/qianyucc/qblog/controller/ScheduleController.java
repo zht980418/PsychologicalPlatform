@@ -57,5 +57,13 @@ public class ScheduleController {
     @ApiOperation("根据roomid获取日程表")
     @GetMapping("/schedule/{roomid}")
     @ApiImplicitParam(name = "schedule", value = "日程表", required = true, dataType = "String", paramType = "path")
-    public Results<List<ScheduleVO>> getSchedulesByRoomID(@PathVariable String roomid){ return Results.ok(scheduleService.getSchedulesByRoomID(roomid));}
+    public Results<List<ScheduleVO>> getSchedulesByRoomID(@PathVariable String roomid){
+        return Results.ok(scheduleService.getSchedulesByRoomID(roomid));}
+
+    @ApiOperation("根据医生id获取医生日程限制信息")
+    @GetMapping("/doctorCon/{doctorid}")
+    @ApiImplicitParam(name = "doctorid",value = "医生id",required = true,dataType = "String",paramType = "path")
+    public Results<List<ScheduleVO>> getScheduleByDoctorid(@PathVariable String doctorid){
+        return Results.ok(scheduleService.getSchedulesByDoctorID(doctorid));
+    }
 }

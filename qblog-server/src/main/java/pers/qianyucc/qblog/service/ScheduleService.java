@@ -64,14 +64,22 @@ public class ScheduleService {
         List<Map<String, Object>> maps = scheduleMapper.selectMaps(wrapper);
         for(int i=0; i<maps.size();i++){
             if (maps.get(i).get("roomid")!=null&&maps.get(i).get("roomid").equals(roomid)){
-                System.out.println("###");
-                System.out.println(maps.get(i).get("roomid"));
-                System.out.println(roomid);
                 res.add(maps.get(i));
             }
         }
         return res;
-
-
+    }
+//    根据doctorid返回日程表
+    public List<ScheduleVO> getSchedulesByDoctorID(String doctorid){
+        ArrayList res = new ArrayList<>();
+        QueryWrapper<SchedulePO> wrapper = new QueryWrapper<>();
+        wrapper.select("start","end","daysofweek","doctorid");
+        List<Map<String, Object>> maps = scheduleMapper.selectMaps(wrapper);
+        for(int i=0; i<maps.size();i++){
+            if (maps.get(i).get("doctorid")!=null&&maps.get(i).get("doctorid").equals(doctorid)){
+                res.add(maps.get(i));
+            }
+        }
+        return res;
     }
 }

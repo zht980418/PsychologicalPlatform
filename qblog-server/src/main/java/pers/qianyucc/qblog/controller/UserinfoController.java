@@ -72,6 +72,13 @@ public class UserinfoController {
         List<UserinfoVO> userinfoVOList = userinfoService.getAlluserinfo();
         return Results.ok(userinfoVOList);
     }
+//    根据姓名查询用户列表
+    @GetMapping("/user/{nickname}")
+    @ApiOperation("根据姓名查询用户")
+    @ApiImplicitParam(name = "nickname", value = "用户名",required = true,dataType = "String",paramType = "path")
+    public Results<List<UserinfoVO>> getUserinfosBynickname(@PathVariable String nickname){
+        return Results.ok(userinfoService.getUserinfoBynickname(nickname));
+    }
 //    查询咨询师列表
     @GetMapping("/order/doctorlist")
     @ApiOperation("获取咨询师列表")
