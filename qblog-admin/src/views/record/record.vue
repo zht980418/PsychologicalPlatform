@@ -2,7 +2,7 @@
   <el-row>
     <h2 v-if="formFlag" style="margin:30px 40%;">首次咨询记录表</h2>
     <h2 v-else style="margin:30px 40%;">再次咨询记录表</h2>
-    <el-button v-on:click="formToggle" style="margin-left:30px;">
+    <el-button v-if="canSwitch" v-on:click="formToggle" style="margin-left:30px;">
       <span>切换记录表</span>
     </el-button>
 <!--    首次咨询表-->
@@ -17,14 +17,7 @@
             </el-col>
             <el-col :span="12" :offset="0">
               <el-form-item  label-width="60px" label="咨询师">
-                <el-input v-model="form1.doctorName"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12" :offset="0">
-              <el-form-item  label-width="100px" label="咨询次数">
-                <el-input v-model="form1.consultNo"></el-input>
+                <el-input v-model="form1.doctorname"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -40,13 +33,13 @@
           </el-row>
           <el-row>
             <el-form-item label="咨询要点记录(A):" label-width="130px">
-              <el-input type="textarea" :rows="10" v-model="form1.mainPoint"></el-input>
+              <el-input type="textarea" :rows="10" v-model="form1.mainpoint"></el-input>
             </el-form-item>
           </el-row>
           <el-row>
             <el-form-item label="后期跟进计划（P）:" label-width="140px">
               <el-form-item label="是否进行下一次预约:" label-width="150px">
-                <el-radio-group v-model="form1.nextExist">
+                <el-radio-group v-model="form1.nextexist">
                   <el-radio label="是"></el-radio>
                   <el-radio label="否"></el-radio>
                 </el-radio-group>
@@ -58,12 +51,12 @@
               </el-row>
               <el-row>
                 <el-form-item label="咨询方式:" label-width="180px">
-                  <el-input v-model="form1.consultType"  ></el-input>
+                  <el-input v-model="form1.consulttype"  ></el-input>
                 </el-form-item>
               </el-row>
               <el-row>
                 <el-form-item label="依据严重性程度，是否需要特别关注？" label-width="270px">
-                  <el-radio-group v-model="form1.specialAttention">
+                  <el-radio-group v-model="form1.specialattention">
                     <el-radio label="是"></el-radio>
                     <el-radio label="否"></el-radio>
                   </el-radio-group>
@@ -71,7 +64,7 @@
               </el-row>
               <el-row>
                 <el-form-item label="本次咨询作业和下次咨询计划:" label-width="260px">
-                  <el-input type="textarea" :rows="5" v-model="form1.followPlan"></el-input>
+                  <el-input type="textarea" :rows="5" v-model="form1.followplan"></el-input>
                 </el-form-item>
               </el-row>
             </el-form-item>
@@ -92,14 +85,21 @@
             </el-col>
           </el-row>
           <br>
-          <el-form-item v-if="routeType">
+          <el-form-item v-if="canSubmit">
             <el-row>
             <el-col :span="5" :offset="7">
-              <el-button type="primary" @click="onSubmit">立即创建</el-button>
+              <el-button type="primary" @click="onSubmit">立即提交</el-button>
             </el-col>
             <el-col :span="5" :offset="1">
-              <el-button>取消创建</el-button>
+              <el-button>取消提交</el-button>
             </el-col>
+            </el-row>
+          </el-form-item>
+          <el-form-item v-else>
+            <el-row>
+              <el-col :span="5" :offset="7">
+                <el-button type="primary" @click="returnList">返回列表</el-button>
+              </el-col>
             </el-row>
           </el-form-item>
           <br>
@@ -120,27 +120,27 @@
             </el-col>
             <el-col :span="12" :offset="0">
               <el-form-item  label-width="60px" label="咨询师">
-                <el-input v-model="form2.doctorName"></el-input>
+                <el-input v-model="form2.doctorname"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12" :offset="0">
               <el-form-item  label-width="100px" label="咨询次数">
-                <el-input v-model="form2.consultNo"></el-input>
+                <el-input v-model="form2.consultno"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
 
           <el-row>
             <el-form-item label="咨询要点记录(A):" label-width="130px">
-              <el-input type="textarea" :rows="10" v-model="form2.mainPoint"></el-input>
+              <el-input type="textarea" :rows="10" v-model="form2.mainpoint"></el-input>
             </el-form-item>
           </el-row>
           <el-row>
             <el-form-item label="后期跟进计划（P）:" label-width="140px">
               <el-form-item label="是否进行下一次预约:" label-width="150px">
-                <el-radio-group v-model="form2.nextExist">
+                <el-radio-group v-model="form2.nextexist">
                   <el-radio label="是"></el-radio>
                   <el-radio label="否"></el-radio>
                 </el-radio-group>
@@ -152,12 +152,12 @@
               </el-row>
               <el-row>
                 <el-form-item label="咨询方式:" label-width="180px">
-                  <el-input v-model="form2.consultType"  ></el-input>
+                  <el-input v-model="form2.consulttype"  ></el-input>
                 </el-form-item>
               </el-row>
               <el-row>
                 <el-form-item label="依据严重性程度，是否需要特别关注？" label-width="270px">
-                  <el-radio-group v-model="form2.specialAttention">
+                  <el-radio-group v-model="form2.specialattention">
                     <el-radio label="是"></el-radio>
                     <el-radio label="否"></el-radio>
                   </el-radio-group>
@@ -165,7 +165,7 @@
               </el-row>
               <el-row>
                 <el-form-item label="本次咨询作业和下次咨询计划:" label-width="260px">
-                  <el-input type="textarea" :rows="5" v-model="form2.followPlan"></el-input>
+                  <el-input type="textarea" :rows="5" v-model="form2.followplan"></el-input>
                 </el-form-item>
               </el-row>
             </el-form-item>
@@ -185,9 +185,16 @@
               </el-col>
             </el-col>
           </el-row>
-          <el-form-item v-if="routeType">
-            <el-button type="primary" @click="onSubmit">立即创建</el-button>
-            <el-button>取消</el-button>
+          <el-form-item v-if="canSubmit">
+            <el-button type="primary" @click="onSubmit">立即提交</el-button>
+            <el-button>取消提交</el-button>
+          </el-form-item>
+          <el-form-item v-else>
+            <el-row>
+              <el-col :span="5" :offset="7">
+                <el-button type="primary" @click="returnList">返回列表</el-button>
+              </el-col>
+            </el-row>
           </el-form-item>
         </el-col>
       </el-row>
@@ -196,23 +203,29 @@
 </template>
 
 <script>
+import { getRecordTableByNo, addRecordTableInfo, updateRecordTableByNo } from "@/api/recordTable";
+
 export default {
   data() {
     return {
-      routeType: this.$route.params.type === "edit",
+      formFlag: true,
+      //如果是新建按钮才显示切换按钮
+      canSwitch: this.$route.params.type === 'add',
+      // 如果是执行编辑或者添加，显示提交按钮
+      canSubmit: this.$route.params.type === "edit" ||  this.$route.params.type === "add",
       form1: {
         type: 'First',
         userid: this.$route.params.userid,
-        doctorName: '',
-        consultNo: '',
+        doctorname: '',
+        consultno: '',
         date1: '',
         date2:'',
         date3:'',
-        consultType:'',
-        mainPoint:'',
-        nextExist: false,
-        specialAttention:'',
-        followPlan:'',
+        consulttype:'',
+        mainpoint:'',
+        nextexist: false,
+        specialattention:'',
+        followplan:'',
         sign:'',
         complaint: '',
         impression:'',
@@ -220,32 +233,113 @@ export default {
       form2: {
         type: 'NotFirst',
         userid: this.$route.params.userid,
-        doctorName: '',
-        consultNo: '',
+        doctorname: '',
+        consultno: '',
+        times: '',
         date1: '',
         date2:'',
         date3:'',
-        consultType:'',
-        mainPoint:'',
-        nextExist: false,
-        specialAttention:'',
-        followPlan: '',
+        consulttype:'',
+        mainpoint:'',
+        nextexist: false,
+        specialattention:'',
+        followplan: '',
         sign: '',
       },
-      formFlag: true,
+
     }
   },
   created() {
     console.log("params", this.$route.params)
-
+    if(this.$route.params.type === 'edit' || this.$route.params.type === 'view'){
+      getRecordTableByNo(this.$route.params.consultno).then((res) => {
+        if (res.code === 0) {
+          console.log(res)
+          let data = res.data
+          if(data.type !== 'NoFirst'){
+            this.formFlag = true
+            this.form1 = {...data}
+            console.log( this.form1)
+          }else{
+            this.formFlag = false
+            this.form2 = {...data}
+            this.form2.times = getRecordTableCount(this.$route.params.uesrid)
+          }
+        }
+      }).catch((err) => {
+        console.log(err)
+        this.$notify.error({
+          title: '提示',
+          message: '网络忙，咨询记录获取失败',
+        })
+      })
+    }
   },
   methods:{
     onSubmit() {
-      alert("表单已经提交")
+      const form = this.formFlag  ? this.form1 : this.form2
+      //触发添加
+      if(this.$route.params.type === 'add'){
+        addRecordTableInfo(form).then((res) => {
+          if (res.code === 0) {
+            this.$notify.success({
+              title: '提示',
+              message: '提交成功',
+            })
+            this.$router.push({
+              name: 'viewRecord',
+              params:{
+                userid:　this.$route.params.userid,
+                nickname: this.$route.params.nickname,
+              }
+            })
+          }
+        }).catch((err) => {
+          console.log(err)
+          this.$notify.error({
+            title: '提示',
+            message: '网络忙，咨询记录失败',
+          })
+        })
+      }
+      // 触发修改
+      else {
+        updateRecordTableByNo(this.$route.params.consultno, form).then((res) => {
+          if (res.code === 0) {
+            this.$notify.success({
+              title: '提示',
+              message: '提交成功',
+            })
+            this.$router.push({
+              name: 'viewRecord',
+              params: {
+                userid: this.$route.params.userid,
+                nickname: this.$route.params.nickname,
+              }
+            })
+          }
+        }).catch((err) => {
+          console.log(err)
+          this.$notify.error({
+            title: '提示',
+            message: '网络忙，咨询记录失败',
+          })
+        })
+      }
+
     },
     formToggle:function(){
       console.log("切換表格")
       this.formFlag = !this.formFlag;
+    },
+    returnList() {
+      this.$router.push({
+        name: 'viewRecord',
+        params:{
+          userid:　this.$route.params.userid,
+          nickname: this.$route.params.nickname,
+        }
+      })
     }
   }
 }

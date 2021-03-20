@@ -70,8 +70,7 @@ export default {
   },
 
   methods: {
-    viewRecord: function (row) {
-      console.log(row)
+    viewRecord (row) {
       router.push({name: 'viewRecord', params: {userid: row.userid, nickname: row.nickname}})
     },
   }
