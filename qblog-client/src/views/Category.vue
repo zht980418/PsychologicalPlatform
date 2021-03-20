@@ -57,7 +57,7 @@ export default {
   methods: {
     getArticlesInCategoryView(page, limit) {
       const category = this.$route.params.name;
-      if (category === "all") {
+      if (category === ":name") {
         getArticles(page, limit)
           .then((res) => {
             if (res.code === 0) {

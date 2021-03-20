@@ -57,7 +57,7 @@ export default {
   methods: {
     getArticlesInTagView(page, limit) {
       const tag = this.$route.params.name;
-      if (tag === "all") {
+      if (tag === ":name") {
         getArticles(page, limit)
           .then((res) => {
             if (res.code === 0) {

@@ -370,7 +370,6 @@ export default {
         followplan: '',
         sign: '',
       },
-
     }
   },
   created() {
