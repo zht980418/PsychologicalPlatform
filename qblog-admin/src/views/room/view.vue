@@ -69,7 +69,7 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { transEvent, defaultConstraint } from '@/utils/event-utils'
+import { defaultConstraint } from '@/utils/event-utils'
 import { getRoomCalendarById } from '@/api/room'
 import '@fullcalendar/core/locales/zh-cn'
 
@@ -153,11 +153,10 @@ export default {
     // 获取限制信息
     this.roomConfig.businessHours = defaultConstraint()
     this.roomConfig.selectConstraint = defaultConstraint()
-    // TODO 获取日程表数据
+    // 获取日程表数据
     getRoomCalendarById(this.room.roomId).then((res) => {
       if (res.code === 0) {
-        console.log(res)
-        this.roomConfig.events = transEvent(res.data) // 传入咨询室日程
+        this.roomConfig.events = res.data // 传入咨询室日程
       }
     }).catch((err) => {
       console.log(err)

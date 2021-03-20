@@ -8,51 +8,60 @@
           :model="form"
           :rules="rules"
         >
-          <el-form-item
-            label="咨询方式"
-            :label-width="formLabelWidth"
-            prop="type"
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="选择线下咨询可在页面最下方预约咨询室"
+            placement="top-start"
           >
-            <el-col :span="7">
-              <el-select
-                v-model="form.type"
-                placeholder="请选择咨询方式"
+            <el-row>
+              <el-form-item
+                label="咨询方式"
+                :label-width="formLabelWidth"
+                prop="type"
               >
-                <el-option
-                  label="线上"
-                  value="online"
-                />
-                <el-option
-                  label="线下"
-                  value="offline"
-                />
-              </el-select>
-            </el-col>
-            <el-col
-              :span="1"
-              :offset="1"
-            >
-              <i
-                class="el-icon-warning-outline"
-                @mouseover="alertConsultDuration =true"
-                @mouseleave="alertConsultDuration =false"
-              />
-            </el-col>
-            <el-col
-              :span="9"
-              :offset="1"
-            >
-              <el-alert
-                v-show="alertConsultDuration"
-                title="选择线下咨询可在最后预约咨询室"
-                type="info"
-                style="height:40px;"
-                :closable="false"
-                center
-                show-icon
-              />
-            </el-col>
-          </el-form-item>
+                <el-col :span="6">
+                  <el-select
+                    v-model="form.type"
+                    placeholder="请选择咨询方式"
+                  >
+                    <el-option
+                      label="线上"
+                      value="online"
+                    />
+                    <el-option
+                      label="线下"
+                      value="offline"
+                    />
+                  </el-select>
+                </el-col>
+                <el-col
+                  :span="1"
+                  :offset="1"
+                >
+                  <i
+                    class="el-icon-warning-outline"
+                    @mouseover="alertConsultDuration =true"
+                    @mouseleave="alertConsultDuration =false"
+                  />
+                </el-col>
+                <el-col
+                  :span="9"
+                  :offset="1"
+                >
+                  <el-alert
+                    v-show="alertConsultDuration"
+                    title="选择线下咨询后可在页面最下方预约咨询室"
+                    type="info"
+                    style="height:40px;"
+                    :closable="false"
+                    center
+                    show-icon
+                  />
+                </el-col>
+              </el-form-item>
+            </el-row>
+          </el-tooltip>
           <el-form-item
             label="预约时间"
             :label-width="formLabelWidth"
@@ -99,7 +108,66 @@
                 :label-width="formLabelWidth"
                 prop="name"
               >
-                <el-input v-model="form.name" />
+                <el-col :span="11">
+                  <el-input v-model="form.name" />
+                </el-col>
+                <el-col
+                  :span="10"
+                  :offset="1"
+                >
+                  <el-button
+                    type="primary"
+                    plain
+                    @click="userDialogVisible=true"
+                  >选择用户</el-button>
+                  <el-dialog
+                    :visible.sync="userDialogVisible"
+                    title="选择用户"
+                    style="height=200px"
+                  >
+                    <el-input
+                      placeholder="请输入姓名搜索用户"
+                      prefix-icon="el-icon-search"
+                      v-model="search"
+                      @keyup.enter.native="getUserList(search)"
+                    />
+                    <el-table :data="userList">
+                      <el-table-column
+                        prop="uid"
+                        label="uid"
+                        min-width="120"
+                        align="center"
+                      />
+                      <el-table-column
+                        prop="name"
+                        label="姓名"
+                        min-width="120"
+                        align="center"
+                      />
+                      <el-table-column
+                        prop="phone"
+                        label="电话号码"
+                        min-width="120"
+                        align="center"
+                      />
+                      <el-table-column
+                        label="操作"
+                        min-width="120"
+                        align="center"
+                      >
+                        <el-button
+                          type="primary"
+                          plain
+                        >选择</el-button>
+                      </el-table-column>
+                    </el-table>
+                    <el-button
+                      slot="footer"
+                      type="info"
+                      plain
+                    >返回</el-button>
+                  </el-dialog>
+                </el-col>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -195,6 +263,7 @@
               <el-col :span="22">
                 <el-input
                   v-model="form.question"
+                  :autosize="{ minRows: 2, maxRows: 4}"
                   type="textarea"
                 />
               </el-col>
@@ -231,6 +300,7 @@
                 <el-input
                   v-model="form.family"
                   type="textarea"
+                  :autosize="{ minRows: 2, maxRows: 4}"
                 />
               </el-col>
               <el-col
@@ -266,6 +336,7 @@
                 <el-input
                   v-model="form.expectation"
                   type="textarea"
+                  :autosize="{ minRows: 2, maxRows: 4}"
                 />
               </el-col>
               <el-col
@@ -301,6 +372,7 @@
                 <el-input
                   v-model="form.history"
                   type="textarea"
+                  :autosize="{ minRows: 2, maxRows: 4}"
                 />
               </el-col>
               <el-col
@@ -336,6 +408,7 @@
                 <el-input
                   v-model="form.test"
                   type="textarea"
+                  :autosize="{ minRows: 2, maxRows: 4}"
                 />
               </el-col>
               <el-col
@@ -536,9 +609,9 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { defaultConstraint, transEvent } from '@/utils/event-utils'
-import { transForm, newForm, RetransForm } from '@/utils/form-utils'
-import { transRoomList } from '@/utils/room-utils'
+import { defaultConstraint } from '@/utils/event-utils'
+import { newForm } from '@/utils/form-utils'
+import { getUsers } from '@/api/user'
 import { getOrderById, postOrder, updateOrderById } from '@/api/order'
 import { getRoomCalendarById, getRoomList } from '@/api/room'
 import '@fullcalendar/core/locales/zh-cn'
@@ -553,6 +626,9 @@ export default {
       initVisible: this.$route.params.editType,
       orderSelectInfo: this.$route.params.selectInfo,
       formLabelWidth: '120px',
+      userDialogVisible: false,
+      search: '',
+      userList: [{ uid: 1, name: '张三', phone: '18884222759' }],
       // 日历参数
       roomConfig: {
         plugins: [
@@ -666,8 +742,7 @@ export default {
         //   this.roomConfig.selectConstraint = res // 传入限制时间数组
         getRoomCalendarById(newVal).then((res) => {
           if (res.code === 0) {
-            console.log(res)
-            this.roomConfig.events = transEvent(res.data) // 传入咨询室日程
+            this.roomConfig.events = res.data// 传入咨询室日程
           }
         }).catch((err) => {
           console.log(err)
@@ -691,7 +766,6 @@ export default {
     getRoomList().then((res) => {
       if (res.code === 0) {
         this.roomList = res.data // 传入咨询室列表
-        transRoomList(this.roomList)
       }
     }).catch((err) => {
       console.log(err)
@@ -707,7 +781,7 @@ export default {
       // 获取预约form【查看预约】
       getOrderById(this.form.orderId).then((res) => {
         if (res.code === 0) {
-          this.form = transForm(res.data[0])
+          this.form = res.data[0]
           if (this.form.roomId & (this.form.roomId != '')) {
             // 转换roomId，使select显示label
             this.form.roomId = this.roomList[this.roomList.findIndex((item) => {
@@ -730,15 +804,13 @@ export default {
     }
   },
   methods: {
-    handleWeekendsToggle() {
-      this.roomConfig.weekends = !this.roomConfig.weekends // update a property
-    },
-
-    handleEvents(events) {
-      this.currentEvents = events
-    },
-    errorHandler() {
-      return true
+    getUserList(name) {
+      // TODO getUser
+      getUsers().then((res) => {
+        if (res.code === 0) {
+          this.userList = res.data
+        }
+      })
     },
 
     // 预约信息处理
@@ -747,7 +819,7 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           // 添加form信息
-          postOrder(RetransForm(this.getForm())).then((res) => {
+          postOrder(this.getForm()).then((res) => {
             if (res.code === 0) {
               this.$router.back(-1)
               this.$notify.success({
@@ -777,8 +849,7 @@ export default {
     // 修改/拒绝预约
     handleUpdateOrder(status) {
       this.form.status = status
-      console.log(RetransForm(this.getForm()))
-      updateOrderById(this.form.orderId, RetransForm(this.getForm())).then((res) => {
+      updateOrderById(this.form.orderId, this.getForm()).then((res) => {
         if (res.code === 0) {
           this.$router.back(-1)
           this.$notify.success({
@@ -824,7 +895,15 @@ export default {
       params['start'] = this.orderSelectInfo.startStr
       params['end'] = this.orderSelectInfo.endStr
       return params
-    }
+    },
+
+    handleEvents(events) {
+      this.currentEvents = events
+    },
+    errorHandler() {
+      return true
+    },
+
   },
 }
 </script>

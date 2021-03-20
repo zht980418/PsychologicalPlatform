@@ -1,5 +1,8 @@
 import request from '@/utils/request'
 import urls from '@/api/urls'
+import { transForm, RetransForm } from '@/utils/form-utils'
+import { transEvent } from '@/utils/event-utils'
+
 
 /**
  * 获取医生日程限制信息
@@ -20,6 +23,9 @@ export function getDoctorCalendarById(doctorId) {
   return request({
     url: urls.DoctorCalendar + '/' + doctorId,
     method: 'get',
+  }).then(res => {
+    transEvent(res.data)
+    return res
   })
 }
 
@@ -31,6 +37,9 @@ export function getOrderById(orderId) {
   return request({
     url: urls.Form + '/' + orderId,
     method: 'get',
+  }).then(res => {
+    transForm(res.data[0])
+    return res
   })
 }
 
@@ -44,7 +53,7 @@ export function postOrder(params) {
   return request({
     url: urls.Form,
     method: 'post',
-    data: params
+    data: RetransForm(params)
   })
 }
 
@@ -69,6 +78,6 @@ export function updateOrderById(orderId, params) {
   return request({
     url: urls.Form + '/' + orderId,
     method: 'put',
-    data: params
+    data: RetransForm(params)
   })
 }

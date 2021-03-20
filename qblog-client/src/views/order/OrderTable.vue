@@ -225,6 +225,7 @@
                   <el-input
                     v-model="form.question"
                     type="textarea"
+                    :autosize="{ minRows: 2, maxRows: 4}"
                   />
                 </el-col>
                 <el-col
@@ -260,6 +261,7 @@
                 <el-col :span="21">
                   <el-input
                     type="textarea"
+                    :autosize="{ minRows: 2, maxRows: 4}"
                     v-model="form.family"
                   />
                 </el-col>
@@ -297,6 +299,7 @@
                   <el-input
                     v-model="form.expectation"
                     type="textarea"
+                    :autosize="{ minRows: 2, maxRows: 4}"
                   />
                 </el-col>
                 <el-col
@@ -333,6 +336,7 @@
                   <el-input
                     type="textarea"
                     v-model="form.history"
+                    :autosize="{ minRows: 2, maxRows: 4}"
                   />
                 </el-col>
                 <el-col
@@ -369,6 +373,7 @@
                   <el-input
                     type="textarea"
                     v-model="form.test"
+                    :autosize="{ minRows: 2, maxRows: 4}"
                   />
                 </el-col>
                 <el-col
