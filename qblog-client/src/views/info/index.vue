@@ -13,31 +13,26 @@
           :span="17"
           :xs="24"
         >
-          <el-card>
-            <el-tabs
-              v-model="activeTab"
-              style="height:97vh;"
+          <el-tabs v-model="activeTab">
+            <el-tab-pane
+              label="心理自测记录"
+              name="TestHistory"
             >
-              <el-tab-pane
-                label="心理自测记录"
-                name="TestHistory"
-              >
-                <TestHistory />
-              </el-tab-pane>
-              <el-tab-pane
-                label="预约咨询记录"
-                name="ConsultHistory"
-              >
-                <ConsultHistory />
-              </el-tab-pane>
-              <el-tab-pane
-                label="修改密码"
-                name="infoModify"
-              >
-                <infoModify :user="user" />
-              </el-tab-pane>
-            </el-tabs>
-          </el-card>
+              <TestHistory />
+            </el-tab-pane>
+            <el-tab-pane
+              label="预约咨询记录"
+              name="ConsultHistory"
+            >
+              <ConsultHistory />
+            </el-tab-pane>
+            <el-tab-pane
+              label="修改密码"
+              name="infoModify"
+            >
+              <infoModify :user="user" />
+            </el-tab-pane>
+          </el-tabs>
         </el-col>
       </el-row>
     </div>

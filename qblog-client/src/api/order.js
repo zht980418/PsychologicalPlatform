@@ -80,7 +80,7 @@ function updateOrderById(orderId, form) {
 /**
  * 获取用户预约列表【根据uid在form表查找】
  * @param {uid:number} uid
- * @returns {orderId,doctorName,status,start,end} 
+ * @returns {orderId,doctorName,status,start,end,roomId} 
  */
 function getOrderHistoryById(uid) {
     return instance.get(urls.orderHistory + '/' + uid).then(res => {

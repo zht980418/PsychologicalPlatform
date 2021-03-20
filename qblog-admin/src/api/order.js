@@ -7,6 +7,7 @@ import { transEvent } from '@/utils/event-utils'
 /**
  * 获取医生日程限制信息
  * @param {doctorId:number} doctorId 医生id
+ * @returns {start,end,daysofweek} 加上start和end
  */
 export function getDoctorConstraintById(doctorId) {
   return request({

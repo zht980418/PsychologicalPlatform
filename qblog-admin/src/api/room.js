@@ -65,6 +65,7 @@ export function updateRoomInfoById(roomId, params) {
 /**
  * 获取咨询室日程,以event的形式返回
  * @param {roomId:number} roomId 咨询室id
+ * @returns {status}
  */
 export function getRoomCalendarById(roomId) {
     return request({

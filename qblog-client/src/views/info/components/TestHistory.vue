@@ -26,7 +26,6 @@
 
 <script>
 import TestHistoryItem from '../components/TestHistoryItem'
-// import { getTestHistory } from '@/api/course'
 
 export default {
   components: { TestHistoryItem },
@@ -37,11 +36,9 @@ export default {
   },
   created() {
     console.log('获取课程学习记录')
-    this.handleGetCourseHistory()
   },
   methods: {
     handleClick() {
-      // this.$router.push({ name: 'CoursePage' })
     }
   }
 }

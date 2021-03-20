@@ -13,6 +13,7 @@
           :status="item.status"
           :start="item.start"
           :end="item.end"
+          :roomName="item.roomName"
         />
       </el-card>
     </el-timeline-item>
@@ -28,7 +29,7 @@ export default {
   components: { ConsultHistoryItem },
   data() {
     return {
-      historyList: [{ uid: 'uid123', orderId: '20210220155532703', doctorId: 'zhangsan123', doctorName: '张三', start: '起始', end: '终止', status: '未开始' }]
+      historyList: []
     }
   },
   created() {

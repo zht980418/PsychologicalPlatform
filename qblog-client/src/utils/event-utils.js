@@ -102,6 +102,8 @@ function transOrder(order) {
     case 'true': order.status = '接受'; break;
     case '': order.status = '待确认'; break;
     case 'false': order.status = '已拒绝'; break;
+    case 'on': order.status = '咨询中'; break;
+    case 'fin': order.status = '已结束'; break;
   }
   order.start = editTime(order.start)
   order.end = editTime(order.end)
