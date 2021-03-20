@@ -63,7 +63,7 @@ public class FormService {
         ArrayList res = new ArrayList<>();
         QueryWrapper<FormPO> wrapper = new QueryWrapper<>();
         wrapper.eq("uid",uid)
-                .select("orderid","doctorid","start","end","status");;
+                .select("orderid","doctorid","start","end","status","roomid");;
         List<Map<String, Object>> maps = formMapper.selectMaps(wrapper);
 //        for(int i =0; i<maps.size(); i++){
 //            res.add(maps.get(i));
