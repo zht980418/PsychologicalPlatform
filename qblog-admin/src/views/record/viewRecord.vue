@@ -103,16 +103,16 @@ export default {
   methods: {
     handleAdd(){
       console.log("add")
-      this.$router.push({name:"recordTable", params: { userid: this.$route.params.userid, type: "add"}})
+      this.$router.push({name:"recordTable", params: { userid: this.$route.params.userid, nickname: this.$route.params.nickname, type: "add"}})
     },
     // 展示编辑dialog
     handleView(row) {
       console.log("view")
-      this.$router.push({name:"recordTable", params: { userid: this.$route.params.userid, consultno: row.consultno, type: "view"}})
+      this.$router.push({name:"recordTable", params: { userid: this.$route.params.userid, nickname: this.$route.params.nickname, consultno: row.consultno, type: "view"}})
     },
     handleEdit(row) {
       console.log("edit")
-      this.$router.push({name:"recordTable", params: { userid: this.$route.params.userid, consultno: row.consultno, type: "edit"}})
+      this.$router.push({name:"recordTable", params: { userid: this.$route.params.userid,  nickname: this.$route.params.nickname, consultno: row.consultno, type: "edit"}})
     },
     handleDelete(index, row){
       console.log("delete")

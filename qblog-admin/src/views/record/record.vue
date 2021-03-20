@@ -289,7 +289,8 @@ export default {
             this.$router.push({
               name: 'viewRecord',
               params:{
-                userid:　this.$route.params.userid
+                userid:　this.$route.params.userid,
+                nickname: this.$route.params.nickname,
               }
             })
           }
@@ -312,7 +313,8 @@ export default {
             this.$router.push({
               name: 'viewRecord',
               params: {
-                userid: this.$route.params.userid
+                userid: this.$route.params.userid,
+                nickname: this.$route.params.nickname,
               }
             })
           }
@@ -334,7 +336,8 @@ export default {
       this.$router.push({
         name: 'viewRecord',
         params:{
-          userid:　this.$route.params.userid
+          userid:　this.$route.params.userid,
+          nickname: this.$route.params.nickname,
         }
       })
     }
