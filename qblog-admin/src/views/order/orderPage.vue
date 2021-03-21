@@ -120,53 +120,6 @@
                     plain
                     @click="userDialogVisible=true"
                   >选择用户</el-button>
-                  <el-dialog
-                    :visible.sync="userDialogVisible"
-                    title="选择用户"
-                    style="height=200px"
-                  >
-                    <el-input
-                      placeholder="请输入姓名搜索用户"
-                      prefix-icon="el-icon-search"
-                      v-model="search"
-                      @keyup.enter.native="getUserList(search)"
-                    />
-                    <el-table :data="userList">
-                      <el-table-column
-                        prop="uid"
-                        label="uid"
-                        min-width="120"
-                        align="center"
-                      />
-                      <el-table-column
-                        prop="name"
-                        label="姓名"
-                        min-width="120"
-                        align="center"
-                      />
-                      <el-table-column
-                        prop="phone"
-                        label="电话号码"
-                        min-width="120"
-                        align="center"
-                      />
-                      <el-table-column
-                        label="操作"
-                        min-width="120"
-                        align="center"
-                      >
-                        <el-button
-                          type="primary"
-                          plain
-                        >选择</el-button>
-                      </el-table-column>
-                    </el-table>
-                    <el-button
-                      slot="footer"
-                      type="info"
-                      plain
-                    >返回</el-button>
-                  </el-dialog>
                 </el-col>
               </el-form-item>
             </el-col>
@@ -529,6 +482,69 @@
         </el-form>
       </el-col>
     </el-row>
+    <el-dialog
+      :visible.sync="userDialogVisible"
+      title="选择用户"
+      style="height=200px"
+    >
+      <el-col :span="20">
+        <el-input
+          placeholder="请输入姓名搜索用户"
+          prefix-icon="el-icon-search"
+          v-model="search"
+          @keyup.enter.native="getUserList(search)"
+        />
+      </el-col>
+      <el-col
+        :span="2"
+        :offset="1"
+      >
+        <el-button
+          type="primary"
+          plain
+          @click="getUserList(search)"
+        >搜索</el-button>
+      </el-col>
+      <el-table :data="userList">
+        <el-table-column
+          prop="uid"
+          label="uid"
+          min-width="120"
+          align="center"
+        />
+        <el-table-column
+          prop="name"
+          label="姓名"
+          min-width="120"
+          align="center"
+        />
+        <el-table-column
+          prop="phone"
+          label="电话号码"
+          min-width="120"
+          align="center"
+        />
+        <el-table-column
+          label="操作"
+          min-width="120"
+          align="center"
+        >
+          <template slot-scope="scope">
+            <el-button
+              type="primary"
+              plain
+              @click="handleChoose(scope.row)"
+            >选择
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-button
+        slot="footer"
+        type="info"
+        plain
+      >返回</el-button>
+    </el-dialog>
     <el-row v-if="(form.roomId!==null)&(form.roomId!=='')&(form.type==='offline')">
       <el-col
         :span="20"
@@ -628,7 +644,7 @@ export default {
       formLabelWidth: '120px',
       userDialogVisible: false,
       search: '',
-      userList: [{ uid: 1, name: '张三', phone: '18884222759' }],
+      userList: [],
       // 日历参数
       roomConfig: {
         plugins: [
@@ -804,6 +820,7 @@ export default {
     }
   },
   methods: {
+    // 按姓名搜索用户
     getUserList(name) {
       getUserByName(name).then((res) => {
         if (res.code === 0) {
@@ -812,6 +829,15 @@ export default {
           })
         }
       })
+    },
+
+    // 选择用户
+    handleChoose(row) {
+      console.log(row)
+      this.form.uid = row.uid
+      this.form.name = row.name
+      this.form.phone = row.phone
+      this.userDialogVisible = false
     },
 
     // 预约信息处理
