@@ -537,7 +537,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import '@fullcalendar/core/locales/zh-cn'
-import { createEventId, defaultConstraint } from '@/utils/event-utils'
+import { createEventId } from '@/utils/event-utils'
 import { newForm } from '@/utils/form-utils'
 import { getConstraintById, getCalendarById, postOrder, getOrderById, deleteOrderById, updateOrderById } from '@/api/order'
 import { mapGetters } from 'vuex'
@@ -564,32 +564,32 @@ export default {
           right: ''
         },
         businessHours: [ // specify an array instead
-          {
-            daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
-            startTime: '09:00',
-            endTime: '12:00'
-          },
-          {
-            daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
-            startTime: '14:00',
-            endTime: '18:00'
-          },
+          // {
+          //   daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
+          //   startTime: '09:00',
+          //   endTime: '12:00'
+          // },
+          // {
+          //   daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
+          //   startTime: '14:00',
+          //   endTime: '18:00'
+          // },
         ],
         initialView: 'timeGridWeek',
         // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
         events: [],
         editable: false,  // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead
-          {
-            daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
-            startTime: '09:00',
-            endTime: '12:00'
-          },
-          {
-            daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
-            startTime: '14:00', // 8am
-            endTime: '18:00' // 6pm
-          }
+          // {
+          //   daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
+          //   startTime: '09:00',
+          //   endTime: '12:00'
+          // },
+          // {
+          //   daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
+          //   startTime: '14:00', // 8am
+          //   endTime: '18:00' // 6pm
+          // }
         ],
         selectable: true,
         selectMirror: true,
@@ -659,8 +659,8 @@ export default {
     },
   },
   created() {
-    this.calendarOptions.businessHours = defaultConstraint()
-    this.calendarOptions.selectConstraint = defaultConstraint()
+    // this.calendarOptions.businessHours = defaultConstraint()
+    // this.calendarOptions.selectConstraint = defaultConstraint()
     this.form.doctorId = this.$route.params.doctorId
     // 获取限制信息
     getConstraintById(this.doctorId).then((res) => {
