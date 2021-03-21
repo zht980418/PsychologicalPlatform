@@ -10,24 +10,19 @@
         effect="dark"
         content="点击按钮立即报警"
         placement="top-start"
+        @click.prevent.native="handleAlert"
       >
-        <i class="el-icon-phone" />
+        <i class="el-icon-phone" style="color: #ff0000"/>
       </el-tooltip>
     </el-backtop>
-    <h2
-      v-if="formFlag"
-      style="margin:30px 40%;"
-    >首次咨询记录表</h2>
-    <h2
-      v-else
-      style="margin:30px 40%;"
-    >再次咨询记录表</h2>
+    <el-button type="primary" v-print="'#printFirst'" style="margin-left:30px;">打印首次表</el-button>
     <el-button
       v-on:click="formToggle"
       style="margin-left:30px;"
     >
       <span>切换记录表</span>
     </el-button>
+
     <!--    首次咨询表-->
     <el-form
       v-if="formFlag"
@@ -42,7 +37,11 @@
           :span="22"
           :offset="1"
         >
-          <el-row :gutter="20">
+          <el-row id="printFirst">
+            <h2
+              style="margin:30px 40%;"
+            >首次咨询记录表</h2>
+            <el-row :gutter="20">
             <el-col
               :span="12"
               :offset="0"
@@ -64,7 +63,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
+            <el-row>
             <el-form-item
               label="来访者主诉（S）:"
               label-width="130px"
@@ -76,7 +75,7 @@
               ></el-input>
             </el-form-item>
           </el-row>
-          <el-row>
+            <el-row>
             <el-form-item
               label="初次主要印象(O):"
               label-width="130px"
@@ -88,12 +87,12 @@
               ></el-input>
             </el-form-item>
           </el-row>
-          <el-row>
+            <el-row>
             <el-form-item label="咨询要点记录(A):" label-width="130px">
               <el-input type="textarea" :rows="10" v-model="form1.mainpoint"></el-input>
             </el-form-item>
           </el-row>
-          <el-row>
+            <el-row>
             <el-form-item label="后期跟进计划（P）:" label-width="140px">
               <el-form-item label="是否进行下一次预约:" label-width="150px">
                 <el-radio-group v-model="form1.nextexist">
@@ -129,8 +128,8 @@
               </el-row>
             </el-form-item>
           </el-row>
-          <el-row>
-            <el-col
+            <el-row>
+              <el-col
               :span="12"
               :offset="0"
             >
@@ -141,7 +140,7 @@
                 <el-input v-model="form1.sign"></el-input>
               </el-form-item>
             </el-col>
-            <el-col
+              <el-col
               :span="12"
               :offset="0"
             >
@@ -164,6 +163,7 @@
                 ></el-time-picker>
               </el-col>
             </el-col>
+            </el-row>
           </el-row>
           <br>
           <el-form-item v-if="canSubmit">
@@ -203,7 +203,11 @@
           :span="22"
           :offset="1"
         >
-          <el-row :gutter="20">
+          <el-row id="printNotFirst">
+            <h2
+              style="margin:30px 40%;"
+            >再次咨询记录表</h2>
+            <el-row :gutter="20">
             <el-col
               :span="12"
               :offset="0"
@@ -224,20 +228,19 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
+            <el-row>
             <el-col :span="12" :offset="0">
               <el-form-item  label-width="100px" label="咨询次数">
                 <el-input v-model="form2.consultno"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
-
-          <el-row>
+            <el-row>
             <el-form-item label="咨询要点记录(A):" label-width="130px">
               <el-input type="textarea" :rows="10" v-model="form2.mainpoint"></el-input>
             </el-form-item>
           </el-row>
-          <el-row>
+            <el-row>
             <el-form-item label="后期跟进计划（P）:" label-width="140px">
               <el-form-item label="是否进行下一次预约:" label-width="150px">
                 <el-radio-group v-model="form2.nextexist">
@@ -273,7 +276,7 @@
               </el-row>
             </el-form-item>
           </el-row>
-          <el-row>
+            <el-row>
             <el-col
               :span="12"
               :offset="0"
@@ -308,6 +311,7 @@
                 ></el-time-picker>
               </el-col>
             </el-col>
+          </el-row>
           </el-row>
           <el-form-item v-if="canSubmit">
             <el-button type="primary" @click="onSubmit">立即提交</el-button>
@@ -463,6 +467,12 @@ export default {
           nickname: this.$route.params.nickname,
         }
       })
+    },
+    handleAlert(){
+      console.log("报警警")
+    },
+    handlePrint(){
+
     }
   }
 }

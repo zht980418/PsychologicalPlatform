@@ -14,6 +14,9 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+import Print from 'vue-print-nb'
+
+Vue.use(Print); //注册
 
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
