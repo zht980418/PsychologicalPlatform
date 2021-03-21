@@ -15,14 +15,18 @@
         <i class="el-icon-phone" style="color: #ff0000"/>
       </el-tooltip>
     </el-backtop>
-    <el-button type="primary" v-print="'#printFirst'" style="margin-left:30px;">打印首次表</el-button>
+    <div>
+    <el-button v-if="formFlag" type="primary" v-print="'#printFirst'" style="margin-left:30px;">打印首次表</el-button>
+    <el-button v-else type="primary" v-print="'#printNotFirst'" style="margin-left:30px;">打印再次表</el-button>
+
     <el-button
+      v-if = "canSwitch"
       v-on:click="formToggle"
       style="margin-left:30px;"
     >
       <span>切换记录表</span>
     </el-button>
-
+    </div>
     <!--    首次咨询表-->
     <el-form
       v-if="formFlag"
@@ -231,7 +235,7 @@
             <el-row>
             <el-col :span="12" :offset="0">
               <el-form-item  label-width="100px" label="咨询次数">
-                <el-input v-model="form2.consultno"></el-input>
+                <el-input v-model="form2.times"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -331,7 +335,7 @@
 </template>
 
 <script>
-import { getRecordTableByNo, addRecordTableInfo, updateRecordTableByNo } from "@/api/recordTable";
+import { getRecordTableByNo, addRecordTableInfo, updateRecordTableByNo, getRecordTableCount } from "@/api/recordTable";
 
 export default {
   data() {
@@ -363,7 +367,7 @@ export default {
         userid: this.$route.params.userid,
         doctorname: '',
         consultno: '',
-        times: '',
+        times:2,
         date1: '',
         date2:'',
         date3:'',
@@ -377,7 +381,15 @@ export default {
     }
   },
   created() {
-    console.log("params", this.$route.params)
+    getRecordTableCount(this.$route.params.userid)
+      .then(res => this.form2.times = res.data + 1)
+      .catch((err) => {
+      console.log(err)
+      this.$notify.error({
+        title: '提示',
+        message: '网络忙，咨询记录获取失败',
+      })
+    })
     if(this.$route.params.type === 'edit' || this.$route.params.type === 'view'){
       getRecordTableByNo(this.$route.params.consultno).then((res) => {
         if (res.code === 0) {
@@ -470,9 +482,6 @@ export default {
     },
     handleAlert(){
       console.log("报警警")
-    },
-    handlePrint(){
-
     }
   }
 }
