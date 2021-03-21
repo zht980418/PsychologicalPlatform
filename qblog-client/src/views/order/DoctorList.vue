@@ -5,6 +5,7 @@
         v-for="item in doctorlist"
         :key="item.doctorId"
         :doctorName="item.doctorName"
+        :doctorId="item.doctorId"
       />
     </ul>
   </el-row>
@@ -25,7 +26,6 @@ export default {
     getDoctorList().then((res) => {
       if (res.code === 0) {
         this.doctorlist = res.data
-        console.log(this.doctorlist)
       }
     })
   },

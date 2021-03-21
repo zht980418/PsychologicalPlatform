@@ -68,11 +68,19 @@ export function defaultConstraint() {
 }
 
 export function transEvent(event) {
-  let list = []
+  // const green = '#67C23A'
+  // const yellow = '#E6A23C'
+  // const red = '#F56C6C'
+  // const Lgreen = '#E1F3D8'
+  // const Lyellow = '#FAECD8'
+  // const Lred = '#FDE2E2'
   for (let i = 0; i < event.length; i++) {
-    list.push({ id: event[i].orderid, title: event[i].name, start: event[i].start, end: event[i].end, groupId: event[i].uid, status: event[i].status })
+    event[i].id = event[i].orderid
+    event[i].title = event[i].name
+    // event[i].backgroundColor = event[i].status === '' ? yellow : event[i].status === 'true' ? green : red
+    // event[i].borderColor = event[i].status === '' ? Lyellow : event[i].status === 'true' ? Lgreen : Lred
   }
-  return list
+  return event
 }
 
 function editTime(time) {
@@ -94,6 +102,8 @@ function transOrder(order) {
     case 'true': order.status = '接受'; break;
     case '': order.status = '待确认'; break;
     case 'false': order.status = '已拒绝'; break;
+    case 'on': order.status = '咨询中'; break;
+    case 'fin': order.status = '已结束'; break;
   }
   order.start = editTime(order.start)
   order.end = editTime(order.end)

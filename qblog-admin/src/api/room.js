@@ -1,6 +1,8 @@
 /* eslint-disable */
 import urls from '@/api/urls'
 import request from '@/utils/request'
+import { transRoomList } from '@/utils/room-utils'
+import { transEvent } from '@/utils/event-utils'
 
 /**
  * 获取咨询室列表,咨询室信息【roomid name address】
@@ -9,6 +11,9 @@ export function getRoomList() {
     return request({
         url: urls.Room,
         method: 'get',
+    }).then(res => {
+        transRoomList(res.data)
+        return res
     })
 }
 
@@ -60,10 +65,14 @@ export function updateRoomInfoById(roomId, params) {
 /**
  * 获取咨询室日程,以event的形式返回
  * @param {roomId:number} roomId 咨询室id
+ * @returns {status}
  */
 export function getRoomCalendarById(roomId) {
     return request({
         url: urls.RoomCalendar + '/' + roomId,
         method: 'get',
+    }).then(res => {
+        transEvent(res.data)
+        return res
     })
 }

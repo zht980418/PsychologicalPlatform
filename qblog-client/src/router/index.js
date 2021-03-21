@@ -50,6 +50,18 @@ const routes = [
     ]
   },
   {
+    path: "/article",
+    redirect: '/article/page',
+    component: Layout,
+    hidden: true,
+    children: [{
+      path: 'page',
+      name: 'Article',
+      component: () => import("@/views/Article.vue"),
+      meta: { title: "文章详情" },
+    }],
+  },
+  {
     path: "/quiz",
     name: "Quiz",
     component: Layout,

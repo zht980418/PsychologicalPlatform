@@ -87,8 +87,6 @@ import interactionPlugin from '@fullcalendar/interaction'
 import '@fullcalendar/core/locales/zh-cn'
 import { getSchedule, getRoomScheduleById, EditRoomSchedule } from '@/api/schedule'
 import { getRoomList } from '@/api/room'
-import { transScheduleList } from '@/utils/schedule-utils'
-import { transRoomList } from '@/utils/room-utils'
 
 export default {
   components: {
@@ -203,8 +201,7 @@ export default {
       if (val != '' | '-1') {
         getRoomScheduleById(val).then((res) => {
           if (res.code === 0) {
-            console.log(res)
-            this.roomConfig.events = transScheduleList(res.data)
+            this.roomConfig.events = res.data
           }
         }).catch((err) => {
           console.log(err)
@@ -222,7 +219,6 @@ export default {
     getRoomList().then((res) => {
       if (res.code === 0) {
         this.room = res.data // 传入咨询室列表
-        transRoomList(this.room)
       }
     }).catch((err) => {
       console.log(err)
@@ -233,7 +229,7 @@ export default {
     })
     getSchedule().then((res) => {
       if (res.code === 0) {
-        this.scheduleConfig.events = transScheduleList(res.data)
+        this.scheduleConfig.events = res.data
       }
     }).catch((err) => {
       console.log(err)

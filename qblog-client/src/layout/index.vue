@@ -1,14 +1,14 @@
 <template>
   <div>
-    <Header />
     <el-row>
       <el-col
-        :xs="{span:18,offset:3}"
-        :sm="{span:18,offset:3}"
-        :md="{span:18,offset:3}"
-        :lg="{span:18,offset:5}"
+        :xs="{span:24,offset:0}"
+        :sm="{span:24,offset:0}"
+        :md="{span:22,offset:1}"
+        :lg="{span:20,offset:2}"
         :xl="{span:18,offset:3}"
       >
+        <Header />
         <NavMenu></NavMenu>
         <AppMain />
       </el-col>

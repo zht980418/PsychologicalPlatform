@@ -1,18 +1,61 @@
 <template>
-  <el-row>
-    <h2 v-if="formFlag" style="margin:30px 40%;">首次咨询记录表</h2>
-    <h2 v-else style="margin:30px 40%;">再次咨询记录表</h2>
-    <el-button v-if="canSwitch" v-on:click="formToggle" style="margin-left:30px;">
+  <el-row class="page">
+    <el-backtop
+      :visibility-height=0
+      :right=60
+      :bottom=60
+    >
+      <el-tooltip
+        class="item"
+        effect="dark"
+        content="点击按钮立即报警"
+        placement="top-start"
+      >
+        <i class="el-icon-phone" />
+      </el-tooltip>
+    </el-backtop>
+    <h2
+      v-if="formFlag"
+      style="margin:30px 40%;"
+    >首次咨询记录表</h2>
+    <h2
+      v-else
+      style="margin:30px 40%;"
+    >再次咨询记录表</h2>
+    <el-button
+      v-on:click="formToggle"
+      style="margin-left:30px;"
+    >
       <span>切换记录表</span>
     </el-button>
-<!--    首次咨询表-->
-    <el-form v-if="formFlag" label-position="left" ref="form" :model="form1" autocomplete="on" label-width="80px">
+    <!--    首次咨询表-->
+    <el-form
+      v-if="formFlag"
+      label-position="left"
+      ref="form"
+      :model="form1"
+      autocomplete="on"
+      label-width="80px"
+    >
       <el-row>
-        <el-col :span="22" :offset="1">
+        <el-col
+          :span="22"
+          :offset="1"
+        >
           <el-row :gutter="20">
-            <el-col :span="12" :offset="0">
-              <el-form-item  label-width="100px" label="来访者编号" disabled="true">
-                <el-input :disabled="true" v-model="form1.userid"  ></el-input>
+            <el-col
+              :span="12"
+              :offset="0"
+            >
+              <el-form-item
+                label-width="100px"
+                label="来访者编号"
+                disabled="true"
+              >
+                <el-input
+                  :disabled="true"
+                  v-model="form1.userid"
+                ></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12" :offset="0">
@@ -22,13 +65,27 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-form-item label="来访者主诉（S）:" label-width="130px">
-              <el-input type="textarea" :rows="2" v-model="form1.complaint"></el-input>
+            <el-form-item
+              label="来访者主诉（S）:"
+              label-width="130px"
+            >
+              <el-input
+                type="textarea"
+                :rows="2"
+                v-model="form1.complaint"
+              ></el-input>
             </el-form-item>
           </el-row>
           <el-row>
-            <el-form-item label="初次主要印象(O):" label-width="130px">
-              <el-input type="textarea" :rows="1" v-model="form1.impression"></el-input>
+            <el-form-item
+              label="初次主要印象(O):"
+              label-width="130px"
+            >
+              <el-input
+                type="textarea"
+                :rows="1"
+                v-model="form1.impression"
+              ></el-input>
             </el-form-item>
           </el-row>
           <el-row>
@@ -45,8 +102,11 @@
                 </el-radio-group>
               </el-form-item>
               <el-row>
-                <el-form-item label="预计下次咨询时间" label-width="180px">
-                  <el-input v-model="form1.date3"  ></el-input>
+                <el-form-item
+                  label="预计下次咨询时间"
+                  label-width="180px"
+                >
+                  <el-input v-model="form1.date3"></el-input>
                 </el-form-item>
               </el-row>
               <el-row>
@@ -70,17 +130,38 @@
             </el-form-item>
           </el-row>
           <el-row>
-            <el-col :span="12" :offset="0">
-              <el-form-item  label-width="100px" label="咨询师签字">
+            <el-col
+              :span="12"
+              :offset="0"
+            >
+              <el-form-item
+                label-width="100px"
+                label="咨询师签字"
+              >
                 <el-input v-model="form1.sign"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12" :offset="0">
+            <el-col
+              :span="12"
+              :offset="0"
+            >
               <el-col :span="11">
-                <el-date-picker type="date" placeholder="选择日期" v-model="form1.date1" style="width: 100%;"></el-date-picker>
+                <el-date-picker
+                  type="date"
+                  placeholder="选择日期"
+                  v-model="form1.date1"
+                  style="width: 100%;"
+                ></el-date-picker>
               </el-col>
-              <el-col :span="10" :offset="1">
-                <el-time-picker placeholder="选择时间" v-model="form1.date2" style="width: 100%;"></el-time-picker>
+              <el-col
+                :span="10"
+                :offset="1"
+              >
+                <el-time-picker
+                  placeholder="选择时间"
+                  v-model="form1.date2"
+                  style="width: 100%;"
+                ></el-time-picker>
               </el-col>
             </el-col>
           </el-row>
@@ -108,14 +189,33 @@
         </el-col>
       </el-row>
     </el-form>
-<!--    再次咨询表-->
-    <el-form v-else label-position="left" ref="form" :model="form2" autocomplete="on" label-width="80px">
+    <!--    再次咨询表-->
+    <el-form
+      v-else
+      label-position="left"
+      ref="form"
+      :model="form2"
+      autocomplete="on"
+      label-width="80px"
+    >
       <el-row>
-        <el-col :span="22" :offset="1">
+        <el-col
+          :span="22"
+          :offset="1"
+        >
           <el-row :gutter="20">
-            <el-col :span="12" :offset="0">
-              <el-form-item  label-width="100px" label="来访者编号">
-                <el-input :disabled="true"  v-model="form2.userid"  ></el-input>
+            <el-col
+              :span="12"
+              :offset="0"
+            >
+              <el-form-item
+                label-width="100px"
+                label="来访者编号"
+              >
+                <el-input
+                  :disabled="true"
+                  v-model="form2.userid"
+                ></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12" :offset="0">
@@ -146,8 +246,11 @@
                 </el-radio-group>
               </el-form-item>
               <el-row>
-                <el-form-item label="预计下次预约时间:" label-width="180px">
-                  <el-input v-model="form2.date3"  ></el-input>
+                <el-form-item
+                  label="预计下次预约时间:"
+                  label-width="180px"
+                >
+                  <el-input v-model="form2.date3"></el-input>
                 </el-form-item>
               </el-row>
               <el-row>
@@ -171,17 +274,38 @@
             </el-form-item>
           </el-row>
           <el-row>
-            <el-col :span="12" :offset="0">
-              <el-form-item  label-width="100px" label="咨询师签字">
+            <el-col
+              :span="12"
+              :offset="0"
+            >
+              <el-form-item
+                label-width="100px"
+                label="咨询师签字"
+              >
                 <el-input v-model="form2.sign"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12" :offset="0">
+            <el-col
+              :span="12"
+              :offset="0"
+            >
               <el-col :span="11">
-                <el-date-picker type="date" placeholder="选择日期" v-model="form2.date1" style="width: 100%;"></el-date-picker>
+                <el-date-picker
+                  type="date"
+                  placeholder="选择日期"
+                  v-model="form2.date1"
+                  style="width: 100%;"
+                ></el-date-picker>
               </el-col>
-              <el-col :span="10" :offset="1">
-                <el-time-picker placeholder="选择时间" v-model="form2.date2" style="width: 100%;"></el-time-picker>
+              <el-col
+                :span="10"
+                :offset="1"
+              >
+                <el-time-picker
+                  placeholder="选择时间"
+                  v-model="form2.date2"
+                  style="width: 100%;"
+                ></el-time-picker>
               </el-col>
             </el-col>
           </el-row>
@@ -228,7 +352,7 @@ export default {
         followplan:'',
         sign:'',
         complaint: '',
-        impression:'',
+        impression: '',
       },
       form2: {
         type: 'NotFirst',
@@ -246,7 +370,6 @@ export default {
         followplan: '',
         sign: '',
       },
-
     }
   },
   created() {
@@ -275,7 +398,7 @@ export default {
       })
     }
   },
-  methods:{
+  methods: {
     onSubmit() {
       const form = this.formFlag  ? this.form1 : this.form2
       //触发添加
@@ -328,7 +451,7 @@ export default {
       }
 
     },
-    formToggle:function(){
+    formToggle: function () {
       console.log("切換表格")
       this.formFlag = !this.formFlag;
     },
@@ -346,10 +469,10 @@ export default {
 </script>
 
 <style scoped>
-.el-form-item{
-  margin-right:30px;
+.el-form-item {
+  margin-right: 30px;
 }
-.el-row{
+.el-row {
   margin-top: 20px;
 }
 </style>

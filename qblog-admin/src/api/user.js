@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import urls from './urls'
 
 export function login(data) {
   console.log(data)
@@ -24,6 +25,18 @@ export function getUserById(id) {
     data: {
       id: id
     }
+  })
+}
+
+/**
+ * //TODO 通过姓名搜索用户
+ * @param {name:String} name 
+ * @returns {uid:String,name:String,phone:Number}
+ */
+export function getUserByName(name) {
+  return request({
+    url: urls.User + '/' + name,
+    method: 'get',
   })
 }
 

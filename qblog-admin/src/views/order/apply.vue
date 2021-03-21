@@ -51,9 +51,8 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import '@fullcalendar/core/locales/zh-cn'
-import { INITIAL_SCHEDULE, createEventId } from '@/utils/event-utils'
+import { createEventId } from '@/utils/event-utils'
 import { getSchedule, postApplication, deleteApplicationById } from '@/api/schedule'
-import { transScheduleList, RetranSchedule } from '@/utils/schedule-utils'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -81,7 +80,6 @@ export default {
           }
         ],
         initialView: 'timeGridWeek',
-        initialEvents: INITIAL_SCHEDULE, // alternatively, use the `events` setting to fetch from a feed
         events: '',
         editable: true, // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead
@@ -128,7 +126,7 @@ export default {
   created() {
     getSchedule().then((res) => {
       if (res.code === 0) {
-        this.roomConfig.events = transScheduleList(res.data)
+        this.roomConfig.events = res.data
       }
     }).catch((err) => {
       console.log(err)
@@ -156,7 +154,7 @@ export default {
           end: selectInfo.endStr,
           daysOfWeek: selectInfo.start.getDay()
         }
-        postApplication(RetranSchedule(params)).then((res) => {
+        postApplication(params).then((res) => {
           if (res.code === 0) {
             this.$notify.success({
               title: '提示',
@@ -227,7 +225,7 @@ export default {
             end: clickInfo.event.endStr,
             daysOfWeek: clickInfo.event.start.getDay()
           }
-          postApplication(RetranSchedule(params)).then((res) => {
+          postApplication(params).then((res) => {
             if (res.code === 0) {
               this.$notify.success({
                 title: '提示',

@@ -103,7 +103,6 @@
 
 <script>
 import { getRoomList, postRoomInfo, deleteRoomInfoById, updateRoomInfoById } from '@/api/room'
-import { transRoomList } from '@/utils/room-utils'
 
 export default {
   data() {
@@ -123,7 +122,6 @@ export default {
     getRoomList().then((res) => {
       if (res.code === 0) {
         this.roomList = res.data // 传入咨询室列表
-        transRoomList(this.roomList)
       }
     }).catch((err) => {
       console.log(err)

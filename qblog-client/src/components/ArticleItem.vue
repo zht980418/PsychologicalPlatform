@@ -1,9 +1,16 @@
 <template>
   <el-card>
     <div slot="header">
-      <router-link class="main-text" :to="'/post/' + article.id" v-html="article.title"></router-link>
+      <p
+        class="main-text"
+        v-html="article.title"
+        @click="$router.push({name:'Article',params:{id:article.id} })"
+      />
       <div class="article-info">
-        <el-tag effect="dark" size="mini">原创</el-tag>
+        <el-tag
+          effect="dark"
+          size="mini"
+        >原创</el-tag>
         浏览量：{{article.views}} 分类：
         <router-link
           class="link secondary-text"

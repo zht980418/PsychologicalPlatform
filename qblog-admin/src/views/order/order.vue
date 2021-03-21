@@ -58,7 +58,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import '@fullcalendar/core/locales/zh-cn'
-import { INITIAL_EVENTS, defaultConstraint, createEventId, transEvent } from '@/utils/event-utils'
+import { defaultConstraint, createEventId } from '@/utils/event-utils'
 import { getDoctorConstraintById, getDoctorCalendarById } from '@/api/order'
 import { mapGetters } from 'vuex'
 
@@ -96,7 +96,6 @@ export default {
           },
         ],
         initialView: 'timeGridWeek',
-        initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
         editable: false, // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead
           {
@@ -151,8 +150,7 @@ export default {
       // 获取日程
       getDoctorCalendarById(this.doctorId).then((res) => {
         if (res.code === 0) {
-          console.log(res)
-          this.calendarOptions.events = transEvent(res.data) // 传入预约信息
+          this.calendarOptions.events = res.data // 传入预约信息
         } else {
           this.$notify.error({
             title: '提示',

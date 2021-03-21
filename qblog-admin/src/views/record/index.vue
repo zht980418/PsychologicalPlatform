@@ -20,17 +20,12 @@
         width="180"
       />
       <el-table-column align="left">
-        <template
-          slot="header"
-          slot-scope="scope"
-        >
-          <el-input
-            v-model="search"
-            style="width: 30%"
-            size="mini"
-            placeholder="输入关键字搜索"
-          />
-        </template>
+        <el-input
+          v-model="search"
+          style="width: 30%"
+          size="mini"
+          placeholder="输入关键字搜索"
+        />
         <template slot-scope="scope">
           <el-button
             type="primary"
@@ -57,9 +52,10 @@ export default {
   },
   created() {
     getUsers().then((response) => {
-        this.userData = response.data.filter( (user) => {
-          return user.rolename.trim() === "游客"})
-      }
+      this.userData = response.data.filter((user) => {
+        return user.rolename.trim() === "游客"
+      })
+    }
     ).catch((err) => {
       console.log(err)
       this.$notify.error({

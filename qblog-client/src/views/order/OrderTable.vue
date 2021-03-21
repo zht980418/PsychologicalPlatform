@@ -2,21 +2,21 @@
   <div class='demo-app'>
     <div class='demo-app-sidebar'>
       <div class='demo-app-sidebar-section'>
-        <h2>功能介绍</h2>
+        <h2>功能介绍：</h2>
         <ul>
           <li>点击时段即可预约</li>
           <li>再次点击预约即可删除</li>
+          <li>仅可查看自己的预约信息</li>
+          <li>预约后可在个人中心查看预约状态</li>
+          <li>预约后请按时赴约</li>
         </ul>
-      </div>
-      <div class='demo-app-sidebar-section'>
-        <label>
-          <input
-            type='checkbox'
-            :checked='calendarOptions.weekends'
-            @change='handleWeekendsToggle'
-          />
-          展示周末
-        </label>
+        <br>
+        <h2>时段说明：</h2>
+        <ul>
+          <li><span>白色时段：未预约时段</span></li>
+          <li><span>灰色时段：非工作时段</span></li>
+          <li><span>黄色时段：本日时段</span></li>
+        </ul>
       </div>
     </div>
     <div class='demo-app-main'>
@@ -225,6 +225,7 @@
                   <el-input
                     v-model="form.question"
                     type="textarea"
+                    :autosize="{ minRows: 2, maxRows: 4}"
                   />
                 </el-col>
                 <el-col
@@ -260,6 +261,7 @@
                 <el-col :span="21">
                   <el-input
                     type="textarea"
+                    :autosize="{ minRows: 2, maxRows: 4}"
                     v-model="form.family"
                   />
                 </el-col>
@@ -297,6 +299,7 @@
                   <el-input
                     v-model="form.expectation"
                     type="textarea"
+                    :autosize="{ minRows: 2, maxRows: 4}"
                   />
                 </el-col>
                 <el-col
@@ -333,6 +336,7 @@
                   <el-input
                     type="textarea"
                     v-model="form.history"
+                    :autosize="{ minRows: 2, maxRows: 4}"
                   />
                 </el-col>
                 <el-col
@@ -369,6 +373,7 @@
                   <el-input
                     type="textarea"
                     v-model="form.test"
+                    :autosize="{ minRows: 2, maxRows: 4}"
                   />
                 </el-col>
                 <el-col
@@ -532,11 +537,11 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import '@fullcalendar/core/locales/zh-cn'
-import { createEventId, defaultConstraint, transEvent } from '@/utils/event-utils'
-import { transForm, newForm, RetransForm } from '@/utils/form-utils'
+import { createEventId, defaultConstraint } from '@/utils/event-utils'
+import { newForm } from '@/utils/form-utils'
 import { getConstraintById, getCalendarById, postOrder, getOrderById, deleteOrderById, updateOrderById } from '@/api/order'
-import TextSample from './textsample'
 import { mapGetters } from 'vuex'
+import TextSample from './textsample'
 
 export default {
   components: {
@@ -664,8 +669,7 @@ export default {
         this.calendarOptions.businessHours = res.data //传入显示工作时间数组
         getCalendarById(this.doctorId).then((res) => {
           if (res.code === 0) {
-            console.log(res)
-            this.calendarOptions.events = transEvent(res.data) //传入预约
+            this.calendarOptions.events = res.data //传入预约
           }
         }).catch((err) => {
           console.log(err)
@@ -705,7 +709,7 @@ export default {
         if (valid) {
           // 发送预约信息
           this.form.orderId = createEventId()
-          postOrder(RetransForm(this.getForm())).then((res) => {
+          postOrder(this.getForm()).then((res) => {
             console.log(res.data)
             // 日程表预约+1
             calendarApi.addEvent({
@@ -733,15 +737,12 @@ export default {
 
     handleEventClick(clickInfo) {
       // check是不是自己的预约信息
-      if (clickInfo.event.groupId === this.uid) {
-        const index = this.calendarOptions.events.findIndex((item => {
-          if ((item.groupId === this.uid)) { return true }
-        }))
-        console.log(index)
-        if (this.calendarOptions.events[index].status === '') {
+      console.log(clickInfo)
+      if (clickInfo.event.extendedProps.uid === this.uid) {
+        if (clickInfo.event.extendedProps.status === '') {
           getOrderById(clickInfo.event.id).then((res) => {
             if (res.code === 0) {
-              this.form = transForm(res.data[0]) // 传入表单信息 
+              this.form = res.data[0] // 传入表单信息 
               // 打开预约信息表格
               this.dialogEditVisible = true
               this.dialogFormVisible = true
@@ -760,12 +761,12 @@ export default {
             })
           })
         }
-        else if (Boolean(this.calendarOptions.events[index].status) === true) {
+        else if (Boolean(clickInfo.event.extendedProps.status) === true) {
           this.$notify.success({
             title: '提示',
             message: '咨询师已接受该预约,请于个人中心查看预约信息！',
           })
-        } else if (Boolean(this.calendarOptions.events[index].status) === false) {
+        } else if (Boolean(clickInfo.event.extendedProps.status) === false) {
           this.$notify.error({
             title: '提示',
             message: '该预约已被咨询师拒绝，请重新预约！',
@@ -782,15 +783,16 @@ export default {
     handleEventDelete(clickInfo) {
       // 删数据
       deleteOrderById(this.form.orderId).then((res) => {
-        console.log(res)
-        clickInfo.event.remove()
-        // 关表格
-        this.dialogEditVisible = false
-        this.dialogFormVisible = false
-        this.$notify.success({
-          title: "提示",
-          message: "预约信息删除成功",
-        })
+        if (res.code === 0) {
+          clickInfo.event.remove()
+          // 关表格
+          this.dialogEditVisible = false
+          this.dialogFormVisible = false
+          this.$notify.success({
+            title: "提示",
+            message: "预约信息删除成功",
+          })
+        }
       }).catch((err) => {
         console.log(err)
         this.$notify.error({
@@ -802,7 +804,7 @@ export default {
 
     // 修改预约信息
     handleEventEdit(form, clickInfo) {
-      updateOrderById(form.orderId, RetransForm(this.getForm())).then((res) => {
+      updateOrderById(form.orderId, this.getForm()).then((res) => {
         if (res.code === 0) {
           this.handleEventDelete(form, clickInfo) // 删除
           this.handleModify(form, clickInfo) // 添加

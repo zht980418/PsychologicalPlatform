@@ -1,6 +1,7 @@
 /* eslint-disable */
 import urls from '@/api/urls'
 import request from '@/utils/request'
+import { transScheduleList, RetranSchedule } from '@/utils/schedule-utils'
 
 /**
  * 获取排班表，以event形式返回吧
@@ -9,6 +10,9 @@ export function getSchedule() {
     return request({
         url: urls.Schedule,
         method: 'get',
+    }).then(res => {
+        transScheduleList(res.data)
+        return res
     })
 }
 
@@ -21,7 +25,7 @@ export function postApplication(params) {
     return request({
         url: urls.Schedule,
         method: 'post',
-        data: params
+        data: RetranSchedule(params)
     })
 }
 
@@ -46,6 +50,9 @@ export function getRoomScheduleById(roomId) {
     return request({
         url: urls.Schedule + '/' + roomId,
         method: 'get'
+    }).then(res => {
+        transScheduleList(res.data)
+        return res
     })
 }
 

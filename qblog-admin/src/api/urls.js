@@ -19,5 +19,7 @@ export default {
     // 课程列表
     CourseList: '/courselist',
     // 单个课程
-    Course: '/course'
+    Course: '/course',
+    // 用户
+    User: '/user',
 }
