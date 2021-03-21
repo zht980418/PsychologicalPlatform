@@ -73,10 +73,10 @@ public class ScheduleService {
     public List<ScheduleVO> getSchedulesByDoctorID(String doctorid){
         ArrayList res = new ArrayList<>();
         QueryWrapper<SchedulePO> wrapper = new QueryWrapper<>();
-        wrapper.select("start","end","daysofweek","doctorid");
+        wrapper.select("start","end","daysofweek","doctorid","roomid");
         List<Map<String, Object>> maps = scheduleMapper.selectMaps(wrapper);
         for(int i=0; i<maps.size();i++){
-            if (maps.get(i).get("doctorid")!=null&&maps.get(i).get("doctorid").equals(doctorid)){
+            if (maps.get(i).get("roomid")!=null&&!maps.get(i).get("roomid").equals("-1")&&maps.get(i).get("doctorid")!=null&&maps.get(i).get("doctorid").equals(doctorid)){
                 res.add(maps.get(i));
             }
         }
