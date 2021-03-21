@@ -40,7 +40,7 @@
 
 <script>
 import router from '@/router'
-import { getUsers, deleteUser } from '@/api/user'
+import { getUsers } from '@/api/user'
 
 export default {
   data() {
@@ -66,8 +66,8 @@ export default {
   },
 
   methods: {
-    viewRecord (row) {
-      router.push({name: 'viewRecord', params: {userid: row.userid, nickname: row.nickname}})
+    viewRecord(row) {
+      router.push({ name: 'viewRecord', params: { userid: row.userid, nickname: row.nickname } })
     },
   }
 

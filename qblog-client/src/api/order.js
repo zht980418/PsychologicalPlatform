@@ -1,6 +1,6 @@
 import instance from '@/http/request'
 import urls from "@/http/urls"
-import { transDocList } from '@/utils/doctor-utils'
+import { transDocList, transConstraintList } from '@/utils/doctor-utils'
 import { transOrderList } from '@/utils/event-utils'
 import { transEvent } from '../utils/event-utils'
 import { RetransForm, transForm } from '../utils/form-utils'
@@ -26,7 +26,10 @@ function getDoctorList() {
  * @param {doctorId:number} doctorId 医生id
  */
 function getConstraintById(doctorId) {
-    return instance.get(urls.doctordate + '/' + doctorId).then(res => res.data)
+    return instance.get(urls.DoctorConstraint + '/' + doctorId).then(res => {
+        transConstraintList(res.data.data)
+        return res.data
+    })
 }
 
 /**

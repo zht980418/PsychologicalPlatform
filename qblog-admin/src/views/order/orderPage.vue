@@ -611,7 +611,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { defaultConstraint } from '@/utils/event-utils'
 import { newForm } from '@/utils/form-utils'
-import { getUsers } from '@/api/user'
+import { getUserByName } from '@/api/user'
 import { getOrderById, postOrder, updateOrderById } from '@/api/order'
 import { getRoomCalendarById, getRoomList } from '@/api/room'
 import '@fullcalendar/core/locales/zh-cn'
@@ -805,10 +805,11 @@ export default {
   },
   methods: {
     getUserList(name) {
-      // TODO getUser
-      getUsers().then((res) => {
+      getUserByName(name).then((res) => {
         if (res.code === 0) {
-          this.userList = res.data
+          this.userList = res.data.filter((user) => {
+            return user.rolename.trim() === '游客'
+          })
         }
       })
     },

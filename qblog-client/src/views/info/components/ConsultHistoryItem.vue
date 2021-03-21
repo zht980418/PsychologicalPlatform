@@ -6,7 +6,10 @@
       </el-col>
       <el-col :span="14">
         <el-row>
-          <el-col :span="18">
+          <el-col
+            :span="19"
+            :offset="1"
+          >
             <h3 class="item_text">咨询师：{{ doctorName }}</h3>
             <h3
               class="item_text"
@@ -18,8 +21,7 @@
             >咨询方式：线上</h3>
             <h3 class="item_text">预约时间：{{ start }} - {{ end.split(' ')[1] }}</h3>
           </el-col>
-          <el-col :span="3">
-            <br>
+          <el-col :span="2">
             <el-button
               type="primary"
               plain
@@ -44,24 +46,29 @@
             </el-dialog>
           </el-col>
         </el-row>
-        <br>
-        <el-steps>
-          <el-step
-            title="预约"
-            description="前往咨询师预约界面预约"
-            status="success"
-          />
-          <el-step
-            :title="Title[0]"
-            :description="Description[0]"
-            :status="Status[0]"
-          />
-          <el-step
-            :title="Title[1]"
-            :description="Description[1]"
-            :status="Status[1]"
-          />
-        </el-steps>
+        <el-col
+          :offset="1"
+          :span="23"
+        >
+          <el-steps>
+            <el-step
+              title="预约"
+              description="前往咨询师预约界面预约"
+              status="success"
+            />
+            <el-step
+              :title="Title[0]"
+              :description="Description[0]"
+              :status="Status[0]"
+            />
+            <el-step
+              :title="Title[1]"
+              :description="Description[1]"
+              :status="Status[1]"
+            />
+          </el-steps>
+        </el-col>
+
       </el-col>
     </el-row>
   </div>
@@ -94,7 +101,7 @@ export default {
     },
     roomName: {
       type: String,
-      default: '咨询室1'
+      default: '咨询室'
     }
   },
   computed: {

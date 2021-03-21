@@ -17,12 +17,12 @@ export default {
   doctorList: "/order/doctorlist",
   // 咨询师日程表
   doctorCalendar: "/doctorOrder",
-  // 咨询师限制信息
-  doctordate: "/order/doctordate",
   // 课程列表
   courseList: '/courselist',
   // 课程信息
   course: '/course',
   //用户咨询历史:
   orderHistory: '/orderHistory',
+  //医生排班表
+  DoctorConstraint: '/doctorCon',
 }

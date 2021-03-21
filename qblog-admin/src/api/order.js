@@ -2,6 +2,7 @@ import request from '@/utils/request'
 import urls from '@/api/urls'
 import { transForm, RetransForm } from '@/utils/form-utils'
 import { transEvent } from '@/utils/event-utils'
+import { transConstraintList } from '@/utils/schedule-utils'
 
 
 /**
@@ -13,6 +14,9 @@ export function getDoctorConstraintById(doctorId) {
   return request({
     url: urls.DoctorConstraint + '/' + doctorId,
     method: 'get',
+  }).then(res => {
+    transConstraintList(res.data)
+    return res
   })
 }
 

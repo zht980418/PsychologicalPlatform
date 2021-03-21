@@ -143,6 +143,7 @@ export default {
     this.calendarOptions.selectConstraint = defaultConstraint()
     getDoctorConstraintById(this.doctorId).then((res) => {
       if (res.code === 0) {
+        console.log(res);
         this.calendarOptions.selectConstraint = res.data // 传入限制时间数组
         // TODO 有一个问题，就是获取的必须是当前周的事件，现在获取的还是所有事件
         this.calendarOptions.businessHours = res.data

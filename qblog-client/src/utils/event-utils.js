@@ -95,9 +95,11 @@ function transOrder(order) {
   order.orderId = order.orderid
   order.doctorId = order.doctorid
   order.doctorName = order.doctorname
+  order.roomName = order.roomname
   delete (order.orderid)
   delete (order.doctorid)
   delete (order.doctorname)
+  delete (order.roomname)
   switch (order.status) {
     case 'true': order.status = '接受'; break;
     case '': order.status = '待确认'; break;
@@ -107,8 +109,6 @@ function transOrder(order) {
   }
   order.start = editTime(order.start)
   order.end = editTime(order.end)
-  console.log(order.start)
-  console.log(order.end)
 }
 
 export function transOrderList(list) {

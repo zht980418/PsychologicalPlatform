@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 import urls from './urls'
+import { transUserList } from '@/utils/user-utils'
 
 export function login(data) {
   console.log(data)
@@ -29,7 +30,7 @@ export function getUserById(id) {
 }
 
 /**
- * //TODO 通过姓名搜索用户
+ * 通过姓名搜索用户
  * @param {name:String} name 
  * @returns {uid:String,name:String,phone:Number}
  */
@@ -37,6 +38,10 @@ export function getUserByName(name) {
   return request({
     url: urls.User + '/' + name,
     method: 'get',
+  }).then(res => {
+    console.log(res)
+    transUserList(res.data)
+    return res
   })
 }
 

@@ -24,10 +24,10 @@
         <el-row>
           <el-col
             :xs="{span:24,offset:0}"
-            :sm="{span:21,offset:1}"
+            :sm="{span:24,offset:0}"
             :md="{span:22,offset:1}"
             :lg="{span:20,offset:2}"
-            :xl="{span:18,offset:2}"
+            :xl="{span:18,offset:3}"
           >
             <MajorFunction></MajorFunction>
           </el-col>

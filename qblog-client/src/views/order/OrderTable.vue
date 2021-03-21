@@ -663,7 +663,7 @@ export default {
     this.calendarOptions.selectConstraint = defaultConstraint()
     this.form.doctorId = this.$route.params.doctorId
     // 获取限制信息
-    getConstraintById('张三').then((res) => {
+    getConstraintById(this.doctorId).then((res) => {
       if (res.code === 0) {
         this.calendarOptions.selectConstraint = res.data //传入限制时间数组
         this.calendarOptions.businessHours = res.data //传入显示工作时间数组
