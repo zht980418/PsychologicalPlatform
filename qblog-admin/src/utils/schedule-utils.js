@@ -1,5 +1,3 @@
-import { login } from "@/api/user"
-
 /* eslint-disable */
 function getTime(n) {
     var now = new Date()
@@ -60,15 +58,15 @@ function getDate(dayOfWeek, start, end) {
     // console.log(getTime(-6))
 }
 
+export const green = '#67C23A'
+export const yellow = '#E6A23C'
+export const red = '#F56C6C'
+export const Lgreen = '#E1F3D8'
+export const Lyellow = '#FAECD8'
+export const Lred = '#FDE2E2'
+
 function transSchedule(schedule) {
-    const green = '#67C23A'
-    const yellow = '#E6A23C'
-    const red = '#F56C6C'
-    const Lgreen = '#E1F3D8'
-    const Lyellow = '#FAECD8'
-    const Lred = '#FDE2E2'
     schedule['id'] = schedule.appid
-    schedule['groupId'] = schedule.doctorid
     schedule['title'] = schedule.doctorname
     schedule['roomId'] = schedule.roomid
     schedule['backgroundColor'] = schedule.roomId == -1 ? red : schedule.roomId ? green : yellow
@@ -77,7 +75,6 @@ function transSchedule(schedule) {
     schedule.start = tmp.start
     schedule.end = tmp.end
     delete (schedule['roomid'])
-    delete (schedule['doctorid'])
     delete (schedule['doctorname'])
     delete (schedule['appid'])
     delete (schedule['daysofweek'])

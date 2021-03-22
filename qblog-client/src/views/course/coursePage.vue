@@ -32,12 +32,14 @@
         <p>其他推荐课程</p>
         <RecItem
           class="course-list"
+          id="xd"
           v-for="item in courselist"
           :key="item.courseId"
           :courseId="item.courseId"
           :icon="item.icon"
           :title="item.title"
           :time="item.time"
+          @click.prevent.native="handleChange(item.courseId)"
         />
       </el-col>
     </el-row>
@@ -77,10 +79,10 @@ export default {
     return {
       courseId: this.$route.params.courseId, // 当前课程编号
       course: {},
-      courselist: [{ course_id: '2020082602', title: '课程1', sum: '10', completed: '2', start: '2020/10/1', end: '2020/11/12' }, { course_id: '2020082801', title: '课程2', sum: '10', completed: '6', start: '2020/11/1', end: '2020/11/12' }, { course_id: '2020082602', title: '课程3', sum: '10', completed: '3' }, { course_id: '2020082602', title: '课程1', sum: '10', completed: '2', start: '2020/10/1', end: '2020/11/12' }, { course_id: '2020082801', title: '课程2', sum: '10', completed: '6', start: '2020/11/1', end: '2020/11/12' }, { course_id: '2020082602', title: '课程3', sum: '10', completed: '3' },],
-      taglist: ['哈利波特', '电影'],
+      courselist: [],
+      taglist: ['得觉'],
       // videoSrc: require('./example.mp4')
-      videoSrc: '//vjs.zencdn.net/v/oceans.mp4'
+      // videoSrc: '//vjs.zencdn.net/v/oceans.mp4'
     }
   },
   computed: {
@@ -92,17 +94,7 @@ export default {
     ]),
   },
   created() {
-    getCourse(this.$route.params.courseId).then((res) => {
-      if (res.code === 0) {
-        this.course = res.data
-      }
-    }).catch((err) => {
-      console.log(err)
-      this.$notify.error({
-        title: "提示",
-        message: "网络忙，获取课程信息失败",
-      })
-    })
+    this.handleChange(this.courseId)
     getCourseList().then((res) => {
       if (res.code === 0) {
         this.courselist = res.data
@@ -111,7 +103,7 @@ export default {
       console.log(err)
       this.$notify.error({
         title: "提示",
-        message: "网络忙，获取课程列表失败",
+        message: "网络忙，获取推荐课程列表失败",
       })
     })
   },
@@ -119,6 +111,20 @@ export default {
     playVideo() {
       var vdo = document.getElementById("videoPlay");
       vdo.play();
+    },
+    handleChange(id) {
+      getCourse(id).then((res) => {
+        if (res.code === 0) {
+          console.log(res)
+          this.course = res.data
+        }
+      }).catch((err) => {
+        console.log(err)
+        this.$notify.error({
+          title: "提示",
+          message: "网络忙，获取课程信息失败",
+        })
+      })
     }
   }
 }
