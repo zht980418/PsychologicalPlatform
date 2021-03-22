@@ -1,25 +1,24 @@
 <template>
-  <li
-    class="course-item"
-    @click="$router.push({ name: 'CoursePage', params: { courseId: courseId} })"
-  >
-    <el-col :span="15">
-      <img
-        class="course-img"
-        :src="icon"
+  <div>
+    <li class="course-item">
+      <el-col :span="15">
+        <img
+          class="course-img"
+          :src="icon"
+        >
+      </el-col>
+      <el-col
+        :span="9"
+        style="height:120px;"
       >
-    </el-col>
-    <el-col
-      :span="9"
-      style="height:120px;"
-    >
-      <div class="item-description">
-        <br>
-        <p class="item-title">{{ title }}</p>
-        <p class="item-time">{{ time }}</p>
-      </div>
-    </el-col>
-  </li>
+        <div class="item-description">
+          <br>
+          <p class="item-title">{{ title }}</p>
+          <p class="item-time">{{ time }}</p>
+        </div>
+      </el-col>
+    </li>
+  </div>
 </template>
 
 <script>

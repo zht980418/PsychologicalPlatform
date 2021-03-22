@@ -39,7 +39,7 @@
         >
           <div
             class="button-container"
-            @click="$router.push({path:'/quiz'})"
+            @click="$router.push({name:'Quiz'})"
           >
             <div class="button-bg">
               <el-image
@@ -63,7 +63,7 @@
         >
           <div
             class="button-container"
-            @click="$router.push({name:'Category'})"
+            @click="$router.push({path:'/category/:name'})"
           >
             <div class="button-bg">
               <el-image

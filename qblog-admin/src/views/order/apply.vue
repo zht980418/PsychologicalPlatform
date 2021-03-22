@@ -150,8 +150,8 @@ export default {
           appId: appId,
           doctorId: this.doctorId,
           doctorName: this.doctorName,
-          start: selectInfo.startStr,
-          end: selectInfo.endStr,
+          start: selectInfo.startStr.split('T')[1].split('+')[0],
+          end: selectInfo.endStr.split('T')[1].split('+')[0],
           daysOfWeek: selectInfo.start.getDay()
         }
         postApplication(params).then((res) => {
@@ -160,16 +160,16 @@ export default {
               title: '提示',
               message: '排班申请成功！',
             })
-            const calendarApi = selectInfo.view.calendar
-            calendarApi.unselect() // clear date selection
-            calendarApi.addEvent({
-              id: appId,
-              title: this.doctorName,
-              groupId: this.doctorId,
-              start: selectInfo.startStr,
-              end: selectInfo.endStr,
-              backgroundColor: '#E6A23C',
-              borderColor: '#FAECD8'
+            getSchedule().then((res) => {
+              if (res.code === 0) {
+                this.roomConfig.events = res.data
+              }
+            }).catch((err) => {
+              console.log(err)
+              this.$notify.error({
+                title: '提示',
+                message: '网络忙，排班表获取失败',
+              })
             })
           }
         }).catch((err) => {
@@ -208,25 +208,28 @@ export default {
           const calendarApi = clickInfo.view.calendar
           calendarApi.unselect() // clear date selection
           const appId = createEventId()
-          calendarApi.addEvent({
-            id: appId,
-            title: this.doctorName,
-            start: clickInfo.event.startStr,
-            end: clickInfo.event.endStr,
-            backgroundColor: '#E6A23C',
-            borderColor: '#FAECD8'
-          })
           // 存储
           const params = {
             appId: appId,
             doctorId: this.doctorId,
             doctorName: this.doctorName,
-            start: clickInfo.event.startStr,
-            end: clickInfo.event.endStr,
+            start: clickInfo.event.startStr.split('T')[1].split('+')[0],
+            end: clickInfo.event.endStr.split('T')[1].split('+')[0],
             daysOfWeek: clickInfo.event.start.getDay()
           }
           postApplication(params).then((res) => {
             if (res.code === 0) {
+              getSchedule().then((res) => {
+                if (res.code === 0) {
+                  this.roomConfig.events = res.data
+                }
+              }).catch((err) => {
+                console.log(err)
+                this.$notify.error({
+                  title: '提示',
+                  message: '网络忙，排班表获取失败',
+                })
+              })
               this.$notify.success({
                 title: '提示',
                 message: '排班申请成功',

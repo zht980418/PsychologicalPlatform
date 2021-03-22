@@ -43,6 +43,7 @@ public class ScheduleController {
     public Results<String> putSchedule(@ApiParam(name = "咨询室信息", value = "传入json格式", required = true)
                                    @RequestBody @Valid ScheduleDTO scheduleDTO ,
                                    @PathVariable String appid){
+
         scheduleService.updateSchedule(scheduleDTO, appid);
         return Results.ok("表单修改成功", null);
     }

@@ -564,16 +564,11 @@ export default {
           right: ''
         },
         businessHours: [ // specify an array instead
-          // {
-          //   daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
-          //   startTime: '09:00',
-          //   endTime: '12:00'
-          // },
-          // {
-          //   daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
-          //   startTime: '14:00',
-          //   endTime: '18:00'
-          // },
+          {
+            daysOfWeek: [0],
+            startTime: '22:00',
+            endTime: '23:00'
+          },
         ],
         initialView: 'timeGridWeek',
         // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
@@ -665,8 +660,11 @@ export default {
     // 获取限制信息
     getConstraintById(this.doctorId).then((res) => {
       if (res.code === 0) {
-        this.calendarOptions.selectConstraint = res.data //传入限制时间数组
-        this.calendarOptions.businessHours = res.data //传入显示工作时间数组
+        console.log(res);
+        if (res.data.length > 0) {
+          this.calendarOptions.selectConstraint = res.data //传入限制时间数组
+          this.calendarOptions.businessHours = res.data //传入显示工作时间数组
+        }
         getCalendarById(this.doctorId).then((res) => {
           if (res.code === 0) {
             this.calendarOptions.events = res.data //传入预约
