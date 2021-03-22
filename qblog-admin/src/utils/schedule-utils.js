@@ -36,16 +36,17 @@ function getDate(dayOfWeek, start, end) {
     const today = new Date()
     const day = today.getDay()
     if (day === 0) {
+        console.log(start);
         start = start.split('T')
-        start = getTime(-dayOfWeek) + 'T' + start[1]
+        start = getTime(-dayOfWeek) + 'T' + start
         end = end.split('T')
-        end = getTime(-dayOfWeek) + 'T' + end[1]
+        end = getTime(-dayOfWeek) + 'T' + end
     }
     else {
         start = start.split('T')
-        start = getTime(1 - dayOfWeek) + 'T' + start[1]
+        start = getTime(1 - dayOfWeek) + 'T' + start
         end = end.split('T')
-        end = getTime(1 - dayOfWeek) + 'T' + end[1]
+        end = getTime(1 - dayOfWeek) + 'T' + end
     }
     return { start, end }
     // //上周的开始时间
@@ -58,14 +59,15 @@ function getDate(dayOfWeek, start, end) {
     // console.log(getTime(-6))
 }
 
-export const green = '#67C23A'
-export const yellow = '#E6A23C'
-export const red = '#F56C6C'
-export const Lgreen = '#E1F3D8'
-export const Lyellow = '#FAECD8'
-export const Lred = '#FDE2E2'
+
 
 function transSchedule(schedule) {
+    const green = '#67C23A'
+    const yellow = '#E6A23C'
+    const red = '#F56C6C'
+    const Lgreen = '#E1F3D8'
+    const Lyellow = '#FAECD8'
+    const Lred = '#FDE2E2'
     schedule['id'] = schedule.appid
     schedule['title'] = schedule.doctorname
     schedule['roomId'] = schedule.roomid
@@ -99,21 +101,15 @@ export function RetranSchedule(schedule) {
     return schedule
 }
 
-function transConstraint(start, end) {
-    start = start.split('T')[1].split('+')[0]
-    end = end.split('T')[1].split('+')[0]
-    return { start, end }
-}
-
 export function transConstraintList(list) {
     for (let i = 0; i < list.length; i++) {
-        let tmp = transConstraint(list[i].start, list[i].end)
-        list[i].startTime = tmp.start
-        list[i].endTime = tmp.end
+        list[i].startTime = list[i].start
+        list[i].endTime = list[i].end
         list[i].daysOfWeek = list[i].daysofweek
         delete (list[i].start)
         delete (list[i].end)
         delete (list[i].daysofweek)
     }
+
     return list
 }

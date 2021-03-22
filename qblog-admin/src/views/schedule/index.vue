@@ -88,7 +88,6 @@ import interactionPlugin from '@fullcalendar/interaction'
 import '@fullcalendar/core/locales/zh-cn'
 import { getSchedule, getRoomScheduleById, EditRoomSchedule } from '@/api/schedule'
 import { getRoomList } from '@/api/room'
-import { green, red } from '@/utils/schedule-utils'
 
 export default {
   components: {
