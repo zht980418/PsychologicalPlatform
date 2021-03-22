@@ -53,4 +53,11 @@ export function updateRecordTableByNo(consultNo, form)　{
   })
 }
 
+export function getRecordTableCount(userid)　{
+  return request({
+    url: '/recordtimes/' + userid,
+    method: 'get',
+  })
+}
+
 

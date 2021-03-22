@@ -47,5 +47,6 @@ new Vue({
   el: '#app',
   router,
   store,
+  print,
   render: h => h(App)
 })
