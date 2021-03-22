@@ -148,10 +148,10 @@ export default {
   data() {
     return {
       // 如果是执行编辑或者添加，显示提交按钮
-      canSubmit: this.$route.params.type === "edit" ||  this.$route.params.type === "add",
+      canSubmit: this.$route.query.type === "edit" ||  this.$route.query.type === "add",
       form: {
         type: 'NotFirst',
-        userid: this.$route.params.userid,
+        userid: this.$route.query.userid,
         doctorname: '',
         consultno: '',
         times:2,
@@ -169,7 +169,7 @@ export default {
   },
   created() {
     // 获取咨询次数
-    getRecordTableCount(this.$route.params.userid)
+    getRecordTableCount(this.$route.query.userid)
       .then(res => this.form.times = res.data + 1)
       .catch((err) => {
       console.log(err)
@@ -178,8 +178,8 @@ export default {
         message: '网络忙，咨询记录获取失败',
       })
     })
-    if(this.$route.params.type === 'edit' || this.$route.params.type === 'view'){
-      getRecordTableByNo(this.$route.params.consultno).then((res) => {
+    if(this.$route.query.type === 'edit' || this.$route.query.type === 'view'){
+      getRecordTableByNo(this.$route.query.consultno).then((res) => {
         if (res.code === 0) {
           console.log('getRecordTableByNo',res)
           let data = res.data
@@ -197,7 +197,7 @@ export default {
   methods: {
     onSubmit() {
       //触发添加
-      if(this.$route.params.type === 'add'){
+      if(this.$route.query.type === 'add'){
         addRecordTableInfo(this.form).then((res) => {
           if (res.code === 0) {
             this.$notify.success({
@@ -206,9 +206,9 @@ export default {
             })
             this.$router.push({
               name: 'viewRecord',
-              params:{
-                userid:　this.$route.params.userid,
-                nickname: this.$route.params.nickname,
+              query:{
+                userid:　this.$route.query.userid,
+                nickname: this.$route.query.nickname,
               }
             })
           }
@@ -222,7 +222,7 @@ export default {
       }
       // 触发修改
       else {
-        updateRecordTableByNo(this.$route.params.consultno, this.form).then((res) => {
+        updateRecordTableByNo(this.$route.query.consultno, this.form).then((res) => {
           if (res.code === 0) {
             this.$notify.success({
               title: '提示',
@@ -230,9 +230,9 @@ export default {
             })
             this.$router.push({
               name: 'viewRecord',
-              params: {
-                userid: this.$route.params.userid,
-                nickname: this.$route.params.nickname,
+              query: {
+                userid: this.$route.query.userid,
+                nickname: this.$route.query.nickname,
               }
             })
           }
@@ -248,9 +248,9 @@ export default {
     returnList() {
       this.$router.push({
         name: 'viewRecord',
-        params:{
-          userid:　this.$route.params.userid,
-          nickname: this.$route.params.nickname,
+        query:{
+          userid:　this.$route.query.userid,
+          nickname: this.$route.query.nickname,
         }
       })
     },
