@@ -1,4 +1,5 @@
 /* eslint-disable */
+
 function getTime(n) {
     var now = new Date()
     var year = now.getFullYear()
@@ -76,6 +77,9 @@ function transSchedule(schedule) {
     const tmp = getDate(schedule.daysofweek, schedule.start, schedule.end)
     schedule.start = tmp.start
     schedule.end = tmp.end
+    switch (schedule.roomId) {
+
+    }
     delete (schedule['roomid'])
     delete (schedule['doctorname'])
     delete (schedule['appid'])

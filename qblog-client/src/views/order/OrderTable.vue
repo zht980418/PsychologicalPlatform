@@ -26,7 +26,8 @@
       >
         <template v-slot:eventContent='arg'>
           <b>{{ arg.timeText }}</b>
-          <i>{{ arg.event.title }}</i>
+          <br>
+          <i>{{ arg.event.extendedProps.uid===uid ? arg.event.title : '已预约' }}</i>
         </template>
       </FullCalendar>
     </div>
@@ -503,7 +504,7 @@
         <el-button @click="dialogFormVisible=false">取消预约</el-button>
         <el-button
           type="primary"
-          @click="addEvent(form,selection)"
+          @click="addEvent(selection)"
         >确认预约</el-button>
       </div>
       <div
@@ -676,11 +677,6 @@ export default {
             message: "网络忙，预约日程表信息获取失败",
           })
         })
-      } else {
-        this.$notify.error({
-          title: "提示",
-          message: "预约日程表限制信息获出错",
-        })
       }
     }).catch((err) => {
       console.log(err)
@@ -699,7 +695,7 @@ export default {
       this.selection = selectInfo
     },
 
-    addEvent(form, selectInfo) {
+    addEvent(selectInfo) {
       this.dialogFormVisible = false
       let calendarApi = selectInfo.view.calendar
       calendarApi.unselect() // clear date selection
@@ -708,20 +704,25 @@ export default {
           // 发送预约信息
           this.form.orderId = createEventId()
           postOrder(this.getForm()).then((res) => {
-            console.log(res.data)
-            // 日程表预约+1
-            calendarApi.addEvent({
-              id: this.form.orderId,
-              title: form.name,
-              start: selectInfo.startStr,
-              end: selectInfo.endStr
-            })
-            // 清空表单
-            this.$refs['form'].resetFields()
-            this.$notify.success({
-              title: "提示",
-              message: "预约成功!",
-            })
+            if (res.code === 0) {
+              getCalendarById(this.doctorId).then((res) => {
+                if (res.code === 0) {
+                  this.calendarOptions.events = res.data //传入预约
+                  // 清空表单
+                  this.$refs['form'].resetFields()
+                  this.$notify.success({
+                    title: "提示",
+                    message: "预约成功!",
+                  })
+                }
+              }).catch((err) => {
+                console.log(err)
+                this.$notify.error({
+                  title: "提示",
+                  message: "网络忙，预约日程表信息获取失败",
+                })
+              })
+            }
           }).catch((err) => {
             console.log(err)
             this.$notify.error({
@@ -735,7 +736,6 @@ export default {
 
     handleEventClick(clickInfo) {
       // check是不是自己的预约信息
-      console.log(clickInfo)
       if (clickInfo.event.extendedProps.uid === this.uid) {
         if (clickInfo.event.extendedProps.status === '') {
           getOrderById(clickInfo.event.id).then((res) => {

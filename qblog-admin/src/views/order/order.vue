@@ -32,13 +32,13 @@
       <el-col :span="18">
         <el-card class="demo-app">
           <el-col
-            :span="22"
-            :offset="1"
+            :xs="{span:24,offset:0}"
+            :sm="{span:24,offset:0}"
+            :md="{span:24,offset:0}"
+            :lg="{span:18,offset:3}"
+            :xl="{span:16,offset:4}"
           >
-            <FullCalendar
-              :options="calendarOptions"
-              style="height:50vh;"
-            >
+            <FullCalendar :options="calendarOptions">
               <template v-slot:eventContent="arg">
                 <b>{{ arg.timeText }}</b>
                 <br>

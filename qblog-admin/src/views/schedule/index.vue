@@ -30,14 +30,19 @@
     <el-col :span="18">
       <el-card class="demo-app">
         <el-col
-          :span="22"
-          :offset="1"
-          v-if="update"
+          :xs="{span:24,offset:0}"
+          :sm="{span:24,offset:0}"
+          :md="{span:24,offset:0}"
+          :lg="{span:18,offset:3}"
+          :xl="{span:16,offset:4}"
         >
           <FullCalendar :options="scheduleConfig">
             <template v-slot:eventContent="arg">
-              <!-- <b>{{ arg.timeText }}</b> -->
+              <b>{{ arg.timeText }}</b>
+              <br>
               <i>{{ arg.event.title }}</i>
+              <br>
+              <i></i>
             </template>
           </FullCalendar>
         </el-col>
@@ -95,7 +100,6 @@ export default {
   },
   data() {
     return {
-      update: true,
       dialogEditVisible: false,
       roomSelection: '',
       clickapp: '',
@@ -200,7 +204,7 @@ export default {
   },
   watch: {
     roomSelection: function (val) {
-      if (val != '' | '-1') {
+      if (val != '') {
         getRoomScheduleById(val).then((res) => {
           if (res.code === 0) {
             this.roomConfig.events = res.data
@@ -231,7 +235,6 @@ export default {
     })
     getSchedule().then((res) => {
       if (res.code === 0) {
-        console.log(res)
         this.scheduleConfig.events = res.data
       }
     }).catch((err) => {
@@ -264,12 +267,11 @@ export default {
         if (res.code === 0) {
           getSchedule().then((res) => {
             if (res.code === 0) {
-              console.log(res)
               this.scheduleConfig.events = res.data
               this.dialogEditVisible = false
               this.$notify.success({
                 title: '提示',
-                message: '咨询室分配成功！请刷新页面查看结果！'
+                message: '咨询室分配成功！'
               })
             }
           }).catch((err) => {
@@ -290,7 +292,7 @@ export default {
     },
 
     handleClose() {
-      this.roomSelection = null
+      this.roomSelection = ''
     },
 
     handleEvents(events) {
