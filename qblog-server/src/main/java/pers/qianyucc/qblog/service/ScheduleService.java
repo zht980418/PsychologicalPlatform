@@ -82,4 +82,28 @@ public class ScheduleService {
         }
         return res;
     }
+
+    public List<String> getStartByRoomID(String roomid) {
+        ArrayList res = new ArrayList<>();
+        QueryWrapper<SchedulePO> wrapper = new QueryWrapper<>();
+        wrapper.select("start","roomid");
+        List<Map<String, Object>> maps = scheduleMapper.selectMaps(wrapper);
+        for(int i=0; i<maps.size();i++){
+            if(maps.get(i).get("roomid")!=null&&maps.get(i).get("roomid").equals(roomid))
+                res.add(maps.get(i).get("start"));
+        }
+        return res;
+    }
+
+    public List<String> getDaysofweekByRoomID(String roomid) {
+        ArrayList res = new ArrayList<>();
+        QueryWrapper<SchedulePO> wrapper = new QueryWrapper<>();
+        wrapper.select("roomid","daysofweek");
+        List<Map<String, Object>> maps = scheduleMapper.selectMaps(wrapper);
+        for(int i=0; i<maps.size();i++){
+            if(maps.get(i).get("roomid")!=null&&maps.get(i).get("roomid").equals(roomid))
+                res.add(maps.get(i).get("daysofweek"));
+        }
+        return res;
+    }
 }
