@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pers.qianyucc.qblog.exception.BlogException;
 import pers.qianyucc.qblog.model.comm.Results;
 import pers.qianyucc.qblog.model.dto.UserDTO;
 import pers.qianyucc.qblog.model.dto.UserinfoDTO;
@@ -14,6 +15,8 @@ import pers.qianyucc.qblog.service.UserinfoService;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+
+import static pers.qianyucc.qblog.model.enums.ErrorInfoEnum.*;
 
 @Api("用户相关接口")
 @RestController
@@ -57,15 +60,20 @@ public class UserinfoController {
         return Results.ok("登录成功", MapUtil.of("token", token));
     }
 //    查询单独用户信息
-    @GetMapping("/logintest/{userid}")
+    @GetMapping("/logintest")
     @ApiOperation("获取用户信息")
-    @ApiImplicitParam(name = "userid", value = "用户ID", required = true, dataType = "String", paramType = "path")
-    public Results<UserinfoVO> getUserinfoByuserid(@PathVariable String userid) {
-        UserinfoVO userinfoVO = userinfoService.getUserinfo(userid);
-        return Results.ok(userinfoVO);
+//    @ApiImplicitParam(name = "userid", value = "用户ID", required = true, dataType = "String", paramType = "path")
+//    public Results<UserinfoVO> getUserinfoByuserid(@PathVariable String userid) {
+    public Results<UserinfoVO> getUserinfoByuserid(@RequestParam(value = "userid",required = true) String userid) {
+        if(userid.equals(null)){
+            throw new BlogException(INVALID_ID);
+        }else {
+            UserinfoVO userinfoVO = userinfoService.getUserinfo(userid);
+            return Results.ok(userinfoVO);
+        }
     }
 //    查询用户列表
-    @GetMapping("/logintest")
+    @GetMapping("/logintestall")
     @ApiOperation("获取用户列表")
     @ApiImplicitParam(name = "userid", value = "用户ID", required = true, dataType = "String", paramType = "path")
     public Results<List<UserinfoVO>> getAlluserinfo(){
