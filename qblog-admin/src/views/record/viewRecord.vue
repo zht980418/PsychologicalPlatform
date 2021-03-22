@@ -52,13 +52,13 @@
                 type="primary"
                 icon="el-icon-edit"
                 plain
-                @click="handleView(scope.row)"
+                @click="handleView(scope.$index, scope.row)"
               >查看</el-button>
               <el-button
                 type="success"
                 icon="el-icon-edit"
                 plain
-                @click="handleEdit(scope.row)"
+                @click="handleEdit(scope.$index, scope.row)"
               >编辑</el-button>
               <el-button
                 type="danger"
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import {deleteRecordTableByNo, getRecordTableListById } from "@/api/recordTable";
+import {deleteRecordTableByNo, getRecordTableListById} from "@/api/recordTable";
 
 export default {
   name: "viewRecord",
@@ -103,16 +103,17 @@ export default {
   methods: {
     handleAdd(){
       console.log("add")
-      this.$router.push({name:"recordTable", params: { userid: this.$route.params.userid, nickname: this.$route.params.nickname, type: "add"}})
-    },
+      this.handleDispatch("add")
+},
     // 展示编辑dialog
-    handleView(row) {
+    handleView(index, row) {
       console.log("view")
-      this.$router.push({name:"recordTable", params: { userid: this.$route.params.userid, nickname: this.$route.params.nickname, consultno: row.consultno, type: "view"}})
+      this.handleDispatch(index, row, "view")
+
     },
-    handleEdit(row) {
+    handleEdit(index, row) {
       console.log("edit")
-      this.$router.push({name:"recordTable", params: { userid: this.$route.params.userid,  nickname: this.$route.params.nickname, consultno: row.consultno, type: "edit"}})
+      this.handleDispatch(index, row, "edit")
     },
     handleDelete(index, row){
       console.log("delete")
@@ -136,6 +137,16 @@ export default {
         })
       }
     },
+    handleDispatch(index, row, routeType){
+      console.log(index)
+      row = row === null ? { consultno: "0", } : row
+      index = index === null ? -1 : index
+      if( this.recordList.length ===0 || index === 0){
+        this.$router.push({name:"recordTableFirst", params: { userid: this.$route.params.userid, nickname: this.$route.params.nickname, consultno: row.consultno, type: routeType}})
+      }else{
+        this.$router.push({name:"recordTableNext", params: { userid: this.$route.params.userid, nickname: this.$route.params.nickname, consultno: row.consultno, type: routeType}})
+      }
+    }
   }
 }
 </script>
