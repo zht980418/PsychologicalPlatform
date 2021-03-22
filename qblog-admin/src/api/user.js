@@ -21,7 +21,7 @@ export function register(data) {
 
 export function getUserById(id) {
   return request({
-    url: '/logintest/' + id,
+    url: '/logintest?userid=' + id,
     method: 'get',
     data: {
       id: id
@@ -31,7 +31,7 @@ export function getUserById(id) {
 
 /**
  * 通过姓名搜索用户
- * @param {name:String} name 
+ * @param {name:String} name
  * @returns {uid:String,name:String,phone:Number}
  */
 export function getUserByName(name) {
@@ -47,7 +47,7 @@ export function getUserByName(name) {
 
 export function getUsers() {
   return request({
-    url: '/logintest',
+    url: '/logintestall',
     method: 'get'
   })
 }

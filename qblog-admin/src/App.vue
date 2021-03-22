@@ -5,18 +5,15 @@
 </template>
 
 <script>
+import store from "@/store";
+
 export default {
   name: 'App',
-  created() {
-    console.log('页面加载')
-    if (sessionStorage.getItem('state')) {
-      this.$store.replaceState(Object.assign({}, this.$store.state,
-        JSON.parse(sessionStorage.getItem('state'))))
-    }
-
+  created(){
     window.addEventListener('beforeunload', () => {
-      sessionStorage.setItem('state', JSON.stringify(this.$store.state))
+      sessionStorage.setItem('state', JSON.stringify(store.state))
     })
   }
+
 }
 </script>

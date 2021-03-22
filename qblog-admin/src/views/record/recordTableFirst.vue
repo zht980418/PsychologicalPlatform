@@ -196,16 +196,6 @@ export default {
     }
   },
   created() {
-    // 获取咨询次数
-    getRecordTableCount(this.$route.params.userid)
-      .then(res => this.form2.times = res.data + 1)
-      .catch((err) => {
-        console.log(err)
-        this.$notify.error({
-          title: '提示',
-          message: '网络忙，咨询记录获取失败',
-        })
-      })
     // 编辑和查看模式下，获取表单信息
     if(this.$route.params.type === 'edit' || this.$route.params.type === 'view'){
       getRecordTableByNo(this.$route.params.consultno).then((res) => {

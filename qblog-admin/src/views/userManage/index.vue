@@ -83,7 +83,7 @@ export default {
 
     modifyUser: function (row) {
       console.log(row.userid)
-      router.push({ name: 'modifyUser', params: { userId: row.userid } })
+      router.push({ name: 'modifyUser', params: { userid: row.userid } })
     },
     deleteUser: function (row) {
       {

@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pers.qianyucc.qblog.exception.BlogException;
 import pers.qianyucc.qblog.model.comm.Results;
 import pers.qianyucc.qblog.model.dto.ScheduleDTO;
 import pers.qianyucc.qblog.model.vo.ScheduleVO;
@@ -13,6 +14,8 @@ import pers.qianyucc.qblog.service.ScheduleService;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static pers.qianyucc.qblog.model.enums.ErrorInfoEnum.*;
 
 @Api
 @RestController
@@ -43,6 +46,15 @@ public class ScheduleController {
     public Results<String> putSchedule(@ApiParam(name = "咨询室信息", value = "传入json格式", required = true)
                                    @RequestBody @Valid ScheduleDTO scheduleDTO ,
                                    @PathVariable String appid){
+        String roomid = scheduleDTO.getRoomid();
+        String start = scheduleDTO.getStart();
+        String daysofweek = scheduleDTO.getDaysofweek();
+        List<String> StartList = scheduleService.getStartByRoomID(roomid);
+        List<String> DaysofweekList = scheduleService.getDaysofweekByRoomID(roomid);
+        for(int i=0;i<StartList.size();i++){
+            if(StartList.get(i).equals(start)&&DaysofweekList.get(i).equals(daysofweek))
+                throw new BlogException(CONFLICT_TIME);
+        }
         scheduleService.updateSchedule(scheduleDTO, appid);
         return Results.ok("表单修改成功", null);
     }
