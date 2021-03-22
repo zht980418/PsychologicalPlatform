@@ -21,6 +21,8 @@ import static pers.qianyucc.qblog.model.enums.ErrorInfoEnum.INVALID_ID;
 public class ScheduleService {
     @Autowired
     private ScheduleMapper scheduleMapper;
+    @Autowired
+    private RoomService roomService;
 
     @Transactional(rollbackFor = Exception.class)
 
@@ -52,6 +54,11 @@ public class ScheduleService {
         wrapper.select("appid","start","end","daysofweek","doctorid","doctorname","roomid");
         List<Map<String, Object>> maps = scheduleMapper.selectMaps(wrapper);
         for(int i =0; i<maps.size(); i++){
+            if(maps.get(i).get("roomid")!=null&&Integer.parseInt(maps.get(i).get("roomid").toString())>0){
+                String roomid = maps.get(i).get("roomid").toString();
+                String roomName = roomService.getRoomNameByRoomID(roomid);
+                maps.get(i).put("roomName",roomName);
+            }else maps.get(i).put("roomName",null);
             res.add(maps.get(i));
         }
         return res;
