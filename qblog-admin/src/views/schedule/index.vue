@@ -32,6 +32,7 @@
         <el-col
           :span="22"
           :offset="1"
+          v-if="update"
         >
           <FullCalendar :options="scheduleConfig">
             <template v-slot:eventContent="arg">
@@ -94,6 +95,7 @@ export default {
   },
   data() {
     return {
+      update: true,
       dialogEditVisible: false,
       roomSelection: '',
       clickapp: '',
@@ -229,6 +231,7 @@ export default {
     })
     getSchedule().then((res) => {
       if (res.code === 0) {
+        console.log(res)
         this.scheduleConfig.events = res.data
       }
     }).catch((err) => {
@@ -259,12 +262,22 @@ export default {
     roomEdit() {
       EditRoomSchedule(this.clickapp.event.id, this.roomSelection).then((res) => {
         if (res.code === 0) {
-          console.log(this.clickapp)
-          // this.clickapp.event.backgroundColor = 'green'
-          // this.clickapp.event.borderColor = 'green'
-          this.$notify.success({
-            title: '提示',
-            message: '咨询室分配成功！'
+          getSchedule().then((res) => {
+            if (res.code === 0) {
+              console.log(res)
+              this.scheduleConfig.events = res.data
+              this.dialogEditVisible = false
+              this.$notify.success({
+                title: '提示',
+                message: '咨询室分配成功！请刷新页面查看结果！'
+              })
+            }
+          }).catch((err) => {
+            console.log(err)
+            this.$notify.error({
+              title: '提示',
+              message: '网络忙，咨询室分配失败',
+            })
           })
         }
       }).catch((err) => {
