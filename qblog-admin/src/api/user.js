@@ -21,7 +21,7 @@ export function register(data) {
 
 export function getUserById(id) {
   return request({
-    url: '/logintest/' + id,
+    url: '/logintest?userid=' + id,
     method: 'get',
     data: {
       id: id
