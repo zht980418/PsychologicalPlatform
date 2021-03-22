@@ -166,7 +166,7 @@ export const asyncRouterMap = [
         path: 'recordByUser',
         name: 'recordByUser',
         component: () => import('@/views/record/index'),
-        meta: { title: '用户查询', icon: 'el-icon-search', role: ['管理员', '咨询师'] },
+        meta: { title: '咨询管理', icon: 'el-icon-search', role: ['管理员', '咨询师'] },
       },
       {
         path: 'viewRecord',
