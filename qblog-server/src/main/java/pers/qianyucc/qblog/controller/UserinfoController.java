@@ -65,7 +65,7 @@ public class UserinfoController {
         return Results.ok(userinfoVO);
     }
 //    查询用户列表
-    @GetMapping("/logintest")
+    @GetMapping("/logintestall")
     @ApiOperation("获取用户列表")
     @ApiImplicitParam(name = "userid", value = "用户ID", required = true, dataType = "String", paramType = "path")
     public Results<List<UserinfoVO>> getAlluserinfo(){
