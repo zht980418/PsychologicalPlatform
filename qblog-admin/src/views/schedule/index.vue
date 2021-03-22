@@ -259,8 +259,9 @@ export default {
     roomEdit() {
       EditRoomSchedule(this.clickapp.event.id, this.roomSelection).then((res) => {
         if (res.code === 0) {
-          this.clickapp.event.backgroundColor = 'green'
-          this.clickapp.events.borderColor = 'green'
+          console.log(this.clickapp)
+          // this.clickapp.event.backgroundColor = 'green'
+          // this.clickapp.event.borderColor = 'green'
           this.$notify.success({
             title: '提示',
             message: '咨询室分配成功！'
