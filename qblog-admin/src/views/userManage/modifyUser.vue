@@ -71,7 +71,7 @@ export default {
     }
   },
   created() {
-    const userId = this.$route.query.userId
+    const userId = this.$route.params.userid
     getUserById(userId).then((response) => {
       this.user.userid = response.data.userid
       this.user.name = response.data.nickname

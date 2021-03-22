@@ -25,9 +25,9 @@ router.beforeEach(async (to, from, next) => {
       NProgress.done()
     } else {
       const hasGetUserInfo = store.getters.role
-      console.log('路由守卫，检查是否成功拉取信息', hasGetUserInfo)
+      // console.log('路由守卫，检查是否成功拉取信息', hasGetUserInfo)
       if (hasGetUserInfo[0]) {
-        console.log('检测到用户信息已获取，继续执行')
+        // console.log('检测到用户信息已获取，继续执行')
         next()
       } else {
         try {
@@ -36,13 +36,14 @@ router.beforeEach(async (to, from, next) => {
               JSON.parse(sessionStorage.getItem('state'))))
           }
           // get user info
-          console.log('没有检测到用户信息，开始拉取用户信息')
+          // console.log('没有检测到用户信息，开始拉取用户信息')
           await store.dispatch('user/getInfo')
           const roles = store.getters.role
-          console.log('用户权限为:', roles)
+          // console.log('用户权限为:', roles)
           store.dispatch('GenerateRoutes', { roles }).then(() => { // 生成可访问的路由表
-            console.log('开始根据权限生成路由表')
+            // console.log('开始根据权限生成路由表')
             router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
+            console.log(to.path)
             next(to.path)
           })
         } catch (error) {

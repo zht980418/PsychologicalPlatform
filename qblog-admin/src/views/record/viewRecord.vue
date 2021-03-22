@@ -82,8 +82,8 @@ export default {
   data() {
     return {
       recordList: [],
-      userid: this.$route.query.userid,
-      nickname: this.$route.query.nickname,
+      userid: this.$route.params.userid,
+      nickname: this.$route.params.nickname,
     }
   },
   created() {
@@ -104,9 +104,9 @@ export default {
     handleAdd(){
       console.log("add")
       if( this.recordList.length === 0){
-        this.$router.push({name:"recordTableFirst", query: { userid: this.$route.query.userid, nickname: this.$route.query.nickname, type: "add"}})
+        this.$router.push({name:"recordTableFirst", params: { userid: this.$route.params.userid, nickname: this.$route.params.nickname, consultno: null, type: "add"}})
       }else{
-        this.$router.push({name:"recordTableNext", query: { userid: this.$route.query.userid, nickname: this.$route.query.nickname, type: "add"}})
+        this.$router.push({name:"recordTableNext", params: { userid: this.$route.params.userid, nickname: this.$route.params.nickname, consultno: null, type: "add"}})
       }
 },
     // 展示编辑dialog
@@ -142,11 +142,11 @@ export default {
       }
     },
     handleDispatch(index, row, routeType){
-      console.log(row)
+      console.log(row.consultno)
       if( index === 0){
-        this.$router.push({name:"recordTableFirst", query: { userid: this.$route.query.userid, nickname: this.$route.query.nickname, consultno: row.consultno, type: routeType}})
+        this.$router.push({name:"recordTableFirst", params: { userid: this.$route.params.userid, nickname: this.$route.params.nickname, consultno: row.consultno, type: routeType}})
       }else{
-        this.$router.push({name:"recordTableNext", query: { userid: this.$route.query.userid, nickname: this.$route.query.nickname, consultno: row.consultno, type: routeType}})
+        this.$router.push({name:"recordTableNext", params: { userid: this.$route.params.userid, nickname: this.$route.params.nickname, consultno: row.consultno, type: routeType}})
       }
     }
   }
