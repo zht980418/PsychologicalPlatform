@@ -6,7 +6,7 @@
 
 <script>
 import store from "@/store";
-export const storeName = (new Date()).valueOf();
+export const storeName = store.state.userid === undefined ? 'store': store.user.userid;
 
 export default {
   name: 'App',

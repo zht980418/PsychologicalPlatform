@@ -1,14 +1,37 @@
 <template>
   <div class="app-container">
     <div class="title-box">
-      <input v-model="article.title" type="text" class="title" placeholder="请输入标题...">
-      <el-button type="text" @click="openDialog">提交</el-button>
+      <input
+        v-model="article.title"
+        type="text"
+        class="title"
+        placeholder="请输入标题..."
+      >
+      <el-button
+        type="text"
+        @click="openDialog"
+      >提交</el-button>
     </div>
-    <mavon-editor ref="md" v-model="article.content" class="editor" @imgAdd="$imgAdd" />
+    <mavon-editor
+      ref="md"
+      v-model="article.content"
+      class="editor"
+      @imgAdd="$imgAdd"
+    />
 
-    <el-dialog :title="`发布文章：${article.title}`" :visible.sync="showDialog" width="30%">
-      <el-form label-position="left" label-width="80px">
-        <el-form-item label="标签：" style="width:fit-content">
+    <el-dialog
+      :title="`发布文章：${article.title}`"
+      :visible.sync="showDialog"
+      width="30%"
+    >
+      <el-form
+        label-position="left"
+        label-width="80px"
+      >
+        <el-form-item
+          label="标签："
+          style="width:fit-content"
+        >
           <el-tag
             v-for="tag in article.tags"
             :key="tag"
@@ -25,10 +48,18 @@
             @keyup.enter.native="handleTagInputConfirm"
             @blur="handleTagInputConfirm"
           />
-          <el-button v-else class="button-new-tag" size="small" @click="showTagInput">+ 新标签</el-button>
+          <el-button
+            v-else
+            class="button-new-tag"
+            size="small"
+            @click="showTagInput"
+          >+ 新标签</el-button>
         </el-form-item>
         <el-form-item label="分类：">
-          <el-select v-model="article.category" placeholder="请选择">
+          <el-select
+            v-model="article.category"
+            placeholder="请选择"
+          >
             <el-option
               v-for="(category,index) in categories"
               :key="index"
@@ -36,18 +67,35 @@
               :value="category"
             />
           </el-select>
-          <el-button type="text" class="add-category-btn" @click="showAddCategoryInput = true">自定义分类</el-button>
+          <el-button
+            type="text"
+            class="add-category-btn"
+            @click="showAddCategoryInput = true"
+          >自定义分类</el-button>
         </el-form-item>
         <el-collapse-transition>
-          <el-form-item v-show="showAddCategoryInput" label="新分类：">
-            <el-input v-model="article.newCategory" @keypress.enter.native="addCategory" />
+          <el-form-item
+            v-show="showAddCategoryInput"
+            label="新分类："
+          >
+            <el-input
+              v-model="article.newCategory"
+              @keypress.enter.native="addCategory"
+            />
           </el-form-item>
         </el-collapse-transition>
         <el-form-item label="摘要：">
-          <el-input v-model="article.tabloid" type="textarea" rows="4" />
+          <el-input
+            v-model="article.tabloid"
+            type="textarea"
+            rows="4"
+          />
         </el-form-item>
         <el-form-item label="作者：">
-          <el-input v-model="article.author" type="text" />
+          <el-input
+            v-model="article.author"
+            type="text"
+          />
         </el-form-item>
         <el-form-item>
           <el-checkbox v-model="article.type">原创</el-checkbox>
@@ -55,7 +103,10 @@
       </el-form>
       <span slot="footer">
         <el-button @click="handleCancel">取 消</el-button>
-        <el-button type="primary" @click="handleSubmit">发布</el-button>
+        <el-button
+          type="primary"
+          @click="handleSubmit"
+        >发布</el-button>
       </span>
     </el-dialog>
   </div>
@@ -87,7 +138,9 @@ export default {
   },
   created() {
     const articleId = this.$route.params.articleId
-    if (articleId) {
+    if (articleId === ':articleId') {
+      console.log('写新文章')
+    } else if (articleId) {
       getArticleById(articleId).then((res) => {
         this.article = res.data
         this.article.type = this.article.type === '原创'
