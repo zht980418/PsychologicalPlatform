@@ -653,6 +653,7 @@ import { getUserByName } from '@/api/user'
 import { getOrderById, postOrder, updateOrderById } from '@/api/order'
 import { getRoomCalendarById, getRoomList } from '@/api/room'
 import '@fullcalendar/core/locales/zh-cn'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'OrderPage',
@@ -781,6 +782,11 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters({
+      doctorId: 'id'
+    })
+  },
   created() {
     // 获取咨询室list
     getRoomList().then((res) => {
@@ -795,7 +801,7 @@ export default {
         message: '网络忙，咨询室信息获取失败',
       })
     })
-    this.form.doctorId = this.$route.params.doctorId
+    this.form.doctorId = this.doctorId
     this.form.orderId = this.$route.params.orderId
     this.form.ordertime = this.$route.params.selectInfo.start
     if (Boolean(this.initVisible) === false) {

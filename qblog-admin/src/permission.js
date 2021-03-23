@@ -5,6 +5,8 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
+import { storeName } from '@/App'
+
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
@@ -31,9 +33,9 @@ router.beforeEach(async (to, from, next) => {
         next()
       } else {
         try {
-          if (sessionStorage.getItem('state')) {
+          if (sessionStorage.getItem(storeName)) {
             store.replaceState(Object.assign({}, store.state,
-              JSON.parse(sessionStorage.getItem('state'))))
+              JSON.parse(sessionStorage.getItem(storeName))))
           }
           // get user info
           // console.log('没有检测到用户信息，开始拉取用户信息')

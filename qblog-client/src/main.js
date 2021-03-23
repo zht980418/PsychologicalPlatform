@@ -17,6 +17,9 @@ import '@/icons' // icon
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 
+import { VueShowdown } from 'vue-showdown'
+Vue.component('VueShowdown', VueShowdown)
+
 import VideoPlayer from 'vue-video-player'
 Vue.use(VideoPlayer);
 require('video.js/dist/video-js.css')

@@ -55,7 +55,7 @@ const routes = [
     component: Layout,
     hidden: true,
     children: [{
-      path: 'page',
+      path: 'page/:id',
       name: 'Article',
       component: () => import("@/views/Article.vue"),
       meta: { title: "文章详情" },
@@ -64,6 +64,7 @@ const routes = [
   {
     path: "/quiz",
     name: "Quiz",
+    redirect: '/quiz',
     component: Layout,
     meta: { title: "心理测量问卷" },
     children: [{
@@ -96,13 +97,13 @@ const routes = [
           },
           {
             name: "ordertable",
-            path: "ordertable",
+            path: "ordertable/:doctorId",
             component: () => import("@/views/order/OrderTable.vue")
           },
-          {
-            path: "orderform",
-            component: () => import("@/views/order/OrderForm.vue")
-          },
+          // {
+          //   path: "orderform",
+          //   component: () => import("@/views/order/OrderForm.vue")
+          // },
         ]
       }],
   },
@@ -120,7 +121,7 @@ const routes = [
         meta: { title: '课程培训', icon: 'el-icon-s-management' }
       },
       {
-        path: 'coursePage',
+        path: 'coursePage/:courseId',
         name: 'CoursePage',
         component: () => import('@/views/course/coursePage'),
         meta: { title: '课程培训', noCache: true },

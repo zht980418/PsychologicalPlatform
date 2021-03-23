@@ -38,11 +38,9 @@
         >
           <FullCalendar :options="scheduleConfig">
             <template v-slot:eventContent="arg">
-              <b>{{ arg.timeText }}</b>
+              <i>申请人：{{ arg.event.title }}</i>
               <br>
-              <i>{{ arg.event.title }}</i>
-              <br>
-              <i></i>
+              <i>咨询室：{{arg.event.extendedProps.roomName? arg.event.extendedProps.roomName:arg.event.extendedProps.roomId==='-1'? '已拒绝该申请':'暂未分配咨询室' }}</i>
             </template>
           </FullCalendar>
         </el-col>
@@ -235,6 +233,7 @@ export default {
     })
     getSchedule().then((res) => {
       if (res.code === 0) {
+        console.log(res.data);
         this.scheduleConfig.events = res.data
       }
     }).catch((err) => {
