@@ -113,4 +113,16 @@ public class ScheduleService {
         }
         return res;
     }
+    public String getStartByappid(String appid){
+        SchedulePO schedulePO = scheduleMapper.selectById(appid);
+        String res = schedulePO.getStart();
+        System.out.println("start:"+res);
+        return res;
+    }
+    public String getDaysofweekByappid(String appid){
+        SchedulePO schedulePO = scheduleMapper.selectById(appid);
+        String res = schedulePO.getDaysofweek();
+        System.out.println("daysofweek:"+res);
+        return res;
+    }
 }

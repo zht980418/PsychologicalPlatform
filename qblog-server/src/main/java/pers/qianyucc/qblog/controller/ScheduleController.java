@@ -27,8 +27,16 @@ public class ScheduleController {
     @PostMapping("/schedule")
     public Results<String> postSchedule(@ApiParam(name = "咨询室预约信息", value = "传入json格式", required = true)
                                     @RequestBody @Valid ScheduleDTO scheduleDTO) {
+        String start = scheduleDTO.getStart();
+        String daysofweek = scheduleDTO.getDaysofweek();
+        String roomid = scheduleDTO.getRoomid();
+        List<String> StartList = scheduleService.getStartByRoomID(roomid);
+        List<String> DaysofweekList = scheduleService.getDaysofweekByRoomID(roomid);
+        for(int i=0;i<StartList.size();i++){
+            if(StartList.get(i).equals(start)&&DaysofweekList.get(i).equals(daysofweek))
+                throw new BlogException(CONFLICT_TIME);
+        }
         scheduleService.insSchedule(scheduleDTO);
-//        scheduleService.insSchedule(scheduleDTO);
         return Results.ok("表单新增成功", null);
     }
 
@@ -47,8 +55,10 @@ public class ScheduleController {
                                    @RequestBody @Valid ScheduleDTO scheduleDTO ,
                                    @PathVariable String appid){
         String roomid = scheduleDTO.getRoomid();
-        String start = scheduleDTO.getStart();
-        String daysofweek = scheduleDTO.getDaysofweek();
+//        String start = scheduleDTO.getStart();
+        String start = scheduleService.getStartByappid(appid);
+//        String daysofweek = scheduleDTO.getDaysofweek();
+        String daysofweek = scheduleService.getDaysofweekByappid(appid);
         List<String> StartList = scheduleService.getStartByRoomID(roomid);
         List<String> DaysofweekList = scheduleService.getDaysofweekByRoomID(roomid);
         for(int i=0;i<StartList.size();i++){
