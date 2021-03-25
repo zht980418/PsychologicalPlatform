@@ -10,9 +10,6 @@
           <el-form-item label="标 题">
             <el-input v-model="form.title" />
           </el-form-item>
-          <el-form-item label="主讲人">
-            <el-input v-model="form.teacher" />
-          </el-form-item>
           <el-form-item label="课程描述">
             <el-input
               v-model="form.description"
@@ -58,6 +55,7 @@
 </template>
 
 <script>
+import { postCourse } from '@/api/course'
 export default {
   data() {
     return {
@@ -68,7 +66,11 @@ export default {
   methods: {
     onSubmit() {
       console.log('on submit')
-      
+      postCourse(this.form).then((res) => {
+        if (res.code == 0) {
+          console.log(res)
+        }
+      })
     },
     handleRemove(file, fileList) {
       console.log(file, fileList);

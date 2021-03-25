@@ -1,6 +1,7 @@
 import urls from '@/api/urls'
 import request from '@/utils/request'
-import { transCourseList, transCourse } from '@/utils/course-utils'
+import { transCourseList, transCourse, RetransCourse } from '@/utils/course-utils'
+import { createEventId } from '@/utils/event-utils'
 
 
 /**
@@ -31,5 +32,19 @@ export function getCourse() {
     }).then((res) => {
         transCourse(res.data)
         return res
+    })
+}
+
+/**
+ * 添加课程
+ * @param {title,description,link} params 
+ * @returns 
+ */
+
+export function postCourse(params) {
+    return request({
+        url: urls.Course,
+        method: 'post',
+        data: RetransCourse(params, createEventId())
     })
 }

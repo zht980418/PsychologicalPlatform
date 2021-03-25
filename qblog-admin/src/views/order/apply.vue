@@ -184,7 +184,6 @@ export default {
 
     // 点击已有预约
     handleEventClick(clickInfo) {
-      console.log(clickInfo.event)
       if (clickInfo.event.extendedProps.doctorId === this.doctorId) {
         if (confirm(`你确定要取消该排班申请吗？ '${clickInfo.event.title}'`)) {
           deleteApplicationById(clickInfo.event.id).then((res) => {
