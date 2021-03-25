@@ -129,4 +129,28 @@ public class ScheduleService {
 //        System.out.println("daysofweek:"+res);
         return res;
     }
+
+    public List<String> getStartByDoctorID(String doctorid) {
+        ArrayList res = new ArrayList<>();
+        QueryWrapper<SchedulePO> wrapper = new QueryWrapper<>();
+        wrapper.select("start","doctorid");
+        List<Map<String, Object>> maps = scheduleMapper.selectMaps(wrapper);
+        for(int i=0; i<maps.size();i++){
+            if(maps.get(i).get("doctorid")!=null&&maps.get(i).get("doctorid").equals(doctorid))
+                res.add(maps.get(i).get("start"));
+        }
+        return res;
+    }
+
+    public List<String> getDaysofweekByDoctorID(String doctorid) {
+        ArrayList res = new ArrayList<>();
+        QueryWrapper<SchedulePO> wrapper = new QueryWrapper<>();
+        wrapper.select("doctorid","daysofweek");
+        List<Map<String, Object>> maps = scheduleMapper.selectMaps(wrapper);
+        for(int i=0; i<maps.size();i++){
+            if(maps.get(i).get("doctorid")!=null&&maps.get(i).get("doctorid").equals(doctorid))
+                res.add(maps.get(i).get("daysofweek"));
+        }
+        return res;
+    }
 }
