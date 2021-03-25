@@ -43,7 +43,7 @@ public class ScheduleService {
             throw new BlogException(INVALID_ID);
         }
         SchedulePO schedulePO = scheduleDTO.toSchedulePO();
-        System.out.println(schedulePO.getAppid());
+//        System.out.println(schedulePO.getAppid());
         schedulePO.setAppid(appid);
         scheduleMapper.updateById(schedulePO);
     }
@@ -54,10 +54,14 @@ public class ScheduleService {
         wrapper.select("appid","start","end","daysofweek","doctorid","doctorname","roomid");
         List<Map<String, Object>> maps = scheduleMapper.selectMaps(wrapper);
         for(int i =0; i<maps.size(); i++){
-            if(maps.get(i).get("roomid")!=null&&Integer.parseInt(maps.get(i).get("roomid").toString())>0){
-                String roomid = maps.get(i).get("roomid").toString();
+            String roomid = maps.get(i).get("roomid")==null?"-1":maps.get(i).get("roomid").toString();
+            if(roomid!="-1"){
                 String roomName = roomService.getRoomNameByRoomID(roomid);
-                maps.get(i).put("roomName",roomName);
+                if(roomName==null) {
+                    System.out.println("roomName");
+                    maps.get(i).put("roomName", null);
+                }
+                else maps.get(i).put("roomName",roomName);
             }else maps.get(i).put("roomName",null);
             res.add(maps.get(i));
         }
@@ -116,13 +120,13 @@ public class ScheduleService {
     public String getStartByappid(String appid){
         SchedulePO schedulePO = scheduleMapper.selectById(appid);
         String res = schedulePO.getStart();
-        System.out.println("start:"+res);
+//        System.out.println("start:"+res);
         return res;
     }
     public String getDaysofweekByappid(String appid){
         SchedulePO schedulePO = scheduleMapper.selectById(appid);
         String res = schedulePO.getDaysofweek();
-        System.out.println("daysofweek:"+res);
+//        System.out.println("daysofweek:"+res);
         return res;
     }
 }
