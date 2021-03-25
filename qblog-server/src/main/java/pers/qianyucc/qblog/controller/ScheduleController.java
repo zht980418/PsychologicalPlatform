@@ -71,7 +71,7 @@ public class ScheduleController {
 
     @ApiOperation("获取日程表列表")
     @GetMapping("/schedule")
-    @ApiImplicitParam(name = "scheduleid", value = "咨询室id", required = true, dataType = "String", paramType = "path")
+//    @ApiImplicitParam(name = "scheduleid", value = "咨询室id", required = true, dataType = "String", paramType = "path")
     public Results<List<ScheduleVO>> getSchedules() {
         return Results.ok(scheduleService.getAllSchedules());
     }
