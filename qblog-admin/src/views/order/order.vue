@@ -32,13 +32,13 @@
       <el-col :span="18">
         <el-card class="demo-app">
           <el-col
-            :span="22"
-            :offset="1"
+            :xs="{span:24,offset:0}"
+            :sm="{span:24,offset:0}"
+            :md="{span:24,offset:0}"
+            :lg="{span:18,offset:3}"
+            :xl="{span:16,offset:4}"
           >
-            <FullCalendar
-              :options="calendarOptions"
-              style="height:50vh;"
-            >
+            <FullCalendar :options="calendarOptions">
               <template v-slot:eventContent="arg">
                 <b>{{ arg.timeText }}</b>
                 <br>
@@ -143,7 +143,6 @@ export default {
     this.calendarOptions.selectConstraint = defaultConstraint()
     getDoctorConstraintById(this.doctorId).then((res) => {
       if (res.code === 0) {
-        console.log(res);
         this.calendarOptions.selectConstraint = res.data // 传入限制时间数组
         // TODO 有一个问题，就是获取的必须是当前周的事件，现在获取的还是所有事件
         this.calendarOptions.businessHours = res.data
@@ -180,13 +179,13 @@ export default {
 
     // 新建预约
     handleDateSelect(selectInfo) {
-      this.$router.push({ name: 'OrderPage', params: { doctorId: this.doctorId, editType: this.Init, selectInfo: selectInfo, orderId: createEventId() } })
+      this.$router.push({ name: 'OrderPage', params: { editType: this.Init, selectInfo: selectInfo, orderId: createEventId() } })
     },
 
     // 点击已有预约
     handleEventClick(clickInfo) {
       console.log(clickInfo);
-      this.$router.push({ name: 'OrderPage', params: { doctorId: this.doctorId, editType: this.Update, selectInfo: clickInfo, orderId: clickInfo.event.id } })
+      this.$router.push({ name: 'OrderPage', params: { editType: this.Update, selectInfo: clickInfo, orderId: clickInfo.event.id } })
     },
 
     handleEvents(events) {

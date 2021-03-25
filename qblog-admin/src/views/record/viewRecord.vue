@@ -104,9 +104,9 @@ export default {
     handleAdd(){
       console.log("add")
       if( this.recordList.length === 0){
-        this.$router.push({name:"recordTableFirst", params: { userid: this.$route.params.userid, nickname: this.$route.params.nickname, type: "add"}})
+        this.$router.push({name:"recordTableFirst", params: { userid: this.$route.params.userid, nickname: this.$route.params.nickname, consultno: -1, type: "add"}})
       }else{
-        this.$router.push({name:"recordTableNext", params: { userid: this.$route.params.userid, nickname: this.$route.params.nickname, type: "add"}})
+        this.$router.push({name:"recordTableNext", params: { userid: this.$route.params.userid, nickname: this.$route.params.nickname, consultno: -1, type: "add"}})
       }
 },
     // 展示编辑dialog
@@ -142,7 +142,7 @@ export default {
       }
     },
     handleDispatch(index, row, routeType){
-      console.log(row)
+      console.log(row.consultno)
       if( index === 0){
         this.$router.push({name:"recordTableFirst", params: { userid: this.$route.params.userid, nickname: this.$route.params.nickname, consultno: row.consultno, type: routeType}})
       }else{

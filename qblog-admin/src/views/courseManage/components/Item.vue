@@ -1,8 +1,5 @@
 <template>
-  <li
-    class="course-item"
-    @click="$router.push({ name: 'CoursePage', params: { courseId: courseId} })"
-  >
+  <li class="course-item">
     <img
       class="course-img"
       :src="icon"
@@ -10,12 +7,6 @@
     <div class="item-description">
       <p class="item-title">{{ title }}</p>
       <p class="item-office">{{ office }}</p>
-      <!-- <span class="item-progress-text">已学习{{ completed }}/{{ sum }}</span> -->
-      <!-- <el-progress
-        class="item-progress"
-        :percentage="Percentage"
-        show-text="false"
-      /> -->
       <p class="item-time">{{ start }}-{{ end }}</p>
     </div>
   </li>

@@ -48,8 +48,11 @@
         align='center'
       >{{ room.name }}预约情况</h1>
       <el-col
-        :span="19"
-        :offset="3"
+        :xs="{span:24,offset:0}"
+        :sm="{span:24,offset:0}"
+        :md="{span:24,offset:0}"
+        :lg="{span:18,offset:3}"
+        :xl="{span:16,offset:4}"
       >
         <FullCalendar
           class="demo-app-calendar"

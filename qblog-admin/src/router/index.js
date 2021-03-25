@@ -71,7 +71,7 @@ export const asyncRouterMap = [
         meta: { title: '文章管理', icon: 'table', role: ['管理员', '编辑'] }
       },
       {
-        path: 'editor',
+        path: 'editor/:articleId',
         name: 'Editor',
         component: () => import('@/views/editor/index'),
         meta: { title: '写文章', icon: 'el-icon-edit', role: ['管理员', '编辑'] }
@@ -94,7 +94,6 @@ export const asyncRouterMap = [
         name: 'CourseAddPage',
         component: () => import('@/views/courseManage/addPage'),
         meta: { title: '添加课程', noCache: true, icon: 'el-icon-circle-plus-outline', role: ['管理员', '编辑'] },
-        // hidden: true
       },
     ]
   },
@@ -127,7 +126,7 @@ export const asyncRouterMap = [
         meta: { title: '我的日程', icon: 'el-icon-date', role: ['管理员', '咨询师'] }
       },
       {
-        path: 'orderPage',
+        path: 'orderPage/:editType/:selectInfo/:orderId',
         name: 'OrderPage',
         component: () => import('@/views/order/orderPage'),
         meta: { title: '预约详情', icon: 'el-icon-date', role: ['管理员', '咨询师'] },
@@ -169,21 +168,22 @@ export const asyncRouterMap = [
         meta: { title: '咨询管理', icon: 'el-icon-search', role: ['管理员', '咨询师'] },
       },
       {
-        path: 'viewRecord',
+        path: 'viewRecord/:userid/:nickname',
         name: 'viewRecord',
         component: () => import('@/views/record/viewRecord'),
+        props: true,
         hidden: true,
         meta: { title: '查看记录', icon: 'el-icon-edit-outline', role: ['管理员', '咨询师'] },
       },
       {
-        path: 'recordTableFirst',
+        path: 'recordTableFirst/:userid/:nickname/:consultno/:type',
         name: 'recordTableFirst',
         component: () => import('@/views/record/recordTableFirst'),
         hidden: true,
         meta: { role: ['管理员', '咨询师'] },
       },
       {
-        path: 'recordTableNext',
+        path: 'recordTableNext/:userid/:nickname/:consultno/:type',
         name: 'recordTableNext',
         component: () => import('@/views/record/recordTableNext'),
         hidden: true,
@@ -211,7 +211,7 @@ export const asyncRouterMap = [
         meta: { title: '用户查询', icon: 'el-icon-user', role: ['管理员'] },
       },
       {
-        path: 'modifyUser',
+        path: 'modifyUser/:userid',
         name: 'modifyUser',
         component: () => import('@/views/userManage/modifyUser'),
         meta: { title: '用户编辑', icon: 'el-icon-user', role: ['管理员'] },
@@ -240,7 +240,7 @@ export const asyncRouterMap = [
         meta: { title: '咨询室管理', icon: 'el-icon-s-home', role: ['管理员'] },
       },
       {
-        path: 'view',
+        path: 'view/:roomId/:name/:address',
         name: 'View',
         component: () => import('@/views/room/view'),
         meta: { title: '咨询室管理', icon: 'el-icon-s-home', role: ['管理员'] },

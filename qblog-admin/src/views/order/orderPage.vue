@@ -8,60 +8,51 @@
           :model="form"
           :rules="rules"
         >
-          <el-tooltip
-            class="item"
-            effect="dark"
-            content="选择线下咨询可在页面最下方预约咨询室"
-            placement="top-start"
+          <el-form-item
+            label="咨询方式"
+            :label-width="formLabelWidth"
+            prop="type"
           >
-            <el-row>
-              <el-form-item
-                label="咨询方式"
-                :label-width="formLabelWidth"
-                prop="type"
+            <el-col :span="6">
+              <el-select
+                v-model="form.type"
+                placeholder="请选择咨询方式"
               >
-                <el-col :span="6">
-                  <el-select
-                    v-model="form.type"
-                    placeholder="请选择咨询方式"
-                  >
-                    <el-option
-                      label="线上"
-                      value="online"
-                    />
-                    <el-option
-                      label="线下"
-                      value="offline"
-                    />
-                  </el-select>
-                </el-col>
-                <el-col
-                  :span="1"
-                  :offset="1"
-                >
-                  <i
-                    class="el-icon-warning-outline"
-                    @mouseover="alertConsultDuration =true"
-                    @mouseleave="alertConsultDuration =false"
-                  />
-                </el-col>
-                <el-col
-                  :span="9"
-                  :offset="1"
-                >
-                  <el-alert
-                    v-show="alertConsultDuration"
-                    title="选择线下咨询后可在页面最下方预约咨询室"
-                    type="info"
-                    style="height:40px;"
-                    :closable="false"
-                    center
-                    show-icon
-                  />
-                </el-col>
-              </el-form-item>
-            </el-row>
-          </el-tooltip>
+                <el-option
+                  label="线上"
+                  value="online"
+                />
+                <el-option
+                  label="线下"
+                  value="offline"
+                />
+              </el-select>
+            </el-col>
+            <el-col
+              :span="1"
+              :offset="1"
+            >
+              <i
+                class="el-icon-warning-outline"
+                @mouseover="alertConsultDuration =true"
+                @mouseleave="alertConsultDuration =false"
+              />
+            </el-col>
+            <el-col
+              :span="9"
+              :offset="1"
+            >
+              <el-alert
+                v-show="alertConsultDuration"
+                title="选择线下咨询后可在页面最下方预约咨询室"
+                type="info"
+                style="height:40px;"
+                :closable="false"
+                center
+                show-icon
+              />
+            </el-col>
+          </el-form-item>
           <el-form-item
             label="预约时间"
             :label-width="formLabelWidth"
@@ -465,18 +456,15 @@
               label="咨询室"
               prop="roomId"
             >
-              <el-select
-                v-model="form.roomId"
-                placeholder="请选择咨询室"
-                clearable
-              >
-                <el-option
-                  v-for="item in roomList"
-                  :key="item.roomId"
-                  :value="item.roomId"
-                  :label="item.name"
-                />
-              </el-select>
+              {{ form.roomId===null ? '': roomList[this.roomList.findIndex((item) => {
+              if (item.roomId == form.roomId) { return true }
+            })].name }}
+              <el-button
+                @click="dialogEditVisible=true"
+                type="primary"
+                plain
+                style="margin-left:20px;"
+              >选择咨询室</el-button>
             </el-form-item>
           </el-col>
         </el-form>
@@ -545,26 +533,6 @@
         plain
       >返回</el-button>
     </el-dialog>
-    <el-row v-if="(form.roomId!==null)&(form.roomId!=='')&(form.type==='offline')">
-      <el-col
-        :span="20"
-        :offset="2"
-      >
-        <h1 style="text-align:center;">咨询室使用情况</h1>
-        <FullCalendar
-          id="calendar"
-          class="demo-app-calendar"
-          :options="roomConfig"
-        >
-          <template v-slot:eventContent="arg">
-            <b>{{ arg.timeText }}</b>
-            <br>
-            <i>{{ arg.event.title }}</i>
-          </template>
-        </FullCalendar>
-      </el-col>
-    </el-row>
-    <br>
     <el-row>
       <el-col
         :span="20"
@@ -617,6 +585,61 @@
         </div>
       </el-col>
     </el-row>
+    <el-dialog
+      :visible.sync="dialogEditVisible"
+      title="咨询室使用情况"
+    >
+      <span style="margin-left:10px">咨询室：</span>
+      <el-select
+        v-model="form.roomId"
+        placeholder="请选择咨询室"
+        clearable
+      >
+        <el-option
+          v-for="item in roomList"
+          :key="item.roomId"
+          :value="item.roomId"
+          :label="item.name"
+        />
+      </el-select>
+      <el-row>
+        <el-col
+          :span="5"
+          :offset="1"
+        >
+          <h2>功能介绍</h2>
+          <ul>
+            <li>咨询室日程表</li>
+            <li>可查看各咨询室时段使用情况</li>
+          </ul>
+          <br>
+          <h2>事件说明：</h2>
+          <ul>
+            <li> <span style="color:#E6A23C;">黄色事件：未确认预约</span> </li>
+            <li> <span style="color:#67C23A;">绿色事件：已确认预约</span> </li>
+            <li> <span style="color:#F56C6C;">红色事件：已拒绝预约</span> </li>
+          </ul>
+          <br>
+          <h2>时段说明：</h2>
+          <ul>
+            <li><span>白色时段：未预约时段</span></li>
+            <li><span>灰色时段：非工作时段</span></li>
+            <li><span>黄色时段：本日时段</span></li>
+          </ul>
+        </el-col>
+        <el-col
+          :span="17"
+          :offset="1"
+        >
+          <h1 align="center">咨询室排班表</h1>
+          <FullCalendar
+            id="ca"
+            ref="ca"
+            :options="roomConfig"
+          />
+        </el-col>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
@@ -625,12 +648,12 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { defaultConstraint } from '@/utils/event-utils'
 import { newForm } from '@/utils/form-utils'
 import { getUserByName } from '@/api/user'
 import { getOrderById, postOrder, updateOrderById } from '@/api/order'
 import { getRoomCalendarById, getRoomList } from '@/api/room'
 import '@fullcalendar/core/locales/zh-cn'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'OrderPage',
@@ -643,8 +666,11 @@ export default {
       orderSelectInfo: this.$route.params.selectInfo,
       formLabelWidth: '120px',
       userDialogVisible: false,
+      dialogEditVisible: false,
       search: '',
       userList: [],
+      roomList: [],
+      form: newForm(),
       // 日历参数
       roomConfig: {
         plugins: [
@@ -661,31 +687,21 @@ export default {
           {
             daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
             startTime: '09:00',
-            endTime: '12:00'
-          },
-          {
-            daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
-            startTime: '14:00',
             endTime: '18:00'
           },
         ],
         initialView: 'timeGridWeek',
-        events: '',
+        events: [],
         editable: true, // 拖动并选择多个时段
         selectConstraint: [ // specify an array instead
           {
             daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
             startTime: '09:00',
-            endTime: '12:00'
+            endTime: '18:00'
           },
-          {
-            daysOfWeek: [1, 2, 3, 4, 5], // Monday, Tuesday, Wednesday
-            startTime: '14:00', // 8am
-            endTime: '18:00' // 6pm
-          }
         ],
         selectable: false,
-        selectMirror: false,
+        selectMirror: true,
         dayMaxEvents: true,
         weekends: true,
         allDaySlot: false,
@@ -694,8 +710,8 @@ export default {
         slotDuration: '01:00:00',
         expandRows: true,
         locale: 'zh-cn',
-        select: this.handleDateSelect,
-        eventClick: this.handleEventClick,
+        // select: this.handleDateSelect,
+        // eventClick: this.handleEventClick,
         eventsSet: this.handleEvents,
         /* you can update a remote database when these fire:
         eventAdd:
@@ -712,8 +728,6 @@ export default {
       alertExpectationVisible: false,
       alertHistoryVisible: false,
       alertTestVisible: false,
-      form: newForm(),
-      roomList: [],
       rules: {
         type: [{ required: true, message: '请选择咨询方式', trigger: 'blur' }],
         ordertime: [{ required: true, message: '请选择预约时间', trigger: 'blur' }],
@@ -751,11 +765,7 @@ export default {
       }
     },
     'form.roomId': function (newVal) {
-      if (newVal !== '') {
-        this.roomConfig.businessHours = defaultConstraint()
-        this.roomConfig.selectConstraint = defaultConstraint()
-        // getRoomConstraintById(newVal).then((res) => {
-        //   this.roomConfig.selectConstraint = res // 传入限制时间数组
+      if (newVal != '') {
         getRoomCalendarById(newVal).then((res) => {
           if (res.code === 0) {
             this.roomConfig.events = res.data// 传入咨询室日程
@@ -767,20 +777,21 @@ export default {
             message: '网络忙，咨询室日程获取失败',
           })
         })
-        // }).catch((err) => {
-        //   console.log(err)
-        //   this.$notify.error({
-        //     title: '提示',
-        //     message: '网络忙，咨询室限制信息获取失败',
-        //   })
-        // })
+      } else {
+        this.roomConfig.events = []
       }
     }
+  },
+  computed: {
+    ...mapGetters({
+      doctorId: 'id'
+    })
   },
   created() {
     // 获取咨询室list
     getRoomList().then((res) => {
       if (res.code === 0) {
+        console.log(res)
         this.roomList = res.data // 传入咨询室列表
       }
     }).catch((err) => {
@@ -790,7 +801,7 @@ export default {
         message: '网络忙，咨询室信息获取失败',
       })
     })
-    this.form.doctorId = this.$route.params.doctorId
+    this.form.doctorId = this.doctorId
     this.form.orderId = this.$route.params.orderId
     this.form.ordertime = this.$route.params.selectInfo.start
     if (Boolean(this.initVisible) === false) {
@@ -804,11 +815,6 @@ export default {
               if (item.roomId == this.form.roomId) { return true }
             })].roomId
           }
-        } else {
-          this.$notify.error({
-            title: '提示',
-            message: '预约信息获取失败',
-          })
         }
       }).catch((err) => {
         console.log(err)
@@ -833,11 +839,14 @@ export default {
 
     // 选择用户
     handleChoose(row) {
-      console.log(row)
       this.form.uid = row.uid
       this.form.name = row.name
       this.form.phone = row.phone
       this.userDialogVisible = false
+    },
+
+    handleClose() {
+      this.form.roomId = ''
     },
 
     // 预约信息处理
@@ -892,30 +901,6 @@ export default {
         })
       })
     },
-
-    // 拒绝预约
-    // handleDeleteOrder() {
-    //   deleteOrderById(this.form.orderId).then((res) => {
-    //     if (res.code === 0) {
-    //       this.$router.back(-1)
-    //       this.$notify.success({
-    //         title: '提示',
-    //         message: '预约拒绝成功',
-    //       })
-    //     } else {
-    //       this.$notify.error({
-    //         title: '提示',
-    //         message: res.code + '预约拒绝失败',
-    //       })
-    //     }
-    //   }).catch((err) => {
-    //     console.log(err)
-    //     this.$notify.error({
-    //       title: '提示',
-    //       message: '网络忙，预约拒绝失败',
-    //     })
-    //   })
-    // },
 
     getForm() {
       const params = JSON.parse(JSON.stringify(this.form))

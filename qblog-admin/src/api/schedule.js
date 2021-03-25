@@ -4,7 +4,8 @@ import request from '@/utils/request'
 import { transScheduleList, RetranSchedule } from '@/utils/schedule-utils'
 
 /**
- * 获取排班表，以event形式返回吧
+ * 获取所有的schedule
+ * @returns {doctorid:number,appid:number,start,end,roomId,title,roomName}
  */
 export function getSchedule() {
     return request({

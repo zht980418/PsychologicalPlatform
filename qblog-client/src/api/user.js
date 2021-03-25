@@ -14,7 +14,7 @@ function register(data) {
 }
 
 function getUserById(id) {
-    return instance.get('/logintest/' + id).then(res => res.data)
+    return instance.get('/logintest?userid=' + id).then(res => res.data)
 }
 
 function modifyUser(id, data) {

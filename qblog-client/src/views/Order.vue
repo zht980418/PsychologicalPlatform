@@ -32,7 +32,7 @@ export default {
     return {
       navList: [
         { name: '/order/doctorlist', navItem: '心理咨询师' },
-        { name: '/order/orderform', navItem: '心理咨询' },
+        // { name: '/order/orderform', navItem: '心理咨询' },
       ]
     }
   }

@@ -79,10 +79,10 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      console.log('当前用户id为: ' + state.id)
+      // console.log('当前用户id为: ' + state.id)
       getUserById(state.id).then(response => {
         const { data } = response
-        console.log('拉取用户信息', data)
+        // console.log('拉取用户信息', data)
         if (!data) {
           return reject('认证失败，请重新登录')
         }

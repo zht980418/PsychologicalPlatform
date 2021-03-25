@@ -22,6 +22,10 @@ export default {
   methods: {
     // TODO 报警
     handleAlert() {
+      this.$notify.warning({
+        title: '报警',
+        message: '已点击报警按钮'
+      })
       console.log("报警警")
     },
   }

@@ -6,12 +6,13 @@
 
 <script>
 import store from "@/store";
+export const storeName = store.state.userid === undefined ? 'store': store.user.userid;
 
 export default {
   name: 'App',
-  created(){
+  created() {
     window.addEventListener('beforeunload', () => {
-      sessionStorage.setItem('state', JSON.stringify(store.state))
+      sessionStorage.setItem(storeName, JSON.stringify(store.state))
     })
   }
 
