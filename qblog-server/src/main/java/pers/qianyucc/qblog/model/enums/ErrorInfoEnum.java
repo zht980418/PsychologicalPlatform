@@ -22,7 +22,8 @@ public enum ErrorInfoEnum implements IErrorInfo {
     FILE_DOWNLOAD_ERROR(5002, "图片下载失败"),
     DUPLICATE_USERID(5003,"用户名重复"),
     REGISTER_INFO_NOT_COMPLETE(5004,"注册信息不完整"),
-    CONFLICT_TIME(5005,"时间冲突");
+    ROOM_CONFLICT_TIME(5005,"咨询室时间冲突"),
+    DOCTOR_CONFLICT_TIME(5006,"医生时间冲突");
 
     private int code;
     private String msg;

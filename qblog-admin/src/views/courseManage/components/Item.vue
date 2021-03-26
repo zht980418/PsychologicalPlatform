@@ -1,5 +1,8 @@
 <template>
-  <li class="course-item">
+  <li
+    class="course-item"
+    @click="$router.push({name:'CourseModifyPage',params:{courseId:courseId}})"
+  >
     <img
       class="course-img"
       :src="icon"

@@ -19,6 +19,7 @@ export function RetransForm(form) {
     delete (form['orderId'])
     form['doctorid'] = form.doctorId
     delete (form['doctorId'])
+    console.log(form.orderid);
     return form
 }
 

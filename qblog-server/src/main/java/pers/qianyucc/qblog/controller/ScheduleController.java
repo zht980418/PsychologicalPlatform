@@ -27,8 +27,25 @@ public class ScheduleController {
     @PostMapping("/schedule")
     public Results<String> postSchedule(@ApiParam(name = "咨询室预约信息", value = "传入json格式", required = true)
                                     @RequestBody @Valid ScheduleDTO scheduleDTO) {
+//        判断咨询室时间冲突
+        String start = scheduleDTO.getStart();
+        String daysofweek = scheduleDTO.getDaysofweek();
+        String roomid = scheduleDTO.getRoomid();
+        List<String> StartList = scheduleService.getStartByRoomID(roomid);
+        List<String> DaysofweekList = scheduleService.getDaysofweekByRoomID(roomid);
+        for(int i=0;i<StartList.size();i++){
+            if(StartList.get(i).equals(start)&&DaysofweekList.get(i).equals(daysofweek))
+                throw new BlogException(ROOM_CONFLICT_TIME);
+        }
+//        判断医生时间冲突
+        String doctorid = scheduleDTO.getDoctorid();
+        List<String> StartList_doc = scheduleService.getStartByDoctorID(doctorid);
+        List<String> DaysofweekList_doc = scheduleService.getDaysofweekByDoctorID(doctorid);
+        for(int i=0;i<StartList_doc.size();i++){
+            if(StartList_doc.get(i).equals(start)&&DaysofweekList_doc.get(i).equals(daysofweek))
+                throw new BlogException(DOCTOR_CONFLICT_TIME);
+        }
         scheduleService.insSchedule(scheduleDTO);
-//        scheduleService.insSchedule(scheduleDTO);
         return Results.ok("表单新增成功", null);
     }
 
@@ -47,13 +64,15 @@ public class ScheduleController {
                                    @RequestBody @Valid ScheduleDTO scheduleDTO ,
                                    @PathVariable String appid){
         String roomid = scheduleDTO.getRoomid();
-        String start = scheduleDTO.getStart();
-        String daysofweek = scheduleDTO.getDaysofweek();
+//        String start = scheduleDTO.getStart();
+        String start = scheduleService.getStartByappid(appid);
+//        String daysofweek = scheduleDTO.getDaysofweek();
+        String daysofweek = scheduleService.getDaysofweekByappid(appid);
         List<String> StartList = scheduleService.getStartByRoomID(roomid);
         List<String> DaysofweekList = scheduleService.getDaysofweekByRoomID(roomid);
         for(int i=0;i<StartList.size();i++){
             if(StartList.get(i).equals(start)&&DaysofweekList.get(i).equals(daysofweek))
-                throw new BlogException(CONFLICT_TIME);
+                throw new BlogException(ROOM_CONFLICT_TIME);
         }
         scheduleService.updateSchedule(scheduleDTO, appid);
         return Results.ok("表单修改成功", null);
@@ -61,7 +80,7 @@ public class ScheduleController {
 
     @ApiOperation("获取日程表列表")
     @GetMapping("/schedule")
-    @ApiImplicitParam(name = "scheduleid", value = "咨询室id", required = true, dataType = "String", paramType = "path")
+//    @ApiImplicitParam(name = "scheduleid", value = "咨询室id", required = true, dataType = "String", paramType = "path")
     public Results<List<ScheduleVO>> getSchedules() {
         return Results.ok(scheduleService.getAllSchedules());
     }

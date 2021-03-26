@@ -22,7 +22,6 @@ export function getSchedule() {
  * @param {appId:number,doctorId:number,doctorName:number,start:Date,end:Date,daysOfWeek:number} params 排班时间参数
  */
 export function postApplication(params) {
-    console.log(params)
     return request({
         url: urls.Schedule,
         method: 'post',

@@ -639,6 +639,16 @@
           />
         </el-col>
       </el-row>
+      <el-button
+        type="primary"
+        plain
+        @click="dialogEditVisible=false"
+      >确认选择</el-button>
+      <el-button
+        type="info"
+        plain
+        @click="handleClose"
+      >取消选择</el-button>
     </el-dialog>
   </div>
 </template>
@@ -788,6 +798,7 @@ export default {
     })
   },
   created() {
+    console.log(this.form.roomId);
     // 获取咨询室list
     getRoomList().then((res) => {
       if (res.code === 0) {
@@ -823,6 +834,8 @@ export default {
           message: '网络忙，预约信息获取失败',
         })
       })
+    } else {
+      this.form.roomId = null
     }
   },
   methods: {
@@ -846,7 +859,8 @@ export default {
     },
 
     handleClose() {
-      this.form.roomId = ''
+      this.form.roomId = null
+      this.dialogEditVisible = false
     },
 
     // 预约信息处理

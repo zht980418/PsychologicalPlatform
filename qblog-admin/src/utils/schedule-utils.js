@@ -71,16 +71,15 @@ function transSchedule(schedule) {
     const Lred = '#FDE2E2'
     schedule['id'] = schedule.appid
     schedule['title'] = schedule.doctorname
+    schedule['doctorId'] = schedule.doctorid
     schedule['roomId'] = schedule.roomid
     schedule['backgroundColor'] = schedule.roomId == -1 ? red : schedule.roomId ? green : yellow
     schedule['borderColor'] = schedule.roomId == -1 ? Lred : schedule.roomId ? Lgreen : Lyellow
     const tmp = getDate(schedule.daysofweek, schedule.start, schedule.end)
     schedule.start = tmp.start
     schedule.end = tmp.end
-    switch (schedule.roomId) {
-
-    }
     delete (schedule['roomid'])
+    delete (schedule['doctorid'])
     delete (schedule['doctorname'])
     delete (schedule['appid'])
     delete (schedule['daysofweek'])

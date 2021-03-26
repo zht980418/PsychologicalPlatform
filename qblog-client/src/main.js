@@ -37,7 +37,7 @@ router.beforeEach(async (to, from, next) => {
   const hasToken = getToken()
   console.log('路由守卫')
   // let userid = sessionStorage.getItem('userid');
-  if (hasToken) {
+  if (hasToken && store.state.user.id) {
     console.log('有token')
     if (to.path === '/login') {
       /* if is logged in, redirect to the home page*/next({ path: '/' })
