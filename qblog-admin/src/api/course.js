@@ -25,9 +25,9 @@ export function getCourseList() {
  * @param {courseId:number} courseId 
  * @returns {CourseId:number,CourseTitle:String,CourseDescription:String,CourseLink:String }
  */
-export function getCourse() {
+export function getCourseById(courseId) {
     return request({
-        url: urls.Course,
+        url: urls.Course + '/' + courseId,
         method: 'get'
     }).then((res) => {
         transCourse(res.data)
@@ -42,9 +42,32 @@ export function getCourse() {
  */
 
 export function postCourse(params) {
+    params.courseId = createEventId()
     return request({
         url: urls.Course,
         method: 'post',
-        data: RetransCourse(params, createEventId())
+        data: RetransCourse(params)
+    })
+}
+
+/**
+ * 修改课程信息
+ * @param {id:number} id 
+ * @param {id,title,description,link} params 
+ * @returns 
+ */
+
+export function updateCourseById(id, params) {
+    return request({
+        url: urls.Course + '/' + id,
+        method: 'put',
+        data: RetransCourse(params)
+    })
+}
+
+export function deleteCourseById(id) {
+    return request({
+        url: urls.Course + '/' + id,
+        method: 'delete'
     })
 }
