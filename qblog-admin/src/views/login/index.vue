@@ -2,7 +2,7 @@
   <div class="login-container">
     <div class="blur" />
     <el-form
-      v-if="toggleLoginRegister"
+      v-show="toggleLoginRegister"
       ref="loginForm"
       :model="loginForm"
       :rules="loginRules"
@@ -68,7 +68,7 @@
     </el-form>
 
     <el-form
-      v-if="!toggleLoginRegister"
+      v-show="!toggleLoginRegister"
       ref="registerForm"
       :model="registerForm"
       :rules="registerRules"
@@ -79,17 +79,17 @@
         <h3 class="title">四川大学心理健康教育教育平台后台管理系统</h3>
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item prop="username2">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="username"
-          v-model="registerForm.username"
+          ref="username2"
+          v-model="registerForm.username2"
           placeholder="用户名"
           name="username"
           type="text"
-          tabindex="1"
+          tabindex="3"
           auto-complete="on"
         />
       </el-form-item>
@@ -104,14 +104,14 @@
           placeholder="昵称"
           name="nickname"
           type="text"
-          tabindex="1"
+          tabindex="4"
           auto-complete="on"
         />
       </el-form-item>
 
       <el-form-item prop="phoneNumber">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <svg-icon icon-class="phone" />
         </span>
         <el-input
           ref="phoneNumber"
@@ -119,24 +119,24 @@
           placeholder="电话"
           name="phoneNumber"
           type="text"
-          tabindex="1"
+          tabindex="5"
           auto-complete="on"
         />
       </el-form-item>
 
 
-      <el-form-item prop="password">
+      <el-form-item prop="password2">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
         <el-input
           :key="passwordType"
-          ref="password"
-          v-model="registerForm.password"
+          ref="password2"
+          v-model="registerForm.password2"
           :type="passwordType"
           placeholder="密码"
           name="password"
-          tabindex="2"
+          tabindex="6"
           auto-complete="on"
         />
         <span
@@ -153,13 +153,12 @@
         </span>
         <el-input
           :key="passwordType"
-          ref="passwordR"
+          ref="passwordRepeat"
           v-model="registerForm.passwordRepeat"
           :type="passwordType"
           placeholder="重复密码"
           name="password"
-          tabindex="2"
-          auto-complete="on"
+          tabindex="7"
           @keyup.enter.native="handleRegister"
         />
         <span
@@ -200,14 +199,14 @@ export default {
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 5) {
-        callback(new Error('密码不能小于5个字符'))
+      if (!value) {
+        callback(new Error('密码不能为空'))
       } else {
         callback()
       }
     }
     const validatePasswordRepeat = (rule, value, callback) => {
-      if (value !== this.registerForm.passwordRepeat) {
+      if (value !== this.registerForm.password2) {
         callback(new Error('两次密码必须相同'))
       } else {
         callback()
@@ -227,8 +226,8 @@ export default {
         password: '',
       },
       registerForm: {
-        username: '',
-        password: '',
+        username2: '',
+        password2: '',
         passwordRepeat: '',
         nickname:'',
         phoneNumber: '',
@@ -242,10 +241,10 @@ export default {
         ],
       },
       registerRules: {
-        username: [
+        username2: [
           { required: true, trigger: 'blur', validator: validateUsername },
         ],
-        password: [
+        password2: [
           { required: true, trigger: 'blur', validator: validatePassword },
         ],
         passwordRepeat: [
