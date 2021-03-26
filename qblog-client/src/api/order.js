@@ -59,7 +59,7 @@ function postOrder(form) {
  */
 function getOrderById(orderId) {
     return instance.get(urls.order + '/' + orderId).then(res => {
-        transForm(res.data.data)
+        transForm(res.data.data[0])
         return res.data
     })
 }

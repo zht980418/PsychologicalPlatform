@@ -520,12 +520,12 @@
         <el-button
           type="success"
           icon="el-icon-edit"
-          @click="handleEventEdit(form,selection)"
+          @click="handleEventEdit()"
         >修改预约</el-button>
         <el-button
           type="danger"
           icon="el-icon-delete"
-          @click="handleEventDelete(form,selection)"
+          @click="handleEventDelete()"
         >删除预约</el-button>
       </div>
     </el-dialog>
@@ -655,8 +655,6 @@ export default {
     },
   },
   created() {
-    // this.calendarOptions.businessHours = defaultConstraint()
-    // this.calendarOptions.selectConstraint = defaultConstraint()
     this.form.doctorId = this.$route.params.doctorId
     // 获取限制信息
     getConstraintById(this.doctorId).then((res) => {
@@ -666,17 +664,7 @@ export default {
           this.calendarOptions.selectConstraint = res.data //传入限制时间数组
           this.calendarOptions.businessHours = res.data //传入显示工作时间数组
         }
-        getCalendarById(this.doctorId).then((res) => {
-          if (res.code === 0) {
-            this.calendarOptions.events = res.data //传入预约
-          }
-        }).catch((err) => {
-          console.log(err)
-          this.$notify.error({
-            title: "提示",
-            message: "网络忙，预约日程表信息获取失败",
-          })
-        })
+        this.getAllOrder()
       }
     }).catch((err) => {
       console.log(err)
@@ -695,8 +683,21 @@ export default {
       this.selection = selectInfo
     },
 
+    getAllOrder() {
+      getCalendarById(this.doctorId).then((res) => {
+        if (res.code === 0) {
+          this.calendarOptions.events = res.data //传入预约
+        }
+      }).catch((err) => {
+        console.log(err)
+        this.$notify.error({
+          title: "提示",
+          message: "网络忙，预约日程表信息获取失败",
+        })
+      })
+    },
+
     addEvent(selectInfo) {
-      this.dialogFormVisible = false
       let calendarApi = selectInfo.view.calendar
       calendarApi.unselect() // clear date selection
       this.$refs['form'].validate((valid) => {
@@ -705,22 +706,13 @@ export default {
           this.form.orderId = createEventId()
           postOrder(this.getForm()).then((res) => {
             if (res.code === 0) {
-              getCalendarById(this.doctorId).then((res) => {
-                if (res.code === 0) {
-                  this.calendarOptions.events = res.data //传入预约
-                  // 清空表单
-                  this.$refs['form'].resetFields()
-                  this.$notify.success({
-                    title: "提示",
-                    message: "预约成功!",
-                  })
-                }
-              }).catch((err) => {
-                console.log(err)
-                this.$notify.error({
-                  title: "提示",
-                  message: "网络忙，预约日程表信息获取失败",
-                })
+              this.getAllOrder()
+              // 清空表单
+              this.$refs['form'].resetFields()
+              this.dialogFormVisible = false
+              this.$notify.success({
+                title: "提示",
+                message: "预约成功!",
               })
             }
           }).catch((err) => {
@@ -729,6 +721,11 @@ export default {
               title: "提示",
               message: "网络忙，预约失败",
             })
+          })
+        } else {
+          this.$notify.error({
+            title: "提示",
+            message: "请填写所有信息再提交！",
           })
         }
       })
@@ -778,11 +775,11 @@ export default {
       }
     },
 
-    handleEventDelete(clickInfo) {
+    handleEventDelete() {
       // 删数据
       deleteOrderById(this.form.orderId).then((res) => {
         if (res.code === 0) {
-          clickInfo.event.remove()
+          this.getAllOrder()
           // 关表格
           this.dialogEditVisible = false
           this.dialogFormVisible = false
@@ -801,14 +798,21 @@ export default {
     },
 
     // 修改预约信息
-    handleEventEdit(form, clickInfo) {
-      updateOrderById(form.orderId, this.getForm()).then((res) => {
+    handleEventEdit() {
+      console.log(this.form.orderId);
+      updateOrderById(this.form.orderId, this.getForm()).then((res) => {
+        console.log(res);
         if (res.code === 0) {
-          this.handleEventDelete(form, clickInfo) // 删除
-          this.handleModify(form, clickInfo) // 添加
+          this.getAllOrder()
+          // 清空表单
+          this.$refs['form'].resetFields()
           // 关表格
           this.dialogFormVisible = false
           this.dialogEditVisible = false
+          this.$notify.success({
+            title: "提示",
+            message: "预约信息修改成功",
+          })
         }
       }).catch((err) => {
         console.log(err)
@@ -817,23 +821,6 @@ export default {
           message: "网络忙，预约信息修改失败",
         })
       })
-    },
-
-    // 重新添加预约信息
-    handleModify(form, selectInfo) {
-      const calendarApi = selectInfo.view.calendar
-      calendarApi.unselect() // clear date selection
-      if (form.name) {
-        calendarApi.addEvent({
-          id: selectInfo.event.id,
-          title: form.name,
-          start: selectInfo.event.startStr,
-          end: selectInfo.event.endStr,
-          groupId: this.uid
-        })
-        // 清空表单
-        this.$refs['form'].resetFields()
-      }
     },
 
     handleClose(done) {
