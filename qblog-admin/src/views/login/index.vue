@@ -315,7 +315,7 @@ export default {
             // 执行 vuex 中的注册方法
             .dispatch('user/register', this.registerForm)
             .then(() => {
-              this.loginForm = {username: this.registerForm.username, password: this.registerForm.password}
+              this.loginForm = {username: this.registerForm.username2, password: this.registerForm.password2}
               this.$store.dispatch('user/login', this.loginForm)
                 .then(() => this.$router.push({ path: this.redirect || '/' }))
                 .catch(err => Message.error(err || '用户登录失败，请重试！'))
