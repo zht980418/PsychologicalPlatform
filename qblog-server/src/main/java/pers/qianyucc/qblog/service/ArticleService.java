@@ -30,12 +30,13 @@ public class ArticleService {
     public PageVO<ArticleVO> getArticles(int page, int limit) {
         QueryWrapper<ArticlePO> qw = new QueryWrapper<>();
         qw.select(ArticlePO.class, i -> !"content".equals(i.getColumn()));
+        qw.orderByDesc("gmt_create");
         Page<ArticlePO> res = articleMapper.selectPage(new Page<>(page, limit), qw);
         List<ArticleVO> articleVOS = res.getRecords().stream()
                 .map(ArticleVO::fromArticlePO)
                 .collect(Collectors.toList())
                 ;
-        articleVOS.sort(Comparator.comparing(ArticleVO::getGmtCreate).reversed());
+//        articleVOS.sort(Comparator.comparing(ArticleVO::getGmtCreate).reversed());
         PageVO<ArticleVO> pageVO = PageVO.<ArticleVO>builder()
                 .records(articleVOS.isEmpty() ? new ArrayList<>() : articleVOS)
                 .total(res.getTotal())
