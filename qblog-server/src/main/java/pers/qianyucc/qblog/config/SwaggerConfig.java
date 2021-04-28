@@ -1,8 +1,10 @@
 package pers.qianyucc.qblog.config;
 
 import com.github.xiaoymin.knife4j.spring.annotations.*;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.*;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import pers.qianyucc.qblog.constants.*;
 import springfox.documentation.builders.*;
 import springfox.documentation.schema.*;
@@ -10,6 +12,8 @@ import springfox.documentation.service.*;
 import springfox.documentation.spi.*;
 import springfox.documentation.spring.web.plugins.*;
 import springfox.documentation.swagger2.annotations.*;
+
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import java.util.*;
 
@@ -22,8 +26,9 @@ import java.util.*;
 @Configuration
 @EnableSwagger2
 @EnableKnife4j
+@ConditionalOnProperty(prefix = "mconfig", name = "swagger-ui-open", havingValue = "true")
 //@Import(BeanValidatorPluginsConfiguration.class)
-public class SwaggerConfig {
+public class SwaggerConfig extends WebMvcConfigurationSupport {
     @Bean
     public Docket docket(Environment environment) {
         // 如果在dev环境（开发环境）就开启Swagger

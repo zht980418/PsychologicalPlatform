@@ -12,6 +12,7 @@ spring:
     active: dev
   application:
     name: qblog-server
+
 logging:
   file:
     name: log/qblog.log
