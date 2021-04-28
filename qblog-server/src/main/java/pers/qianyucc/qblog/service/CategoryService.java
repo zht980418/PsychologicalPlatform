@@ -29,6 +29,7 @@ public class CategoryService {
         QueryWrapper<ArticlePO> wrapper = new QueryWrapper<>();
         wrapper.select(ArticlePO.class, i -> !"content".equals(i.getColumn()))
                 .eq("category", categoryName);
+        wrapper.orderByDesc("gmt_create");
         Page<ArticlePO> res = articleMapper.selectPage(new Page<>(page, limit), wrapper);
         List<ArticleVO> articleVOS = res.getRecords().stream()
                 .map(ArticleVO::fromArticlePO)

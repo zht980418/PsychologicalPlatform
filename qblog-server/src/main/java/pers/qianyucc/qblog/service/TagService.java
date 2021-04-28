@@ -38,6 +38,7 @@ public class TagService {
         QueryWrapper<ArticlePO> wrapper = new QueryWrapper<>();
         wrapper.select(ArticlePO.class, i -> !"content".equals(i.getColumn()))
                 .like("tags", tagName);
+        wrapper.orderByDesc("gmt_create");
         Page<ArticlePO> res = articleMapper.selectPage(new Page<>(page, limit), wrapper);
         List<ArticleVO> articleVOS = res.getRecords().stream()
                 .map(ArticleVO::fromArticlePO)
