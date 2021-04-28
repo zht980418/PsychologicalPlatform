@@ -15,8 +15,7 @@ export default {
       imgSrc:"https://images.pexels.com/photos/1261731/pexels-photo-1261731.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
     };
   },
-  created() {
-    console.log('页面加载')
+  created() { 
     if ( sessionStorage.getItem('state') ) {
       this.$store.replaceState( Object.assign( {}, this.$store.state,
           JSON.parse(sessionStorage.getItem('state') ) ) )

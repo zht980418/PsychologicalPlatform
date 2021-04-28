@@ -154,8 +154,8 @@ export default {
     this.room.name = this.$route.params.name
     this.room.address = this.$route.params.address
     // 获取限制信息
-    this.roomConfig.businessHours = defaultConstraint()
-    this.roomConfig.selectConstraint = defaultConstraint()
+    // this.roomConfig.businessHours = defaultConstraint()
+    // this.roomConfig.selectConstraint = defaultConstraint()
     // 获取日程表数据
     getRoomCalendarById(this.room.roomId).then((res) => {
       if (res.code === 0) {

@@ -264,7 +264,6 @@ export default {
     roomEdit() {
       EditRoomSchedule(this.clickapp.event.id, this.roomSelection).then((res) => {
         if (res.code === 0) {
-          console.log(res);
           getSchedule().then((res) => {
             if (res.code === 0) {
               this.scheduleConfig.events = res.data

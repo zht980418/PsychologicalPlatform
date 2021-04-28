@@ -95,6 +95,13 @@ export const asyncRouterMap = [
         component: () => import('@/views/courseManage/addPage'),
         meta: { title: '添加课程', noCache: true, icon: 'el-icon-circle-plus-outline', role: ['管理员', '编辑'] },
       },
+      {
+        path: 'courseModifyPage/:courseId',
+        name: 'CourseModifyPage',
+        hidden: true,
+        component: () => import('@/views/courseManage/modifyPage'),
+        meta: { title: '编辑课程', noCache: true, icon: 'el-icon-circle-plus-outline', role: ['管理员', '编辑'] },
+      },
     ]
   },
   {

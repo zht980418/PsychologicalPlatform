@@ -14,3 +14,15 @@ export function transCourseList(list) {
         transCourse(list[i])
     }
 }
+
+export function RetransCourse(course) {
+    course['coursedescription'] = course.description
+    course['courseid'] = course.courseId
+    course['courselink'] = course.link
+    course['coursetitle'] = course.title
+    delete (course.description)
+    delete (course.link)
+    delete (course.title)
+    delete (course.courseId)
+    return course
+}

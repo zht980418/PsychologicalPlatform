@@ -169,11 +169,21 @@ export default {
         if (valid) {
           updateRoomInfoById(this.Room.roomId, this.Room).then((res) => {
             if (res.code === 0) {
-              console.log(res)
-              this.dialogEditVisible = false
-              this.$notify.success({
-                title: '提示',
-                message: '咨询室信息编辑成功,请刷新页面查看',
+              getRoomList().then((res) => {
+                if (res.code === 0) {
+                  this.roomList = res.data // 传入咨询室列表
+                  this.dialogEditVisible = false
+                  this.$notify.success({
+                    title: '提示',
+                    message: '咨询室信息编辑成功,请刷新页面查看',
+                  })
+                }
+              }).catch((err) => {
+                console.log(err)
+                this.$notify.error({
+                  title: '提示',
+                  message: '网络忙，咨询室信息获取失败',
+                })
               })
             }
           }).catch((err) => {
@@ -191,9 +201,7 @@ export default {
     handleDelete(index, row) {
       if (confirm(`你确定要删除该咨询室吗？`)) {
         deleteRoomInfoById(row.roomId).then((res) => {
-          console.log(res)
           if (res.code === 0) {
-            console.log(index)
             this.roomList.splice(index, 1)
             this.$notify.success({
               title: '提示',
