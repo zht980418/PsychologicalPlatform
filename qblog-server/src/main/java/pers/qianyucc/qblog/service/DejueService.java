@@ -1,4 +1,4 @@
-package pers.qianyucc.qblog.service.retrofit;
+package pers.qianyucc.qblog.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ public class DejueService {
     private DejueMapper dejueMapper;
     //    增
     public void insDejue(DejueDTO dejueDTO){
-        DejuePO dejuePO = dejueDTO.toDejuePO();
+        DejuePO dejuePO = dejueDTO.toDejuePO(false);
         dejueMapper.insert(dejuePO);
     }
     //    删
@@ -34,7 +34,7 @@ public class DejueService {
     public void updateDejue(DejueDTO dejueDTO,int id){
         DejuePO dbDejue = dejueMapper.selectById(id);
         if(Objects.isNull(dbDejue)) throw new BlogException(INVALID_ID);
-        DejuePO dejuePO = dejueDTO.toDejuePO();
+        DejuePO dejuePO = dejueDTO.toDejuePO(true);
         dejuePO.setId(id);
         dejueMapper.updateById(dejuePO);
     }
@@ -52,9 +52,10 @@ public class DejueService {
     //    id查
     public DejueVO getDejueByid(int id){
         DejuePO dbDejue = dejueMapper.selectById(id);
-        DejueVO res = DejueVO.fromDejuePO(dbDejue);
         if(Objects.isNull(dbDejue)) throw new BlogException(INVALID_ID);
-        else return res;
+        dbDejue.setViews(dbDejue.getViews()+1);
+        dejueMapper.updateById(dbDejue);
+        return DejueVO.fromDejuePO(dbDejue);
 
     }
 

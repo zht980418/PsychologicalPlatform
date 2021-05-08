@@ -19,4 +19,7 @@ public class NewsPO implements Serializable {
     private String content;
     private String author;
     private String tabloid;
+    private Integer views;
+    private Long gmtCreate;
+    private Long gmtUpdate;
 }

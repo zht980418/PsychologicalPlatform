@@ -1,6 +1,7 @@
 package pers.qianyucc.qblog.model.dto;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -31,16 +32,21 @@ public class NewsDTO {
     @ApiModelProperty(notes = "abstract", example = "abstract")
     private String tabloid;
 
-    public NewsPO toNewsPO() {
-        return new NewsDTO.Converter().convertToPO(this);
+    public NewsPO toNewsPO(boolean isUpdate) {
+        NewsPO po = new Converter().convertToPO(this);
+        po.setViews(isUpdate ? null : 0);
+        po.setGmtCreate(isUpdate ? null : po.getGmtUpdate());
+        return po;
     }
 
     private static class Converter implements IConverter<NewsDTO, NewsPO> {
         @Override
         public NewsPO convertToPO(NewsDTO newsDTO) {
             NewsPO po = new NewsPO();
-            BeanUtil.copyProperties(newsDTO, po);
+            po.setGmtUpdate(System.currentTimeMillis());
+            BeanUtil.copyProperties(newsDTO, po, CopyOptions.create().ignoreNullValue());
             return po;
         }
     }
+
 }

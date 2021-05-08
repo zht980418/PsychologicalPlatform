@@ -1,5 +1,6 @@
 package pers.qianyucc.qblog.service;
 
+import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class NewsService {
     private NewsMapper newsMapper;
 //    增
     public void insNews(NewsDTO newsDTO){
-        NewsPO newsPO = newsDTO.toNewsPO();
+        NewsPO newsPO = newsDTO.toNewsPO(false);
         newsMapper.insert(newsPO);
     }
 //    删
@@ -36,7 +37,7 @@ public class NewsService {
     public void updateNews(NewsDTO newsDTO,int id){
         NewsPO dbNews = newsMapper.selectById(id);
         if(Objects.isNull(dbNews)) throw new BlogException(INVALID_ID);
-        NewsPO newsPO = newsDTO.toNewsPO();
+        NewsPO newsPO = newsDTO.toNewsPO(true);
         newsPO.setId(id);
         newsMapper.updateById(newsPO);
     }
@@ -54,9 +55,10 @@ public class NewsService {
 //    id查
     public NewsVO getNewsByid(int id){
         NewsPO dbNews = newsMapper.selectById(id);
-        NewsVO res = NewsVO.fromNewsPO(dbNews);
         if(Objects.isNull(dbNews)) throw new BlogException(INVALID_ID);
-        else return res;
+        dbNews.setViews(dbNews.getViews()+1);
+        newsMapper.updateById(dbNews);
+        return  NewsVO.fromNewsPO(dbNews);
 
     }
 }

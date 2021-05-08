@@ -19,5 +19,8 @@ public class DejuePO implements Serializable {
     private String tabloid;
     private String author;
     private String link;
+    private Integer views;
+    private Long gmtCreate;
+    private Long gmtUpdate;
 
 }

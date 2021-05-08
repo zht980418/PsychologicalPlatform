@@ -1,6 +1,7 @@
 package pers.qianyucc.qblog.model.dto;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -29,15 +30,19 @@ public class DejueDTO {
     @ApiModelProperty(notes = "link", example = "链接")
     private String link;
 
-    public DejuePO toDejuePO() {
-        return new DejueDTO.Converter().convertToPO(this);
+    public DejuePO toDejuePO(boolean isUpdate) {
+        DejuePO po = new Converter().convertToPO(this);
+        po.setViews(isUpdate ? null : 0);
+        po.setGmtCreate(isUpdate ? null : po.getGmtUpdate());
+        return po;
     }
 
     private static class Converter implements IConverter<DejueDTO, DejuePO> {
         @Override
         public DejuePO convertToPO(DejueDTO dejueDTO) {
             DejuePO po = new DejuePO();
-            BeanUtil.copyProperties(dejueDTO, po);
+            po.setGmtUpdate(System.currentTimeMillis());
+            BeanUtil.copyProperties(dejueDTO, po, CopyOptions.create().ignoreNullValue());
             return po;
         }
     }

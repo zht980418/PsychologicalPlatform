@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import pers.qianyucc.qblog.model.comm.Results;
 import pers.qianyucc.qblog.model.dto.DejueDTO;
 import pers.qianyucc.qblog.model.vo.DejueVO;
-import pers.qianyucc.qblog.service.retrofit.DejueService;
+import pers.qianyucc.qblog.service.DejueService;
 
 import javax.validation.Valid;
 import java.util.List;
