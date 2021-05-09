@@ -9,6 +9,7 @@ import pers.qianyucc.qblog.exception.BlogException;
 import pers.qianyucc.qblog.model.dto.DejueDTO;
 import pers.qianyucc.qblog.model.entity.DejuePO;
 import pers.qianyucc.qblog.model.vo.DejueVO;
+import pers.qianyucc.qblog.utils.DateTimeUtils;
 
 import java.util.*;
 
@@ -42,9 +43,11 @@ public class DejueService {
     public List<DejueVO> getAllDejue(){
         ArrayList res = new ArrayList<>();
         QueryWrapper<DejuePO> wrapper = new QueryWrapper<>();
-        wrapper.select("id","cover","title","tabloid","author","link");
+        wrapper.select("id","cover","title","tabloid","author","link","views","gmt_create","gmt_update");
         List<Map<String, Object>> maps = dejueMapper.selectMaps(wrapper);
         for(int i =0; i<maps.size(); i++){
+            maps.get(i).put("gmt_create", DateTimeUtils.formatDatetime(Long.valueOf(maps.get(i).get("gmt_create").toString())));
+            maps.get(i).put("gmt_update", DateTimeUtils.formatDatetime(Long.valueOf(maps.get(i).get("gmt_update").toString())));
             res.add(maps.get(i));
         }
         return res;

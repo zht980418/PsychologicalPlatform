@@ -11,6 +11,7 @@ import pers.qianyucc.qblog.model.dto.NewsDTO;
 import pers.qianyucc.qblog.model.entity.NewsPO;
 import pers.qianyucc.qblog.model.entity.NewsPO;
 import pers.qianyucc.qblog.model.vo.NewsVO;
+import pers.qianyucc.qblog.utils.DateTimeUtils;
 
 import java.util.*;
 
@@ -45,9 +46,11 @@ public class NewsService {
     public List<NewsVO> getAllNews(){
         ArrayList res = new ArrayList<>();
         QueryWrapper<NewsPO> wrapper = new QueryWrapper<>();
-        wrapper.select("id","cover","title","content","author","tabloid");
+        wrapper.select("id","cover","title","content","author","tabloid","views","gmt_create","gmt_update");
         List<Map<String, Object>> maps = newsMapper.selectMaps(wrapper);
         for(int i =0; i<maps.size(); i++){
+            maps.get(i).put("gmt_create", DateTimeUtils.formatDatetime(Long.valueOf(maps.get(i).get("gmt_create").toString())));
+            maps.get(i).put("gmt_update", DateTimeUtils.formatDatetime(Long.valueOf(maps.get(i).get("gmt_update").toString())));
             res.add(maps.get(i));
         }
         return res;
