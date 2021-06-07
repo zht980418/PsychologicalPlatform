@@ -7,15 +7,13 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@TableName("DoctorTimetable")
+@TableName("Doctor")
 public class DoctorPO implements Serializable {
     private static final long serialVersionUID = 5498494190578317971L;
     @TableId
-    private Integer id;
-    private String time;
-    private String name;
-    private String doctorId;
-    private String daysOfWeek;
-    private String startTime;
-    private String endTime;
+    private String doctorid;
+    private String doctorname;
+    private String status;
+    private String description;
+    private String avatar;
 }
