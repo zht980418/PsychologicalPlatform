@@ -9,6 +9,7 @@ import pers.qianyucc.qblog.exception.BlogException;
 import pers.qianyucc.qblog.model.comm.Results;
 import pers.qianyucc.qblog.model.dto.UserDTO;
 import pers.qianyucc.qblog.model.dto.UserinfoDTO;
+import pers.qianyucc.qblog.model.vo.PageVO;
 import pers.qianyucc.qblog.model.vo.UserinfoVO;
 import pers.qianyucc.qblog.service.UserinfoService;
 
@@ -75,10 +76,15 @@ public class UserinfoController {
 //    查询用户列表
     @GetMapping("/logintestall")
     @ApiOperation("获取用户列表")
-    @ApiImplicitParam(name = "userid", value = "用户ID", required = true, dataType = "String", paramType = "path")
-    public Results<List<UserinfoVO>> getAlluserinfo(){
-        List<UserinfoVO> userinfoVOList = userinfoService.getAlluserinfo();
-        return Results.ok(userinfoVOList);
+    public Results<PageVO<UserinfoVO>> getAlluserinfo(
+            @ApiParam("页码")
+            @RequestParam(required = false, defaultValue = "1") Integer page,
+            @ApiParam("每页存放的记录数")
+            @RequestParam(required = false, defaultValue = "5") Integer limit,
+            @ApiParam("关键词")
+            @RequestParam(required = false, defaultValue = "") String search
+    ){
+        return Results.ok(userinfoService.getAlluserinfo(page,limit,search));
     }
 //    根据姓名查询用户列表
     @GetMapping("/user/{nickname}")
