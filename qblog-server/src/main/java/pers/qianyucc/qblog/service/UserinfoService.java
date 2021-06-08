@@ -66,18 +66,29 @@ public class UserinfoService {
         userinfoMapper.updateById(userinfoPO);
     }
 //    查询用户列表
-    public PageVO<UserinfoVO> getAlluserinfo(int page, int limit, String search){
+    public PageVO<UserinfoVO> getAlluserinfo(int page, int limit, String search,String field){
         QueryWrapper<UserinfoPO> qw = new QueryWrapper<>();
         qw.select(UserinfoPO.class, i-> !"content".equals(i.getColumn()));
-        Page<UserinfoPO> res = userinfoMapper.selectPage(new Page<>(page, limit), qw);
+        Page<UserinfoPO> page1 = new Page<>(page,limit);
+        page1.setSize(limit);
+        Page<UserinfoPO> res = userinfoMapper.selectPage(page1, qw);
         List<UserinfoVO> userinfoVOS = res.getRecords().stream()
                 .map(UserinfoVO::fromUserinfoPO)
                 .collect(Collectors.toList())
                 ;
         ArrayList re = new ArrayList<>();
         for(int i=0;i<userinfoVOS.size();i++){
-            if(search.equals("")|| Pattern.matches(".*"+search+".*",userinfoVOS.get(i).getUserid()))
-                re.add(userinfoVOS.get(i));
+            if(search.equals("")) re.add(userinfoVOS.get(i));
+            else {
+                if(field.equals("userid")&&Pattern.matches(".*"+search+".*",userinfoVOS.get(i).getUserid()))
+                    re.add(userinfoVOS.get(i));
+                else if(field.equals("rolename")&&Pattern.matches(".*"+search+".*",userinfoVOS.get(i).getRolename()))
+                    re.add(userinfoVOS.get(i));
+                else if(field.equals("phonenumber")&&Pattern.matches(".*"+search+".*",userinfoVOS.get(i).getPhonenumber()))
+                    re.add(userinfoVOS.get(i));
+                else if(field.equals("nickname")&&Pattern.matches(".*"+search+".*",userinfoVOS.get(i).getNickname()))
+                    re.add(userinfoVOS.get(i));
+            }
         }
         PageVO<UserinfoVO> pageVO = PageVO.<UserinfoVO>builder()
                 .records(re.isEmpty()? new ArrayList<>():re)
@@ -86,14 +97,6 @@ public class UserinfoService {
                 .size(res.getSize())
                 .build();
         return pageVO;
-//        ArrayList res = new ArrayList();
-//        QueryWrapper<UserinfoPO> queryWrapper = new QueryWrapper<>();
-//        queryWrapper.select("userid", "password", "rolename","phonenumber","nickname");
-//        List<Map<String, Object>> maps = userinfoMapper.selectMaps(queryWrapper);
-//        for(int i = 0; i <maps.size(); i++){
-//            res.add(maps.get(i));
-//        }
-//        return res;
     }
 //    根据userid查询单个用户
     public UserinfoVO getUserinfo(String userid){

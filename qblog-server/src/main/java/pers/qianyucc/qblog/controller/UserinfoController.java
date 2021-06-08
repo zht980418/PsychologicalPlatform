@@ -80,11 +80,13 @@ public class UserinfoController {
             @ApiParam("页码")
             @RequestParam(required = false, defaultValue = "1") Integer page,
             @ApiParam("每页存放的记录数")
-            @RequestParam(required = false, defaultValue = "5") Integer limit,
+            @RequestParam(required = false, defaultValue = "10") Integer limit,
             @ApiParam("关键词")
-            @RequestParam(required = false, defaultValue = "") String search
+            @RequestParam(required = false, defaultValue = "") String search,
+            @ApiParam("字段")
+            @RequestParam(required = false, defaultValue = "userid") String field
     ){
-        return Results.ok(userinfoService.getAlluserinfo(page,limit,search));
+        return Results.ok(userinfoService.getAlluserinfo(page,limit,search,field));
     }
 //    根据姓名查询用户列表
     @GetMapping("/user/{nickname}")
