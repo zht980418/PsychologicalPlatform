@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 import urls from './urls'
-import { transUserList } from '@/utils/user-utils'
+import {transUserList} from '@/utils/user-utils'
 
 export function login(data) {
   console.log(data)
@@ -45,12 +45,14 @@ export function getUserByName(name) {
   })
 }
 
-export function getUsers() {
+export function getUsersWithSearch(params) {
   return request({
     url: '/logintestall',
-    method: 'get'
+    method: 'get',
+    params
   })
 }
+
 
 export function modifyUser(id, data) {
   return request({
