@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import pers.qianyucc.qblog.model.comm.Results;
 import pers.qianyucc.qblog.model.dto.DejueDTO;
 import pers.qianyucc.qblog.model.vo.DejueVO;
+import pers.qianyucc.qblog.model.vo.PageVO;
 import pers.qianyucc.qblog.service.DejueService;
 
 import javax.validation.Valid;
@@ -50,8 +51,17 @@ public class DejueController {
     @ApiOperation("获取得觉列表")
     @GetMapping("/dejue")
     @ApiImplicitParam(name = "id", value = "得觉id", required = true, dataType = "String", paramType = "path")
-    public Results<List<DejueVO>> getDejue() {
-        return Results.ok(dejueService.getAllDejue());
+    public Results<PageVO<DejueVO>> getDejue(
+            @ApiParam("页码")
+            @RequestParam(required = false, defaultValue = "1") Integer page,
+            @ApiParam("每页存放的记录数")
+            @RequestParam(required = false, defaultValue = "10") Integer limit,
+            @ApiParam("关键词")
+            @RequestParam(required = false, defaultValue = "") String search,
+            @ApiParam("字段")
+            @RequestParam(required = false, defaultValue = "userid") String field
+    ) {
+        return Results.ok(dejueService.getAllDejue(page,limit,search,field));
     }
     //    id查
     @ApiOperation("根据id获取得觉")
