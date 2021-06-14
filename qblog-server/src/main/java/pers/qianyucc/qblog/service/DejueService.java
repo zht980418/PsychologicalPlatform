@@ -46,7 +46,19 @@ public class DejueService {
         dejueMapper.updateById(dejuePO);
     }
     //    批量查
-    public PageVO<DejueVO> getAllDejue(int page, int limit, String search,String field){
+    public PageVO<DejueVO> getAllDejue(int page, int limit, String search,String field,String start,String end){
+        String starttime = new String();
+        String endtime = new String();
+        Double StartTime = Double.MIN_VALUE;
+        Double EndTime = Double.MAX_VALUE;
+        if(!start.isEmpty()&&!end.isEmpty()){
+            starttime = start.substring(0,4)+start.substring(5,7)+start.substring(8,10)+start.substring(11,13);
+            endtime = end.substring(0,4)+end.substring(5,7)+end.substring(8,10)+end.substring(11,13);
+            StartTime = Double.valueOf(starttime);
+            EndTime = Double.valueOf(endtime);
+        }
+//        System.out.println(StartTime);
+//        System.out.println(EndTime);
         QueryWrapper<DejuePO> qw = new QueryWrapper<>();
         qw.select(DejuePO.class, i-> !"content".equals(i.getColumn()));
         Page<DejuePO> page1 = new Page<>(page,limit);
@@ -58,17 +70,22 @@ public class DejueService {
                 ;
         ArrayList re = new ArrayList<>();
         for(int i=0;i<dejueVOS.size();i++){
-            if(search.equals("")) re.add(dejueVOS.get(i));
-            else {
-                if(field.equals("title")&& Pattern.matches(".*"+search+".*",dejueVOS.get(i).getTitle()))
-                    re.add(dejueVOS.get(i));
-                else if(field.equals("tabloid")&&Pattern.matches(".*"+search+".*",dejueVOS.get(i).getTabloid()))
-                    re.add(dejueVOS.get(i));
-                else if(field.equals("author")&&Pattern.matches(".*"+search+".*",dejueVOS.get(i).getAuthor()))
-                    re.add(dejueVOS.get(i));
-                else if(field.equals("time")&&Pattern.matches(".*"+search+".*",dejueVOS.get(i).getGmtCreate()))
-                    re.add(dejueVOS.get(i));
-            }
+            String dbCreateTime = dejueVOS.get(i).getGmtCreate();
+            String createtime = dbCreateTime.substring(0,4)+dbCreateTime.substring(5,7)+dbCreateTime.substring(8,10)+dbCreateTime.substring(11,13);
+            Double CreateTime = Double.valueOf(createtime);
+            if(start.isEmpty()||(StartTime<=CreateTime&&CreateTime<=EndTime)){
+                System.out.println(field);
+                System.out.println(search);
+                if(search.equals("")) re.add(dejueVOS.get(i));
+                else {
+                    if(field.equals("title")&& Pattern.matches(".*"+search+".*",dejueVOS.get(i).getTitle()))
+                        re.add(dejueVOS.get(i));
+                    else if(field.equals("tabloid")&&Pattern.matches(".*"+search+".*",dejueVOS.get(i).getTabloid()))
+                        re.add(dejueVOS.get(i));
+                    else if(field.equals("author")&&Pattern.matches(".*"+search+".*",dejueVOS.get(i).getAuthor()))
+                        re.add(dejueVOS.get(i));
+                }
+            }else continue;
         }
         PageVO<DejueVO> pageVO = PageVO.<DejueVO>builder()
                 .records(re.isEmpty()? new ArrayList<>():re)

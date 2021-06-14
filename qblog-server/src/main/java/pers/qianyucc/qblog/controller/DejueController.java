@@ -59,9 +59,13 @@ public class DejueController {
             @ApiParam("关键词")
             @RequestParam(required = false, defaultValue = "") String search,
             @ApiParam("字段")
-            @RequestParam(required = false, defaultValue = "userid") String field
+            @RequestParam(required = false, defaultValue = "userid") String field,
+            @ApiParam("关键词")
+            @RequestParam(required = false, defaultValue = "") String start,
+            @ApiParam("字段")
+            @RequestParam(required = false, defaultValue = "userid") String end
     ) {
-        return Results.ok(dejueService.getAllDejue(page,limit,search,field));
+        return Results.ok(dejueService.getAllDejue(page,limit,search,field,start,end));
     }
     //    id查
     @ApiOperation("根据id获取得觉")
