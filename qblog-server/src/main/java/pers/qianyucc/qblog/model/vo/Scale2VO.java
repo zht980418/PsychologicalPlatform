@@ -10,8 +10,12 @@ import pers.qianyucc.qblog.utils.DateTimeUtils;
 @Data
 public class Scale2VO {
     private int id;
+    private int uid;
     private String name;
+    private String remark;
     private String sex;
+    private String gmtCreate;
+    private String gmtUpdate;
     private String question1;
     private String question2;
     private String question3;
@@ -39,6 +43,8 @@ public class Scale2VO {
         public Scale2VO convertToVO(Scale2PO scale2PO){
             final Scale2VO scale2VO = new Scale2VO();
             BeanUtil.copyProperties(scale2PO, scale2VO, CopyOptions.create().ignoreNullValue().ignoreError());
+            scale2VO.setGmtCreate(DateTimeUtils.formatDatetime(scale2PO.getGmtCreate()));
+            scale2VO.setGmtUpdate(DateTimeUtils.formatDatetime(scale2PO.getGmtUpdate()));
             return scale2VO;
         }
     }

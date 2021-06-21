@@ -11,6 +11,7 @@ import pers.qianyucc.qblog.model.comm.Results;
 import pers.qianyucc.qblog.model.dto.DoctorDTO;
 import pers.qianyucc.qblog.model.vo.DoctorVO;
 import pers.qianyucc.qblog.model.vo.DoctorVO;
+import pers.qianyucc.qblog.model.vo.PageVO;
 import pers.qianyucc.qblog.service.DoctorService;
 
 import javax.validation.Valid;
@@ -51,10 +52,18 @@ public class DoctorController {
     }
     //    批量查
     @ApiOperation("获取医生列表")
-    @GetMapping("/doctor")
-    @ApiImplicitParam(name = "id", value = "医生id", required = true, dataType = "String", paramType = "path")
-    public Results<List<DoctorVO>> getDoctor() {
-        return Results.ok(doctorService.getAllDoctors());
+    @GetMapping("/order/doctorlist")
+    public Results<PageVO<DoctorVO>> getDoctor(
+            @ApiParam("页码")
+            @RequestParam(required = false, defaultValue = "1") Integer page,
+            @ApiParam("每页存放的记录数")
+            @RequestParam(required = false, defaultValue = "10") Integer limit,
+            @ApiParam("关键词")
+            @RequestParam(required = false, defaultValue = "") String search,
+            @ApiParam("字段")
+            @RequestParam(required = false, defaultValue = "doctorId") String field
+    ) {
+        return Results.ok(doctorService.getAllDoctors(page,limit,search,field));
     }
     //    id查
     @ApiOperation("根据id获取医生")

@@ -17,6 +17,8 @@ public class Scale2DTO {
     @ApiModelProperty(notes = "name", example = "1")
     @NotEmpty(message = "姓名不能为空")
     private String name;
+    @ApiModelProperty(notes = "remark", example = "1")
+    private String remark;
     @ApiModelProperty(notes = "sex", example = "1")
     @NotEmpty(message = "性别不能为空")
     private String sex;
@@ -61,8 +63,9 @@ public class Scale2DTO {
     @ApiModelProperty(notes = "question", example = "1")
     private String question20;
 
-    public Scale2PO toScale2PO() {
+    public Scale2PO toScale2PO(boolean isUpdate) {
         Scale2PO po = new Scale2DTO.Converter().convertToPO(this);
+        po.setGmtCreate(isUpdate ? null : po.getGmtUpdate());
         return po;
     }
 
@@ -70,6 +73,7 @@ public class Scale2DTO {
         @Override
         public Scale2PO convertToPO(Scale2DTO scale2DTO) {
             Scale2PO po = new Scale2PO();
+            po.setGmtUpdate(System.currentTimeMillis());
             BeanUtil.copyProperties(scale2DTO, po, CopyOptions.create().ignoreNullValue());
             return po;
         }

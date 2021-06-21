@@ -1,6 +1,7 @@
 package pers.qianyucc.qblog.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,12 @@ import pers.qianyucc.qblog.model.entity.ArticlePO;
 import pers.qianyucc.qblog.model.entity.DoctorPO;
 import pers.qianyucc.qblog.model.vo.ArticleVO;
 import pers.qianyucc.qblog.model.vo.DoctorVO;
+import pers.qianyucc.qblog.model.vo.PageVO;
 import pers.qianyucc.qblog.model.vo.TimelineVO;
 
 import java.util.*;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static pers.qianyucc.qblog.model.enums.ErrorInfoEnum.INVALID_ID;
 
@@ -44,15 +48,38 @@ public class DoctorService {
         doctorMapper.updateById(doctorPO);
     }
 //    批量查
-    public List<DoctorVO> getAllDoctors(){
-        ArrayList res = new ArrayList<>();
-        QueryWrapper<DoctorPO> wrapper = new QueryWrapper<>();
-        wrapper.select("doctorid","doctorname","status","description","avatar");
-        List<Map<String,Object>> maps = doctorMapper.selectMaps(wrapper);
-        for(int i=0;i<maps.size();i++){
-            res.add(maps.get(i));
+    public PageVO<DoctorVO> getAllDoctors(int page, int limit, String search, String field){
+        QueryWrapper<DoctorPO> qw = new QueryWrapper<>();
+        qw.select(DoctorPO.class, i->!"content".equals(i.getColumn()));
+        Page<DoctorPO> page1 = new Page<>(page,limit);
+        page1.setSize(limit);
+        Page<DoctorPO> res = doctorMapper.selectPage(page1,qw);
+        List<DoctorVO> doctorVOS = res.getRecords().stream()
+                .map(DoctorVO::fromDoctorPO)
+                .collect(Collectors.toList())
+                ;
+        ArrayList re = new ArrayList<>();
+        for(int i=0;i<doctorVOS.size();i++){
+            System.out.println(doctorVOS.get(i).getDoctorid());
+            System.out.println(doctorVOS.get(i).getDoctorname());
+            System.out.println(doctorVOS.get(i).getStatus());
+            if(search.equals("")) re.add(doctorVOS.get(i));
+            else {
+                if(field.equals("doctorId")&& Pattern.matches(".*"+search+".*",doctorVOS.get(i).getDoctorid()))
+                    re.add(doctorVOS.get(i));
+                else if(field.equals("doctorName")&& Pattern.matches(".*"+search+".*",doctorVOS.get(i).getDoctorname()))
+                    re.add(doctorVOS.get(i));
+                else if(field.equals("status")&& Pattern.matches(".*"+search+".*",doctorVOS.get(i).getStatus()))
+                    re.add(doctorVOS.get(i));
+            }
         }
-        return  res;
+        PageVO<DoctorVO> pageVO = PageVO.<DoctorVO>builder()
+                .records(re.isEmpty()? new ArrayList<>():re)
+                .total(res.getTotal())
+                .current(res.getCurrent())
+                .size(res.getSize())
+                .build();
+        return pageVO;
     }
 
 //    id查

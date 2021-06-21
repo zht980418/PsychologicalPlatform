@@ -96,11 +96,11 @@ public class UserinfoController {
         return Results.ok(userinfoService.getUserinfoBynickname(nickname));
     }
 //    查询咨询师列表
-    @GetMapping("/order/doctorlist")
-    @ApiOperation("获取咨询师列表")
-    @ApiImplicitParam(name="doctorlsit",value = "用户列表",required = true,dataType = "String")
-    public Results<List<UserinfoVO>> getAlldoctor(){
-        List<UserinfoVO> userinfoVOList=userinfoService.getDoctorinfo();
-        return Results.ok(userinfoVOList);
-    }
+//    @GetMapping("/order/doctorlist")
+//    @ApiOperation("获取咨询师列表")
+//    @ApiImplicitParam(name="doctorlsit",value = "用户列表",required = true,dataType = "String")
+//    public Results<List<UserinfoVO>> getAlldoctor(){
+//        List<UserinfoVO> userinfoVOList=userinfoService.getDoctorinfo();
+//        return Results.ok(userinfoVOList);
+//    }
 }
