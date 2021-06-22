@@ -113,13 +113,16 @@ public class Scale2Service {
         ArrayList res = new ArrayList<>();
         QueryWrapper<Scale2PO> wrapper = new QueryWrapper<>();
         wrapper.eq("id",id)
-                .select("question1","question2","question3","question4","question5",
+                .select("name","remark","sex",
+                        "question1","question2","question3","question4","question5",
                         "question6","question7","question8","question9","question10",
                         "question11","question12","question13","question14","question15",
                         "question16","question17","question18","question19","question20");
         List<Map<String,Object>> maps = scale2Mapper.selectMaps(wrapper);
-        for(int i=0;i<maps.size();i++)
+        for(int i=0;i<maps.size();i++) {
+//            System.out.println(maps.get(i));
             res.add(maps.get(i));
+        }
         return  res;
     }
 }
