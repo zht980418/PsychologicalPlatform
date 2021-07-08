@@ -8,7 +8,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@TableName("sclae3")
+@TableName("scale3")
 public class Scale3PO implements Serializable {
     private static final long serialVersionUID = 6064199411680600904L;
     @TableId(value = "id", type = IdType.INPUT)
