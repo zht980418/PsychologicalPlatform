@@ -76,4 +76,12 @@ public class Scale4Controller {
                                               @PathVariable int id){
         return  Results.ok(scale4Service.getAnsbyId(id));
     }
+
+    @ApiOperation("根据id获取量表结果")
+    @GetMapping("/scale4Result/{id}")
+    @ApiImplicitParam(name = "id", value = "问卷4id", required = true, dataType = "String", paramType = "path")
+    public Results<List<String>> getResultbyId(@ApiParam(name = "问卷4信息", value = "传入json格式", required = true)
+                                              @PathVariable int id){
+        return  Results.ok(scale4Service.getResult(id));
+    }
 }

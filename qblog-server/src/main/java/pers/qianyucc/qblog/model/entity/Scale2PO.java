@@ -40,4 +40,5 @@ public class Scale2PO implements Serializable {
     private String question18;
     private String question19;
     private String question20;
+    private int result;
 }

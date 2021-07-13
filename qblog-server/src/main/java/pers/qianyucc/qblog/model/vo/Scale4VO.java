@@ -6,6 +6,8 @@ import lombok.Data;
 import pers.qianyucc.qblog.model.entity.Scale4PO;
 import pers.qianyucc.qblog.utils.DateTimeUtils;
 
+import java.math.BigDecimal;
+
 @Data
 public class Scale4VO {
     private int id;
@@ -105,6 +107,19 @@ public class Scale4VO {
     private String question88;
     private String question89;
     private String question90;
+    private BigDecimal Somatization;
+    private BigDecimal Sumaverage;
+    private BigDecimal Positive;
+    private BigDecimal ObsessiveCompulsive;
+    private BigDecimal InterpersonalSensitivity;
+    private BigDecimal Depression;
+    private BigDecimal Anxiety;
+    private BigDecimal Hostility;
+    private BigDecimal PhoticAnxiety;
+    private BigDecimal ParanoidIdeation;
+    private BigDecimal Psychoticism;
+
+
 
     public static Scale4VO fromScale4PO(Scale4PO scale4PO){return new Scale4VO.Converter().convertToVO(scale4PO);}
     private static class Converter implements IConverter<Scale4PO, Scale4VO>{

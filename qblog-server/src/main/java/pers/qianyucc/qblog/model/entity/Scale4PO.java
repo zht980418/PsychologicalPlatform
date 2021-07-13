@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 @TableName("scale4")
@@ -109,4 +110,15 @@ public class Scale4PO implements Serializable {
     private String question88;
     private String question89;
     private String question90;
+    private BigDecimal Somatization;
+    private BigDecimal Sumaverage;
+    private BigDecimal Positive;
+    private BigDecimal ObsessiveCompulsive;
+    private BigDecimal InterpersonalSensitivity;
+    private BigDecimal Depression;
+    private BigDecimal Anxiety;
+    private BigDecimal Hostility;
+    private BigDecimal PhoticAnxiety;
+    private BigDecimal ParanoidIdeation;
+    private BigDecimal Psychoticism;
 }

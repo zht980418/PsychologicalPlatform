@@ -66,6 +66,28 @@ public class Scale2DTO {
     public Scale2PO toScale2PO(boolean isUpdate) {
         Scale2PO po = new Scale2DTO.Converter().convertToPO(this);
         po.setGmtCreate(isUpdate ? null : po.getGmtUpdate());
+        int res = 0;
+//        计分
+        for(int i=1;i<10;i++){
+            if(i==5||i==9)
+                res += 4 - po.toString().charAt(po.toString().indexOf("question" + i) + 10) + 'A';
+            else
+                res += po.toString().charAt(po.toString().indexOf("question" + i) + 10) - 'A' + 1;
+
+
+        }
+        for(int i=10;i<21;i++){
+            if(i==13||i==17||i==19) {
+                System.out.println(4 - po.toString().charAt(po.toString().indexOf("question" + i) + 11) + 'A');
+                res += 4 - po.toString().charAt(po.toString().indexOf("question" + i) + 11) + 'A';
+            }
+            else {
+                System.out.println(po.toString().charAt(po.toString().indexOf("question" + i) + 11) - 'A' + 1);
+                res += po.toString().charAt(po.toString().indexOf("question" + i) + 11) - 'A' + 1;
+            }
+        }
+        res*=1.25;
+        po.setResult(res);
         return po;
     }
 

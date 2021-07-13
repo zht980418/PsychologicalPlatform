@@ -125,4 +125,35 @@ public class Scale2Service {
         }
         return  res;
     }
+
+    public List<String> getResult(int id) {
+        ArrayList res = new ArrayList<>();
+        Scale2PO dbscale2PO = scale2Mapper.selectById(id);
+        int result = dbscale2PO.getResult();
+        if(result<50) res.add("按照中国常摸结果，SAS标准分的分界值为50分。分数等级说明:" +
+                "1-正常状态，标准分在50分以下; 2-轻度焦虑，标准分50-- 59;"+
+                "3-中度焦虑，标准分为60- 69; 4-重度焦虑，标准分在70分以.上。"+
+                "您的得分为"+dbscale2PO.getResult()+"。"+
+                "您的状态为正常状态"
+                );
+        else  if(result>=50&&result<60) res.add("按照中国常摸结果，SAS标准分的分界值为50分。分数等级说明:" +
+                "1-正常状态，标准分在50分以下; 2-轻度焦虑，标准分50-- 59;"+
+                "3-中度焦虑，标准分为60- 69; 4-重度焦虑，标准分在70分以.上。"+
+                "您的得分为"+dbscale2PO.getResult()+"。"+
+                "您的状态为轻度焦虑"
+        );
+        else if(result>=60&&result<70) res.add("按照中国常摸结果，SAS标准分的分界值为50分。分数等级说明:" +
+                "1-正常状态，标准分在50分以下; 2-轻度焦虑，标准分50-- 59;"+
+                "3-中度焦虑，标准分为60- 69; 4-重度焦虑，标准分在70分以.上。"+
+                "您的得分为"+dbscale2PO.getResult()+"。"+
+                "您的状态为中度焦虑"
+        );
+        else res.add("按照中国常摸结果，SAS标准分的分界值为50分。分数等级说明:" +
+                    "1-正常状态，标准分在50分以下; 2-轻度焦虑，标准分50-- 59;"+
+                    "3-中度焦虑，标准分为60- 69; 4-重度焦虑，标准分在70分以.上。"+
+                    "您的得分为"+dbscale2PO.getResult()+"。"+
+                    "您的状态为重度焦虑"
+            );
+        return  res;
+    }
 }

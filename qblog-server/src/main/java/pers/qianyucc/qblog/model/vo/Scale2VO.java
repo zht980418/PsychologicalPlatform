@@ -36,6 +36,7 @@ public class Scale2VO {
     private String question18;
     private String question19;
     private String question20;
+    private int result;
 
     public static Scale2VO fromScale2PO(Scale2PO scale2PO){return new Scale2VO.Converter().convertToVO(scale2PO);}
     private static class Converter implements IConverter<Scale2PO, Scale2VO>{

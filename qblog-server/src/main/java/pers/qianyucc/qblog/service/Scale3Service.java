@@ -121,4 +121,17 @@ public class Scale3Service {
         }
         return  res;
     }
+
+    public List<String> getResultbyId(int id) {
+        List<String> res = new ArrayList<>();
+        Scale3PO dbscale3PO = scale3Mapper.selectById(id);
+        res.add("您的客观支持分为"+dbscale3PO.getObjective()+"分");
+        res.add("您的主观支持分为"+dbscale3PO.getSubjective()+"分");
+        res.add("您的对支持的利用度的得分为"+dbscale3PO.getSupport()+"分");
+        res.add("您的总分为"+dbscale3PO.getSum()+"分");
+        if(dbscale3PO.getSum()<20) res.add("您的社会支持较少");
+        else if(dbscale3PO.getSum()>=20&&dbscale3PO.getSum()<30) res.add("您具有一般的社会支持");
+        else res.add("您具有较为满意的社会支持度");
+        return  res;
+    }
 }

@@ -8,6 +8,7 @@ import lombok.Data;
 import pers.qianyucc.qblog.model.entity.Scale4PO;
 
 import javax.validation.constraints.NotEmpty;
+import java.math.BigDecimal;
 
 @Data
 @ApiModel(value = "量表0", description = "量表0")
@@ -136,6 +137,188 @@ public class Scale4DTO {
     public Scale4PO toScale4PO(boolean isUpdate) {
         Scale4PO po = new Scale4DTO.Converter().convertToPO(this);
         po.setGmtCreate(isUpdate ? null : po.getGmtUpdate());
+//        躯体化
+        BigDecimal a = new BigDecimal((po.getQuestion1().charAt(0)-'A' )+(po.getQuestion4().charAt(0)-'A' )
+                +(po.getQuestion12().charAt(0)-'A' )+(po.getQuestion27().charAt(0)-'A' )
+                +(po.getQuestion40().charAt(0)-'A' )+(po.getQuestion42().charAt(0)-'A' )
+                +(po.getQuestion48().charAt(0)-'A' )+(po.getQuestion49().charAt(0)-'A' )
+                +(po.getQuestion52().charAt(0)-'A' )+(po.getQuestion53().charAt(0)-'A' )
+                +(po.getQuestion56().charAt(0)-'A' )+(po.getQuestion58().charAt(0)-'A' ));
+        BigDecimal b = new BigDecimal(12);
+        po.setSomatization(a.divide(b,2,BigDecimal.ROUND_HALF_UP));
+//        总分
+        a = new BigDecimal((po.getQuestion1().charAt(0)-'A' )+(po.getQuestion4().charAt(0)-'A' )
+                +(po.getQuestion2().charAt(0)-'A' )
+                +(po.getQuestion3().charAt(0)-'A' )
+                +(po.getQuestion4().charAt(0)-'A' )
+                +(po.getQuestion5().charAt(0)-'A' )
+                +(po.getQuestion6().charAt(0)-'A' )
+                +(po.getQuestion7().charAt(0)-'A' )
+                +(po.getQuestion8().charAt(0)-'A' )
+                +(po.getQuestion9().charAt(0)-'A' )
+                +(po.getQuestion10().charAt(0)-'A' )
+                +(po.getQuestion11().charAt(0)-'A' )
+                +(po.getQuestion12().charAt(0)-'A' )
+                +(po.getQuestion13().charAt(0)-'A' )
+                +(po.getQuestion14().charAt(0)-'A' )
+                +(po.getQuestion15().charAt(0)-'A' )
+                +(po.getQuestion16().charAt(0)-'A' )
+                +(po.getQuestion17().charAt(0)-'A' )
+                +(po.getQuestion18().charAt(0)-'A' )
+                +(po.getQuestion19().charAt(0)-'A' )
+                +(po.getQuestion20().charAt(0)-'A' )
+                +(po.getQuestion21().charAt(0)-'A' )
+                +(po.getQuestion22().charAt(0)-'A' )
+                +(po.getQuestion23().charAt(0)-'A' )
+                +(po.getQuestion24().charAt(0)-'A' )
+                +(po.getQuestion25().charAt(0)-'A' )
+                +(po.getQuestion26().charAt(0)-'A' )
+                +(po.getQuestion12().charAt(0)-'A' )
+                +(po.getQuestion27().charAt(0)-'A' )
+                +(po.getQuestion28().charAt(0)-'A' )
+                +(po.getQuestion29().charAt(0)-'A' )
+                +(po.getQuestion30().charAt(0)-'A' )
+                +(po.getQuestion31().charAt(0)-'A' )
+                +(po.getQuestion32().charAt(0)-'A' )
+                +(po.getQuestion33().charAt(0)-'A' )
+                +(po.getQuestion34().charAt(0)-'A' )
+                +(po.getQuestion35().charAt(0)-'A' )
+                +(po.getQuestion36().charAt(0)-'A' )
+                +(po.getQuestion37().charAt(0)-'A' )
+                +(po.getQuestion38().charAt(0)-'A' )
+                +(po.getQuestion39().charAt(0)-'A' )
+                +(po.getQuestion40().charAt(0)-'A' )
+                +(po.getQuestion41().charAt(0)-'A' )
+                +(po.getQuestion42().charAt(0)-'A' )
+                +(po.getQuestion43().charAt(0)-'A' )
+                +(po.getQuestion44().charAt(0)-'A' )
+                +(po.getQuestion45().charAt(0)-'A' )
+                +(po.getQuestion46().charAt(0)-'A' )
+                +(po.getQuestion47().charAt(0)-'A' )
+                +(po.getQuestion48().charAt(0)-'A' )
+                +(po.getQuestion49().charAt(0)-'A' )
+                +(po.getQuestion50().charAt(0)-'A' )
+                +(po.getQuestion51().charAt(0)-'A' )
+                +(po.getQuestion52().charAt(0)-'A' )
+                +(po.getQuestion53().charAt(0)-'A' )
+                +(po.getQuestion54().charAt(0)-'A' )
+                +(po.getQuestion55().charAt(0)-'A' )
+                +(po.getQuestion56().charAt(0)-'A' )
+                +(po.getQuestion57().charAt(0)-'A' )
+                +(po.getQuestion58().charAt(0)-'A' )
+                +(po.getQuestion59().charAt(0)-'A' )
+                +(po.getQuestion60().charAt(0)-'A' )
+                +(po.getQuestion61().charAt(0)-'A' )
+                +(po.getQuestion62().charAt(0)-'A' )
+                +(po.getQuestion63().charAt(0)-'A' )
+                +(po.getQuestion64().charAt(0)-'A' )
+                +(po.getQuestion65().charAt(0)-'A' )
+                +(po.getQuestion66().charAt(0)-'A' )
+                +(po.getQuestion67().charAt(0)-'A' )
+                +(po.getQuestion68().charAt(0)-'A' )
+                +(po.getQuestion69().charAt(0)-'A' )
+                +(po.getQuestion70().charAt(0)-'A' )
+                +(po.getQuestion71().charAt(0)-'A' )
+                +(po.getQuestion72().charAt(0)-'A' )
+                +(po.getQuestion73().charAt(0)-'A' )
+                +(po.getQuestion74().charAt(0)-'A' )
+                +(po.getQuestion75().charAt(0)-'A' )
+                +(po.getQuestion76().charAt(0)-'A' )
+                +(po.getQuestion77().charAt(0)-'A' )
+                +(po.getQuestion78().charAt(0)-'A' )
+                +(po.getQuestion79().charAt(0)-'A' )
+                +(po.getQuestion80().charAt(0)-'A' )
+                +(po.getQuestion81().charAt(0)-'A' )
+                +(po.getQuestion82().charAt(0)-'A' )
+                +(po.getQuestion83().charAt(0)-'A' )
+                +(po.getQuestion84().charAt(0)-'A' )
+                +(po.getQuestion85().charAt(0)-'A' )
+                +(po.getQuestion86().charAt(0)-'A' )
+                +(po.getQuestion87().charAt(0)-'A' )
+                +(po.getQuestion88().charAt(0)-'A' )
+                +(po.getQuestion89().charAt(0)-'A' )
+                +(po.getQuestion90().charAt(0)-'A' )
+        );
+        b = new BigDecimal(90);
+        po.setSumaverage(a.divide(b,2,BigDecimal.ROUND_HALF_UP));
+//      阳性症状
+        int yang = 0;
+        int yin = 0;
+        for(int i=1;i<10;i++){
+            if(po.toString().charAt(po.toString().indexOf("question"+i)+10)-'A'<1) yin++;
+            else yang++;
+        }
+        for(int i=10;i<91;i++){
+            if(po.toString().charAt(po.toString().indexOf("question"+i)+11)-'A'<1) yin++;
+            else yang++;
+        }
+//        a延续为总分
+        b = new BigDecimal(yang);
+        System.out.println(a);
+        System.out.println(b);
+        po.setPositive(a.divide(b,2,BigDecimal.ROUND_HALF_UP));
+//        强迫症状
+        a = new BigDecimal((po.getQuestion3().charAt(0)-'A' )+(po.getQuestion9().charAt(0)-'A' )
+                +(po.getQuestion10().charAt(0)-'A' )+(po.getQuestion28().charAt(0)-'A' )
+                +(po.getQuestion38().charAt(0)-'A' )+(po.getQuestion45().charAt(0)-'A' )
+                +(po.getQuestion46().charAt(0)-'A' )+(po.getQuestion51().charAt(0)-'A' )
+                +(po.getQuestion55().charAt(0)-'A' )+(po.getQuestion65().charAt(0)-'A' ));
+        b = new BigDecimal(10);
+        po.setObsessiveCompulsive(a.divide(b,2,BigDecimal.ROUND_HALF_UP));
+//      人际关系敏感度
+        a = new BigDecimal((po.getQuestion6().charAt(0)-'A' )+(po.getQuestion21().charAt(0)-'A' )
+                +(po.getQuestion34().charAt(0)-'A' )+(po.getQuestion36().charAt(0)-'A' )
+                +(po.getQuestion37().charAt(0)-'A' )+(po.getQuestion41().charAt(0)-'A' )
+                +(po.getQuestion61().charAt(0)-'A' )+(po.getQuestion69().charAt(0)-'A' )
+                +(po.getQuestion73().charAt(0)-'A' ));
+        b = new BigDecimal(9);
+        po.setInterpersonalSensitivity(a.divide(b,2,BigDecimal.ROUND_HALF_UP));
+//       抑郁
+        a = new BigDecimal((po.getQuestion5().charAt(0)-'A' )+(po.getQuestion14().charAt(0)-'A' )
+                +(po.getQuestion15().charAt(0)-'A' )+(po.getQuestion20().charAt(0)-'A' )
+                +(po.getQuestion22().charAt(0)-'A' )+(po.getQuestion26().charAt(0)-'A' )
+                +(po.getQuestion29().charAt(0)-'A' )+(po.getQuestion30().charAt(0)-'A' )
+                +(po.getQuestion31().charAt(0)-'A' )+(po.getQuestion32().charAt(0)-'A' )
+                +(po.getQuestion54().charAt(0)-'A' )+(po.getQuestion71().charAt(0)-'A' )
+                +(po.getQuestion79().charAt(0)-'A' ));
+        b = new BigDecimal(13);
+        po.setDepression(a.divide(b,2,BigDecimal.ROUND_HALF_UP));
+//      焦虑
+        a = new BigDecimal((po.getQuestion2().charAt(0)-'A' )+(po.getQuestion17().charAt(0)-'A' )
+                +(po.getQuestion23().charAt(0)-'A' )+(po.getQuestion33().charAt(0)-'A' )
+                +(po.getQuestion39().charAt(0)-'A' )+(po.getQuestion57().charAt(0)-'A' )
+                +(po.getQuestion72().charAt(0)-'A' )+(po.getQuestion78().charAt(0)-'A' )
+                +(po.getQuestion80().charAt(0)-'A' )+(po.getQuestion86().charAt(0)-'A' ));
+        b = new BigDecimal(10);
+        po.setAnxiety(a.divide(b,2,BigDecimal.ROUND_HALF_UP));
+//        敌对
+        a = new BigDecimal((po.getQuestion11().charAt(0)-'A' )+(po.getQuestion24().charAt(0)-'A' )
+                +(po.getQuestion63().charAt(0)-'A' )+(po.getQuestion67().charAt(0)-'A' )
+                +(po.getQuestion74().charAt(0)-'A' )+(po.getQuestion81().charAt(0)-'A' ));
+        b = new BigDecimal(6);
+        po.setHostility(a.divide(b,2,BigDecimal.ROUND_HALF_UP));
+//      恐怖
+        a = new BigDecimal((po.getQuestion13().charAt(0)-'A' )+(po.getQuestion25().charAt(0)-'A' )
+                +(po.getQuestion47().charAt(0)-'A' )+(po.getQuestion50().charAt(0)-'A' )
+                +(po.getQuestion70().charAt(0)-'A' )+(po.getQuestion75().charAt(0)-'A' )
+                +(po.getQuestion82().charAt(0)-'A' ));
+        b = new BigDecimal(7);
+        po.setPhoticAnxiety(a.divide(b,2,BigDecimal.ROUND_HALF_UP));
+        //      偏执
+        a = new BigDecimal((po.getQuestion8().charAt(0)-'A' )+(po.getQuestion18().charAt(0)-'A' )
+                +(po.getQuestion43().charAt(0)-'A' )+(po.getQuestion68().charAt(0)-'A' )
+                +(po.getQuestion76().charAt(0)-'A' )+(po.getQuestion83().charAt(0)-'A' ));
+        b = new BigDecimal(6);
+        po.setParanoidIdeation(a.divide(b,2,BigDecimal.ROUND_HALF_UP));
+        //      精神病性
+        a = new BigDecimal((po.getQuestion7().charAt(0)-'A' )+(po.getQuestion16().charAt(0)-'A' )
+                +(po.getQuestion35().charAt(0)-'A' )+(po.getQuestion62().charAt(0)-'A' )
+                +(po.getQuestion77().charAt(0)-'A' )+(po.getQuestion84().charAt(0)-'A' )
+                +(po.getQuestion85().charAt(0)-'A' )+(po.getQuestion87().charAt(0)-'A' )
+                +(po.getQuestion88().charAt(0)-'A' )+(po.getQuestion90().charAt(0)-'A' ));
+        b = new BigDecimal(10);
+        po.setPsychoticism(a.divide(b,2,BigDecimal.ROUND_HALF_UP));
+
         return po;
     }
 
@@ -144,6 +327,7 @@ public class Scale4DTO {
         public Scale4PO convertToPO(Scale4DTO scale4DTO) {
             Scale4PO po = new Scale4PO();
             po.setGmtUpdate(System.currentTimeMillis());
+
             BeanUtil.copyProperties(scale4DTO, po, CopyOptions.create().ignoreNullValue());
             return po;
         }

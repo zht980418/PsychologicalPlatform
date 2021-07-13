@@ -46,6 +46,43 @@ public class Scale3DTO {
     public Scale3PO toScale3PO(boolean isUpdate) {
         Scale3PO po = new Scale3DTO.Converter().convertToPO(this);
         po.setGmtCreate(isUpdate ? null : po.getGmtUpdate());
+        int ans5 = 0;
+        for(char c:po.getQuestion5().toCharArray())
+            ans5+=c-'A'+1;
+        int ans6 = 0;
+        for(char c:po.getQuestion6().toCharArray()){
+            if(c-'A'>=0&&c-'A'<=6) ans6++;
+            else if(c=='、') ans6++;
+        }
+        if(po.getQuestion6().contains("H")) ans6++;
+        if(po.getQuestion6().charAt(1)=='1') ans6 = 0;
+
+        int ans7 = 0;
+        for(char c:po.getQuestion7().toCharArray()){
+            if(c-'A'>=0&&c-'A'<=6) ans7++;
+            else if(c=='、') ans7++;
+        }
+        if(po.getQuestion7().contains("H")) ans7++;
+        if(po.getQuestion7().charAt(1)=='1') ans7 = 0;
+        System.out.println(ans5);
+        System.out.println(ans6);
+        System.out.println(ans7);
+//        客观支持分
+        int ob = po.getQuestion2().charAt(0)-'A'+1+ans6+ans7;
+        po.setObjective(ob);
+        System.out.println(ob);
+//        主观支持分
+        int sb = po.getQuestion1().charAt(0)-'A'+1+po.getQuestion3().charAt(0)-'A'+1+po.getQuestion4().charAt(0)-'A'+1+ans5;
+        po.setSubjective(sb);
+        System.out.println(sb);
+//        对支持的利用度
+        int sp = po.getQuestion8().charAt(0)-'A'+1+po.getQuestion9().charAt(0)-'A'+1+po.getQuestion10().charAt(0)-'A'+1;
+        po.setSupport(sp);
+        System.out.println(sp);
+//        总分
+        int sm = ob+sb+sp;
+        po.setSum(sm);
+        System.out.println(sm);
         return po;
     }
 

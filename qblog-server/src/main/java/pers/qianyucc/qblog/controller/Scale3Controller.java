@@ -76,4 +76,12 @@ public class Scale3Controller {
                                               @PathVariable int id){
         return  Results.ok(scale3Service.getAnsbyId(id));
     }
+
+    @ApiOperation("根据id获取建议")
+    @GetMapping("/scale3Result/{id}")
+    @ApiImplicitParam(name = "id", value = "问卷3id", required = true, dataType = "String", paramType = "path")
+    public Results<List<String>> getResultbyId(@ApiParam(name = "问卷三信息",value = "传入json",required = true)
+                                               @PathVariable int id){
+        return  Results.ok(scale3Service.getResultbyId(id));
+    }
 }

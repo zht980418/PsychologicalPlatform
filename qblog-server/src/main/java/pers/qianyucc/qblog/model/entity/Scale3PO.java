@@ -29,4 +29,9 @@ public class Scale3PO implements Serializable {
     private String question8;
     private String question9;
     private String question10;
+    private int sum;
+    private int objective;
+    private int subjective;
+    private int support;
+
 }

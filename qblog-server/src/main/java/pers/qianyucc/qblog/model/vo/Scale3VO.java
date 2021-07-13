@@ -25,6 +25,10 @@ public class Scale3VO {
     private String question8;
     private String question9;
     private String question10;
+    private int sum;
+    private int objective;
+    private int subjective;
+    private int support;
 
     public static Scale3VO fromScale3PO(Scale3PO scale3PO){return new Scale3VO.Converter().convertToVO(scale3PO);}
     private static class Converter implements IConverter<Scale3PO, Scale3VO>{
