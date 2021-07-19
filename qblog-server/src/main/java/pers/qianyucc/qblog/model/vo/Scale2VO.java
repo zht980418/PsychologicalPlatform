@@ -9,7 +9,7 @@ import pers.qianyucc.qblog.utils.DateTimeUtils;
 
 @Data
 public class Scale2VO {
-    private int id;
+    private String id;
     private int uid;
     private String name;
     private String remark;

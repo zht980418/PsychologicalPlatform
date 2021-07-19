@@ -15,7 +15,7 @@ import pers.qianyucc.qblog.model.vo.Scale3VO;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
+import java.util.UUID;
 import static pers.qianyucc.qblog.model.enums.ErrorInfoEnum.INVALID_ID;
 
 @Slf4j
@@ -24,18 +24,20 @@ public class Scale3Service {
     @Autowired
     private Scale3Mapper scale3Mapper;
 
-    public void insScale3(Scale3DTO scale3DTO) {
+    public String insScale3(Scale3DTO scale3DTO) {
         Scale3PO scale3PO =  scale3DTO.toScale3PO(false);
+        scale3PO.setId(UUID.randomUUID().toString().replace("-",""));
         scale3Mapper.insert(scale3PO);
+        return scale3PO.getId();
     }
 
-    public void deleteScale3(int id){
+    public void deleteScale3(String id){
         Map<String,Object> map =new HashMap<>();
         map.put("id",id);
         scale3Mapper.deleteByMap(map);
     }
 
-    public void updateScale3(Scale3DTO scale3DTO, int id){
+    public void updateScale3(Scale3DTO scale3DTO, String id){
         Scale3PO dbscale3 = scale3Mapper.selectById(id);
         if (Objects.isNull(dbscale3)) {
             throw new BlogException(INVALID_ID);
@@ -106,7 +108,7 @@ public class Scale3Service {
 //        return res;
     }
 
-    public List<Scale3VO> getAnsbyId(int id) {
+    public List<Scale3VO> getAnsbyId(String id) {
         ArrayList res = new ArrayList<>();
         QueryWrapper<Scale3PO> wrapper = new QueryWrapper<>();
         wrapper.eq("id",id)
@@ -122,7 +124,7 @@ public class Scale3Service {
         return  res;
     }
 
-    public List<String> getResultbyId(int id) {
+    public List<String> getResultbyId(String id) {
         List<String> res = new ArrayList<>();
         Scale3PO dbscale3PO = scale3Mapper.selectById(id);
         res.add("您的客观支持分为"+dbscale3PO.getObjective()+"分");

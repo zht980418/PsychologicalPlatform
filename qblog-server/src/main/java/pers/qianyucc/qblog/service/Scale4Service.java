@@ -25,18 +25,20 @@ public class Scale4Service {
     @Autowired
     private Scale4Mapper scale4Mapper;
 
-    public void insScale4(Scale4DTO scale4DTO) {
+    public String insScale4(Scale4DTO scale4DTO) {
         Scale4PO scale4PO =  scale4DTO.toScale4PO(false);
+        scale4PO.setId(UUID.randomUUID().toString().replace("-",""));
         scale4Mapper.insert(scale4PO);
+        return scale4PO.getId();
     }
 
-    public void deleteScale4(int id){
+    public void deleteScale4(String id){
         Map<String,Object> map =new HashMap<>();
         map.put("id",id);
         scale4Mapper.deleteByMap(map);
     }
 
-    public void updateScale4(Scale4DTO scale4DTO, int id){
+    public void updateScale4(Scale4DTO scale4DTO, String id){
         Scale4PO dbscale4 = scale4Mapper.selectById(id);
         if (Objects.isNull(dbscale4)) {
             throw new BlogException(INVALID_ID);
@@ -107,7 +109,7 @@ public class Scale4Service {
 //        return res;
     }
 
-    public List<Scale4VO> getAnsbyId(int id) {
+    public List<Scale4VO> getAnsbyId(String id) {
         ArrayList res = new ArrayList<>();
         QueryWrapper<Scale4PO> wrapper = new QueryWrapper<>();
         wrapper.eq("id",id)
@@ -138,7 +140,7 @@ public class Scale4Service {
         }
         return  res;
     }
-    public List<String> getResult(int id){
+    public List<String> getResult(String id){
         ArrayList res = new ArrayList<>();
         Scale4PO dbscale4 = scale4Mapper.selectById(id);
 //      总体情况

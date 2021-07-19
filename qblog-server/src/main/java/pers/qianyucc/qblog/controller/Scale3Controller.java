@@ -26,15 +26,15 @@ public class Scale3Controller {
     @PostMapping("/scale3Info")
     public Results<String> postScale3(@ApiParam(name = "问卷3预约信息", value = "传入json格式", required = true)
                                       @RequestBody @Valid Scale3DTO scale3DTO) {
-        scale3Service.insScale3(scale3DTO);
+        String id = scale3Service.insScale3(scale3DTO);
 //        scale3Service.insScale3(scale3DTO);
-        return Results.ok("表单新增成功", null);
+        return Results.ok("表单新增成功1", id);
     }
 
     @ApiOperation("根据id删除scale3")
     @DeleteMapping("/scale3Info/{id}")
     @ApiImplicitParam(name = "id", value = "问卷3id", required = true, dataType = "String", paramType = "path")
-    public Results deleteScale3(@PathVariable int id) {
+    public Results deleteScale3(@PathVariable String id) {
         scale3Service.deleteScale3(id);
         return Results.ok("删除成功", null);
     }
@@ -44,7 +44,7 @@ public class Scale3Controller {
     @ApiImplicitParam(name = "id", value = "问卷3id", required = true, dataType = "String", paramType = "path")
     public Results<String> putScale3(@ApiParam(name = "问卷3信息", value = "传入json格式", required = true)
                                      @RequestBody @Valid Scale3DTO scale3DTO ,
-                                     @PathVariable int id){
+                                     @PathVariable String id){
         scale3Service.updateScale3(scale3DTO, id);
         return Results.ok("表单修改成功", null);
     }
@@ -73,7 +73,7 @@ public class Scale3Controller {
     @GetMapping("/scale3Info/{id}")
     @ApiImplicitParam(name = "id", value = "问卷3id", required = true, dataType = "String", paramType = "path")
     public Results<List<Scale3VO>> getAnsbyId(@ApiParam(name = "问卷3信息", value = "传入json格式", required = true)
-                                              @PathVariable int id){
+                                              @PathVariable String id){
         return  Results.ok(scale3Service.getAnsbyId(id));
     }
 
@@ -81,7 +81,7 @@ public class Scale3Controller {
     @GetMapping("/scale3Result/{id}")
     @ApiImplicitParam(name = "id", value = "问卷3id", required = true, dataType = "String", paramType = "path")
     public Results<List<String>> getResultbyId(@ApiParam(name = "问卷三信息",value = "传入json",required = true)
-                                               @PathVariable int id){
+                                               @PathVariable String id){
         return  Results.ok(scale3Service.getResultbyId(id));
     }
 }

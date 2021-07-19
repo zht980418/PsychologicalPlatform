@@ -25,15 +25,15 @@ public class Scale2Controller {
     @PostMapping("/scale2Info")
     public Results<String> postScale2(@ApiParam(name = "问卷2预约信息", value = "传入json格式", required = true)
                                     @RequestBody @Valid Scale2DTO scale2DTO) {
-        scale2Service.insScale2(scale2DTO);
+        String id = scale2Service.insScale2(scale2DTO);
 //        scale2Service.insScale2(scale2DTO);
-        return Results.ok("表单新增成功", null);
+        return Results.ok("表单新增成功", id);
     }
 
     @ApiOperation("根据id删除scale2")
     @DeleteMapping("/scale2Info/{id}")
     @ApiImplicitParam(name = "id", value = "问卷2id", required = true, dataType = "String", paramType = "path")
-    public Results deleteScale2(@PathVariable int id) {
+    public Results deleteScale2(@PathVariable String id) {
         scale2Service.deleteScale2(id);
         return Results.ok("删除成功", null);
     }
@@ -43,7 +43,7 @@ public class Scale2Controller {
     @ApiImplicitParam(name = "id", value = "问卷2id", required = true, dataType = "String", paramType = "path")
     public Results<String> putScale2(@ApiParam(name = "问卷2信息", value = "传入json格式", required = true)
                                    @RequestBody @Valid Scale2DTO scale2DTO ,
-                                   @PathVariable int id){
+                                   @PathVariable String id){
         scale2Service.updateScale2(scale2DTO, id);
         return Results.ok("表单修改成功", null);
     }
@@ -72,7 +72,7 @@ public class Scale2Controller {
     @GetMapping("/scale2Info/{id}")
     @ApiImplicitParam(name = "id", value = "问卷2id", required = true, dataType = "String", paramType = "path")
     public Results<List<Scale2VO>> getAnsbyId(@ApiParam(name = "问卷2信息", value = "传入json格式", required = true)
-                                     @PathVariable int id){
+                                     @PathVariable String id){
         return  Results.ok(scale2Service.getAnsbyId(id));
     }
 
@@ -80,7 +80,7 @@ public class Scale2Controller {
     @GetMapping("/scale2Result/{id}")
     @ApiImplicitParam(name = "id", value = "问卷4id", required = true, dataType = "String", paramType = "path")
     public Results<List<String>> getResultbyId(@ApiParam(name = "问卷2信息", value = "传入json格式", required = true)
-                                               @PathVariable int id){
+                                               @PathVariable String id){
         return  Results.ok(scale2Service.getResult(id));
     }
 }

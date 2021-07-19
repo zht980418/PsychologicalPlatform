@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class Scale2PO implements Serializable {
     private static final long serialVersionUID = -7156278696768090146L;
     @TableId(value = "id", type = IdType.INPUT)
-    private int id;
+    private String id;
     private int uid;
     private String name;
     private String remark;

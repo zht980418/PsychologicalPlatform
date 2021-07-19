@@ -13,7 +13,7 @@ import javax.validation.constraints.NotEmpty;
 @ApiModel(value = "量表二", description = "量表2")
 public class Scale2DTO {
     @ApiModelProperty(notes = "id", example = "1")
-    private int id;
+    private String id;
     @ApiModelProperty(notes = "name", example = "1")
     @NotEmpty(message = "姓名不能为空")
     private String name;

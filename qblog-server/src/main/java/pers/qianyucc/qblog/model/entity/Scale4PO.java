@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 public class Scale4PO implements Serializable {
     private static final long serialVersionUID = 6064199411680600904L;
     @TableId(value = "id", type = IdType.INPUT)
-    private int id;
+    private String id;
     private int uid;
     private String name;
     private String remark;

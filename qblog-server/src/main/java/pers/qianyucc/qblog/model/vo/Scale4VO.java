@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 @Data
 public class Scale4VO {
-    private int id;
+    private String id;
     private int uid;
     private String name;
     private String remark;

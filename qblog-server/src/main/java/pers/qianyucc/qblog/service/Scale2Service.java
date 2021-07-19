@@ -27,18 +27,20 @@ public class Scale2Service {
     @Autowired
     private Scale2Mapper scale2Mapper;
 
-    public void insScale2(Scale2DTO scale2DTO) {
+    public String insScale2(Scale2DTO scale2DTO) {
         Scale2PO scale2PO =  scale2DTO.toScale2PO(false);
+        scale2PO.setId(UUID.randomUUID().toString().replace("-",""));
         scale2Mapper.insert(scale2PO);
+        return scale2PO.getId();
     }
 
-    public void deleteScale2(int id){
+    public void deleteScale2(String id){
         Map<String,Object> map =new HashMap<>();
         map.put("id",id);
         scale2Mapper.deleteByMap(map);
     }
 
-    public void updateScale2(Scale2DTO scale2DTO, int id){
+    public void updateScale2(Scale2DTO scale2DTO, String id){
         Scale2PO dbscale2 = scale2Mapper.selectById(id);
         if (Objects.isNull(dbscale2)) {
             throw new BlogException(INVALID_ID);
@@ -109,7 +111,7 @@ public class Scale2Service {
 //        return res;
     }
 
-    public List<Scale2VO> getAnsbyId(int id) {
+    public List<Scale2VO> getAnsbyId(String id) {
         ArrayList res = new ArrayList<>();
         QueryWrapper<Scale2PO> wrapper = new QueryWrapper<>();
         wrapper.eq("id",id)
@@ -126,7 +128,7 @@ public class Scale2Service {
         return  res;
     }
 
-    public List<String> getResult(int id) {
+    public List<String> getResult(String id) {
         ArrayList res = new ArrayList<>();
         Scale2PO dbscale2PO = scale2Mapper.selectById(id);
         int result = dbscale2PO.getResult();
