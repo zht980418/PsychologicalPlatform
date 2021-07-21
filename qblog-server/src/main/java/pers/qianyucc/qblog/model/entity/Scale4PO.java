@@ -15,6 +15,7 @@ public class Scale4PO implements Serializable {
     @TableId(value = "id", type = IdType.INPUT)
     private String id;
     private int uid;
+    private String quizname;
     private String name;
     private String remark;
     private String sex;

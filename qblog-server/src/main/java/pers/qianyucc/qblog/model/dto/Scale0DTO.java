@@ -14,6 +14,8 @@ import javax.validation.constraints.NotEmpty;
 public class Scale0DTO {
     @ApiModelProperty(notes = "id", example = "1")
     private int id;
+    @ApiModelProperty(notes = "uid", example = "1")
+    private String uid;
     @ApiModelProperty(notes = "name", example = "1")
     @NotEmpty(message = "姓名不能为空")
     private String name;
@@ -101,6 +103,7 @@ public class Scale0DTO {
 
     public Scale0PO toScale0PO(boolean isUpdate) {
         Scale0PO po = new Scale0DTO.Converter().convertToPO(this);
+        po.setQuizname("scale0");
         po.setGmtCreate(isUpdate ? null : po.getGmtUpdate());
         return po;
     }

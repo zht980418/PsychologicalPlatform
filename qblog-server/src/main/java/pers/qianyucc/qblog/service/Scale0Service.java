@@ -5,10 +5,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pers.qianyucc.qblog.dao.Scale0Mapper;
+import pers.qianyucc.qblog.dao.*;
 import pers.qianyucc.qblog.exception.BlogException;
 import pers.qianyucc.qblog.model.dto.Scale0DTO;
-import pers.qianyucc.qblog.model.entity.Scale0PO;
+import pers.qianyucc.qblog.model.entity.*;
 import pers.qianyucc.qblog.model.vo.PageVO;
 import pers.qianyucc.qblog.model.vo.Scale0VO;
 
@@ -23,6 +23,15 @@ import static pers.qianyucc.qblog.model.enums.ErrorInfoEnum.INVALID_ID;
 public class Scale0Service {
     @Autowired
     private Scale0Mapper scale0Mapper;
+    @Autowired
+    private Scale1Mapper scale1Mapper;
+    @Autowired
+    private Scale2Mapper scale2Mapper;
+    @Autowired
+    private Scale3Mapper scale3Mapper;
+    @Autowired
+    private Scale4Mapper scale4Mapper;
+
 
     public void insScale0(Scale0DTO scale0DTO) {
         Scale0PO scale0PO =  scale0DTO.toScale0PO(false);
@@ -47,7 +56,7 @@ public class Scale0Service {
     }
 
     public PageVO<Scale0VO> getAllScale0s(int page, int limit, String search, String field, String start, String end){
-        System.out.println(start);
+//        System.out.println(start);
         String starttime = new String();
         String endtime = new String();
         Double StartTime = Double.MIN_VALUE;
@@ -131,4 +140,5 @@ public class Scale0Service {
         }
         return  res;
     }
+
 }

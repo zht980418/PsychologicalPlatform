@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 public class Scale4VO {
     private String id;
     private int uid;
+    private String quizname;
     private String name;
     private String remark;
     private String sex;

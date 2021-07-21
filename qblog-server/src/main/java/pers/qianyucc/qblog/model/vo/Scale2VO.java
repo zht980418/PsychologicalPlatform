@@ -11,6 +11,7 @@ import pers.qianyucc.qblog.utils.DateTimeUtils;
 public class Scale2VO {
     private String id;
     private int uid;
+    private String quizname;
     private String name;
     private String remark;
     private String sex;

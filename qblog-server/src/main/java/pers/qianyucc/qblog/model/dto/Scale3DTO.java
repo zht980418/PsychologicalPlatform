@@ -14,6 +14,8 @@ import javax.validation.constraints.NotEmpty;
 public class Scale3DTO {
     @ApiModelProperty(notes = "id", example = "1")
     private String id;
+    @ApiModelProperty(notes = "uid", example = "1")
+    private int uid;
     @ApiModelProperty(notes = "name", example = "1")
     @NotEmpty(message = "姓名不能为空")
     private String name;
@@ -46,6 +48,7 @@ public class Scale3DTO {
     public Scale3PO toScale3PO(boolean isUpdate) {
         Scale3PO po = new Scale3DTO.Converter().convertToPO(this);
         po.setGmtCreate(isUpdate ? null : po.getGmtUpdate());
+        po.setQuizname("scale3");
         int ans5 = 0;
         for(char c:po.getQuestion5().toCharArray())
             ans5+=c-'A'+1;

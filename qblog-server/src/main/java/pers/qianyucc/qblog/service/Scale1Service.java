@@ -9,7 +9,9 @@ import pers.qianyucc.qblog.dao.Scale1Mapper;
 import pers.qianyucc.qblog.exception.BlogException;
 import pers.qianyucc.qblog.model.dto.Scale1DTO;
 import pers.qianyucc.qblog.model.entity.Scale1PO;
+import pers.qianyucc.qblog.model.entity.Scale1PO;
 import pers.qianyucc.qblog.model.vo.PageVO;
+import pers.qianyucc.qblog.model.vo.Scale1VO;
 import pers.qianyucc.qblog.model.vo.Scale1VO;
 
 import java.util.*;

@@ -15,6 +15,8 @@ import java.math.BigDecimal;
 public class Scale4DTO {
     @ApiModelProperty(notes = "id", example = "1")
     private String id;
+    @ApiModelProperty(notes = "uid", example = "1")
+    private int uid;
     @ApiModelProperty(notes = "name", example = "1")
     @NotEmpty(message = "姓名不能为空")
     private String name;
@@ -137,6 +139,7 @@ public class Scale4DTO {
     public Scale4PO toScale4PO(boolean isUpdate) {
         Scale4PO po = new Scale4DTO.Converter().convertToPO(this);
         po.setGmtCreate(isUpdate ? null : po.getGmtUpdate());
+        po.setQuizname("scale4");
 //        躯体化
         BigDecimal a = new BigDecimal((po.getQuestion1().charAt(0)-'A' )+(po.getQuestion4().charAt(0)-'A' )
                 +(po.getQuestion12().charAt(0)-'A' )+(po.getQuestion27().charAt(0)-'A' )
