@@ -13,7 +13,7 @@ public class Scale3PO implements Serializable {
     private static final long serialVersionUID = 6064199411680600904L;
     @TableId(value = "id", type = IdType.INPUT)
     private String id;
-    private int uid;
+    private String uid;
     private String quizname;
     private String name;
     private String remark;

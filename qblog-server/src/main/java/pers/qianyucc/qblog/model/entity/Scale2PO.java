@@ -14,7 +14,7 @@ public class Scale2PO implements Serializable {
     private static final long serialVersionUID = -7156278696768090146L;
     @TableId(value = "id", type = IdType.INPUT)
     private String id;
-    private int uid;
+    private String uid;
     private String quizname;
     private String name;
     private String remark;

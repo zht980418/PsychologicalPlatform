@@ -11,7 +11,9 @@ import pers.qianyucc.qblog.model.vo.PageVO;
 import pers.qianyucc.qblog.model.vo.UserQuizInfoVO;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -22,9 +24,12 @@ public class UserQuizInfoService {
 
     public PageVO<UserQuizInfoVO> getAllQuizbyUid(int page, int limit,String uid){
         QueryWrapper<UserQuizInfoPO> qw = new QueryWrapper<>();
-        qw.select(UserQuizInfoPO.class, i-> !"content".equals(i.getColumn()));
+
+        qw.eq("uid",uid).select(UserQuizInfoPO.class, i-> !"content".equals(i.getColumn()));
         Page<UserQuizInfoPO> page1 = new Page<>(page,limit);
         page1.setSize(limit);
+
+
         Page<UserQuizInfoPO> res = userQuizInfoMapper.selectPage(page1, qw);
         List<UserQuizInfoVO> userQuizInfoVOS = res.getRecords().stream()
                 .map(UserQuizInfoVO::fromUserQuizInfoPO)
@@ -32,7 +37,7 @@ public class UserQuizInfoService {
                 ;
         ArrayList re = new ArrayList<>();
         for(int i=0;i<userQuizInfoVOS.size();i++){
-            if(userQuizInfoVOS.get(i).getUid().equals(uid))
+//            if(userQuizInfoVOS.get(i).getUid().equals(uid))
                 re.add(userQuizInfoVOS.get(i));
         }
         PageVO<UserQuizInfoVO> pageVO = PageVO.<UserQuizInfoVO>builder()
