@@ -10,6 +10,8 @@ import pers.qianyucc.qblog.model.comm.Results;
 import pers.qianyucc.qblog.model.dto.CourseDTO;
 import pers.qianyucc.qblog.model.dto.ScheduleDTO;
 import pers.qianyucc.qblog.model.vo.CourseVO;
+import pers.qianyucc.qblog.model.vo.PageVO;
+import pers.qianyucc.qblog.model.vo.UserQuizInfoVO;
 import pers.qianyucc.qblog.service.CourseService;
 
 import javax.validation.Valid;
@@ -48,8 +50,14 @@ public class CourseController {
     }
     @ApiOperation("获取课程列表")
     @GetMapping("/courselist")
-    @ApiImplicitParam(name = "courseid", value = "课程id", required = true, dataType = "String", paramType = "path")
-    public Results<List<CourseVO>> getCourses() {return Results.ok(courseService.getAllcourse());}
+    public Results<PageVO<CourseVO>> getQuizByUid(
+            @ApiParam("页码")
+            @RequestParam(required = false, defaultValue = "1") Integer page,
+            @ApiParam("每页存放的记录数")
+            @RequestParam(required = false, defaultValue = "10") Integer limit,
+            @ApiParam("UID")
+            @RequestParam(required = false, defaultValue = "") String uid
+    ){return Results.ok(courseService.getAllcourse(page,limit,uid));}
 
     @ApiOperation("获取单个课程信息")
     @GetMapping("/course/{courseid}")

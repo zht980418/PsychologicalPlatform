@@ -68,7 +68,23 @@ public class UserinfoService {
 //    查询用户列表
     public PageVO<UserinfoVO> getAlluserinfo(int page, int limit, String search,String field){
         QueryWrapper<UserinfoPO> qw = new QueryWrapper<>();
-        qw.select(UserinfoPO.class, i-> !"content".equals(i.getColumn()));
+
+        if(search.equals("")) qw.select(UserinfoPO.class, i-> !"content".equals(i.getColumn()));
+        else {
+            if(field.equals("userid"))
+                qw.like("userid",search).select(UserinfoPO.class, i-> !"content".equals(i.getColumn()));
+            else if(field.equals("rolename"))
+                qw.like("rolename",search).select(UserinfoPO.class, i-> !"content".equals(i.getColumn()));
+            else if(field.equals("phonenumber"))
+                qw.like("phonenumber",search).select(UserinfoPO.class, i-> !"content".equals(i.getColumn()));
+            else if(field.equals("nickname"))
+                qw.like("nickname",search).select(UserinfoPO.class, i-> !"content".equals(i.getColumn()));
+        }
+
+
+
+
+//        qw.select(UserinfoPO.class, i-> !"content".equals(i.getColumn()));
         Page<UserinfoPO> page1 = new Page<>(page,limit);
         page1.setSize(limit);
         Page<UserinfoPO> res = userinfoMapper.selectPage(page1, qw);
@@ -78,17 +94,7 @@ public class UserinfoService {
                 ;
         ArrayList re = new ArrayList<>();
         for(int i=0;i<userinfoVOS.size();i++){
-            if(search.equals("")) re.add(userinfoVOS.get(i));
-            else {
-                if(field.equals("userid")&&Pattern.matches(".*"+search+".*",userinfoVOS.get(i).getUserid()))
-                    re.add(userinfoVOS.get(i));
-                else if(field.equals("rolename")&&Pattern.matches(".*"+search+".*",userinfoVOS.get(i).getRolename()))
-                    re.add(userinfoVOS.get(i));
-                else if(field.equals("phonenumber")&&Pattern.matches(".*"+search+".*",userinfoVOS.get(i).getPhonenumber()))
-                    re.add(userinfoVOS.get(i));
-                else if(field.equals("nickname")&&Pattern.matches(".*"+search+".*",userinfoVOS.get(i).getNickname()))
-                    re.add(userinfoVOS.get(i));
-            }
+            re.add(userinfoVOS.get(i));
         }
         PageVO<UserinfoVO> pageVO = PageVO.<UserinfoVO>builder()
                 .records(re.isEmpty()? new ArrayList<>():re)

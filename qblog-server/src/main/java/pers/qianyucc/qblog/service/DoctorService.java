@@ -12,6 +12,7 @@ import pers.qianyucc.qblog.exception.BlogException;
 import pers.qianyucc.qblog.model.dto.DoctorDTO;
 import pers.qianyucc.qblog.model.entity.ArticlePO;
 import pers.qianyucc.qblog.model.entity.DoctorPO;
+import pers.qianyucc.qblog.model.entity.Scale2PO;
 import pers.qianyucc.qblog.model.vo.ArticleVO;
 import pers.qianyucc.qblog.model.vo.DoctorVO;
 import pers.qianyucc.qblog.model.vo.PageVO;
@@ -50,6 +51,17 @@ public class DoctorService {
 //    批量查
     public PageVO<DoctorVO> getAllDoctors(int page, int limit, String search, String field){
         QueryWrapper<DoctorPO> qw = new QueryWrapper<>();
+        if(search.equals("")) qw.select(DoctorPO.class, i->!"content".equals(i.getColumn()));
+        else {
+            if(field.equals("doctorId"))
+                qw.like("doctorId",search).select(DoctorPO.class, i-> !"content".equals(i.getColumn()));
+            else if(field.equals("doctorName"))
+                qw.like("doctorName",search).select(DoctorPO.class, i-> !"content".equals(i.getColumn()));
+            else if(field.equals("status"))
+                qw.like("status",search).select(DoctorPO.class, i-> !"content".equals(i.getColumn()));
+        }
+
+
         qw.select(DoctorPO.class, i->!"content".equals(i.getColumn()));
         Page<DoctorPO> page1 = new Page<>(page,limit);
         page1.setSize(limit);
@@ -60,18 +72,7 @@ public class DoctorService {
                 ;
         ArrayList re = new ArrayList<>();
         for(int i=0;i<doctorVOS.size();i++){
-            System.out.println(doctorVOS.get(i).getDoctorid());
-            System.out.println(doctorVOS.get(i).getDoctorname());
-            System.out.println(doctorVOS.get(i).getStatus());
-            if(search.equals("")) re.add(doctorVOS.get(i));
-            else {
-                if(field.equals("doctorId")&& Pattern.matches(".*"+search+".*",doctorVOS.get(i).getDoctorid()))
-                    re.add(doctorVOS.get(i));
-                else if(field.equals("doctorName")&& Pattern.matches(".*"+search+".*",doctorVOS.get(i).getDoctorname()))
-                    re.add(doctorVOS.get(i));
-                else if(field.equals("status")&& Pattern.matches(".*"+search+".*",doctorVOS.get(i).getStatus()))
-                    re.add(doctorVOS.get(i));
-            }
+            re.add(doctorVOS.get(i));
         }
         PageVO<DoctorVO> pageVO = PageVO.<DoctorVO>builder()
                 .records(re.isEmpty()? new ArrayList<>():re)

@@ -13,6 +13,7 @@ import pers.qianyucc.qblog.model.vo.PageVO;
 import pers.qianyucc.qblog.service.DejueService;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.List;
 
 @Api("得觉相关接口")
@@ -64,7 +65,7 @@ public class DejueController {
             @RequestParam(required = false, defaultValue = "") String start,
             @ApiParam("字段")
             @RequestParam(required = false, defaultValue = "userid") String end
-    ) {
+    ) throws ParseException {
         return Results.ok(dejueService.getAllDejue(page,limit,search,field,start,end));
     }
     //    id查

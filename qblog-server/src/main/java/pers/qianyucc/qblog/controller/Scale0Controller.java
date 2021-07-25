@@ -15,6 +15,7 @@ import pers.qianyucc.qblog.model.vo.Scale0VO;
 import pers.qianyucc.qblog.service.Scale0Service;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.List;
 
 @Api("问卷0相关接口")
@@ -65,7 +66,7 @@ public class Scale0Controller {
             @RequestParam(required = false, defaultValue = "") String start,
             @ApiParam("字段")
             @RequestParam(required = false, defaultValue = "") String end
-    ) {
+    ) throws ParseException {
         return Results.ok(scale0Service.getAllScale0s(page,limit,search,field,start,end));
     }
 

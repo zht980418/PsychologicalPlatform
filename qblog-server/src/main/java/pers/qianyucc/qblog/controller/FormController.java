@@ -55,28 +55,24 @@ public class FormController {
         List<FormVO> formVOList = formService.findByRoomId(roomid);
         return Results.ok(formVOList);
     }
-    @ApiOperation("根据uid获取咨询表格")
-    @GetMapping("/orderHistory/{uid}")
-    @ApiImplicitParam(name = "uid", value = "uid", required = true, dataType = "String", paramType = "path")
-    public Results<List> getFormsByuid(@PathVariable String uid){
-        ArrayList res = new ArrayList();
-        List<Map<String, Object>> formVOList =formService.findByUid(uid);
-        List doctoridList = formService.findDoctoridByUid(uid);
-        for(int i=0;i<formVOList.size();i++){
-            String doctorname = userinfoService.getUserName(doctoridList.get(i).toString());
-            if(!formVOList.get(i).get("roomid").equals(null)){
-                String roomname = roomService.getRoomNameByRoomID(formVOList.get(i).get("roomid").toString());
-                formVOList.get(i).put("roomname",roomname);
-            }
-//            System.out.println("***********");
-//            System.out.println(doctorname);
-//            System.out.println(formVOList.get(i));
-            formVOList.get(i).put("doctorname",doctorname);
-            res.add(formVOList.get(i));
-        }
-//        System.out.println(res);
-        return Results.ok(res);
-    }
+//    @ApiOperation("根据uid获取咨询表格")
+//    @GetMapping("/orderHistory/{uid}")
+//    @ApiImplicitParam(name = "uid", value = "uid", required = true, dataType = "String", paramType = "path")
+//    public Results<List> getFormsByuid(@PathVariable String uid){
+//        ArrayList res = new ArrayList();
+//        List<Map<String, Object>> formVOList =formService.findByUid(uid);
+//        List doctoridList = formService.findDoctoridByUid(uid);
+//        for(int i=0;i<formVOList.size();i++){
+//            String doctorname = userinfoService.getUserName(doctoridList.get(i).toString());
+//            if(!formVOList.get(i).get("roomid").equals(null)){
+//                String roomname = roomService.getRoomNameByRoomID(formVOList.get(i).get("roomid").toString());
+//                formVOList.get(i).put("roomname",roomname);
+//            }
+//            formVOList.get(i).put("doctorname",doctorname);
+//            res.add(formVOList.get(i));
+//        }
+//        return Results.ok(res);
+//    }
 
     @ApiOperation("新增表单数据")
     @PostMapping("/orderForm")

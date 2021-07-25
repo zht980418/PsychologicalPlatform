@@ -14,6 +14,7 @@ import pers.qianyucc.qblog.model.vo.Scale3VO;
 import pers.qianyucc.qblog.service.Scale3Service;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.List;
 
 @Api("问卷3相关接口")
@@ -64,7 +65,7 @@ public class Scale3Controller {
             @RequestParam(required = false, defaultValue = "") String start,
             @ApiParam("字段")
             @RequestParam(required = false, defaultValue = "") String end
-    ) {
+    ) throws ParseException {
         return Results.ok(scale3Service.getAllScale3s(page,limit,search,field,start,end));
     }
 

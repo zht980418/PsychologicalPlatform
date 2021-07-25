@@ -9,10 +9,14 @@ import pers.qianyucc.qblog.dao.Scale4Mapper;
 import pers.qianyucc.qblog.exception.BlogException;
 import pers.qianyucc.qblog.model.dto.Scale4DTO;
 import pers.qianyucc.qblog.model.entity.Scale4PO;
+import pers.qianyucc.qblog.model.entity.Scale4PO;
 import pers.qianyucc.qblog.model.vo.PageVO;
+import pers.qianyucc.qblog.model.vo.Scale4VO;
 import pers.qianyucc.qblog.model.vo.Scale4VO;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -49,20 +53,29 @@ public class Scale4Service {
         scale4Mapper.updateById(scale4PO);
     }
 
-    public PageVO<Scale4VO> getAllScale4s(int page, int limit, String search, String field, String start, String end){
-        System.out.println(start);
-        String starttime = new String();
-        String endtime = new String();
-        Double StartTime = Double.MIN_VALUE;
-        Double EndTime = Double.MAX_VALUE;
-        if(!start.isEmpty()&&!end.isEmpty()){
-            starttime = start.substring(0,4)+start.substring(5,7)+start.substring(8,10)+start.substring(11,13);
-            System.out.println(starttime);
-            endtime = end.substring(0,4)+end.substring(5,7)+end.substring(8,10)+end.substring(11,13);
-            StartTime = Double.valueOf(starttime);
-            EndTime = Double.valueOf(endtime);
-        }
+    public PageVO<Scale4VO> getAllScale4s(int page, int limit, String search, String field, String start, String end) throws ParseException {
         QueryWrapper<Scale4PO> qw = new QueryWrapper<>();
+        qw.orderByDesc("gmt_create");
+        if(!start.isEmpty()){
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            Date st = dateFormat.parse(start);
+            Date et = dateFormat.parse(end);
+            qw.between("gmt_create",st.getTime(),et.getTime());
+        }
+
+        if(search.equals("")) qw.select(Scale4PO.class, i-> !"content".equals(i.getColumn()));
+        else {
+            if(field.equals("orderId"))
+                qw.like("orderId",search).select(Scale4PO.class, i-> !"content".equals(i.getColumn()));
+            else if(field.equals("name"))
+                qw.like("name",search).select(Scale4PO.class, i-> !"content".equals(i.getColumn()));
+            else if(field.equals("uid"))
+                qw.like("uid",search).select(Scale4PO.class, i-> !"content".equals(i.getColumn()));
+            else if(field.equals("remark"))
+                qw.like("remark",search).select(Scale4PO.class, i-> !"content".equals(i.getColumn()));
+        }
+
+
         qw.select(Scale4PO.class, i-> !"content".equals(i.getColumn()));
         Page<Scale4PO> page1 = new Page<>(page,limit);
         page1.setSize(limit);
@@ -73,24 +86,7 @@ public class Scale4Service {
                 ;
         ArrayList re = new ArrayList<>();
         for(int i=0;i<scale4VOS.size();i++){
-            String dbCreateTime = scale4VOS.get(i).getGmtCreate();
-            String createtime = dbCreateTime.substring(0,4)+dbCreateTime.substring(5,7)+dbCreateTime.substring(8,10)+dbCreateTime.substring(11,13);
-            Double CreateTime = Double.valueOf(createtime);
-            if(start.isEmpty()||(StartTime<=CreateTime&&CreateTime<=EndTime)){
-                System.out.println(field);
-                System.out.println(search);
-                if(search.equals("")) re.add(scale4VOS.get(i));
-                else {
-                    if(field.equals("orderId")&& Pattern.matches(".*"+search+".*",scale4VOS.get(i).getId()+""))
-                        re.add(scale4VOS.get(i));
-                    else if(field.equals("name")&&Pattern.matches(".*"+search+".*",scale4VOS.get(i).getName()))
-                        re.add(scale4VOS.get(i));
-                    else if(field.equals("uid")&&Pattern.matches(".*"+search+".*",scale4VOS.get(i).getUid()+""))
-                        re.add(scale4VOS.get(i));
-                    else if(field.equals("remark")&&Pattern.matches(".*"+search+".*",scale4VOS.get(i).getRemark()))
-                        re.add(scale4VOS.get(i));
-                }
-            }else continue;
+            re.add(scale4VOS.get(i));
         }
         PageVO<Scale4VO> pageVO = PageVO.<Scale4VO>builder()
                 .records(re.isEmpty()? new ArrayList<>():re)
@@ -99,14 +95,6 @@ public class Scale4Service {
                 .size(res.getSize())
                 .build();
         return pageVO;
-
-//        ArrayList res = new ArrayList<>();
-//        QueryWrapper<Scale4PO> wrapper = new QueryWrapper<>();
-//        List<Map<String, Object>> maps = scale4Mapper.selectMaps(wrapper);
-//        for(int i =0; i<maps.size(); i++){
-//            res.add(maps.get(i));
-//        }
-//        return res;
     }
 
     public List<Scale4VO> getAnsbyId(String id) {

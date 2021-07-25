@@ -13,6 +13,7 @@ import pers.qianyucc.qblog.model.vo.Scale2VO;
 import pers.qianyucc.qblog.service.Scale2Service;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.List;
 
 @Api("问卷2相关接口")
@@ -63,7 +64,7 @@ public class Scale2Controller {
             @RequestParam(required = false, defaultValue = "") String start,
             @ApiParam("字段")
             @RequestParam(required = false, defaultValue = "") String end
-    ) {
+    ) throws ParseException {
         return Results.ok(scale2Service.getAllScale2s(page,limit,search,field,start,end));
     }
 

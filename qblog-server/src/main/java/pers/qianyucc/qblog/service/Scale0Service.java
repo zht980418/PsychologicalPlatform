@@ -11,7 +11,10 @@ import pers.qianyucc.qblog.model.dto.Scale0DTO;
 import pers.qianyucc.qblog.model.entity.*;
 import pers.qianyucc.qblog.model.vo.PageVO;
 import pers.qianyucc.qblog.model.vo.Scale0VO;
+import pers.qianyucc.qblog.model.vo.Scale0VO;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -26,7 +29,7 @@ public class Scale0Service {
     @Autowired
     private Scale1Mapper scale1Mapper;
     @Autowired
-    private Scale2Mapper scale2Mapper;
+    private Scale0Mapper scale2Mapper;
     @Autowired
     private Scale3Mapper scale3Mapper;
     @Autowired
@@ -55,48 +58,46 @@ public class Scale0Service {
         scale0Mapper.updateById(scale0PO);
     }
 
-    public PageVO<Scale0VO> getAllScale0s(int page, int limit, String search, String field, String start, String end){
-//        System.out.println(start);
-        String starttime = new String();
-        String endtime = new String();
-        Double StartTime = Double.MIN_VALUE;
-        Double EndTime = Double.MAX_VALUE;
-        if(!start.isEmpty()&&!end.isEmpty()){
-            starttime = start.substring(0,4)+start.substring(5,7)+start.substring(8,10)+start.substring(11,13);
-            System.out.println(starttime);
-            endtime = end.substring(0,4)+end.substring(5,7)+end.substring(8,10)+end.substring(11,13);
-            StartTime = Double.valueOf(starttime);
-            EndTime = Double.valueOf(endtime);
-        }
+    public PageVO<Scale0VO> getAllScale0s(int page, int limit, String search, String field, String start, String end) throws ParseException {
         QueryWrapper<Scale0PO> qw = new QueryWrapper<>();
+        qw.orderByDesc("gmt_create");
+
+        if(!start.isEmpty()){
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            Date st = dateFormat.parse(start);
+            Date et = dateFormat.parse(end);
+            qw.between("gmt_create",st.getTime(),et.getTime());
+        }
+
+        if(search.equals("")) qw.select(Scale0PO.class, i-> !"content".equals(i.getColumn()));
+        else {
+            if(field.equals("orderId"))
+                qw.like("orderId",search).select(Scale0PO.class, i-> !"content".equals(i.getColumn()));
+            else if(field.equals("name"))
+                qw.like("name",search).select(Scale0PO.class, i-> !"content".equals(i.getColumn()));
+            else if(field.equals("uid"))
+                qw.like("uid",search).select(Scale0PO.class, i-> !"content".equals(i.getColumn()));
+            else if(field.equals("remark"))
+                qw.like("remark",search).select(Scale0PO.class, i-> !"content".equals(i.getColumn()));
+        }
+
+
+
+
         qw.select(Scale0PO.class, i-> !"content".equals(i.getColumn()));
+
         Page<Scale0PO> page1 = new Page<>(page,limit);
         page1.setSize(limit);
         Page<Scale0PO> res = scale0Mapper.selectPage(page1, qw);
+
         List<Scale0VO> scale0VOS = res.getRecords().stream()
                 .map(Scale0VO::fromScale0PO)
                 .collect(Collectors.toList())
                 ;
         ArrayList re = new ArrayList<>();
         for(int i=0;i<scale0VOS.size();i++){
-            String dbCreateTime = scale0VOS.get(i).getGmtCreate();
-            String createtime = dbCreateTime.substring(0,4)+dbCreateTime.substring(5,7)+dbCreateTime.substring(8,10)+dbCreateTime.substring(11,13);
-            Double CreateTime = Double.valueOf(createtime);
-            if(start.isEmpty()||(StartTime<=CreateTime&&CreateTime<=EndTime)){
-                System.out.println(field);
-                System.out.println(search);
-                if(search.equals("")) re.add(scale0VOS.get(i));
-                else {
-                    if(field.equals("orderId")&& Pattern.matches(".*"+search+".*",scale0VOS.get(i).getId()+""))
-                        re.add(scale0VOS.get(i));
-                    else if(field.equals("name")&&Pattern.matches(".*"+search+".*",scale0VOS.get(i).getName()))
-                        re.add(scale0VOS.get(i));
-                    else if(field.equals("uid")&&Pattern.matches(".*"+search+".*",scale0VOS.get(i).getUid()+""))
-                        re.add(scale0VOS.get(i));
-                    else if(field.equals("remark")&&Pattern.matches(".*"+search+".*",scale0VOS.get(i).getRemark()))
-                        re.add(scale0VOS.get(i));
-                }
-            }else continue;
+            re.add(scale0VOS.get(i));
+            System.out.println(scale0VOS.get(i).getGmtCreate());
         }
         PageVO<Scale0VO> pageVO = PageVO.<Scale0VO>builder()
                 .records(re.isEmpty()? new ArrayList<>():re)
@@ -105,14 +106,6 @@ public class Scale0Service {
                 .size(res.getSize())
                 .build();
         return pageVO;
-
-//        ArrayList res = new ArrayList<>();
-//        QueryWrapper<Scale0PO> wrapper = new QueryWrapper<>();
-//        List<Map<String, Object>> maps = scale0Mapper.selectMaps(wrapper);
-//        for(int i =0; i<maps.size(); i++){
-//            res.add(maps.get(i));
-//        }
-//        return res;
     }
 
     public List<Scale0VO> getAnsbyId(int id) {
