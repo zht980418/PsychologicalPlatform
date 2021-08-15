@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ade8c5b3-f369-4cbb-9568-71d30b57b3ef" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/qblog-client/src/api/user.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qblog-client/src/permission.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qblog-client/src/store/getter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qblog-client/src/store/modules/user.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qblog-client/src/utils/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qblog-client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/qblog-client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qblog-client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/qblog-client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qblog-client/src/http/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/qblog-client/src/http/request.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qblog-client/src/http/urls.js" beforeDir="false" afterPath="$PROJECT_DIR$/qblog-client/src/http/urls.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qblog-client/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/qblog-client/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qblog-client/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/qblog-client/src/store/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qblog-client/src/views/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/qblog-client/src/views/Login.vue" afterDir="false" />
-    </list>
+    <list default="true" id="ade8c5b3-f369-4cbb-9568-71d30b57b3ef" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -60,6 +46,7 @@
       <updated>1610242959874</updated>
       <workItem from="1610242973426" duration="112000" />
       <workItem from="1615384950296" duration="674000" />
+      <workItem from="1629008917716" duration="56000" />
     </task>
     <servers />
   </component>
