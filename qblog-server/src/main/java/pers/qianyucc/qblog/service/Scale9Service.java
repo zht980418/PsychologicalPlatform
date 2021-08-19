@@ -5,12 +5,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pers.qianyucc.qblog.dao.Scale7Mapper;
+import pers.qianyucc.qblog.dao.Scale9Mapper;
 import pers.qianyucc.qblog.exception.BlogException;
-import pers.qianyucc.qblog.model.dto.Scale7DTO;
-import pers.qianyucc.qblog.model.entity.Scale7PO;
+import pers.qianyucc.qblog.model.dto.Scale9DTO;
+import pers.qianyucc.qblog.model.entity.Scale9PO;
 import pers.qianyucc.qblog.model.vo.PageVO;
-import pers.qianyucc.qblog.model.vo.Scale7VO;
+import pers.qianyucc.qblog.model.vo.Scale9VO;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,36 +21,36 @@ import static pers.qianyucc.qblog.model.enums.ErrorInfoEnum.INVALID_ID;
 
 @Slf4j
 @Service
-public class Scale7Service {
+public class Scale9Service {
     @Autowired
-    private Scale7Mapper scale7Mapper;
+    private Scale9Mapper scale9Mapper;
 
-    public String insScale7(Scale7DTO scale7DTO) {
-        Scale7PO scale7PO =  scale7DTO.toScale7PO(false);
-        scale7PO.setId(UUID.randomUUID().toString().replace("-",""));
-        scale7Mapper.insert(scale7PO);
-        return scale7PO.getId();
+    public String insScale9(Scale9DTO scale9DTO) {
+        Scale9PO scale9PO =  scale9DTO.toScale9PO(false);
+        scale9PO.setId(UUID.randomUUID().toString().replace("-",""));
+        scale9Mapper.insert(scale9PO);
+        return scale9PO.getId();
     }
 
-    public void deleteScale7(String id){
+    public void deleteScale9(String id){
         Map<String,Object> map =new HashMap<>();
         map.put("id",id);
-        scale7Mapper.deleteByMap(map);
+        scale9Mapper.deleteByMap(map);
     }
 
-    public void updateScale7(Scale7DTO scale7DTO, String id){
-        Scale7PO dbscale7 = scale7Mapper.selectById(id);
-        if (Objects.isNull(dbscale7)) {
+    public void updateScale9(Scale9DTO scale9DTO, String id){
+        Scale9PO dbscale9 = scale9Mapper.selectById(id);
+        if (Objects.isNull(dbscale9)) {
             throw new BlogException(INVALID_ID);
         }
-        Scale7PO scale7PO = scale7DTO.toScale7PO(true);
-//        System.out.println(scale7PO.getScale7id());
-        scale7PO.setId(id);
-        scale7Mapper.updateById(scale7PO);
+        Scale9PO scale9PO = scale9DTO.toScale9PO(true);
+//        System.out.println(scale9PO.getScale9id());
+        scale9PO.setId(id);
+        scale9Mapper.updateById(scale9PO);
     }
 
-    public PageVO<Scale7VO> getAllScale7s(int page, int limit, String search,String field,String start,String end) throws ParseException {
-        QueryWrapper<Scale7PO> qw = new QueryWrapper<>();
+    public PageVO<Scale9VO> getAllScale9s(int page, int limit, String search,String field,String start,String end) throws ParseException {
+        QueryWrapper<Scale9PO> qw = new QueryWrapper<>();
         qw.orderByDesc("gmt_create");
 //        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 //        qw.between("gmt_create",sdf.parse(start),sdf.parse(end));
@@ -68,37 +68,37 @@ public class Scale7Service {
             qw.between("gmt_create",st.getTime(),et.getTime());
         }
 
-        if(search.equals("")) qw.select(Scale7PO.class, i-> !"content".equals(i.getColumn()));
+        if(search.equals("")) qw.select(Scale9PO.class, i-> !"content".equals(i.getColumn()));
         else {
             if(field.equals("orderId"))
-                qw.like("orderId",search).select(Scale7PO.class, i-> !"content".equals(i.getColumn()));
+                qw.like("orderId",search).select(Scale9PO.class, i-> !"content".equals(i.getColumn()));
             else if(field.equals("name"))
-                qw.like("name",search).select(Scale7PO.class, i-> !"content".equals(i.getColumn()));
+                qw.like("name",search).select(Scale9PO.class, i-> !"content".equals(i.getColumn()));
             else if(field.equals("uid"))
-                qw.like("uid",search).select(Scale7PO.class, i-> !"content".equals(i.getColumn()));
+                qw.like("uid",search).select(Scale9PO.class, i-> !"content".equals(i.getColumn()));
             else if(field.equals("remark"))
-                qw.like("remark",search).select(Scale7PO.class, i-> !"content".equals(i.getColumn()));
+                qw.like("remark",search).select(Scale9PO.class, i-> !"content".equals(i.getColumn()));
         }
 
 
 
 
-        qw.select(Scale7PO.class, i-> !"content".equals(i.getColumn()));
+        qw.select(Scale9PO.class, i-> !"content".equals(i.getColumn()));
 
-        Page<Scale7PO> page1 = new Page<>(page,limit);
+        Page<Scale9PO> page1 = new Page<>(page,limit);
         page1.setSize(limit);
-        Page<Scale7PO> res = scale7Mapper.selectPage(page1, qw);
+        Page<Scale9PO> res = scale9Mapper.selectPage(page1, qw);
 
-        List<Scale7VO> scale7VOS = res.getRecords().stream()
-                .map(Scale7VO::fromScale7PO)
+        List<Scale9VO> scale9VOS = res.getRecords().stream()
+                .map(Scale9VO::fromScale9PO)
                 .collect(Collectors.toList())
                 ;
         ArrayList re = new ArrayList<>();
-        for(int i=0;i<scale7VOS.size();i++){
-            re.add(scale7VOS.get(i));
-            System.out.println(scale7VOS.get(i).getGmtCreate());
+        for(int i=0;i<scale9VOS.size();i++){
+            re.add(scale9VOS.get(i));
+            System.out.println(scale9VOS.get(i).getGmtCreate());
         }
-        PageVO<Scale7VO> pageVO = PageVO.<Scale7VO>builder()
+        PageVO<Scale9VO> pageVO = PageVO.<Scale9VO>builder()
                 .records(re.isEmpty()? new ArrayList<>():re)
                 .total(res.getTotal())
                 .current(res.getCurrent())
@@ -107,17 +107,17 @@ public class Scale7Service {
         return pageVO;
 
 //        ArrayList res = new ArrayList<>();
-//        QueryWrapper<Scale7PO> wrapper = new QueryWrapper<>();
-//        List<Map<String, Object>> maps = scale7Mapper.selectMaps(wrapper);
+//        QueryWrapper<Scale9PO> wrapper = new QueryWrapper<>();
+//        List<Map<String, Object>> maps = scale9Mapper.selectMaps(wrapper);
 //        for(int i =0; i<maps.size(); i++){
 //            res.add(maps.get(i));
 //        }
 //        return res;
     }
 
-    public List<Scale7VO> getAnsbyId(String id) {
+    public List<Scale9VO> getAnsbyId(String id) {
         ArrayList res = new ArrayList<>();
-        QueryWrapper<Scale7PO> wrapper = new QueryWrapper<>();
+        QueryWrapper<Scale9PO> wrapper = new QueryWrapper<>();
         wrapper.eq("id",id)
                 .select("name","remark","sex",
                         "question1","question2","question3","question4","question5",
@@ -129,9 +129,8 @@ public class Scale7Service {
                         "question31","question32","question33","question34","question35",
                         "question36","question37","question38","question39","question40",
                         "question41","question42","question43","question44","question45",
-                        "question46","question47","question48","question49","question50",
-                        "question51","question52","question53","question54");
-        List<Map<String,Object>> maps = scale7Mapper.selectMaps(wrapper);
+                        "question46","question47","question48","question49","question50");
+        List<Map<String,Object>> maps = scale9Mapper.selectMaps(wrapper);
         for(int i=0;i<maps.size();i++) {
 //            System.out.println(maps.get(i));
             res.add(maps.get(i));
@@ -141,12 +140,10 @@ public class Scale7Service {
 
     public List<String> getResult(String id) {
         ArrayList res = new ArrayList<>();
-        Scale7PO dbscale7PO = scale7Mapper.selectById(id);
-        int result = dbscale7PO.getResult();
-        res.add("本量表是用来评定自我评价的一个重要方面——自信。一般认为自信是一个人对自己能力或技能的感受，是对自己有效地应付各种环境的能力主观评价。" +
-                    "PEI作为自我评定量表，其内容涵盖学业表现、体育运动、外表、爱情关系、社会相互作用及同人交谈等方面，还有一些条目是评定总体自信水平相有可能影响自信判断的心境状态。"+
-                    "总分范围54—216，分值越高表示自信程度越高。"+
-                    "您的得分为"+dbscale7PO.getResult()+"。"
+        Scale9PO dbscale9PO = scale9Mapper.selectById(id);
+        int result = dbscale9PO.getResult();
+        res.add("  LES总分越高反映个体承受的精神压力越大。95％的正常人一年内的LES总分不超过10分，99％的不超过32分。"+
+                    "您的得分为"+dbscale9PO.getResult()+"。"
             );
         return  res;
     }

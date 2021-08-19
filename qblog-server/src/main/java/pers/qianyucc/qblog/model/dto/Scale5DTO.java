@@ -74,7 +74,7 @@ public class Scale5DTO {
         for(int i=1;i<10;i++){
                 res += po.toString().charAt(po.toString().indexOf("question" + i) + 10) - 'A' + 1;
         }
-        for(int i=10;i<31;i++){
+        for(int i=10;i<21;i++){
                 res += po.toString().charAt(po.toString().indexOf("question" + i) + 11) - 'A' + 1;
         }
         po.setResult(res);
