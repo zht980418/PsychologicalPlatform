@@ -110,11 +110,25 @@ public class Scale9DTO {
 
 
         }
-        for(int i=10;i<51;i++){
+        for(int i=10;i<49;i++){
             int startTime =  po.toString().charAt(po.toString().indexOf("question" + i) + 11) - 'A';
             int status = po.toString().charAt(po.toString().indexOf("question" + i) + 13) - 'A';
             int level = po.toString().charAt(po.toString().indexOf("question" + i) + 15) - 'A';
             int lastTime = po.toString().charAt(po.toString().indexOf("question" + i) + 17) - 'A';
+            res+=startTime*level*lastTime;
+        }
+        if(!po.getQuestion49().equals("")){
+            int startTime =  po.toString().charAt(po.toString().indexOf("question" + 49) + 11) - 'A';
+            int status = po.toString().charAt(po.toString().indexOf("question" + 49) + 13) - 'A';
+            int level = po.toString().charAt(po.toString().indexOf("question" + 49) + 15) - 'A';
+            int lastTime = po.toString().charAt(po.toString().indexOf("question" + 49) + 17) - 'A';
+            res+=startTime*level*lastTime;
+        }
+        if(!po.getQuestion50().equals("")){
+            int startTime =  po.toString().charAt(po.toString().indexOf("question" + 50) + 11) - 'A';
+            int status = po.toString().charAt(po.toString().indexOf("question" + 50) + 13) - 'A';
+            int level = po.toString().charAt(po.toString().indexOf("question" + 50) + 15) - 'A';
+            int lastTime = po.toString().charAt(po.toString().indexOf("question" + 50) + 17) - 'A';
             res+=startTime*level*lastTime;
         }
         po.setResult(res);
