@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.*;
 import pers.qianyucc.qblog.exception.BlogException;
 import pers.qianyucc.qblog.model.comm.Results;
+import pers.qianyucc.qblog.model.dto.DoctorDTO;
+import pers.qianyucc.qblog.service.DoctorService;
 import pers.qianyucc.qblog.service.ImgService;
 import static pers.qianyucc.qblog.model.enums.ErrorInfoEnum.*;
 
@@ -24,9 +26,13 @@ public class ImgController {
     @Value("${img.location}")
     private String location;
 
+    @Autowired
+    private DoctorService doctorService;
+
     @ApiOperation("上传图片")
-    @PutMapping("/ImgUpload")
-    public Results uploadImg(@RequestParam("editormd-image-file") MultipartFile multipartFile)  {
+    @PutMapping("/ImgUpload/{doctorid}")
+    public Results uploadImg(@RequestParam("editormd-image-file") MultipartFile multipartFile,
+                             @PathVariable String doctorid)  {
 
         if (multipartFile.isEmpty() || StringUtils.isEmpty(multipartFile.getOriginalFilename())) {
             throw new BlogException(IMG_EMPTY);
@@ -41,6 +47,8 @@ public class ImgController {
         String file_name = null;
         try {
             file_name = imgService.saveImg(multipartFile, filePath);
+//            System.out.println(filePath);
+            doctorService.insertImg(filePath+file_name,doctorid);
             return Results.ok("图片上传成功", file_name);
         } catch (IOException e) {
             throw new BlogException(IMG_UPLOAD_ERR);
