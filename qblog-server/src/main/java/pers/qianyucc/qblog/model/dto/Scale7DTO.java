@@ -5,13 +5,13 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import pers.qianyucc.qblog.model.entity.Scale2PO;
+import pers.qianyucc.qblog.model.entity.Scale7PO;
 
 import javax.validation.constraints.NotEmpty;
 
 @Data
 @ApiModel(value = "量表二", description = "量表2")
-public class Scale2DTO {
+public class Scale7DTO {
     @ApiModelProperty(notes = "id", example = "1")
     private String id;
     @ApiModelProperty(notes = "uid", example = "1")
@@ -64,40 +64,76 @@ public class Scale2DTO {
     private String question19;
     @ApiModelProperty(notes = "question", example = "1")
     private String question20;
+    private String question21;
+    private String question22;
+    private String question23;
+    private String question24;
+    private String question25;
+    private String question26;
+    private String question27;
+    private String question28;
+    private String question29;
+    private String question30;
+    private String question31;
+    private String question32;
+    private String question33;
+    private String question34;
+    private String question35;
+    private String question36;
+    private String question37;
+    private String question38;
+    private String question39;
+    private String question40;
+    private String question41;
+    private String question42;
+    private String question43;
+    private String question44;
+    private String question45;
+    private String question46;
+    private String question47;
+    private String question48;
+    private String question49;
+    private String question50;
+    private String question51;
+    private String question52;
+    private String question53;
+    private String question54;
 
-    public Scale2PO toScale2PO(boolean isUpdate) {
-        Scale2PO po = new Scale2DTO.Converter().convertToPO(this);
+    public Scale7PO toScale7PO(boolean isUpdate) {
+        Scale7PO po = new Scale7DTO.Converter().convertToPO(this);
         po.setGmtCreate(isUpdate ? null : po.getGmtUpdate());
-        po.setQuizname("scale2");
+        po.setQuizname("scale7");
         int res = 0;
 //        计分
         for(int i=1;i<10;i++){
-            if(i==5||i==9)
+//            2、3、5、6、7、8、9
+            if(i==2||i==3||i==5||i==6||i==7||i==8||i==9)
                 res += 4 - po.toString().charAt(po.toString().indexOf("question" + i) + 10) + 'A';
             else
                 res += po.toString().charAt(po.toString().indexOf("question" + i) + 10) - 'A' + 1;
 
 
         }
-        for(int i=10;i<21;i++){
-            if(i==13||i==17||i==19) {
+        for(int i=10;i<55;i++){
+//            13、18、21、22、23、25、28、29、30、34、35、38、40、44、45、49、52、53、54
+            if(i==13||i==18||i==21||i==22||i==23||i==25||i==28||i==29||i==30||i==34||
+                    i==35||i==38||i==40||i==44||i==45||i==49||i==52||i==53||i==54) {
                 res += 4 - po.toString().charAt(po.toString().indexOf("question" + i) + 11) + 'A';
             }
             else {
                 res += po.toString().charAt(po.toString().indexOf("question" + i) + 11) - 'A' + 1;
             }
         }
-        res*=1.25;
         po.setResult(res);
         return po;
     }
 
-    private static class Converter implements IConverter<Scale2DTO, Scale2PO> {
+    private static class Converter implements IConverter<Scale7DTO, Scale7PO> {
         @Override
-        public Scale2PO convertToPO(Scale2DTO scale2DTO) {
-            Scale2PO po = new Scale2PO();
+        public Scale7PO convertToPO(Scale7DTO scale7DTO) {
+            Scale7PO po = new Scale7PO();
             po.setGmtUpdate(System.currentTimeMillis());
-            BeanUtil.copyProperties(scale2DTO, po, CopyOptions.create().ignoreNullValue());
+            BeanUtil.copyProperties(scale7DTO, po, CopyOptions.create().ignoreNullValue());
             return po;
         }
     }

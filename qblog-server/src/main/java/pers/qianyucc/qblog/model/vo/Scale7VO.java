@@ -1,25 +1,21 @@
-package pers.qianyucc.qblog.model.entity;
+package pers.qianyucc.qblog.model.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import lombok.Data;
-
-import java.io.Serializable;
+import pers.qianyucc.qblog.model.entity.Scale7PO;
+import pers.qianyucc.qblog.utils.DateTimeUtils;
 
 @Data
-@TableName("scale1")
-public class Scale1PO implements Serializable {
-    private static final long serialVersionUID = 3671420865364451736L;
-    @TableId(value = "id", type = IdType.INPUT)
-    private int id;
+public class Scale7VO {
+    private String id;
     private String uid;
     private String quizname;
     private String name;
     private String remark;
     private String sex;
-    private Long gmtCreate;
-    private Long gmtUpdate;
+    private String gmtCreate;
+    private String gmtUpdate;
     private String question1;
     private String question2;
     private String question3;
@@ -70,4 +66,21 @@ public class Scale1PO implements Serializable {
     private String question48;
     private String question49;
     private String question50;
+    private String question51;
+    private String question52;
+    private String question53;
+    private String question54;
+    private int result;
+
+    public static Scale7VO fromScale7PO(Scale7PO scale7PO){return new Scale7VO.Converter().convertToVO(scale7PO);}
+    private static class Converter implements IConverter<Scale7PO, Scale7VO>{
+        @Override
+        public Scale7VO convertToVO(Scale7PO scale7PO){
+            final Scale7VO scale7VO = new Scale7VO();
+            BeanUtil.copyProperties(scale7PO, scale7VO, CopyOptions.create().ignoreNullValue().ignoreError());
+            scale7VO.setGmtCreate(DateTimeUtils.formatDatetime(scale7PO.getGmtCreate()));
+            scale7VO.setGmtUpdate(DateTimeUtils.formatDatetime(scale7PO.getGmtUpdate()));
+            return scale7VO;
+        }
+    }
 }

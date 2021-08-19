@@ -6,11 +6,12 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
-@TableName("scale3")
-public class Scale3PO implements Serializable {
-    private static final long serialVersionUID = -2340884206780648096L;
+@TableName("scale6")
+public class Scale6PO implements Serializable {
+    private static final long serialVersionUID = 3654551070429127325L;
     @TableId(value = "id", type = IdType.INPUT)
     private String id;
     private String uid;
@@ -30,9 +31,23 @@ public class Scale3PO implements Serializable {
     private String question8;
     private String question9;
     private String question10;
-    private int sum;
-    private int objective;
-    private int subjective;
-    private int support;
-
+    private String question11;
+    private String question12;
+    private String question13;
+    private String question14;
+    private String question15;
+    private String question16;
+    private String question17;
+    private String question18;
+    private String question19;
+    private String question20;
+    private String question21;
+    private String question22;
+    private String question23;
+    private String question24;
+    private String question25;
+    private String question26;
+    private String question27;
+    private String question28;
+    private int result;
 }

@@ -8,9 +8,10 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@TableName("scale3")
-public class Scale3PO implements Serializable {
-    private static final long serialVersionUID = -2340884206780648096L;
+@TableName("scale8")
+public class Scale8PO implements Serializable {
+
+    private static final long serialVersionUID = -1266943425999731103L;
     @TableId(value = "id", type = IdType.INPUT)
     private String id;
     private String uid;
@@ -30,9 +31,15 @@ public class Scale3PO implements Serializable {
     private String question8;
     private String question9;
     private String question10;
-    private int sum;
-    private int objective;
-    private int subjective;
-    private int support;
-
+    private String question11;
+    private String question12;
+    private String question13;
+    private String question14;
+    private String question15;
+    private String question16;
+    private String question17;
+    private String question18;
+    private String question19;
+    private String question20;
+    private int result;
 }

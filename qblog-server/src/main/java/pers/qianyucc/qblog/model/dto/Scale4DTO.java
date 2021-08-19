@@ -16,7 +16,7 @@ public class Scale4DTO {
     @ApiModelProperty(notes = "id", example = "1")
     private String id;
     @ApiModelProperty(notes = "uid", example = "1")
-    private int uid;
+    private String uid;
     @ApiModelProperty(notes = "name", example = "1")
     @NotEmpty(message = "姓名不能为空")
     private String name;

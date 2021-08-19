@@ -5,13 +5,13 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import pers.qianyucc.qblog.model.entity.Scale2PO;
+import pers.qianyucc.qblog.model.entity.Scale8PO;
 
 import javax.validation.constraints.NotEmpty;
 
 @Data
 @ApiModel(value = "量表二", description = "量表2")
-public class Scale2DTO {
+public class Scale8DTO {
     @ApiModelProperty(notes = "id", example = "1")
     private String id;
     @ApiModelProperty(notes = "uid", example = "1")
@@ -65,14 +65,15 @@ public class Scale2DTO {
     @ApiModelProperty(notes = "question", example = "1")
     private String question20;
 
-    public Scale2PO toScale2PO(boolean isUpdate) {
-        Scale2PO po = new Scale2DTO.Converter().convertToPO(this);
+    public Scale8PO toScale8PO(boolean isUpdate) {
+        Scale8PO po = new Scale8DTO.Converter().convertToPO(this);
         po.setGmtCreate(isUpdate ? null : po.getGmtUpdate());
-        po.setQuizname("scale2");
+        po.setQuizname("scale8");
         int res = 0;
 //        计分
         for(int i=1;i<10;i++){
-            if(i==5||i==9)
+//            2\5\6
+            if(i==2||i==5||i==6)
                 res += 4 - po.toString().charAt(po.toString().indexOf("question" + i) + 10) + 'A';
             else
                 res += po.toString().charAt(po.toString().indexOf("question" + i) + 10) - 'A' + 1;
@@ -80,7 +81,8 @@ public class Scale2DTO {
 
         }
         for(int i=10;i<21;i++){
-            if(i==13||i==17||i==19) {
+//            11\12\14\16\17\18\20
+            if(i==11||i==12||i==14||i==16||i==17||i==18||i==20) {
                 res += 4 - po.toString().charAt(po.toString().indexOf("question" + i) + 11) + 'A';
             }
             else {
@@ -92,12 +94,12 @@ public class Scale2DTO {
         return po;
     }
 
-    private static class Converter implements IConverter<Scale2DTO, Scale2PO> {
+    private static class Converter implements IConverter<Scale8DTO, Scale8PO> {
         @Override
-        public Scale2PO convertToPO(Scale2DTO scale2DTO) {
-            Scale2PO po = new Scale2PO();
+        public Scale8PO convertToPO(Scale8DTO scale8DTO) {
+            Scale8PO po = new Scale8PO();
             po.setGmtUpdate(System.currentTimeMillis());
-            BeanUtil.copyProperties(scale2DTO, po, CopyOptions.create().ignoreNullValue());
+            BeanUtil.copyProperties(scale8DTO, po, CopyOptions.create().ignoreNullValue());
             return po;
         }
     }
