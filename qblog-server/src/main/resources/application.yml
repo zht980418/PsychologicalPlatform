@@ -12,10 +12,17 @@ spring:
     active: dev
   application:
     name: qblog-server
+  servlet:
+    multipart:
+      max-request-size: 20MB
+      max-file-size: 20MB
 
 logging:
   file:
     name: log/qblog.log
     path: log/
 img:
-    location: img/
+#  location1: img/
+#  location2: img2/
+    location1: /home/xi102/zhanghaotian/physicalplatform/PhysicalPlatform/qblog-admin/src/icons/img/
+    location2: /home/xi102/zhanghaotian/physicalplatform/PhysicalPlatform/qblog-client/src/icons/img/

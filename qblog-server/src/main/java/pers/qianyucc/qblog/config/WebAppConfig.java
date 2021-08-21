@@ -9,8 +9,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import javax.servlet.MultipartConfigElement;
 
 public class WebAppConfig extends WebMvcConfigurerAdapter {
-    @Value("${img.location}")
-    private  String location;
+    @Value("${img.location1}")
+    private  String location1;
+
+    @Value("${img.location2}")
+    private  String location2;
 
     @Bean
     public MultipartConfigElement multipartConfigElement(){

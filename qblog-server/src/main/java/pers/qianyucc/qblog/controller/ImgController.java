@@ -23,8 +23,11 @@ public class ImgController {
     @Autowired
     private ImgService imgService;
 
-    @Value("${img.location}")
-    private String location;
+    @Value("${img.location1}")
+    private String location1;
+
+    @Value("${img.location2}")
+    private String location2;
 
     @Autowired
     private DoctorService doctorService;
@@ -42,13 +45,14 @@ public class ImgController {
             throw new BlogException(IMG_NAME_ERR);
         }
 
-        String filePath = location;
+        String filePath1 = location1;
+        String filePath2 = location2;
 
         String file_name = null;
         try {
-            file_name = imgService.saveImg(multipartFile, filePath);
+            file_name = imgService.saveImg(multipartFile, filePath1,filePath2);
 //            System.out.println(filePath);
-            doctorService.insertImg(filePath+file_name,doctorid);
+            doctorService.insertImg(file_name,doctorid);
             return Results.ok("图片上传成功", file_name);
         } catch (IOException e) {
             throw new BlogException(IMG_UPLOAD_ERR);
@@ -63,7 +67,7 @@ public class ImgController {
             throw new BlogException(IMG_EMPTY);
         }
 
-        String filePath = location;
+        String filePath = location1;
 
         String file_name;
         try {

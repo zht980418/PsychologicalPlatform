@@ -16,13 +16,13 @@ import java.util.UUID;
 @Service
 public class ImgService {
 
-    public static String saveImg(MultipartFile multipartFile, String path) throws IOException {
-       File file = new File(path);
+    public static String saveImg(MultipartFile multipartFile, String filePath1, String filePath2) throws IOException {
+       File file = new File(filePath1);
        if(!file.exists()) file.mkdirs();
 //        FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
         InputStream inputStream = multipartFile.getInputStream();
         String fileName = UUID.randomUUID().toString().replace("-", "")+ ".png";
-        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path + File.separator + fileName));
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath1 + File.separator + fileName));
         byte[] bs = new byte[1024];
         int len;
         while ((len = inputStream.read(bs))!=-1){
@@ -30,6 +30,21 @@ public class ImgService {
         }
         bos.flush();
         bos.close();
+
+        File file2 = new File(filePath2);
+        if(!file2.exists()) file2.mkdirs();
+//        FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
+        InputStream inputStream2 = multipartFile.getInputStream();
+//        String fileName2 = UUID.randomUUID().toString().replace("-", "")+ ".png";
+        BufferedOutputStream bos2 = new BufferedOutputStream(new FileOutputStream(filePath2 + File.separator + fileName));
+        byte[] bs2 = new byte[1024];
+        int len2;
+        while ((len2 = inputStream2.read(bs2))!=-1){
+            bos2.write(bs2,0,len2);
+        }
+        bos2.flush();
+        bos2.close();
+
         return  fileName;
     }
 

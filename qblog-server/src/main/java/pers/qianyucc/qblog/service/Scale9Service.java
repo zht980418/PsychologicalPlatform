@@ -62,15 +62,16 @@ public class Scale9Service {
 //        .apply("UNIX_TIMESTAMP(gmt_create) <= UNIX_TIMESTAMP('" +end  + "')");
 
         if(!start.isEmpty()){
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            Date st = dateFormat.parse(start);
-            Date et = dateFormat.parse(end);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-ddHH:mm");
+            Date st = dateFormat.parse(start.substring(0,10)+start.substring(11,16));
+            Date et = dateFormat.parse(end.substring(0,10)+end.substring(11,16));
             qw.between("gmt_create",st.getTime(),et.getTime());
         }
 
         if(search.equals("")) qw.select(Scale9PO.class, i-> !"content".equals(i.getColumn()));
         else {
-            if(field.equals("orderId"))
+            if(field.equals("id"))
                 qw.like("orderId",search).select(Scale9PO.class, i-> !"content".equals(i.getColumn()));
             else if(field.equals("name"))
                 qw.like("name",search).select(Scale9PO.class, i-> !"content".equals(i.getColumn()));
