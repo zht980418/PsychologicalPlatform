@@ -54,10 +54,8 @@ public class CourseController {
             @ApiParam("页码")
             @RequestParam(required = false, defaultValue = "1") Integer page,
             @ApiParam("每页存放的记录数")
-            @RequestParam(required = false, defaultValue = "10") Integer limit,
-            @ApiParam("UID")
-            @RequestParam(required = false, defaultValue = "") String uid
-    ){return Results.ok(courseService.getAllcourse(page,limit,uid));}
+            @RequestParam(required = false, defaultValue = "10") Integer limit
+    ){return Results.ok(courseService.getAllcourse(page,limit));}
 
     @ApiOperation("获取单个课程信息")
     @GetMapping("/course/{courseid}")

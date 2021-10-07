@@ -49,7 +49,7 @@ public class CourseService {
         courseMapper.updateById(coursePO);
     }
 //    获取所有课程
-    public PageVO<CourseVO> getAllcourse(int page, int limit,String uid){
+    public PageVO<CourseVO> getAllcourse(int page, int limit){
 //        ArrayList res = new ArrayList();
 //        QueryWrapper<CoursePO> wrapper=new QueryWrapper<>();
 //        wrapper.select("courseid","coursetitle","coursedescription","courselink");

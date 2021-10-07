@@ -7,9 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pers.qianyucc.qblog.dao.DoctorMapper;
 import pers.qianyucc.qblog.dao.UserinfoMapper;
 import pers.qianyucc.qblog.exception.BlogException;
 import pers.qianyucc.qblog.model.dto.UserinfoDTO;
+import pers.qianyucc.qblog.model.entity.DoctorPO;
 import pers.qianyucc.qblog.model.entity.UserinfoPO;
 import pers.qianyucc.qblog.model.enums.UserRoleEnum;
 import pers.qianyucc.qblog.model.vo.ArticleVO;
@@ -29,18 +31,28 @@ import static pers.qianyucc.qblog.model.enums.ErrorInfoEnum.*;
 public class UserinfoService {
     @Autowired
     private UserinfoMapper userinfoMapper;
+    @Autowired
+    private DoctorMapper doctorMapper;
     @Transactional(rollbackFor = Exception.class)
 
 //    增加用户
     public void insUserinfo(UserinfoDTO userinfoDTO){
         String userid = userinfoDTO.getUserid();
         String password = userinfoDTO.getPassword();
-        String nickname = userinfoDTO.getPassword();
+        String nickname = userinfoDTO.getNickname();
         String phonenumber = userinfoDTO.getPhonenumber();
         UserinfoPO dbUserinfo = userinfoMapper.selectById(userid);
         if(Objects.isNull(dbUserinfo)){
             UserinfoPO userinfoPO = userinfoDTO.toUserinfoPO();
             userinfoMapper.insert(userinfoPO);
+            if(userinfoDTO.getRolename().equals("咨询师")){
+                DoctorPO doctorPO = new DoctorPO();
+                doctorPO.setDoctorid(userid);
+                doctorPO.setDoctorname(nickname);
+                doctorMapper.insert(doctorPO);
+            }
+
+
         }
         else if (userid==null||password==null||nickname==null||phonenumber==null){
             throw  new BlogException(REGISTER_INFO_NOT_COMPLETE);
