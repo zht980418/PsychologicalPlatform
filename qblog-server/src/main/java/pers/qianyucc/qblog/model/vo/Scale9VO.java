@@ -1,25 +1,23 @@
-package pers.qianyucc.qblog.model.entity;
+package pers.qianyucc.qblog.model.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import lombok.Data;
+import pers.qianyucc.qblog.model.entity.Scale9PO;
+import pers.qianyucc.qblog.utils.DateTimeUtils;
 
-import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
-@TableName("scale1")
-public class Scale1PO implements Serializable {
-    private static final long serialVersionUID = 3671420865364451736L;
-    @TableId(value = "id", type = IdType.INPUT)
-    private int id;
+public class Scale9VO {
+    private String id;
     private String uid;
     private String quizname;
     private String name;
     private String remark;
     private String sex;
-    private Long gmtCreate;
-    private Long gmtUpdate;
+    private String gmtCreate;
+    private String gmtUpdate;
     private String question1;
     private String question2;
     private String question3;
@@ -70,4 +68,19 @@ public class Scale1PO implements Serializable {
     private String question48;
     private String question49;
     private String question50;
+    private int result;
+
+
+
+    public static Scale9VO fromScale9PO(Scale9PO scale9PO){return new Scale9VO.Converter().convertToVO(scale9PO);}
+    private static class Converter implements IConverter<Scale9PO, Scale9VO>{
+        @Override
+        public Scale9VO convertToVO(Scale9PO scale9PO){
+            final Scale9VO scale9VO = new Scale9VO();
+            BeanUtil.copyProperties(scale9PO, scale9VO, CopyOptions.create().ignoreNullValue().ignoreError());
+            scale9VO.setGmtCreate(DateTimeUtils.formatDatetime(scale9PO.getGmtCreate()));
+            scale9VO.setGmtUpdate(DateTimeUtils.formatDatetime(scale9PO.getGmtUpdate()));
+            return scale9VO;
+        }
+    }
 }

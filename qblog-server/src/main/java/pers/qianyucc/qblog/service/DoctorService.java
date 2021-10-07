@@ -48,6 +48,13 @@ public class DoctorService {
         doctorPO.setDoctorid(doctorid);
         doctorMapper.updateById(doctorPO);
     }
+//    插入头像
+    public void insertImg(String pathname,String doctorid){
+        DoctorPO dbDoctor = doctorMapper.selectById(doctorid);
+        if(Objects.isNull(dbDoctor)) throw  new BlogException(INVALID_ID);
+        dbDoctor.setAvatar(pathname);
+        doctorMapper.updateById(dbDoctor);
+    }
 //    批量查
     public PageVO<DoctorVO> getAllDoctors(int page, int limit, String search, String field){
         QueryWrapper<DoctorPO> qw = new QueryWrapper<>();

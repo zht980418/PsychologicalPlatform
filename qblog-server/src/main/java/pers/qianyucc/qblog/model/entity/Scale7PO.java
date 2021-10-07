@@ -6,12 +6,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Data
-@TableName("scale4")
-public class Scale4PO implements Serializable {
-    private static final long serialVersionUID = -7893964466156954135L;
+@TableName("scale7")
+public class Scale7PO implements Serializable {
+    private static final long serialVersionUID = 5009420302396450947L;
     @TableId(value = "id", type = IdType.INPUT)
     private String id;
     private String uid;
@@ -75,51 +74,5 @@ public class Scale4PO implements Serializable {
     private String question52;
     private String question53;
     private String question54;
-    private String question55;
-    private String question56;
-    private String question57;
-    private String question58;
-    private String question59;
-    private String question60;
-    private String question61;
-    private String question62;
-    private String question63;
-    private String question64;
-    private String question65;
-    private String question66;
-    private String question67;
-    private String question68;
-    private String question69;
-    private String question70;
-    private String question71;
-    private String question72;
-    private String question73;
-    private String question74;
-    private String question75;
-    private String question76;
-    private String question77;
-    private String question78;
-    private String question79;
-    private String question80;
-    private String question81;
-    private String question82;
-    private String question83;
-    private String question84;
-    private String question85;
-    private String question86;
-    private String question87;
-    private String question88;
-    private String question89;
-    private String question90;
-    private BigDecimal Somatization;
-    private BigDecimal Sumaverage;
-    private BigDecimal Positive;
-    private BigDecimal ObsessiveCompulsive;
-    private BigDecimal InterpersonalSensitivity;
-    private BigDecimal Depression;
-    private BigDecimal Anxiety;
-    private BigDecimal Hostility;
-    private BigDecimal PhoticAnxiety;
-    private BigDecimal ParanoidIdeation;
-    private BigDecimal Psychoticism;
+    private int result;
 }

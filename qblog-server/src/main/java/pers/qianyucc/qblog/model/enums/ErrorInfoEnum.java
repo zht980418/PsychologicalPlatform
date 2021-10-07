@@ -23,7 +23,10 @@ public enum ErrorInfoEnum implements IErrorInfo {
     DUPLICATE_USERID(5003,"用户名重复"),
     REGISTER_INFO_NOT_COMPLETE(5004,"注册信息不完整"),
     ROOM_CONFLICT_TIME(5005,"咨询室时间冲突"),
-    DOCTOR_CONFLICT_TIME(5006,"医生时间冲突");
+    DOCTOR_CONFLICT_TIME(5006,"医生时间冲突"),
+    IMG_EMPTY(5007,"图片不能为空"),
+    IMG_NAME_ERR(5008,"图片后缀错误"),
+    IMG_UPLOAD_ERR(5009,"图片上传错误");
 
     private int code;
     private String msg;

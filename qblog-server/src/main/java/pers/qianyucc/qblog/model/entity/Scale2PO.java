@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Data
 @TableName("scale2")
 public class Scale2PO implements Serializable {
-    private static final long serialVersionUID = -7156278696768090146L;
+    private static final long serialVersionUID = 3489473962151058552L;
     @TableId(value = "id", type = IdType.INPUT)
     private String id;
     private String uid;
