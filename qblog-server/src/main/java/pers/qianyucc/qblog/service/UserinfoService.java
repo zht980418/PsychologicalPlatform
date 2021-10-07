@@ -49,6 +49,7 @@ public class UserinfoService {
                 DoctorPO doctorPO = new DoctorPO();
                 doctorPO.setDoctorid(userid);
                 doctorPO.setDoctorname(nickname);
+                doctorPO.setAvatar("5152ddf85f524d48861662bb5c44ca5f.png");
                 doctorMapper.insert(doctorPO);
             }
 

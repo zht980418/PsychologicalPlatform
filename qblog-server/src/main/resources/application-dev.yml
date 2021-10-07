@@ -6,8 +6,8 @@ spring:
     password: 123456
 
   redis:
-    host: 47.94.128.215
-    port: 8379
+    host: 127.0.0.1
+    port: 6379
 logging:
   level:
     pers.qianyucc.qblog.dao: trace
