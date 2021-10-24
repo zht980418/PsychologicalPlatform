@@ -11,6 +11,7 @@ import pers.qianyucc.qblog.model.dto.UserDTO;
 import pers.qianyucc.qblog.model.dto.UserinfoDTO;
 import pers.qianyucc.qblog.model.vo.PageVO;
 import pers.qianyucc.qblog.model.vo.UserinfoVO;
+import pers.qianyucc.qblog.service.DoctorService;
 import pers.qianyucc.qblog.service.UserinfoService;
 
 import javax.validation.Valid;
@@ -24,6 +25,8 @@ import static pers.qianyucc.qblog.model.enums.ErrorInfoEnum.*;
 public class UserinfoController {
     @Autowired
     private UserinfoService userinfoService;
+    @Autowired
+    private DoctorService doctorService;
 
 //    注册用户
     @ApiOperation("注册用户")
@@ -39,6 +42,7 @@ public class UserinfoController {
     @ApiImplicitParam(name = "userid", value = "用户id", required = true, dataType = "String", paramType = "path")
     public  Results<String> deleteUserinfo(@PathVariable String userid){
         userinfoService.deleteUserinfo(userid);
+        doctorService.deleteDoctor(userid);
         return Results.ok("删除成功",null);
     }
 //    修改用户
