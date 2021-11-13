@@ -33,9 +33,8 @@ public class ImgController {
     private DoctorService doctorService;
 
     @ApiOperation("上传图片")
-    @PutMapping("/ImgUpload/{doctorid}")
-    public Results uploadImg(@RequestParam("editormd-image-file") MultipartFile multipartFile,
-                             @PathVariable String doctorid)  {
+    @PutMapping("/ImgUpload")
+    public Results uploadImg(@RequestParam("editormd-image-file") MultipartFile multipartFile)  {
 
         if (multipartFile.isEmpty() || StringUtils.isEmpty(multipartFile.getOriginalFilename())) {
             throw new BlogException(IMG_EMPTY);
@@ -52,7 +51,7 @@ public class ImgController {
         try {
             file_name = imgService.saveImg(multipartFile, filePath1,filePath2);
 //            System.out.println(filePath);
-            doctorService.insertImg(file_name,doctorid);
+//            doctorService.insertImg(file_name,doctorid);
             return Results.ok("图片上传成功", file_name);
         } catch (IOException e) {
             throw new BlogException(IMG_UPLOAD_ERR);
