@@ -11,6 +11,7 @@ public class CourseVO {
     private String coursetitle;
     private String coursedescription;
     private String courselink;
+    private String cover;
 
     public static CourseVO fromCoursePO(CoursePO coursePO){return new CourseVO.Converter().convertToVO(coursePO);}
     private static class Converter implements IConverter<CoursePO, CourseVO>{

@@ -24,6 +24,8 @@ public class CourseDTO {
 
     @ApiModelProperty(notes = "courselink", example = "链接")
     private String courselink;
+    @ApiModelProperty(notes = "cover", example = "cover.jpg")
+    private String cover;
 
     public CoursePO toCoursePO() {
         return new CourseDTO.Converter().convertToPO(this);

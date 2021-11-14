@@ -18,4 +18,5 @@ public class CoursePO implements Serializable {
     private String coursetitle;
     private String coursedescription;
     private String courselink;
+    private String cover;
 }
